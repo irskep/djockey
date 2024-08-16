@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+yarn exec djot -t ast $1 | poetry run scripts/y2j

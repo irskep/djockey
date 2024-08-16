@@ -1,0 +1,19 @@
+{
+  "name": "djockey",
+  "packageManager": "yarn@3.5.0",
+  "engines": {
+    "node": ">=17.0.0"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "djockey": "npx tsc && node dist/cli.js"
+  },
+  "dependencies": {
+    "@djot/djot": "^0.3.1",
+    "@rushstack/ts-command-line": "^4.22.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.4.0",
+    "typescript": "^5.5.4"
+  }
+}
