@@ -2,8 +2,10 @@ import fs from "fs";
 import { basename } from "path";
 
 import yaml from "js-yaml";
-import { parse } from "@djot/djot";
-import { DjockeyDoc } from "./types";
+import { Doc, parse, applyFilter } from "@djot/djot";
+import { DjockeyAstNode, DjockeyDoc } from "./types";
+import { ALL_TAGS } from "./allTags";
+import { Action } from "@djot/djot/types/filter";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n(.*)$/gm;
 
@@ -21,6 +23,7 @@ export function parseDjot(path: string): DjockeyDoc {
     sourcePositions: true,
     warn: (warning) => console.warn(warning.render()),
   });
+  applyFilter(djotDoc, idFilter);
 
   return {
     djotDoc,
@@ -29,3 +32,20 @@ export function parseDjot(path: string): DjockeyDoc {
     frontMatter,
   };
 }
+
+let lastID = 0;
+
+type FilterFunc = Parameters<typeof applyFilter>[1];
+
+const idFilter: FilterFunc = () => {
+  const f: Record<string, Action> = {};
+
+  function addID(node: DjockeyAstNode) {
+    node.id = lastID++;
+  }
+
+  for (const k of ALL_TAGS) {
+    f[k] = addID;
+  }
+  return f;
+};
