@@ -1,11 +1,31 @@
 import fs from "fs";
-import { parse, type Doc } from "@djot/djot";
+import { basename } from "path";
 
-export function parseDjot(path: string): Doc {
-  console.log(parse);
-  console.log(path);
-  return parse(fs.readFileSync(path, "utf8"), {
+import yaml from "js-yaml";
+import { parse } from "@djot/djot";
+import { DjockeyDoc } from "./types";
+
+const FRONT_MATTER_RE = /^---\n(.*?)\n---\n(.*)$/gm;
+
+export function parseDjot(path: string): DjockeyDoc {
+  let text = fs.readFileSync(path, "utf8");
+  let frontMatter: Record<string, unknown> = {};
+
+  const match = FRONT_MATTER_RE.exec(text);
+  if (match) {
+    text = match[2];
+    frontMatter = yaml.load(match[1]) as Record<string, unknown>;
+  }
+
+  const djotDoc = parse(text, {
     sourcePositions: true,
     warn: (warning) => console.warn(warning.render()),
   });
+
+  return {
+    djotDoc,
+    path,
+    filename: basename(path),
+    frontMatter,
+  };
 }
