@@ -2,10 +2,8 @@ import fs from "fs";
 import { basename } from "path";
 
 import yaml from "js-yaml";
-import { parse, applyFilter } from "@djot/djot";
-import { DjockeyAstNode, DjockeyDoc } from "./types";
-import { ALL_TAGS } from "./allTags";
-import { Action } from "@djot/djot/types/filter";
+import { parse } from "@djot/djot";
+import { DjockeyDoc } from "./types";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n(.*)$/gm;
 

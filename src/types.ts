@@ -8,5 +8,10 @@ export type DjockeyDoc = {
 };
 
 export type DjockeyAstNode = AstNode & {
-  id?: number;
+  id: number;
 };
+
+let lastID = 0;
+export function makeDjockeyAstNode(node: AstNode): DjockeyAstNode {
+  return { id: lastID++, ...node };
+}
