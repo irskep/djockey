@@ -26,15 +26,10 @@ export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
 
   return {
     djotDoc,
+    title: path.parse(relativePath).name,
     absolutePath,
     relativePath,
     filename: basename(absolutePath),
     frontMatter,
   };
-}
-
-export function renderDjotAsHTML(doc: Doc, outputPath: string) {
-  console.log(`Render ${outputPath}`);
-  const text = renderHTML(doc);
-  fs.writeFileSync(outputPath, text);
 }

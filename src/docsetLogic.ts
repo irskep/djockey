@@ -1,9 +1,13 @@
 import fs from "fs";
-import fastGlob from "fast-glob";
 import path from "path";
+
+import fastGlob from "fast-glob";
+import nunjucks, { Environment, FileSystemLoader } from "nunjucks";
+
 import { readConfig, type DjockeyConfig } from "./config";
-import { parseDjot, renderDjotAsHTML } from "./djotLogic";
+import { parseDjot } from "./djotLogic";
 import { DjockeyDoc } from "./types";
+import { renderHTML } from "@djot/djot";
 
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
@@ -57,13 +61,29 @@ export function processUsingConfig(
     parseDjot(config.inputDir, path_)
   );
 
+  const templateDir = path.resolve(path.join(__dirname, "..", "templates"));
+  console.log({ templateDir });
+  const nj = new Environment(
+    new FileSystemLoader(path.resolve(path.join(__dirname, "..", "templates")))
+  );
+
   for (const doc of docs) {
-    renderDjockeyDocAsHTML(config, doc);
+    renderDjockeyDocAsHTML(config, nj, doc);
   }
 }
 
-export function renderDjockeyDocAsHTML(config: DjockeyConfig, doc: DjockeyDoc) {
+export function renderDjockeyDocAsHTML(
+  config: DjockeyConfig,
+  nj: Environment,
+  doc: DjockeyDoc
+) {
   const filename = path.parse(doc.relativePath).name;
   const outputPath = `${config.htmlOutputDir}/${filename}.html`;
-  renderDjotAsHTML(doc.djotDoc, outputPath);
+  const outputContentHTML = renderHTML(doc.djotDoc);
+  const outputPageHTML = nj.render("base.njk", {
+    doc,
+    content: outputContentHTML,
+  });
+
+  fs.writeFileSync(outputPath, outputPageHTML);
 }
