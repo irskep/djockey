@@ -3,6 +3,12 @@ title: Home
 ---
 # Heading 1
 
+Here is the reference.[^foo]
+
+Another reference.[^foo]
+
+[^foo]: And here is the note.
+
 {.outer}
 ::::
 {.inner}
@@ -12,3 +18,7 @@ title: Home
 Paragraph 1
 :::
 ::::
+
+# Heading 2
+
+Paragraph 2

@@ -3,10 +3,10 @@ import path from "path";
 import { basename } from "path";
 
 import yaml from "js-yaml";
-import { Doc, parse, renderHTML } from "@djot/djot";
+import { parse } from "@djot/djot";
 import { DjockeyDoc } from "./types";
 
-const FRONT_MATTER_RE = /^---\n(.*?)\n---\n(.*)$/gm;
+const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
 
 export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
   const relativePath = path.relative(inputRoot, absolutePath);

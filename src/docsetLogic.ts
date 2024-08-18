@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import fastGlob from "fast-glob";
-import nunjucks, { Environment, FileSystemLoader } from "nunjucks";
+import { Environment, FileSystemLoader } from "nunjucks";
 
 import { readConfig, type DjockeyConfig } from "./config";
 import { parseDjot } from "./djotLogic";
@@ -12,7 +12,7 @@ import { renderHTML } from "@djot/djot";
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
   if (fs.existsSync(configPath)) {
-    processUsingConfig(path_, readConfig(configPath));
+    processUsingConfig(path.resolve(path_), readConfig(configPath));
   } else {
     console.error("No config found in " + path_);
   }
