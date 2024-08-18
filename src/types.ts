@@ -2,7 +2,8 @@ import { AstNode, Doc } from "@djot/djot";
 
 export type DjockeyDoc = {
   djotDoc: Doc;
-  path: string;
+  absolutePath: string;
+  relativePath: string;
   filename: string;
   frontMatter: Record<string, unknown>;
 };

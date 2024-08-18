@@ -1,14 +1,16 @@
 import fs from "fs";
+import path from "path";
 import { basename } from "path";
 
 import yaml from "js-yaml";
-import { parse } from "@djot/djot";
+import { Doc, parse, renderHTML } from "@djot/djot";
 import { DjockeyDoc } from "./types";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n(.*)$/gm;
 
-export function parseDjot(path: string): DjockeyDoc {
-  let text = fs.readFileSync(path, "utf8");
+export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
+  const relativePath = path.relative(inputRoot, absolutePath);
+  let text = fs.readFileSync(absolutePath, "utf8");
   let frontMatter: Record<string, unknown> = {};
 
   const match = FRONT_MATTER_RE.exec(text);
@@ -24,8 +26,15 @@ export function parseDjot(path: string): DjockeyDoc {
 
   return {
     djotDoc,
-    path,
-    filename: basename(path),
+    absolutePath,
+    relativePath,
+    filename: basename(absolutePath),
     frontMatter,
   };
+}
+
+export function renderDjotAsHTML(doc: Doc, outputPath: string) {
+  console.log(`Render ${outputPath}`);
+  const text = renderHTML(doc);
+  fs.writeFileSync(outputPath, text);
 }

@@ -2,6 +2,8 @@ import fs from "fs";
 import fastGlob from "fast-glob";
 import path from "path";
 import { readConfig, type DjockeyConfig } from "./config";
+import { parseDjot, renderDjotAsHTML } from "./djotLogic";
+import { DjockeyDoc } from "./types";
 
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
@@ -32,7 +34,7 @@ function absify(rootPath: string, path_: string): string {
 export function resolveConfigPaths(
   rootPath: string,
   config: DjockeyConfig
-): DjockeyConfig {
+): DjockeyConfig & { fileList: string[] } {
   return {
     ...config,
     inputDir: absify(rootPath, config.inputDir),
@@ -48,5 +50,20 @@ export function processUsingConfig(
   relativeConfig: DjockeyConfig
 ) {
   const config = resolveConfigPaths(rootPath, relativeConfig);
-  console.log("dbg", config);
+
+  fs.mkdirSync(config.htmlOutputDir, { recursive: true });
+
+  const docs = config.fileList.map((path_) =>
+    parseDjot(config.inputDir, path_)
+  );
+
+  for (const doc of docs) {
+    renderDjockeyDocAsHTML(config, doc);
+  }
+}
+
+export function renderDjockeyDocAsHTML(config: DjockeyConfig, doc: DjockeyDoc) {
+  const filename = path.parse(doc.relativePath).name;
+  const outputPath = `${config.htmlOutputDir}/${filename}.html`;
+  renderDjotAsHTML(doc.djotDoc, outputPath);
 }
