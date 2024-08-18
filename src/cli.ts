@@ -1,44 +1,40 @@
-import {
-  CommandLineAction,
-  CommandLineFlagParameter,
-  CommandLineParser,
-  CommandLineStringListParameter,
-  CommandLineStringParameter,
-} from "@rushstack/ts-command-line";
-import { parseDjot } from "./djotLogic";
+import fs from "fs";
+import { processDirectory, processSingleFile } from "./docsetLogic";
+import { ArgumentParser, SubParser } from "argparse";
 
-export class DjotCommandLine extends CommandLineParser {
-  public constructor() {
-    super({
-      toolFilename: "djockey",
-      toolDescription:
-        "Processes collections of djot documents into user-readable outputs like HTML",
-    });
+export function makeArgumentParser() {
+  const p = new ArgumentParser();
+  const subparsers = p.add_subparsers({ required: true });
+  const buildParser = subparsers.add_parser("build");
+  buildParser.set_defaults({ action: "build" });
+  buildParser.add_argument("input");
 
-    this.addAction(new BuildAction());
+  return p;
+}
+
+export function main() {
+  const args = makeArgumentParser().parse_args();
+
+  switch (args.action) {
+    case "build":
+      doBuild(args.input);
+      break;
+    default:
+      throw new Error("Invalid action");
   }
 }
 
-export class BuildAction extends CommandLineAction {
-  private _input: CommandLineStringListParameter;
-
-  public constructor() {
-    super({
-      actionName: "build",
-      summary: "Convert a collection of docs into output",
-      documentation: "",
-    });
-
-    this._input = this.defineStringListParameter({
-      argumentName: "INPUT",
-      parameterLongName: "--input",
-      description: "Input file",
-    });
+export function doBuild(inputPath: string) {
+  if (!fs.existsSync(inputPath)) {
+    throw new Error("File does not exist: " + inputPath);
   }
-
-  protected async onExecute() {
-    console.log(parseDjot(this._input.values[0]));
+  if (fs.statSync(inputPath).isDirectory()) {
+    console.log(`${inputPath} is a directory`);
+    processDirectory(inputPath);
+  } else {
+    console.log(`${inputPath} is a file`);
+    processSingleFile(inputPath);
   }
 }
 
-new DjotCommandLine().executeAsync();
+main();

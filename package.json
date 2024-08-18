@@ -10,12 +10,16 @@
   },
   "dependencies": {
     "@djot/djot": "^0.3.1",
-    "@rushstack/ts-command-line": "^4.22.5",
+    "argparse": "^2.0.1",
+    "fast-glob": "^3.3.2",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@types/argparse": "^2.0.16",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.4.0",
+    "jest": "^29.7.0",
+    "sinon": "^18.0.0",
     "typescript": "^5.5.4"
   }
 }
