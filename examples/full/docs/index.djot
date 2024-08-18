@@ -1,3 +1,14 @@
+---
+title: Home
+---
 # Heading 1
 
+{.outer}
+::::
+{.inner}
+{a=b}
+{c=d}
+:::
 Paragraph 1
+:::
+::::

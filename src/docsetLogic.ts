@@ -62,7 +62,6 @@ export function processUsingConfig(
   );
 
   const templateDir = path.resolve(path.join(__dirname, "..", "templates"));
-  console.log({ templateDir });
   const nj = new Environment(
     new FileSystemLoader(path.resolve(path.join(__dirname, "..", "templates")))
   );
@@ -78,10 +77,12 @@ export function renderDjockeyDocAsHTML(
   doc: DjockeyDoc
 ) {
   const filename = path.parse(doc.relativePath).name;
+  const title = doc.frontMatter.title ?? filename;
   const outputPath = `${config.htmlOutputDir}/${filename}.html`;
   const outputContentHTML = renderHTML(doc.djotDoc);
   const outputPageHTML = nj.render("base.njk", {
     doc,
+    title,
     content: outputContentHTML,
   });
 
