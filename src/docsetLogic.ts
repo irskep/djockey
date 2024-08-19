@@ -10,6 +10,7 @@ import { parseDjot } from "./djotLogic";
 import { DjockeyDoc } from "./types";
 import { renderHTML } from "@djot/djot";
 import { DocSet } from "./docset";
+import { getIsPandocInstalled } from "./pandoc";
 
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
@@ -28,6 +29,7 @@ export function processSingleFile(path_: string) {
     htmlOutputDir: parentDir,
     fileList: [absPath],
     outputFormats: {
+      gfm: false,
       html: true,
     },
   };
@@ -98,7 +100,7 @@ export function renderDjockeyDocAsHTML(
   const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
   const outputPath = `${config.htmlOutputDir}/${doc.relativePath}.html`;
   const outputContentHTML = renderHTML(doc.djotDoc);
-  const outputPageHTML = nj.render("base.njk", {
+  const outputPageHTML = nj.render("html/base.njk", {
     doc,
     title,
     content: outputContentHTML,
