@@ -3,13 +3,24 @@ import { applyFilter } from "./djotFiltersPlus";
 import { DjockeyConfig } from "./config";
 import { DjockeyDoc } from "./types";
 
-// TODO: don't use .html
+/**
+ * Returns an absolute URL with the file extension `$EXTENSION$` (for later replacement)
+ *
+ * @param config
+ * @param relativePath
+ * @param id
+ * @returns
+ */
 function makeFullLink(
   config: DjockeyConfig,
   relativePath: string,
   id: string
 ): string {
-  return `${config.urlRoot}/${relativePath}.html#${id}`;
+  return `${config.urlRoot}/${relativePath}.$EXTENSION$#${id}`;
+}
+
+function replaceLinkExtension(original: string, newExtension: string): string {
+  return original.replace("$EXTENSION$", newExtension);
 }
 
 export class DocSet {
@@ -17,6 +28,25 @@ export class DocSet {
   private _partialLinkToFullLink: Record<string, string[]> = {};
 
   constructor(public config: DjockeyConfig, public docs: DjockeyDoc[]) {}
+
+  public copyDocsWithOutputSpecificChanges(extension: string): DjockeyDoc[] {
+    const docsCopy = structuredClone(this.docs);
+    for (const doc of docsCopy) {
+      applyFilter(doc.djotDoc, () => ({
+        "*": (node) => {
+          if (!node.destination) return;
+          console.log(
+            "Replace",
+            node.destination,
+            "with",
+            replaceLinkExtension(node.destination, extension)
+          );
+          node.destination = replaceLinkExtension(node.destination, extension);
+        },
+      }));
+    }
+    return docsCopy;
+  }
 
   public run() {
     for (const doc of this.docs) {

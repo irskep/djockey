@@ -6,6 +6,9 @@ export type DjockeyConfig = {
   htmlOutputDir: string;
   fileList?: string[];
   urlRoot?: string;
+  outputFormats: {
+    html: boolean;
+  };
 };
 
 export function readConfig(path_: string): DjockeyConfig {
@@ -14,6 +17,9 @@ export function readConfig(path_: string): DjockeyConfig {
   const defaults: DjockeyConfig = {
     inputDir: "docs",
     htmlOutputDir: "out/html",
+    outputFormats: {
+      html: true,
+    },
   };
   return {
     ...defaults,

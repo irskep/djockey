@@ -27,6 +27,9 @@ export function processSingleFile(path_: string) {
     inputDir: parentDir,
     htmlOutputDir: parentDir,
     fileList: [absPath],
+    outputFormats: {
+      html: true,
+    },
   };
 
   processUsingConfig(parentDir, config);
@@ -80,8 +83,10 @@ export function processUsingConfig(
     new FileSystemLoader(path.resolve(path.join(__dirname, "..", "templates")))
   );
 
-  for (const doc of docset.docs) {
-    renderDjockeyDocAsHTML(config, nj, doc);
+  if (config.outputFormats.html) {
+    for (const doc of docset.copyDocsWithOutputSpecificChanges("html")) {
+      renderDjockeyDocAsHTML(config, nj, doc);
+    }
   }
 }
 
