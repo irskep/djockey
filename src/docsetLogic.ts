@@ -10,7 +10,6 @@ import { parseDjot } from "./djotLogic";
 import { DjockeyDoc } from "./types";
 import { renderHTML } from "@djot/djot";
 import { DocSet } from "./docset";
-import { getIsPandocInstalled } from "./pandoc";
 
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
@@ -28,6 +27,10 @@ export function processSingleFile(path_: string) {
     inputDir: parentDir,
     htmlOutputDir: parentDir,
     fileList: [absPath],
+    inputFormats: {
+      djot: true,
+      gfm: false,
+    },
     outputFormats: {
       gfm: false,
       html: true,
@@ -46,13 +49,24 @@ export function resolveConfigPaths(
   rootPath: string,
   config: DjockeyConfig
 ): DjockeyConfig & { fileList: string[]; urlRoot: string } {
+  const inputExtensions: string[] = [];
+  if (config.inputFormats.djot) {
+    inputExtensions.push("djot");
+  }
+  if (config.inputFormats.gfm) {
+    inputExtensions.push("md");
+  }
   const result = {
     ...config,
     inputDir: absify(rootPath, config.inputDir),
     htmlOutputDir: absify(rootPath, config.htmlOutputDir),
     fileList:
       config.fileList ||
-      fastGlob.sync(`${absify(rootPath, config.inputDir)}/**/*.djot`),
+      fastGlob.sync(
+        `${absify(rootPath, config.inputDir)}/**/*.(${inputExtensions.join(
+          "|"
+        )})`
+      ),
   };
 
   const configURLRoot = config.urlRoot;
@@ -72,11 +86,13 @@ export function processUsingConfig(
 ) {
   const config = resolveConfigPaths(rootPath, relativeConfig);
 
+  console.log("Config:", config);
+
   fs.mkdirSync(config.htmlOutputDir, { recursive: true });
 
-  const docs = config.fileList.map((path_) =>
-    parseDjot(config.inputDir, path_)
-  );
+  const docs = config.fileList
+    .map((path_) => parseDjot(config.inputDir, path_))
+    .filter((doc) => !!doc);
 
   const docset = new DocSet(config, docs);
   docset.run();

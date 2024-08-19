@@ -7,6 +7,10 @@ export type DjockeyConfig = {
   htmlOutputDir: string;
   fileList?: string[];
   urlRoot?: string;
+  inputFormats: {
+    djot: boolean;
+    gfm: boolean;
+  };
   outputFormats: {
     html: boolean;
     gfm: boolean;
@@ -21,6 +25,10 @@ export function readConfig(path_: string): DjockeyConfig {
   const defaults: DjockeyConfig = {
     inputDir: "docs",
     htmlOutputDir: "out/html",
+    inputFormats: {
+      djot: true,
+      gfm: isPandocInstalled,
+    },
     outputFormats: {
       html: true,
       gfm: isPandocInstalled,
