@@ -1,6 +1,10 @@
 import fs from "fs";
-import { processDirectory, processSingleFile } from "./docsetLogic";
-import { ArgumentParser, SubParser } from "argparse";
+import { ArgumentParser } from "argparse";
+import {
+  resolveConfigFromDirectory,
+  resolveConfigFromSingleFile,
+} from "./config";
+import { executeConfig } from "./engine";
 
 export function makeArgumentParser() {
   const p = new ArgumentParser();
@@ -28,12 +32,13 @@ export function doBuild(inputPath: string) {
   if (!fs.existsSync(inputPath)) {
     throw new Error("File does not exist: " + inputPath);
   }
-  if (fs.statSync(inputPath).isDirectory()) {
-    console.log(`${inputPath} is a directory`);
-    processDirectory(inputPath);
+  const config = fs.statSync(inputPath).isDirectory()
+    ? resolveConfigFromDirectory(inputPath)
+    : resolveConfigFromSingleFile(inputPath);
+  if (config) {
+    executeConfig(config);
   } else {
-    console.log(`${inputPath} is a file`);
-    processSingleFile(inputPath);
+    console.error("Couldn't find a config file in", inputPath);
   }
 }
 

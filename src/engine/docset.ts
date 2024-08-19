@@ -1,8 +1,8 @@
 import { Link } from "@djot/djot";
-import { applyFilter } from "./djotFiltersPlus";
-import { DjockeyConfig } from "./config";
-import { DjockeyDoc } from "./types";
+import { DjockeyConfig } from "../config";
+import { DjockeyDoc } from "../types";
 import path from "path";
+import { applyFilter } from "./djotFiltersPlus";
 
 /**
  * Returns an absolute URL with the file extension `$EXTENSION$` (for later replacement)
@@ -52,7 +52,7 @@ export class DocSet {
     return docsCopy;
   }
 
-  public run() {
+  public doAllTheComplicatedTransformStuff() {
     for (const doc of this.docs) {
       this.docPassInitial(doc);
     }

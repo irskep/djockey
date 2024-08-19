@@ -4,8 +4,8 @@ import { basename } from "path";
 
 import yaml from "js-yaml";
 import { Doc, fromPandoc, parse } from "@djot/djot";
-import { DjockeyDoc } from "./types";
-import { getPandocAST } from "./pandoc";
+import { DjockeyDoc } from "../types";
+import { getPandocAST } from "../pandoc";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
 
