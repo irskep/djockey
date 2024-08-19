@@ -7,4 +7,7 @@ export type DjockeyDoc = {
   relativePath: string;
   filename: string;
   frontMatter: Record<string, unknown>;
+
+  // For use by plugins
+  data: Record<string, unknown>;
 };

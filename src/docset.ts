@@ -14,7 +14,6 @@ function makeFullLink(
 
 export class DocSet {
   private _relativePathToDoc: Record<string, DjockeyDoc> = {};
-
   private _partialLinkToFullLink: Record<string, string[]> = {};
 
   constructor(public config: DjockeyConfig, public docs: DjockeyDoc[]) {}

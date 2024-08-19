@@ -8,6 +8,10 @@ import { DjockeyDoc } from "./types";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
 
+function removeExtensionFromPath(path_: string): string {
+  return path_.slice(0, path_.length - path.parse(path_).ext.length);
+}
+
 export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
   const relativePath = path.relative(inputRoot, absolutePath);
   let text = fs.readFileSync(absolutePath, "utf8");
@@ -28,11 +32,9 @@ export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
     djotDoc,
     title: path.parse(relativePath).name,
     absolutePath,
-    relativePath: relativePath.slice(
-      0,
-      relativePath.length - path.parse(relativePath).ext.length
-    ),
+    relativePath: removeExtensionFromPath(relativePath),
     filename: basename(absolutePath),
     frontMatter,
+    data: {},
   };
 }
