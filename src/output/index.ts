@@ -27,8 +27,6 @@ export function renderDjockeyDocAsHTML(
   fs.writeFileSync(outputPath, outputPage);
 }
 
-// TODO: why is second.md just the HTML?
-
 export function renderDjockeyDocAsGFM(
   config: DjockeyConfig,
   nj: Environment,
