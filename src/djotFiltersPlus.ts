@@ -152,7 +152,11 @@ const traverse = function (node: AstNode, filterpart: FilterPart): AstNode {
     }
 
     processResult(
-      applyFilterPartToNode(walker.current, walker.enter, filterpart[node.tag])
+      applyFilterPartToNode(
+        walker.current,
+        walker.enter,
+        filterpart[walker.current.tag]
+      )
     );
 
     processResult(
