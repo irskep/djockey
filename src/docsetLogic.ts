@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
+import url from "url";
 
 import fastGlob from "fast-glob";
-import { Environment, FileSystemLoader } from "nunjucks";
+import { configure, Environment, FileSystemLoader } from "nunjucks";
 
 import { readConfig, type DjockeyConfig } from "./config";
 import { parseDjot } from "./djotLogic";
@@ -38,8 +39,8 @@ function absify(rootPath: string, path_: string): string {
 export function resolveConfigPaths(
   rootPath: string,
   config: DjockeyConfig
-): DjockeyConfig & { fileList: string[] } {
-  return {
+): DjockeyConfig & { fileList: string[]; urlRoot: string } {
+  const result = {
     ...config,
     inputDir: absify(rootPath, config.inputDir),
     htmlOutputDir: absify(rootPath, config.htmlOutputDir),
@@ -47,6 +48,16 @@ export function resolveConfigPaths(
       config.fileList ||
       fastGlob.sync(`${absify(rootPath, config.inputDir)}/**/*.djot`),
   };
+
+  const configURLRoot = config.urlRoot;
+  const fileURLRoot = url.pathToFileURL(result.htmlOutputDir).toString();
+
+  if (!configURLRoot) {
+    console.warn(
+      `Set root URL to ${fileURLRoot}. This will only work on your computer; you'll need to set urlRoot before you deploy.`
+    );
+  }
+  return { ...result, urlRoot: configURLRoot ?? fileURLRoot };
 }
 
 export function processUsingConfig(
@@ -61,7 +72,8 @@ export function processUsingConfig(
     parseDjot(config.inputDir, path_)
   );
 
-  const docset = new DocSet(docs);
+  const docset = new DocSet(config, docs);
+  docset.run();
 
   const nj = new Environment(
     new FileSystemLoader(path.resolve(path.join(__dirname, "..", "templates")))

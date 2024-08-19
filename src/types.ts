@@ -1,5 +1,6 @@
 import { Doc, Link } from "@djot/djot";
 import { applyFilter } from "./djotFiltersPlus";
+import { DjockeyConfig } from "./config";
 
 export type DjockeyDoc = {
   djotDoc: Doc;
@@ -11,8 +12,12 @@ export type DjockeyDoc = {
 };
 
 // TODO: don't use .html
-function makeFullLink(relativePath: string, id: string): string {
-  return `${relativePath}.html#${id}`;
+function makeFullLink(
+  config: DjockeyConfig,
+  relativePath: string,
+  id: string
+): string {
+  return `${config.urlRoot}/${relativePath}.html#${id}`;
 }
 
 export class DocSet {
@@ -20,7 +25,9 @@ export class DocSet {
 
   private _partialLinkToFullLink: Record<string, string[]> = {};
 
-  constructor(public docs: DjockeyDoc[]) {
+  constructor(public config: DjockeyConfig, public docs: DjockeyDoc[]) {}
+
+  public run() {
     for (const doc of this.docs) {
       this.docPassInitial(doc);
     }
@@ -41,7 +48,7 @@ export class DocSet {
         const attrs = { ...node.autoAttributes, ...node.attributes };
         if (!attrs.id) return;
         const value = this._partialLinkToFullLink[attrs.id] ?? [];
-        value.push(makeFullLink(doc.relativePath, attrs.id));
+        value.push(makeFullLink(this.config, doc.relativePath, attrs.id));
         this._partialLinkToFullLink[attrs.id] = value;
       },
     }));
@@ -74,7 +81,11 @@ export class DocSet {
         if (options.indexOf(destination) >= 0) {
           return {
             ...node,
-            destination: makeFullLink(doc.relativePath, destination),
+            destination: makeFullLink(
+              this.config,
+              doc.relativePath,
+              destination
+            ),
           };
         }
 
