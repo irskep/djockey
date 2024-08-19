@@ -1,2 +1,4 @@
 inputDir: docs
-outputDir: out/html
+outputDir:
+  html: out/html
+  gfm: out/gfm

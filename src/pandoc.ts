@@ -18,3 +18,12 @@ export function getPandocAST(path_: string): Pandoc {
   const resultOutput = result.stdout.toString();
   return JSON.parse(resultOutput);
 }
+
+export function runPandocOnAST(ast: unknown, fmt: string): string {
+  const result = spawnSync("pandoc", ["-f", "json", "-t", fmt], {
+    encoding: "utf-8",
+    input: JSON.stringify(ast),
+  });
+  const resultOutput = result.stdout.toString();
+  return resultOutput;
+}

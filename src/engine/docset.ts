@@ -1,18 +1,16 @@
 import { Link } from "@djot/djot";
-import { DjockeyConfig } from "../config";
+import { DjockeyConfig, DjockeyConfigResolved } from "../config";
 import { DjockeyDoc } from "../types";
 import path from "path";
 import { applyFilter } from "./djotFiltersPlus";
 
 /**
- * Returns an absolute URL with the file extension `$EXTENSION$` (for later replacement)
+ * Returns an absolute URL with strings for future replacement
+ *
+ * TODO: do relative links for some formats (like Markdown)
  */
-function makeFullLink(
-  config: DjockeyConfig,
-  relativePath: string,
-  id: string
-): string {
-  return `${config.urlRoot}/${relativePath}.$EXTENSION$#${id}`;
+function makeFullLink(relativePath: string, id: string): string {
+  return `$URL_ROOT$/${relativePath}.$EXTENSION$#${id}`;
 }
 
 function makeShorthandLinks(relativePath: string, id: string): string[] {
@@ -29,23 +27,42 @@ function makeShorthandLinks(relativePath: string, id: string): string[] {
   return [id, `${filename}#${id}`, `${filename}.$EXTENSION$#${id}`];
 }
 
-function replaceLinkExtension(original: string, newExtension: string): string {
-  return original.replace("$EXTENSION$", newExtension);
+function transformLinkForOutput(
+  outputDir: string,
+  original: string,
+  newExtension: string
+): string {
+  return original
+    .replace("$EXTENSION$", newExtension)
+    .replace("$URL_ROOT$", outputDir);
 }
 
 export class DocSet {
   private _relativePathToDoc: Record<string, DjockeyDoc> = {};
   private _partialLinkToFullLink: Record<string, string[]> = {};
 
-  constructor(public config: DjockeyConfig, public docs: DjockeyDoc[]) {}
+  constructor(
+    public config: DjockeyConfigResolved,
+    public docs: DjockeyDoc[]
+  ) {}
 
-  public copyDocsWithOutputSpecificChanges(extension: string): DjockeyDoc[] {
+  public copyDocsWithOutputSpecificChanges(
+    extension: string,
+    needsRelativeLinks: boolean,
+    outputDir: string
+  ): DjockeyDoc[] {
     const docsCopy = structuredClone(this.docs);
     for (const doc of docsCopy) {
       applyFilter(doc.djotDoc, () => ({
         "*": (node) => {
           if (!node.destination) return;
-          node.destination = replaceLinkExtension(node.destination, extension);
+          node.destination = transformLinkForOutput(
+            outputDir,
+            node.destination,
+            extension
+          );
+
+          // TODO: convert absolute links to relative if necessary
         },
       }));
     }
@@ -91,7 +108,7 @@ export class DocSet {
           pushToListIfNotPresent(
             this._partialLinkToFullLink,
             shorthandLink,
-            makeFullLink(this.config, doc.relativePath, attrs.id)
+            makeFullLink(doc.relativePath, attrs.id)
           );
         }
       },
@@ -121,11 +138,7 @@ export class DocSet {
         if (options.indexOf(destination) >= 0) {
           return {
             ...node,
-            destination: makeFullLink(
-              this.config,
-              doc.relativePath,
-              destination
-            ),
+            destination: makeFullLink(doc.relativePath, destination),
           };
         }
 

@@ -9,7 +9,10 @@ import { getIsPandocInstalled } from "./pandoc";
 
 export type DjockeyConfig = {
   inputDir: string;
-  htmlOutputDir: string;
+  outputDir: {
+    html: string;
+    gfm: string;
+  };
   fileList?: string[];
   urlRoot?: string;
   inputFormats: {
@@ -35,7 +38,10 @@ export function readConfig(path_: string): DjockeyConfig {
 
   const defaults: DjockeyConfig = {
     inputDir: "docs",
-    htmlOutputDir: "out/html",
+    outputDir: {
+      html: "out/html",
+      gfm: "out/gfm",
+    },
     inputFormats: {
       djot: true,
       gfm: isPandocInstalled,
@@ -71,7 +77,10 @@ export function resolveConfig(
     ...config,
     rootPath,
     inputDir: absify(rootPath, config.inputDir),
-    htmlOutputDir: absify(rootPath, config.htmlOutputDir),
+    outputDir: {
+      html: absify(rootPath, config.outputDir.html),
+      gfm: absify(rootPath, config.outputDir.gfm),
+    },
     fileList:
       config.fileList ||
       fastGlob.sync(
@@ -82,7 +91,7 @@ export function resolveConfig(
   };
 
   const configURLRoot = config.urlRoot;
-  const fileURLRoot = url.pathToFileURL(result.htmlOutputDir).toString();
+  const fileURLRoot = url.pathToFileURL(result.outputDir.html).toString();
 
   if (!configURLRoot) {
     console.warn(
@@ -110,11 +119,14 @@ export function resolveConfigFromSingleFile(
   const parentDir = path.resolve(`${path_}/..`);
   const config: DjockeyConfig = {
     inputDir: parentDir,
-    htmlOutputDir: parentDir,
+    outputDir: {
+      html: parentDir,
+      gfm: parentDir,
+    },
     fileList: [absPath],
     inputFormats: {
       djot: true,
-      gfm: false,
+      gfm: getIsPandocInstalled(),
     },
     outputFormats: {
       gfm: false,
