@@ -28,7 +28,10 @@ export function parseDjot(inputRoot: string, absolutePath: string): DjockeyDoc {
     djotDoc,
     title: path.parse(relativePath).name,
     absolutePath,
-    relativePath,
+    relativePath: relativePath.slice(
+      0,
+      relativePath.length - path.parse(relativePath).ext.length
+    ),
     filename: basename(absolutePath),
     frontMatter,
   };

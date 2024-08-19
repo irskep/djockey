@@ -6,7 +6,7 @@ import { Environment, FileSystemLoader } from "nunjucks";
 
 import { readConfig, type DjockeyConfig } from "./config";
 import { parseDjot } from "./djotLogic";
-import { DjockeyDoc } from "./types";
+import { DjockeyDoc, DocSet } from "./types";
 import { renderHTML } from "@djot/djot";
 
 export function processDirectory(path_: string) {
@@ -61,12 +61,13 @@ export function processUsingConfig(
     parseDjot(config.inputDir, path_)
   );
 
-  const templateDir = path.resolve(path.join(__dirname, "..", "templates"));
+  const docset = new DocSet(docs);
+
   const nj = new Environment(
     new FileSystemLoader(path.resolve(path.join(__dirname, "..", "templates")))
   );
 
-  for (const doc of docs) {
+  for (const doc of docset.docs) {
     renderDjockeyDocAsHTML(config, nj, doc);
   }
 }
@@ -76,9 +77,8 @@ export function renderDjockeyDocAsHTML(
   nj: Environment,
   doc: DjockeyDoc
 ) {
-  const filename = path.parse(doc.relativePath).name;
-  const title = doc.frontMatter.title ?? filename;
-  const outputPath = `${config.htmlOutputDir}/${filename}.html`;
+  const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
+  const outputPath = `${config.htmlOutputDir}/${doc.relativePath}.html`;
   const outputContentHTML = renderHTML(doc.djotDoc);
   const outputPageHTML = nj.render("base.njk", {
     doc,
