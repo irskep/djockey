@@ -17,7 +17,16 @@ function makeFullLink(
 
 function makeShorthandLinks(relativePath: string, id: string): string[] {
   const filename = path.parse(relativePath).name;
-  return [`${filename}#${id}`, `${filename}.$EXTENSION$#${id}`];
+  // This is placeholder logic to represent the idea that a user might refer to an
+  // anchor in multiple ways. Just #id works if the id is globally unique, but if
+  // it's not, they should be able to add filenames until it's not ambiguous
+  // anymore. For example, doc#id should work if there's only one file named 'doc'
+  // that contains #id.
+  //
+  // The advantage of doing this vs just making people use full paths is that
+  // PEOPLE MOVE DOCS AROUND. Links are more likely to work if they don't need to
+  // be updated after changes.
+  return [id, `${filename}#${id}`, `${filename}.$EXTENSION$#${id}`];
 }
 
 function replaceLinkExtension(original: string, newExtension: string): string {
@@ -48,8 +57,6 @@ export class DocSet {
       this.docPassInitial(doc);
     }
 
-    console.log(this._partialLinkToFullLink);
-
     for (const doc of this.docs) {
       this.docPassResolveLinks(doc);
     }
@@ -77,10 +84,10 @@ export class DocSet {
         const attrs = { ...node.autoAttributes, ...node.attributes };
         if (!attrs.id) return;
 
-        for (const shorthandLink of [
-          attrs.id,
-          ...makeShorthandLinks(doc.relativePath, attrs.id),
-        ]) {
+        for (const shorthandLink of makeShorthandLinks(
+          doc.relativePath,
+          attrs.id
+        )) {
           pushToListIfNotPresent(
             this._partialLinkToFullLink,
             shorthandLink,
