@@ -7,8 +7,9 @@ import { configure, Environment, FileSystemLoader } from "nunjucks";
 
 import { readConfig, type DjockeyConfig } from "./config";
 import { parseDjot } from "./djotLogic";
-import { DjockeyDoc, DocSet } from "./types";
+import { DjockeyDoc } from "./types";
 import { renderHTML } from "@djot/djot";
+import { DocSet } from "./docset";
 
 export function processDirectory(path_: string) {
   const configPath = `${path_}/djockey.yaml`;
