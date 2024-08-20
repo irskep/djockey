@@ -6,31 +6,7 @@ import fastGlob from "fast-glob";
 import yaml from "js-yaml";
 
 import { getIsPandocInstalled } from "./pandoc";
-
-export type DjockeyConfig = {
-  inputDir: string;
-  outputDir: {
-    html: string;
-    gfm: string;
-  };
-  fileList?: string[];
-  urlRoot?: string;
-  inputFormats: {
-    djot: boolean;
-    gfm: boolean;
-  };
-  outputFormats: {
-    html: boolean;
-    gfm: boolean;
-  };
-  numPasses: number;
-};
-
-export type DjockeyConfigResolved = DjockeyConfig & {
-  rootPath: string;
-  fileList: string[];
-  urlRoot: string;
-};
+import { DjockeyConfig, DjockeyConfigResolved } from "./types";
 
 export function readConfig(path_: string): DjockeyConfig {
   const values = yaml.load(fs.readFileSync(path_, "utf8")) as DjockeyConfig;

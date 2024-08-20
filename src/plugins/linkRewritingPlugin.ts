@@ -1,5 +1,8 @@
-import { DjockeyDoc, DjockeyOutputFormat } from "../types";
-import { DjockeyConfigResolved } from "../config";
+import {
+  DjockeyConfigResolved,
+  DjockeyDoc,
+  DjockeyOutputFormat,
+} from "../types";
 import { DjockeyPlugin } from "../engine/docset";
 import { applyFilter } from "../engine/djotFiltersPlus";
 

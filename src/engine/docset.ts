@@ -1,5 +1,8 @@
-import { DjockeyConfigResolved } from "../config";
-import { DjockeyDoc, DjockeyOutputFormat } from "../types";
+import {
+  DjockeyConfigResolved,
+  DjockeyDoc,
+  DjockeyOutputFormat,
+} from "../types";
 
 /**
  * Notes:
