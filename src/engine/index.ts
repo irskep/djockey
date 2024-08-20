@@ -34,21 +34,13 @@ export function writeDocSet(docSet: DocSet) {
   );
 
   if (docSet.config.outputFormats.html) {
-    for (const doc of docSet.copyDocsWithOutputSpecificChanges(
-      "html",
-      false,
-      docSet.config.urlRoot + "/"
-    )) {
+    for (const doc of docSet.copyDocsWithOutputSpecificChanges("html")) {
       renderDjockeyDocAsHTML(docSet.config, nj, doc);
     }
   }
 
   if (docSet.config.outputFormats.gfm) {
-    for (const doc of docSet.copyDocsWithOutputSpecificChanges(
-      "md",
-      true,
-      ""
-    )) {
+    for (const doc of docSet.copyDocsWithOutputSpecificChanges("gfm")) {
       renderDjockeyDocAsGFM(docSet.config, nj, doc);
     }
   }

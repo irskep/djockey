@@ -50,6 +50,7 @@ export function parseDjot(
   return {
     djotDoc,
     title: path.parse(relativePath).name,
+    originalExtension: path.parse(relativePath).ext,
     absolutePath,
     relativePath: removeExtensionFromPath(relativePath),
     filename: basename(absolutePath),
