@@ -1,2 +1,6 @@
 {#second-doc-heading}
 # Second
+
+[Linking to myself](#second-doc-heading)
+
+[Linking to myself again](second#second-doc-heading)

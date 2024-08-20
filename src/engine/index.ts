@@ -37,7 +37,7 @@ export function writeDocSet(docSet: DocSet) {
     for (const doc of docSet.copyDocsWithOutputSpecificChanges(
       "html",
       false,
-      docSet.config.urlRoot
+      docSet.config.urlRoot + "/"
     )) {
       renderDjockeyDocAsHTML(docSet.config, nj, doc);
     }

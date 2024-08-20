@@ -1,19 +1,29 @@
-import { Link } from "@djot/djot";
-import { DjockeyConfig, DjockeyConfigResolved } from "../config";
-import { DjockeyDoc } from "../types";
 import path from "path";
+
+import { Link } from "@djot/djot";
+
+import { DjockeyConfigResolved } from "../config";
+import { DjockeyDoc } from "../types";
 import { applyFilter } from "./djotFiltersPlus";
+
+const SUB_URL_ROOT = "$URL_ROOT$";
+const SUB_EXTENSION = "$EXTENSION$";
 
 /**
  * Returns an absolute URL with strings for future replacement
  *
  * TODO: do relative links for some formats (like Markdown)
+ *
+ * TODO: handle links directly to docs, not just headings
  */
-function makeFullLink(relativePath: string, id: string): string {
-  return `$URL_ROOT$/${relativePath}.$EXTENSION$#${id}`;
+export function makeFullLink(
+  pathRelativeToInputDir: string,
+  id: string
+): string {
+  return `${SUB_URL_ROOT}${pathRelativeToInputDir}.${SUB_EXTENSION}#${id}`;
 }
 
-function makeShorthandLinks(relativePath: string, id: string): string[] {
+export function makeShorthandLinks(relativePath: string, id: string): string[] {
   const filename = path.parse(relativePath).name;
   // This is placeholder logic to represent the idea that a user might refer to an
   // anchor in multiple ways. Just #id works if the id is globally unique, but if
@@ -27,14 +37,40 @@ function makeShorthandLinks(relativePath: string, id: string): string[] {
   return [id, `${filename}#${id}`, `${filename}.$EXTENSION$#${id}`];
 }
 
-function transformLinkForOutput(
-  outputDir: string,
-  original: string,
-  newExtension: string
-): string {
-  return original
-    .replace("$EXTENSION$", newExtension)
-    .replace("$URL_ROOT$", outputDir);
+export function makePathBackToRoot(pathRelativeToInputDir: string): string {
+  let numSlashes = 0;
+  for (const char of pathRelativeToInputDir) {
+    if (char === "/") {
+      numSlashes += 1;
+    }
+    if (char === "#") {
+      break;
+    }
+  }
+
+  if (numSlashes === 0) return "./";
+
+  const result = new Array<string>();
+  for (let i = 0; i < numSlashes; i++) {
+    result.push("..");
+  }
+  return result.join("/") + "/";
+}
+
+function transformLinkForOutput(args: {
+  sourceFilePathRelativeToInputDir: string;
+  outputDir: string;
+  needsRelativeLinks: boolean;
+  original: string;
+  extensionReplacement: string;
+}): string {
+  const urlRootReplacement = args.needsRelativeLinks
+    ? makePathBackToRoot(args.sourceFilePathRelativeToInputDir)
+    : args.outputDir;
+
+  return args.original
+    .replace(SUB_EXTENSION, args.extensionReplacement)
+    .replace(SUB_URL_ROOT, urlRootReplacement);
 }
 
 export class DocSet {
@@ -56,13 +92,13 @@ export class DocSet {
       applyFilter(doc.djotDoc, () => ({
         "*": (node) => {
           if (!node.destination) return;
-          node.destination = transformLinkForOutput(
+          node.destination = transformLinkForOutput({
+            sourceFilePathRelativeToInputDir: doc.relativePath,
             outputDir,
-            node.destination,
-            extension
-          );
-
-          // TODO: convert absolute links to relative if necessary
+            needsRelativeLinks,
+            original: node.destination,
+            extensionReplacement: extension,
+          });
         },
       }));
     }
