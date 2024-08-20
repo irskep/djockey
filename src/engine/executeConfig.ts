@@ -47,7 +47,7 @@ export function writeDocSet(docSet: DocSet) {
 
     const renderer = makeRenderer(format);
 
-    for (const doc of docSet.copyDocsWithOutputSpecificChanges(renderer)) {
+    for (const doc of docSet.makeRenderableCopy(renderer)) {
       const title: string =
         (doc.frontMatter.title as string | undefined) ??
         path.parse(doc.relativePath).name;

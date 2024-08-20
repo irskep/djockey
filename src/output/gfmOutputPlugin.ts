@@ -8,11 +8,11 @@ import {
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
+  DjockeyRenderer,
 } from "../types";
-import { DjockeyOutputPlugin } from "./djockeyRenderer";
 import { runPandocOnAST } from "../pandoc";
 
-export class GFMOutputPlugin implements DjockeyOutputPlugin {
+export class GFMOutputPlugin implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
 
   transformLink(args: {

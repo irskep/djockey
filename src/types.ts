@@ -1,6 +1,5 @@
 import { Doc } from "@djot/djot";
 import { Environment } from "nunjucks";
-import { DjockeyOutputPlugin } from "./output/djockeyRenderer";
 
 export type DjockeyDoc = {
   djotDoc: Doc;
@@ -38,12 +37,24 @@ export type DjockeyConfigResolved = DjockeyConfig & {
   urlRoot: string;
 };
 
-export type DjockeyRenderer = (args: {
-  config: DjockeyConfig;
-  nj: Environment;
-  doc: DjockeyDoc;
-  title: string;
-}) => void;
+export type DjockeyRenderer = {
+  identifier: DjockeyOutputFormat;
+
+  writeDoc: (args: {
+    config: DjockeyConfig;
+    nj: Environment;
+    doc: DjockeyDoc;
+    title: string;
+  }) => void;
+
+  transformLink: (args: {
+    config: DjockeyConfigResolved;
+    sourcePath: string;
+    anchorWithoutHash: string | null;
+    docOriginalExtension: string;
+    docRelativePath: string;
+  }) => string;
+};
 
 /**
  * Notes:
@@ -52,5 +63,5 @@ export type DjockeyRenderer = (args: {
 export type DjockeyPlugin = {
   onPass_read?: (doc: DjockeyDoc) => void;
   onPass_write?: (doc: DjockeyDoc) => void;
-  onPrepareForRender?: (doc: DjockeyDoc, renderer: DjockeyOutputPlugin) => void;
+  onPrepareForRender?: (doc: DjockeyDoc, renderer: DjockeyRenderer) => void;
 };

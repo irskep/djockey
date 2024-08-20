@@ -1,9 +1,8 @@
-import { DjockeyOutputFormat } from "../types";
+import { DjockeyOutputFormat, DjockeyRenderer } from "../types";
 import { GFMOutputPlugin } from "./gfmOutputPlugin";
 import { HTMLOutputPlugin } from "./htmlOutputPlugin";
-import { DjockeyOutputPlugin } from "./djockeyRenderer";
 
-export function makeRenderer(format: DjockeyOutputFormat): DjockeyOutputPlugin {
+export function makeRenderer(format: DjockeyOutputFormat): DjockeyRenderer {
   switch (format) {
     case "html":
       return new HTMLOutputPlugin();

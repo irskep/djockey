@@ -1,9 +1,8 @@
-import { DjockeyOutputPlugin } from "../output/djockeyRenderer";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
-  DjockeyOutputFormat,
   DjockeyPlugin,
+  DjockeyRenderer,
 } from "../types";
 
 export class DocSet {
@@ -28,9 +27,7 @@ export class DocSet {
     }
   }
 
-  public copyDocsWithOutputSpecificChanges(
-    renderer: DjockeyOutputPlugin
-  ): DjockeyDoc[] {
+  public makeRenderableCopy(renderer: DjockeyRenderer): DjockeyDoc[] {
     const docsCopy = structuredClone(this.docs);
     for (const doc of docsCopy) {
       for (const plugin of this.plugins) {

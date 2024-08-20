@@ -4,7 +4,7 @@ import {
   resolveConfigFromDirectory,
   resolveConfigFromSingleFile,
 } from "./config";
-import { executeConfig } from "./engine";
+import { executeConfig } from "./engine/executeConfig";
 
 export function makeArgumentParser() {
   const p = new ArgumentParser();

@@ -3,15 +3,16 @@ import path from "path";
 
 import { renderHTML } from "@djot/djot";
 import { Environment } from "nunjucks";
+
 import {
   DjockeyConfig,
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
+  DjockeyRenderer,
 } from "../types";
-import { DjockeyOutputPlugin } from "./djockeyRenderer";
 
-export class HTMLOutputPlugin implements DjockeyOutputPlugin {
+export class HTMLOutputPlugin implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
   transformLink(args: {

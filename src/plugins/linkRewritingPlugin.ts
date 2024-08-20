@@ -1,6 +1,10 @@
-import { DjockeyConfigResolved, DjockeyDoc, DjockeyPlugin } from "../types";
+import {
+  DjockeyConfigResolved,
+  DjockeyDoc,
+  DjockeyPlugin,
+  DjockeyRenderer,
+} from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
-import { DjockeyOutputPlugin } from "../output/djockeyRenderer";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   private _linkTargets: Record<string, LinkTarget[]> = {};
@@ -28,7 +32,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }));
   }
 
-  onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyOutputPlugin) {
+  onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyRenderer) {
     applyFilter(doc.djotDoc, () => ({
       "*": (node) => {
         if (!node.destination) return;
@@ -132,7 +136,7 @@ export class LinkTarget {
 
   renderDestination(args: {
     config: DjockeyConfigResolved;
-    renderer: DjockeyOutputPlugin;
+    renderer: DjockeyRenderer;
     sourcePath: string;
   }): string {
     return args.renderer.transformLink({
