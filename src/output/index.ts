@@ -13,10 +13,12 @@ export function renderDjockeyDocAsHTML(
   nj: Environment,
   doc: DjockeyDoc
 ) {
-  fs.mkdirSync(config.outputDir.html, { recursive: true });
-  const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
   const outputPath = `${config.outputDir.html}/${doc.relativePath}.html`;
   console.log("Rendering", outputPath);
+  fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
+    recursive: true,
+  });
+  const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
   const outputContent = renderHTML(doc.djotDoc);
   const outputPage = nj.render("html/base.njk", {
     doc,
@@ -32,10 +34,12 @@ export function renderDjockeyDocAsGFM(
   nj: Environment,
   doc: DjockeyDoc
 ) {
-  fs.mkdirSync(config.outputDir.gfm, { recursive: true });
-  const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
   const outputPath = `${config.outputDir.gfm}/${doc.relativePath}.md`;
   console.log("Rendering", outputPath);
+  fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
+    recursive: true,
+  });
+  const title = doc.frontMatter.title ?? path.parse(doc.relativePath).name;
   const outputAST = toPandoc(doc.djotDoc, {});
   const outputContent = runPandocOnAST(outputAST, "gfm");
   const outputPage = nj.render("gfm/base.njk", {
