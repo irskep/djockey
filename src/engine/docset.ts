@@ -6,8 +6,8 @@ import { applyFilter } from "./djotFiltersPlus";
 import { LinkTarget } from "../plugins/linkRewritingPlugin";
 
 export type DjockeyPlugin = {
-  onFirstPass?: (doc: DjockeyDoc) => void;
-  onPrerender?: (doc: DjockeyDoc, format: DjockeyOutputFormat) => void;
+  onPass_read?: (doc: DjockeyDoc) => void;
+  onPrepareForRender?: (doc: DjockeyDoc, format: DjockeyOutputFormat) => void;
 };
 
 export class DocSet {
@@ -20,17 +20,16 @@ export class DocSet {
   ) {}
 
   public doAllTheComplicatedTransformStuff() {
-    for (const doc of this.docs) {
-      this.docPassInitial(doc);
-    }
+    this.runPass_read();
   }
 
-  private docPassInitial(doc: DjockeyDoc) {
-    this._relativePathToDoc[doc.relativePath] = doc;
-
-    for (const plugin of this.plugins) {
-      if (plugin.onFirstPass) {
-        plugin.onFirstPass(doc);
+  private runPass_read() {
+    for (const doc of this.docs) {
+      this._relativePathToDoc[doc.relativePath] = doc;
+      for (const plugin of this.plugins) {
+        if (plugin.onPass_read) {
+          plugin.onPass_read(doc);
+        }
       }
     }
   }
@@ -41,8 +40,8 @@ export class DocSet {
     const docsCopy = structuredClone(this.docs);
     for (const doc of docsCopy) {
       for (const plugin of this.plugins) {
-        if (plugin.onPrerender) {
-          plugin.onPrerender(doc, format);
+        if (plugin.onPrepareForRender) {
+          plugin.onPrepareForRender(doc, format);
         }
       }
     }

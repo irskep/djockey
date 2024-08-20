@@ -1,6 +1,6 @@
 import { DjockeyDoc, DjockeyOutputFormat } from "../types";
 import { DjockeyConfigResolved } from "../config";
-import { DjockeyPlugin, DocSet } from "../engine/docset";
+import { DjockeyPlugin } from "../engine/docset";
 import { applyFilter } from "../engine/djotFiltersPlus";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
@@ -8,26 +8,28 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
   constructor(public config: DjockeyConfigResolved) {}
 
-  onFirstPass(doc: DjockeyDoc) {
-    const docLinkTarget = new LinkTarget(doc, null);
-    docLinkTarget.aliases.forEach((alias) =>
-      pushToListIfNotPresent(this._linkTargets, alias, docLinkTarget)
-    );
+  onPass_read(doc: DjockeyDoc) {
+    const registerLinkTarget = (t: LinkTarget) => {
+      t.aliases.forEach((alias) =>
+        pushToListIfNotPresent(this._linkTargets, alias, t, (a, b) =>
+          a.equals(b)
+        )
+      );
+    };
+
+    registerLinkTarget(new LinkTarget(doc, null));
 
     applyFilter(doc.djotDoc, () => ({
       "*": (node) => {
         const attrs = { ...node.autoAttributes, ...node.attributes };
         if (!attrs.id) return;
 
-        const linkTarget = new LinkTarget(doc, attrs.id);
-        linkTarget.aliases.forEach((alias) =>
-          pushToListIfNotPresent(this._linkTargets, alias, linkTarget)
-        );
+        registerLinkTarget(new LinkTarget(doc, attrs.id));
       },
     }));
   }
 
-  onPrerender(doc: DjockeyDoc, format: DjockeyOutputFormat) {
+  onPrepareForRender(doc: DjockeyDoc, format: DjockeyOutputFormat) {
     applyFilter(doc.djotDoc, () => ({
       "*": (node) => {
         if (!node.destination) return;
@@ -45,15 +47,16 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     nodeDestination: string,
     renderArgs: Parameters<LinkTarget["renderDestination"]>[0]
   ): string {
+    // Don't transform ordinary URLs
+    if (isURL(nodeDestination)) {
+      return nodeDestination;
+    }
+
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
       console.log(
         `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
       );
-      return nodeDestination;
-    }
-    // Don't transform ordinary URLs
-    if (isURL(nodeDestination)) {
       return nodeDestination;
     }
 
@@ -66,11 +69,17 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
   }
 }
 
-function pushToListIfNotPresent<T>(dict: Record<string, T[]>, k: string, v: T) {
-  const value = dict[k] ?? [];
-  dict[k] = value;
-  if (value.indexOf(v) >= 0) return;
-  value.push(v);
+function pushToListIfNotPresent<T>(
+  dict: Record<string, T[]>,
+  k: string,
+  v: T,
+  checkEquality: (a: T, b: T) => boolean
+) {
+  const array = dict[k] ?? [];
+  dict[k] = array;
+  if (array.findIndex((innerValue) => checkEquality(v, innerValue)) >= 0)
+    return;
+  array.push(v);
 }
 
 function isURL(s: string): boolean {
@@ -89,6 +98,14 @@ export class LinkTarget {
   constructor(doc: DjockeyDoc, public anchorWithoutHash: string | null) {
     this.docOriginalExtension = doc.originalExtension;
     this.docRelativePath = doc.relativePath;
+  }
+
+  equals(other: LinkTarget) {
+    return (
+      this.docOriginalExtension === other.docOriginalExtension &&
+      this.docRelativePath == other.docRelativePath &&
+      this.anchorWithoutHash == other.anchorWithoutHash
+    );
   }
 
   toString(): string {
@@ -116,7 +133,7 @@ export class LinkTarget {
 
   renderDestination(args: {
     config: DjockeyConfigResolved;
-    format: "html" | "gfm";
+    format: DjockeyOutputFormat;
     sourcePath: string;
   }): string {
     if (!LINK_RENDERERS[args.format]) {
