@@ -23,6 +23,7 @@ export type DjockeyConfig = {
     html: boolean;
     gfm: boolean;
   };
+  numPasses: number;
 };
 
 export type DjockeyConfigResolved = DjockeyConfig & {
@@ -50,6 +51,7 @@ export function readConfig(path_: string): DjockeyConfig {
       html: true,
       gfm: isPandocInstalled,
     },
+    numPasses: 1,
   };
   return {
     ...defaults,
@@ -132,6 +134,7 @@ export function resolveConfigFromSingleFile(
       gfm: false,
       html: true,
     },
+    numPasses: 1,
   };
 
   return resolveConfig(parentDir, config);

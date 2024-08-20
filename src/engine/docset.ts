@@ -1,34 +1,33 @@
-import { URL } from "url";
-
 import { DjockeyConfigResolved } from "../config";
 import { DjockeyDoc, DjockeyOutputFormat } from "../types";
-import { applyFilter } from "./djotFiltersPlus";
-import { LinkTarget } from "../plugins/linkRewritingPlugin";
 
+/**
+ * Notes:
+ * - Passes should be idempotent so they can be run multiple times
+ */
 export type DjockeyPlugin = {
   onPass_read?: (doc: DjockeyDoc) => void;
+  onPass_write?: (doc: DjockeyDoc) => void;
   onPrepareForRender?: (doc: DjockeyDoc, format: DjockeyOutputFormat) => void;
 };
 
 export class DocSet {
-  private _relativePathToDoc: Record<string, DjockeyDoc> = {};
-
   constructor(
     public config: DjockeyConfigResolved,
     public plugins: DjockeyPlugin[],
     public docs: DjockeyDoc[]
   ) {}
 
-  public doAllTheComplicatedTransformStuff() {
-    this.runPass_read();
+  public runPasses() {
+    this.runPass("onPass_read");
+    this.runPass("onPass_write");
   }
 
-  private runPass_read() {
+  private runPass(fn: "onPass_read" | "onPass_write") {
     for (const doc of this.docs) {
-      this._relativePathToDoc[doc.relativePath] = doc;
       for (const plugin of this.plugins) {
-        if (plugin.onPass_read) {
-          plugin.onPass_read(doc);
+        if (plugin[fn]) {
+          plugin[fn](doc);
         }
       }
     }

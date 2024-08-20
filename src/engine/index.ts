@@ -4,14 +4,22 @@ import { Environment, FileSystemLoader } from "nunjucks";
 
 import { DjockeyConfigResolved } from "../config";
 import { DocSet } from "./docset";
-import { parseDjot } from "../input/djotLogic";
+import { parseDjot } from "../input/parseDjot";
 import { renderDjockeyDocAsGFM, renderDjockeyDocAsHTML } from "../output";
 import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
 
+function pluralize(n: number, singular: string, plural: string): string {
+  return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
+}
+
 export function executeConfig(config: DjockeyConfigResolved) {
   const docSet = readDocSet(config);
-  console.log("Applying transforms");
-  docSet.doAllTheComplicatedTransformStuff();
+  console.log(
+    `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
+  );
+  for (let i = 0; i < config.numPasses; i++) {
+    docSet.runPasses();
+  }
   writeDocSet(docSet);
 }
 
