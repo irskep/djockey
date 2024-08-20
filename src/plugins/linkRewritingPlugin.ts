@@ -1,10 +1,6 @@
-import {
-  DjockeyConfigResolved,
-  DjockeyDoc,
-  DjockeyOutputFormat,
-} from "../types";
-import { DjockeyPlugin } from "../engine/docset";
+import { DjockeyConfigResolved, DjockeyDoc, DjockeyPlugin } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
+import { DjockeyOutputPlugin } from "../output/djockeyRenderer";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   private _linkTargets: Record<string, LinkTarget[]> = {};
@@ -32,13 +28,13 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }));
   }
 
-  onPrepareForRender(doc: DjockeyDoc, format: DjockeyOutputFormat) {
+  onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyOutputPlugin) {
     applyFilter(doc.djotDoc, () => ({
       "*": (node) => {
         if (!node.destination) return;
         const newDestination = this.transformNodeDestination(node.destination, {
           config: this.config,
-          format: format,
+          renderer,
           sourcePath: doc.relativePath,
         });
         node.destination = newDestination;
@@ -136,14 +132,10 @@ export class LinkTarget {
 
   renderDestination(args: {
     config: DjockeyConfigResolved;
-    format: DjockeyOutputFormat;
+    renderer: DjockeyOutputPlugin;
     sourcePath: string;
   }): string {
-    if (!LINK_RENDERERS[args.format]) {
-      console.error(`No link renderer for format ${args.format}`);
-      return "<error>";
-    }
-    return LINK_RENDERERS[args.format]({
+    return args.renderer.transformLink({
       config: args.config,
       sourcePath: args.sourcePath,
       anchorWithoutHash: this.anchorWithoutHash,
@@ -151,58 +143,4 @@ export class LinkTarget {
       docRelativePath: this.docRelativePath,
     });
   }
-}
-
-type LinkRenderer = (args: {
-  config: DjockeyConfigResolved;
-  sourcePath: string;
-  anchorWithoutHash: string | null;
-  docOriginalExtension: string;
-  docRelativePath: string;
-}) => string;
-
-const LINK_RENDERERS: Record<string, LinkRenderer> = {
-  html: (args) => {
-    const { anchorWithoutHash, config, docRelativePath } = args;
-    if (anchorWithoutHash) {
-      return `${config.outputDir.html}/${docRelativePath}.html#${anchorWithoutHash}`;
-    } else {
-      return `${config.outputDir.html}/${docRelativePath}.html`;
-    }
-  },
-
-  gfm: (args) => {
-    const { anchorWithoutHash, docRelativePath, sourcePath } = args;
-    // All links first use `../` to go back to the root, followed by the
-    // full relative path of the destination doc. When rendering Markdown
-    // we always use relative paths because you can't assume any given
-    // Markdown file is in a predictable place.
-    const pathBackToRoot = makePathBackToRoot(sourcePath);
-
-    if (anchorWithoutHash) {
-      return `${pathBackToRoot}${docRelativePath}.md#${anchorWithoutHash}`;
-    } else {
-      return `${pathBackToRoot}${docRelativePath}.md`;
-    }
-  },
-};
-
-export function makePathBackToRoot(pathRelativeToInputDir: string): string {
-  let numSlashes = 0;
-  for (const char of pathRelativeToInputDir) {
-    if (char === "/") {
-      numSlashes += 1;
-    }
-    if (char === "#") {
-      break;
-    }
-  }
-
-  if (numSlashes === 0) return "./";
-
-  const result = new Array<string>();
-  for (let i = 0; i < numSlashes; i++) {
-    result.push("..");
-  }
-  return result.join("/") + "/";
 }

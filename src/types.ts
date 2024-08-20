@@ -1,5 +1,6 @@
 import { Doc } from "@djot/djot";
 import { Environment } from "nunjucks";
+import { DjockeyOutputPlugin } from "./output/djockeyRenderer";
 
 export type DjockeyDoc = {
   djotDoc: Doc;
@@ -43,3 +44,13 @@ export type DjockeyRenderer = (args: {
   doc: DjockeyDoc;
   title: string;
 }) => void;
+
+/**
+ * Notes:
+ * - Passes should be idempotent so they can be run multiple times
+ */
+export type DjockeyPlugin = {
+  onPass_read?: (doc: DjockeyDoc) => void;
+  onPass_write?: (doc: DjockeyDoc) => void;
+  onPrepareForRender?: (doc: DjockeyDoc, renderer: DjockeyOutputPlugin) => void;
+};

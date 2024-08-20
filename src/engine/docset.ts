@@ -1,18 +1,10 @@
+import { DjockeyOutputPlugin } from "../output/djockeyRenderer";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
+  DjockeyPlugin,
 } from "../types";
-
-/**
- * Notes:
- * - Passes should be idempotent so they can be run multiple times
- */
-export type DjockeyPlugin = {
-  onPass_read?: (doc: DjockeyDoc) => void;
-  onPass_write?: (doc: DjockeyDoc) => void;
-  onPrepareForRender?: (doc: DjockeyDoc, format: DjockeyOutputFormat) => void;
-};
 
 export class DocSet {
   constructor(
@@ -37,13 +29,13 @@ export class DocSet {
   }
 
   public copyDocsWithOutputSpecificChanges(
-    format: DjockeyOutputFormat
+    renderer: DjockeyOutputPlugin
   ): DjockeyDoc[] {
     const docsCopy = structuredClone(this.docs);
     for (const doc of docsCopy) {
       for (const plugin of this.plugins) {
         if (plugin.onPrepareForRender) {
-          plugin.onPrepareForRender(doc, format);
+          plugin.onPrepareForRender(doc, renderer);
         }
       }
     }
