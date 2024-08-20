@@ -1,6 +1,86 @@
-import os from "os";
-import { DjockeyDoc } from "../types";
+import { DjockeyDoc, DjockeyOutputFormat } from "../types";
 import { DjockeyConfigResolved } from "../config";
+import { DjockeyPlugin, DocSet } from "../engine/docset";
+import { applyFilter } from "../engine/djotFiltersPlus";
+
+export class LinkRewritingPlugin implements DjockeyPlugin {
+  private _linkTargets: Record<string, LinkTarget[]> = {};
+
+  constructor(public config: DjockeyConfigResolved) {}
+
+  onFirstPass(doc: DjockeyDoc) {
+    const docLinkTarget = new LinkTarget(doc, null);
+    docLinkTarget.aliases.forEach((alias) =>
+      pushToListIfNotPresent(this._linkTargets, alias, docLinkTarget)
+    );
+
+    applyFilter(doc.djotDoc, () => ({
+      "*": (node) => {
+        const attrs = { ...node.autoAttributes, ...node.attributes };
+        if (!attrs.id) return;
+
+        const linkTarget = new LinkTarget(doc, attrs.id);
+        linkTarget.aliases.forEach((alias) =>
+          pushToListIfNotPresent(this._linkTargets, alias, linkTarget)
+        );
+      },
+    }));
+  }
+
+  onPrerender(doc: DjockeyDoc, format: DjockeyOutputFormat) {
+    applyFilter(doc.djotDoc, () => ({
+      "*": (node) => {
+        if (!node.destination) return;
+        const newDestination = this.transformNodeDestination(node.destination, {
+          config: this.config,
+          format: format,
+          sourcePath: doc.relativePath,
+        });
+        node.destination = newDestination;
+      },
+    }));
+  }
+
+  private transformNodeDestination(
+    nodeDestination: string,
+    renderArgs: Parameters<LinkTarget["renderDestination"]>[0]
+  ): string {
+    const values = this._linkTargets[nodeDestination];
+    if (!values || !values.length) {
+      console.log(
+        `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
+      );
+      return nodeDestination;
+    }
+    // Don't transform ordinary URLs
+    if (isURL(nodeDestination)) {
+      return nodeDestination;
+    }
+
+    if (values.length > 1) {
+      console.warn(
+        `Multiple possible destinations for ${nodeDestination} in ${renderArgs.sourcePath}`
+      );
+    }
+    return values[0].renderDestination(renderArgs);
+  }
+}
+
+function pushToListIfNotPresent<T>(dict: Record<string, T[]>, k: string, v: T) {
+  const value = dict[k] ?? [];
+  dict[k] = value;
+  if (value.indexOf(v) >= 0) return;
+  value.push(v);
+}
+
+function isURL(s: string): boolean {
+  try {
+    new URL(s);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
 
 export class LinkTarget {
   public docOriginalExtension: string;

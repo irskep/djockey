@@ -12,3 +12,5 @@ export type DjockeyDoc = {
   // For use by plugins
   data: Record<string, unknown>;
 };
+
+export type DjockeyOutputFormat = "html" | "gfm";

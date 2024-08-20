@@ -6,6 +6,7 @@ import { DjockeyConfigResolved } from "../config";
 import { DocSet } from "./docset";
 import { parseDjot } from "../input/djotLogic";
 import { renderDjockeyDocAsGFM, renderDjockeyDocAsHTML } from "../output";
+import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
 
 export function executeConfig(config: DjockeyConfigResolved) {
   const docSet = readDocSet(config);
@@ -23,7 +24,7 @@ export function readDocSet(config: DjockeyConfigResolved): DocSet {
     })
     .filter((doc) => !!doc);
 
-  return new DocSet(config, docs);
+  return new DocSet(config, [new LinkRewritingPlugin(config)], docs);
 }
 
 export function writeDocSet(docSet: DocSet) {
