@@ -1,12 +1,12 @@
 import { DjockeyOutputFormat, DjockeyRenderer } from "../types";
-import { GFMOutputPlugin } from "./gfmOutputPlugin";
-import { HTMLOutputPlugin } from "./htmlOutputPlugin";
+import { GFMRenderer } from "./gfmRenderer";
+import { HTMLRenderer } from "./htmlRenderer";
 
 export function makeRenderer(format: DjockeyOutputFormat): DjockeyRenderer {
   switch (format) {
     case "html":
-      return new HTMLOutputPlugin();
+      return new HTMLRenderer();
     case "gfm":
-      return new GFMOutputPlugin();
+      return new GFMRenderer();
   }
 }

@@ -6,7 +6,7 @@ import { DocSet } from "./docset";
 import { parseDjot } from "../input/parseDjot";
 import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
 import { ALL_OUTPUT_FORMATS, DjockeyConfigResolved } from "../types";
-import { makeRenderer } from "../output/makeRenderer";
+import { makeRenderer } from "../renderers/makeRenderer";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;

@@ -12,7 +12,7 @@ import {
 } from "../types";
 import { runPandocOnAST } from "../pandoc";
 
-export class GFMOutputPlugin implements DjockeyRenderer {
+export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
 
   transformLink(args: {

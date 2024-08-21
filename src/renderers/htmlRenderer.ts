@@ -12,7 +12,7 @@ import {
   DjockeyRenderer,
 } from "../types";
 
-export class HTMLOutputPlugin implements DjockeyRenderer {
+export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
   transformLink(args: {
