@@ -1,12 +1,4 @@
-import {
-  BulletList,
-  Doc,
-  Heading,
-  Inline,
-  Link,
-  ListItem,
-  Section,
-} from "@djot/djot";
+import { BulletList, Heading, Link, ListItem, Section } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 
