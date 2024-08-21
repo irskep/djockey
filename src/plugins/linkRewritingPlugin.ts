@@ -5,7 +5,6 @@ import {
   DjockeyRenderer,
 } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
-import { Doc } from "@djot/djot";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   private _linkTargets: Record<string, LinkTarget[]> = {};
@@ -139,6 +138,9 @@ export class LinkTarget {
         `${pathParts.slice(i).join("/")}${this.docOriginalExtension}${hash}`
       );
     }
+    // This is the 100% totally unambiguous link
+    result.push(`/${this.docRelativePath}${hash}`);
+    result.push(`/${this.docRelativePath}${this.docOriginalExtension}${hash}`);
     return result;
   }
 
