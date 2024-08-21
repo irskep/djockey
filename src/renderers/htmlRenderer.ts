@@ -40,13 +40,8 @@ export class HTMLRenderer implements DjockeyRenderer {
     }
   }
 
-  writeDoc(args: {
-    config: DjockeyConfig;
-    nj: Environment;
-    doc: DjockeyDoc;
-    title: string;
-  }) {
-    const { config, nj, doc, title } = args;
+  writeDoc(args: { config: DjockeyConfig; nj: Environment; doc: DjockeyDoc }) {
+    const { config, nj, doc } = args;
     const outputPath = `${config.outputDir.html}/${doc.relativePath}.html`;
     console.log("Rendering", outputPath);
     fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
@@ -58,7 +53,6 @@ export class HTMLRenderer implements DjockeyRenderer {
     }
     const outputPage = nj.render("base.njk", {
       doc,
-      title,
       docs: renderedDocs,
     });
 

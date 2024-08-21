@@ -8,6 +8,7 @@ import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
 import { ALL_OUTPUT_FORMATS, DjockeyConfigResolved } from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
+import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -35,7 +36,11 @@ export function readDocSet(config: DjockeyConfigResolved): DocSet {
 
   return new DocSet(
     config,
-    [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
+    [
+      new TableOfContentsPlugin(),
+      new LinkRewritingPlugin(config),
+      new AutoTitlePlugin(),
+    ],
     docs
   );
 }
@@ -60,7 +65,6 @@ export function writeDocSet(docSet: DocSet) {
         config: docSet.config,
         nj,
         doc,
-        title,
       });
     }
   }
