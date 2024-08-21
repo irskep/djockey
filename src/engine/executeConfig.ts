@@ -7,6 +7,7 @@ import { parseDjot } from "../input/parseDjot";
 import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
 import { ALL_OUTPUT_FORMATS, DjockeyConfigResolved } from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
+import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -32,7 +33,11 @@ export function readDocSet(config: DjockeyConfigResolved): DocSet {
     })
     .filter((doc) => !!doc);
 
-  return new DocSet(config, [new LinkRewritingPlugin(config)], docs);
+  return new DocSet(
+    config,
+    [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
+    docs
+  );
 }
 
 export function writeDocSet(docSet: DocSet) {

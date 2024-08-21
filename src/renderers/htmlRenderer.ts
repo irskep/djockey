@@ -11,9 +11,14 @@ import {
   DjockeyOutputFormat,
   DjockeyRenderer,
 } from "../types";
+import { makePathBackToRoot } from "./gfmRenderer";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
+
+  constructor(
+    public options: { relativeLinks: boolean } = { relativeLinks: false }
+  ) {}
 
   transformLink(args: {
     config: DjockeyConfigResolved;
@@ -22,11 +27,16 @@ export class HTMLRenderer implements DjockeyRenderer {
     docOriginalExtension: string;
     docRelativePath: string;
   }) {
-    const { anchorWithoutHash, config, docRelativePath } = args;
+    const { anchorWithoutHash, config, docRelativePath, sourcePath } = args;
+
+    const prefix = this.options.relativeLinks
+      ? makePathBackToRoot(sourcePath, { sameDirectoryValue: "" })
+      : `${config.outputDir.html}/`;
+
     if (anchorWithoutHash) {
-      return `${config.outputDir.html}/${docRelativePath}.html#${anchorWithoutHash}`;
+      return `${prefix}${docRelativePath}.html#${anchorWithoutHash}`;
     } else {
-      return `${config.outputDir.html}/${docRelativePath}.html`;
+      return `${prefix}${docRelativePath}.html`;
     }
   }
 

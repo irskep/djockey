@@ -3,8 +3,10 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyRenderer,
+  getAllDjotDocs,
 } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
+import { Doc } from "@djot/djot";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   private _linkTargets: Record<string, LinkTarget[]> = {};
@@ -33,17 +35,26 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
   }
 
   onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyRenderer) {
-    applyFilter(doc.djotDoc, () => ({
-      "*": (node) => {
-        if (!node.destination) return;
-        const newDestination = this.transformNodeDestination(node.destination, {
-          config: this.config,
-          renderer,
-          sourcePath: doc.relativePath,
-        });
-        node.destination = newDestination;
-      },
-    }));
+    const processDoc: (djotDoc: Doc) => void = (djotDoc) => {
+      applyFilter(djotDoc, () => ({
+        "*": (node) => {
+          if (!node.destination) return;
+          const newDestination = this.transformNodeDestination(
+            node.destination,
+            {
+              config: this.config,
+              renderer,
+              sourcePath: doc.relativePath,
+            }
+          );
+          node.destination = newDestination;
+        },
+      }));
+    };
+
+    for (const djotDoc of getAllDjotDocs(doc)) {
+      processDoc(djotDoc);
+    }
   }
 
   private transformNodeDestination(

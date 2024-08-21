@@ -83,7 +83,7 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
       footnotes: {},
       children: [renderTOCArray(this.topLevelTOCEntries)],
     };
-    doc.data.tocDoc = tocDoc;
+    doc.extraDocs.toc = tocDoc;
   }
 }
 

@@ -1,8 +1,11 @@
 import { Doc, parse, renderHTML } from "@djot/djot";
-import { DjockeyDoc } from "../types";
+import { DjockeyConfig, DjockeyConfigResolved, DjockeyDoc } from "../types";
 import { TableOfContentsPlugin } from "./tableOfContentsPlugin";
+import { LinkRewritingPlugin } from "./linkRewritingPlugin";
+import { DocSet } from "../engine/docset";
+import { HTMLRenderer } from "../renderers/htmlRenderer";
 
-test("Generates TOCEntry tree", () => {
+test("Generates TOCEntry tree for one doc", () => {
   const doc: DjockeyDoc = {
     djotDoc: parse(
       `# Heading 1
@@ -21,6 +24,7 @@ test("Generates TOCEntry tree", () => {
     relativePath: "Test Doc.djot",
     filename: "Test Doc",
     frontMatter: {},
+    extraDocs: {},
     data: {},
   };
 
@@ -28,7 +32,7 @@ test("Generates TOCEntry tree", () => {
   plg.onPass_read(doc);
   plg.onPass_write(doc);
 
-  const html = renderHTML(doc.data.tocDoc as Doc);
+  const html = renderHTML(doc.extraDocs.toc);
 
   expect(html).toEqual(`<ul>
 <li>
@@ -44,6 +48,71 @@ test("Generates TOCEntry tree", () => {
 <ul>
 <li>
 <a href="#Heading-2-2">Heading 2.2</a>
+</li>
+</ul>
+</li>
+</ul>
+`);
+});
+
+test("Works end-to-end with LinkRewritingPlugin", () => {
+  const doc: DjockeyDoc = {
+    djotDoc: parse(
+      `# Heading 1
+
+      ## Heading 1.1
+
+      # Heading 2
+
+      ### Heading 2.2
+      `,
+      { sourcePositions: true }
+    ),
+    title: "Test doc",
+    originalExtension: ".djot",
+    absolutePath: "Test Doc.djot",
+    relativePath: "Test Doc.djot",
+    filename: "Test Doc",
+    frontMatter: {},
+    extraDocs: {},
+    data: {},
+  };
+
+  const config: DjockeyConfigResolved = {
+    inputDir: ".",
+    outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
+    fileList: ["Test Doc.djot"],
+    urlRoot: "URL_ROOT",
+    inputFormats: { djot: true },
+    outputFormats: { html: true },
+    numPasses: 1,
+    rootPath: ".",
+  };
+  const docSet = new DocSet(
+    config,
+    [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
+    [doc]
+  );
+  docSet.runPasses();
+  const htmlCopy = docSet.makeRenderableCopy(
+    new HTMLRenderer({ relativeLinks: true })
+  )[0];
+  const html = renderHTML(htmlCopy.extraDocs.toc);
+
+  expect(html).toEqual(`<ul>
+<li>
+<a href="Test Doc.djot.html#Heading-1">Heading 1</a>
+<ul>
+<li>
+<a href="Test Doc.djot.html#Heading-1-1">Heading 1.1</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="Test Doc.djot.html#Heading-2">Heading 2</a>
+<ul>
+<li>
+<a href="Test Doc.djot.html#Heading-2-2">Heading 2.2</a>
 </li>
 </ul>
 </li>

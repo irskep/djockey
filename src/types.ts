@@ -10,9 +10,19 @@ export type DjockeyDoc = {
   filename: string;
   frontMatter: Record<string, unknown>;
 
+  extraDocs: Record<string, Doc>;
+
   // For use by plugins
   data: Record<string, unknown>;
 };
+
+export function getAllDjotDocs(djockeyDoc: DjockeyDoc): Doc[] {
+  const result: Doc[] = [djockeyDoc.djotDoc];
+  for (const extraDoc of Object.values(djockeyDoc.extraDocs)) {
+    result.push(extraDoc);
+  }
+  return result;
+}
 
 // These correspond to pandoc formats
 export type DjockeyInputFormat = "djot" | "gfm";
@@ -26,8 +36,8 @@ export type DjockeyConfig = {
   outputDir: Record<DjockeyOutputFormat, string>;
   fileList?: string[];
   urlRoot?: string;
-  inputFormats: Record<DjockeyInputFormat, boolean>;
-  outputFormats: Record<DjockeyOutputFormat, boolean>;
+  inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
+  outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
   numPasses: number;
 };
 

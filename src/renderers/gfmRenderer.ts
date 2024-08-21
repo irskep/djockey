@@ -60,7 +60,10 @@ export class GFMRenderer implements DjockeyRenderer {
   }
 }
 
-export function makePathBackToRoot(pathRelativeToInputDir: string): string {
+export function makePathBackToRoot(
+  pathRelativeToInputDir: string,
+  options: { sameDirectoryValue: string } = { sameDirectoryValue: "./" }
+): string {
   let numSlashes = 0;
   for (const char of pathRelativeToInputDir) {
     if (char === "/") {
@@ -71,7 +74,7 @@ export function makePathBackToRoot(pathRelativeToInputDir: string): string {
     }
   }
 
-  if (numSlashes === 0) return "./";
+  if (numSlashes === 0) return options.sameDirectoryValue;
 
   const result = new Array<string>();
   for (let i = 0; i < numSlashes; i++) {

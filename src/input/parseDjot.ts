@@ -54,6 +54,7 @@ export function parseDjot(
     absolutePath,
     relativePath: removeExtensionFromPath(relativePath),
     filename: basename(absolutePath),
+    extraDocs: {},
     frontMatter,
     data: {},
   };
