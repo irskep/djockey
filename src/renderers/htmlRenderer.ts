@@ -52,11 +52,14 @@ export class HTMLRenderer implements DjockeyRenderer {
     fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
       recursive: true,
     });
-    const outputContent = renderHTML(doc.djotDoc);
+    const renderedDocs: Record<string, string> = {};
+    for (const k of Object.keys(doc.docs)) {
+      renderedDocs[k] = renderHTML(doc.docs[k]);
+    }
     const outputPage = nj.render("base.njk", {
       doc,
       title,
-      content: outputContent,
+      docs: renderedDocs,
     });
 
     fs.writeFileSync(outputPath, outputPage);

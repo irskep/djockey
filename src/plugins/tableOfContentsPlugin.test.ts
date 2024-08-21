@@ -7,8 +7,9 @@ import { HTMLRenderer } from "../renderers/htmlRenderer";
 
 test("Generates TOCEntry tree for one doc", () => {
   const doc: DjockeyDoc = {
-    djotDoc: parse(
-      `# Heading 1
+    docs: {
+      content: parse(
+        `# Heading 1
 
       ## Heading 1.1
 
@@ -16,15 +17,15 @@ test("Generates TOCEntry tree for one doc", () => {
 
       ### Heading 2.2
       `,
-      { sourcePositions: true }
-    ),
+        { sourcePositions: true }
+      ),
+    },
     title: "Test doc",
     originalExtension: ".djot",
     absolutePath: "Test Doc.djot",
     relativePath: "Test Doc.djot",
     filename: "Test Doc",
     frontMatter: {},
-    extraDocs: {},
     data: {},
   };
 
@@ -32,7 +33,7 @@ test("Generates TOCEntry tree for one doc", () => {
   plg.onPass_read(doc);
   plg.onPass_write(doc);
 
-  const html = renderHTML(doc.extraDocs.toc);
+  const html = renderHTML(doc.docs.toc);
 
   expect(html).toEqual(`<ul>
 <li>
@@ -57,8 +58,9 @@ test("Generates TOCEntry tree for one doc", () => {
 
 test("Works end-to-end with LinkRewritingPlugin", () => {
   const doc: DjockeyDoc = {
-    djotDoc: parse(
-      `# Heading 1
+    docs: {
+      content: parse(
+        `# Heading 1
 
       ## Heading 1.1
 
@@ -66,15 +68,15 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
 
       ### Heading 2.2
       `,
-      { sourcePositions: true }
-    ),
+        { sourcePositions: true }
+      ),
+    },
     title: "Test doc",
     originalExtension: ".djot",
     absolutePath: "Test Doc.djot",
     relativePath: "Test Doc.djot",
     filename: "Test Doc",
     frontMatter: {},
-    extraDocs: {},
     data: {},
   };
 
@@ -97,7 +99,7 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
   const htmlCopy = docSet.makeRenderableCopy(
     new HTMLRenderer({ relativeLinks: true })
   )[0];
-  const html = renderHTML(htmlCopy.extraDocs.toc);
+  const html = renderHTML(htmlCopy.docs.toc);
 
   expect(html).toEqual(`<ul>
 <li>

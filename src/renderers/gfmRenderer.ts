@@ -48,12 +48,17 @@ export class GFMRenderer implements DjockeyRenderer {
     fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
       recursive: true,
     });
-    const outputAST = toPandoc(doc.djotDoc, {});
-    const outputContent = runPandocOnAST(outputAST, "gfm");
+
+    const renderedDocs: Record<string, string> = {};
+    for (const k of Object.keys(doc.docs)) {
+      const outputAST = toPandoc(doc.docs[k], {});
+      renderedDocs[k] = runPandocOnAST(outputAST, "gfm");
+    }
+
     const outputPage = nj.render("base.njk", {
       doc,
       title,
-      content: outputContent,
+      docs: renderedDocs,
     });
 
     fs.writeFileSync(outputPath, outputPage);

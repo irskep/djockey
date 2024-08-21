@@ -21,16 +21,16 @@ function lastOf<T>(arr: T[]): T | null {
 }
 
 export class TableOfContentsPlugin implements DjockeyPlugin {
-  topLevelTOCEntries = new Array<TOCEntry>();
+  topLevelTOCEntriesByDoc: Record<string, TOCEntry[]> = {};
 
   onPass_read(doc: DjockeyDoc) {
     // Always reset this array because this method may be run more than once
-    this.topLevelTOCEntries = new Array<TOCEntry>();
+    this.topLevelTOCEntriesByDoc[doc.relativePath] = new Array<TOCEntry>();
 
     const tocStack = new Array<TOCEntry>();
     const referenceStack = new Array<string>();
 
-    applyFilter(doc.djotDoc, () => ({
+    applyFilter(doc.docs.content, () => ({
       // IDs live on sections, not headings, so keep a stack of IDs.
       section: {
         enter: (node: Section) => {
@@ -66,7 +66,7 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
         if (lastNode) {
           lastNode.children.push(entry);
         } else {
-          this.topLevelTOCEntries.push(entry);
+          this.topLevelTOCEntriesByDoc[doc.relativePath].push(entry);
         }
 
         // Prepare for next heading to be processed
@@ -76,14 +76,15 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
   }
 
   onPass_write(doc: DjockeyDoc) {
-    const tocDoc: Doc = {
+    doc.docs.toc = {
       tag: "doc",
       references: {},
       autoReferences: {},
       footnotes: {},
-      children: [renderTOCArray(this.topLevelTOCEntries)],
+      children: [
+        renderTOCArray(this.topLevelTOCEntriesByDoc[doc.relativePath]),
+      ],
     };
-    doc.extraDocs.toc = tocDoc;
   }
 }
 

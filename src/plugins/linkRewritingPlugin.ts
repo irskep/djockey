@@ -3,7 +3,6 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyRenderer,
-  getAllDjotDocs,
 } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { Doc } from "@djot/djot";
@@ -24,18 +23,20 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
     registerLinkTarget(new LinkTarget(doc, null));
 
-    applyFilter(doc.djotDoc, () => ({
-      "*": (node) => {
-        const attrs = { ...node.autoAttributes, ...node.attributes };
-        if (!attrs.id) return;
+    for (const djotDoc of Object.values(doc.docs)) {
+      applyFilter(djotDoc, () => ({
+        "*": (node) => {
+          const attrs = { ...node.autoAttributes, ...node.attributes };
+          if (!attrs.id) return;
 
-        registerLinkTarget(new LinkTarget(doc, attrs.id));
-      },
-    }));
+          registerLinkTarget(new LinkTarget(doc, attrs.id));
+        },
+      }));
+    }
   }
 
   onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyRenderer) {
-    const processDoc: (djotDoc: Doc) => void = (djotDoc) => {
+    for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({
         "*": (node) => {
           if (!node.destination) return;
@@ -50,10 +51,6 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           node.destination = newDestination;
         },
       }));
-    };
-
-    for (const djotDoc of getAllDjotDocs(doc)) {
-      processDoc(djotDoc);
     }
   }
 

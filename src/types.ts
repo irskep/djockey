@@ -2,7 +2,7 @@ import { Doc } from "@djot/djot";
 import { Environment } from "nunjucks";
 
 export type DjockeyDoc = {
-  djotDoc: Doc;
+  docs: { content: Doc } & Record<string, Doc>;
   title: string;
   originalExtension: string;
   absolutePath: string;
@@ -10,19 +10,9 @@ export type DjockeyDoc = {
   filename: string;
   frontMatter: Record<string, unknown>;
 
-  extraDocs: Record<string, Doc>;
-
   // For use by plugins
   data: Record<string, unknown>;
 };
-
-export function getAllDjotDocs(djockeyDoc: DjockeyDoc): Doc[] {
-  const result: Doc[] = [djockeyDoc.djotDoc];
-  for (const extraDoc of Object.values(djockeyDoc.extraDocs)) {
-    result.push(extraDoc);
-  }
-  return result;
-}
 
 // These correspond to pandoc formats
 export type DjockeyInputFormat = "djot" | "gfm";
