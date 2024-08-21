@@ -2,7 +2,7 @@ import { BulletList, Heading, Inline, ListItem } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 
-type TOCEntry = {
+export type TOCEntry = {
   id: string;
   node: Heading;
   children: TOCEntry[];
@@ -59,6 +59,9 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
 
 const renderTOCArray: (arr: TOCEntry[]) => BulletList = (arr) => {
   const tocEntryToListItem = (entry: TOCEntry) => {
+    const entryChildren: BulletList[] = entry.children.length
+      ? [renderTOCArray(entry.children)]
+      : [];
     const result: ListItem = {
       tag: "list_item",
       children: [
@@ -66,7 +69,7 @@ const renderTOCArray: (arr: TOCEntry[]) => BulletList = (arr) => {
           tag: "para",
           children: entry.node.children,
         },
-        renderTOCArray(entry.children),
+        ...entryChildren,
       ],
     };
     return result;
