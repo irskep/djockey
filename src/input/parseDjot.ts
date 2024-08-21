@@ -6,6 +6,7 @@ import yaml from "js-yaml";
 import { Doc, fromPandoc, parse } from "@djot/djot";
 import { DjockeyDoc } from "../types";
 import { getPandocAST } from "../pandoc";
+import { getInputFormatForFileExtension } from "./fileExtensions";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
 
@@ -29,14 +30,14 @@ export function parseDjot(
 
   let djotDoc: Doc | undefined;
 
-  switch (path.parse(absolutePath).ext) {
-    case ".djot":
+  switch (getInputFormatForFileExtension(path.parse(absolutePath).ext)) {
+    case "djot":
       djotDoc = parse(text, {
         sourcePositions: true,
         warn: (warning) => console.warn(warning.render()),
       });
       break;
-    case ".md":
+    case "gfm":
       const ast = getPandocAST(absolutePath);
       djotDoc = fromPandoc(ast);
       break;

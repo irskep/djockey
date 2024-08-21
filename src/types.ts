@@ -14,10 +14,11 @@ export type DjockeyDoc = {
   data: Record<string, unknown>;
 };
 
-// These correspond to pandoc formats
+// These correspond to pandoc formats. Keep these two lines in sync.
 export type DjockeyInputFormat = "djot" | "gfm";
+export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = ["djot", "gfm"];
 
-// Keep these in sync
+// Keep these two lines in sync.
 export type DjockeyOutputFormat = "html" | "gfm";
 export const ALL_OUTPUT_FORMATS: DjockeyOutputFormat[] = ["html", "gfm"];
 

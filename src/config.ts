@@ -6,7 +6,12 @@ import fastGlob from "fast-glob";
 import yaml from "js-yaml";
 
 import { getIsPandocInstalled } from "./pandoc";
-import { DjockeyConfig, DjockeyConfigResolved } from "./types";
+import {
+  DjockeyConfig,
+  DjockeyConfigResolved,
+  DjockeyInputFormat,
+} from "./types";
+import { getExtensionForInputFormat } from "./input/fileExtensions";
 
 export function readConfig(path_: string): DjockeyConfig {
   const values = yaml.load(fs.readFileSync(path_, "utf8")) as DjockeyConfig;
@@ -44,12 +49,15 @@ export function resolveConfig(
   rootPath: string,
   config: DjockeyConfig
 ): DjockeyConfigResolved {
-  const inputExtensions: string[] = [];
-  if (config.inputFormats.djot) {
-    inputExtensions.push("djot");
-  }
-  if (config.inputFormats.gfm) {
-    inputExtensions.push("md");
+  let inputExtensions: string[] = [];
+  for (const format of Object.keys(
+    config.inputFormats
+  ) as DjockeyInputFormat[]) {
+    if (!config.inputFormats[format]) continue;
+    inputExtensions = [
+      ...inputExtensions,
+      ...getExtensionForInputFormat(format),
+    ];
   }
   const result = {
     ...config,
