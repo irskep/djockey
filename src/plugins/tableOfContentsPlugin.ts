@@ -1,4 +1,12 @@
-import { BulletList, Heading, Inline, ListItem } from "@djot/djot";
+import {
+  BulletList,
+  Doc,
+  Heading,
+  Inline,
+  Link,
+  ListItem,
+  Section,
+} from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 
@@ -20,13 +28,28 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
     this.topLevelTOCEntries = new Array<TOCEntry>();
 
     const tocStack = new Array<TOCEntry>();
+    const referenceStack = new Array<string>();
 
-    // THIS IS WRONG. Go by heading levels, not div nesting.
     applyFilter(doc.djotDoc, () => ({
+      // IDs live on sections, not headings, so keep a stack of IDs.
+      section: {
+        enter: (node: Section) => {
+          const attrs = { ...node.autoAttributes, ...node.attributes };
+          if (attrs.id) {
+            referenceStack.push(attrs.id);
+          }
+        },
+        exit: (node: Section) => {
+          const attrs = { ...node.autoAttributes, ...node.attributes };
+          if (attrs.id) {
+            referenceStack.pop();
+          }
+        },
+      },
       heading: (node: Heading) => {
         const entry: TOCEntry = {
           node,
-          id: { ...node.autoAttributes, ...node.attributes }.id!,
+          id: lastOf(referenceStack)!,
           children: [],
         };
 
@@ -53,21 +76,34 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
   }
 
   onPass_write(doc: DjockeyDoc) {
-    doc.data.toc = renderTOCArray(this.topLevelTOCEntries);
+    const tocDoc: Doc = {
+      tag: "doc",
+      references: {},
+      autoReferences: {},
+      footnotes: {},
+      children: [renderTOCArray(this.topLevelTOCEntries)],
+    };
+    doc.data.tocDoc = tocDoc;
   }
 }
 
 const renderTOCArray: (arr: TOCEntry[]) => BulletList = (arr) => {
   const tocEntryToListItem = (entry: TOCEntry) => {
+    const entryLink: Link = {
+      tag: "link",
+      children: structuredClone(entry.node.children),
+      destination: `#${entry.id}`,
+    };
     const entryChildren: BulletList[] = entry.children.length
       ? [renderTOCArray(entry.children)]
       : [];
+
     const result: ListItem = {
       tag: "list_item",
       children: [
         {
           tag: "para",
-          children: entry.node.children,
+          children: [entryLink],
         },
         ...entryChildren,
       ],

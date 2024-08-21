@@ -1,15 +1,7 @@
-{#second-doc-heading}
-# Second
+# second doc heading
 
-[Linking to myself](#second-doc-heading)
+Content
 
-[Linking to myself again](second#second-doc-heading)
+## Level 2
 
-- List 1
-
-  - List 1.1
-  - List 1.2
-
-- List 2
-
-  - List 2.1
+Content

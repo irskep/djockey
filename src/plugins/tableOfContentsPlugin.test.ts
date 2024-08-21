@@ -1,15 +1,20 @@
-import { BulletList, parse, renderHTML } from "@djot/djot";
+import { Doc, parse, renderHTML } from "@djot/djot";
 import { DjockeyDoc } from "../types";
-import { TableOfContentsPlugin, TOCEntry } from "./tableOfContentsPlugin";
+import { TableOfContentsPlugin } from "./tableOfContentsPlugin";
 
 test("Generates TOCEntry tree", () => {
   const doc: DjockeyDoc = {
-    djotDoc: parse(`
-      # Heading 1
+    djotDoc: parse(
+      `# Heading 1
+
       ## Heading 1.1
+
       # Heading 2
+
       ### Heading 2.2
-      `),
+      `,
+      { sourcePositions: true }
+    ),
     title: "Test doc",
     originalExtension: ".djot",
     absolutePath: "Test Doc.djot",
@@ -23,28 +28,22 @@ test("Generates TOCEntry tree", () => {
   plg.onPass_read(doc);
   plg.onPass_write(doc);
 
-  const html = renderHTML({
-    tag: "doc",
-    references: {},
-    autoReferences: {},
-    footnotes: {},
-    children: [doc.data.toc as BulletList],
-  });
+  const html = renderHTML(doc.data.tocDoc as Doc);
 
   expect(html).toEqual(`<ul>
 <li>
-Heading 1
+<a href="#Heading-1">Heading 1</a>
 <ul>
 <li>
-Heading 1.1
+<a href="#Heading-1-1">Heading 1.1</a>
 </li>
 </ul>
 </li>
 <li>
-Heading 2
+<a href="#Heading-2">Heading 2</a>
 <ul>
 <li>
-Heading 2.2
+<a href="#Heading-2-2">Heading 2.2</a>
 </li>
 </ul>
 </li>
