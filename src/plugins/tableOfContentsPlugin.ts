@@ -30,6 +30,9 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
     const tocStack = new Array<TOCEntry>();
     const referenceStack = new Array<string>();
 
+    // IDs are on <section>s if parsed from Djot, or on <heading>s if parsed
+    // from Markdown, so look in both places.
+
     applyFilter(doc.docs.content, () => ({
       // IDs live on sections, not headings, so keep a stack of IDs.
       section: {
@@ -47,9 +50,11 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
         },
       },
       heading: (node: Heading) => {
+        const attrs = { ...node.autoAttributes, ...node.attributes };
+
         const entry: TOCEntry = {
           node,
-          id: lastOf(referenceStack)!,
+          id: attrs.id || lastOf(referenceStack)!,
           children: [],
         };
 
