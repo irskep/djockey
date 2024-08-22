@@ -1,6 +1,15 @@
 import path from "path";
 import { DjockeyDoc } from "../types";
 
+function getDirs(path_: string): string[] {
+  const parts = path_.split("/");
+  const result = new Array<string>();
+  for (let i = 1; i < parts.length; i++) {
+    result.push(parts.slice(0, i).join("/"));
+  }
+  return result;
+}
+
 export type DocTreeSection = {
   absolutePath: string;
   relativePath: string;
@@ -9,13 +18,22 @@ export type DocTreeSection = {
 };
 
 export function loadDocTree(docs: DjockeyDoc[]): DocTreeSection[] {
+  sortDocsByPathWithFilesBeforeDirectories(docs);
+
   const result = new Array<DocTreeSection>();
   const sections: Record<string, DocTreeSection> = {};
 
   let lastPathParts = new Array<string>();
 
+  function ensureDirCreated(relativePath: string) {
+    console.log("Visit", relativePath);
+  }
+
   for (const doc of docs) {
-    break;
+    const dirs = getDirs(doc.relativePath);
+    for (const dir of dirs) {
+      ensureDirCreated(dir);
+    }
   }
 
   return result;
