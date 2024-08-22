@@ -9,6 +9,7 @@ import { ALL_OUTPUT_FORMATS, DjockeyConfigResolved } from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
 import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
+import { loadDocTree } from "./doctree";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -16,6 +17,7 @@ function pluralize(n: number, singular: string, plural: string): string {
 
 export function executeConfig(config: DjockeyConfigResolved) {
   const docSet = readDocSet(config);
+  loadDocTree(docSet.docs);
   console.log(
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
   );
