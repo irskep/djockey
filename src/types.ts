@@ -30,6 +30,7 @@ export type DjockeyConfig = {
   inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
   outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
   numPasses: number;
+  siteName: string;
 };
 
 export type DjockeyConfigResolved = DjockeyConfig & {

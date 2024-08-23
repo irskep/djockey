@@ -33,6 +33,7 @@ export function readConfig(path_: string): DjockeyConfig {
       gfm: isPandocInstalled,
     },
     numPasses: 1,
+    siteName: "",
   };
   return {
     ...defaults,
@@ -119,6 +120,7 @@ export function resolveConfigFromSingleFile(
       html: true,
     },
     numPasses: 1,
+    siteName: "",
   };
 
   return resolveConfig(parentDir, config);

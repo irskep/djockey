@@ -36,6 +36,7 @@ test("Title is set to first heading by default", () => {
     outputFormats: { html: true },
     numPasses: 1,
     rootPath: ".",
+    siteName: "",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();
@@ -76,6 +77,7 @@ test("Title is set to frontMatter.title if present", () => {
     outputFormats: { html: true },
     numPasses: 1,
     rootPath: ".",
+    siteName: "",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();

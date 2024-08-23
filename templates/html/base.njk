@@ -21,10 +21,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ baseURL }}/static/reset.css">
+    <link rel="stylesheet" href="{{ baseURL }}static/reset.css">
     <title>{{ doc.title }}</title>
   </head>
   <body>
+    <heading class="DJHeading">
+      <h1>{{ siteName }}</h1>
+    </heading>
+
     {{ nextPrevious('m-top') }}
 
     <article class="DJContent">{{ docs.content | safe }}</article>

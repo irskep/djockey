@@ -89,6 +89,7 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     outputFormats: { html: true },
     numPasses: 1,
     rootPath: ".",
+    siteName: "",
   };
   const docSet = new DocSet(
     config,

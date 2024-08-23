@@ -2,3 +2,4 @@ inputDir: docs
 outputDir:
   html: out/html
   gfm: out/gfm
+siteName: "Example Site"
