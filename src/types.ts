@@ -41,6 +41,12 @@ export type DjockeyConfigResolved = DjockeyConfig & {
 export type DjockeyRenderer = {
   identifier: DjockeyOutputFormat;
 
+  handleStaticFiles: (
+    templateDir: string,
+    config: DjockeyConfigResolved,
+    docs: DjockeyDoc[]
+  ) => void;
+
   writeDoc: (args: {
     config: DjockeyConfig;
     nj: Environment;

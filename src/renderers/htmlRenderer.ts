@@ -11,7 +11,12 @@ import {
   DjockeyOutputFormat,
   DjockeyRenderer,
 } from "../types";
-import { makePathBackToRoot } from "./gfmRenderer";
+import {
+  copyFilesMatchingPattern,
+  ensureParentDirectoriesExist,
+  makePathBackToRoot,
+} from "../util";
+import { DocSet } from "../engine/docset";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -40,6 +45,25 @@ export class HTMLRenderer implements DjockeyRenderer {
     }
   }
 
+  handleStaticFiles(
+    templateDir: string,
+    config: DjockeyConfigResolved,
+    docs: DjockeyDoc[]
+  ) {
+    copyFilesMatchingPattern({
+      base: templateDir,
+      dest: config.outputDir.html,
+      pattern: "static/**/*",
+      exclude: [],
+    });
+    copyFilesMatchingPattern({
+      base: config.inputDir,
+      dest: config.outputDir.html,
+      pattern: "**/*",
+      exclude: docs.map((d) => d.absolutePath),
+    });
+  }
+
   writeDoc(args: {
     config: DjockeyConfig;
     nj: Environment;
@@ -49,9 +73,12 @@ export class HTMLRenderer implements DjockeyRenderer {
     const { config, nj, doc } = args;
     const outputPath = `${config.outputDir.html}/${doc.relativePath}.html`;
     console.log("Rendering", outputPath);
-    fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
-      recursive: true,
-    });
+    ensureParentDirectoriesExist(outputPath);
+
+    const baseURL = this.options.relativeLinks
+      ? makePathBackToRoot(doc.relativePath, { sameDirectoryValue: "" })
+      : `${config.outputDir.html}/`;
+
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
       renderedDocs[k] = renderHTML(doc.docs[k]);
@@ -59,6 +86,7 @@ export class HTMLRenderer implements DjockeyRenderer {
     const outputPage = nj.render("base.njk", {
       doc,
       docs: renderedDocs,
+      baseURL,
       ...args.context,
     });
 

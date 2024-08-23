@@ -1,5 +1,3 @@
-<!doctype html>
-
 {%- macro nextPrevious(cls) -%}
 <nav class="DJNextAndPrevious m-bottom">
   <div class="DJPrevious {% if not previous %}u-invisible{% endif %}">
@@ -18,10 +16,12 @@
 </nav>
 {%- endmacro -%}
 
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ baseURL }}/static/reset.css">
     <title>{{ doc.title }}</title>
   </head>
   <body>

@@ -11,6 +11,12 @@ import {
   DjockeyRenderer,
 } from "../types";
 import { runPandocOnAST } from "../pandoc";
+import {
+  copyFilesMatchingPattern,
+  ensureParentDirectoriesExist,
+  makePathBackToRoot,
+} from "../util";
+import { DocSet } from "../engine/docset";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -36,6 +42,25 @@ export class GFMRenderer implements DjockeyRenderer {
     }
   }
 
+  handleStaticFiles(
+    templateDir: string,
+    config: DjockeyConfigResolved,
+    docs: DjockeyDoc[]
+  ) {
+    copyFilesMatchingPattern({
+      base: templateDir,
+      dest: config.outputDir.gfm,
+      pattern: "static/**/*",
+      exclude: [],
+    });
+    copyFilesMatchingPattern({
+      base: config.inputDir,
+      dest: config.outputDir.gfm,
+      pattern: "**/*",
+      exclude: docs.map((d) => d.absolutePath),
+    });
+  }
+
   writeDoc(args: {
     config: DjockeyConfig;
     nj: Environment;
@@ -45,9 +70,7 @@ export class GFMRenderer implements DjockeyRenderer {
     const { config, nj, doc } = args;
     const outputPath = `${config.outputDir.gfm}/${doc.relativePath}.md`;
     console.log("Rendering", outputPath);
-    fs.mkdirSync(path.resolve(path.join(outputPath, "..")), {
-      recursive: true,
-    });
+    ensureParentDirectoriesExist(outputPath);
 
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
@@ -63,27 +86,4 @@ export class GFMRenderer implements DjockeyRenderer {
 
     fs.writeFileSync(outputPath, outputPage);
   }
-}
-
-export function makePathBackToRoot(
-  pathRelativeToInputDir: string,
-  options: { sameDirectoryValue: string } = { sameDirectoryValue: "./" }
-): string {
-  let numSlashes = 0;
-  for (const char of pathRelativeToInputDir) {
-    if (char === "/") {
-      numSlashes += 1;
-    }
-    if (char === "#") {
-      break;
-    }
-  }
-
-  if (numSlashes === 0) return options.sameDirectoryValue;
-
-  const result = new Array<string>();
-  for (let i = 0; i < numSlashes; i++) {
-    result.push("..");
-  }
-  return result.join("/") + "/";
 }

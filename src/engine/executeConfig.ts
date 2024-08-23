@@ -1,4 +1,7 @@
+import fs from "fs";
 import path from "path";
+
+import fastGlob from "fast-glob";
 
 import { Environment, FileSystemLoader } from "nunjucks";
 
@@ -62,6 +65,8 @@ export function writeDocSet(docSet: DocSet) {
     );
     const nj = new Environment(new FileSystemLoader(templateDir));
     const renderer = makeRenderer(format);
+
+    renderer.handleStaticFiles(templateDir, docSet.config, docSet.docs);
 
     for (const doc of docSet.makeRenderableCopy(renderer)) {
       populateDocTreeDoc(docSet, doc, renderer);
