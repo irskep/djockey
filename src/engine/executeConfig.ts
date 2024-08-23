@@ -15,6 +15,7 @@ import { makeRenderer } from "../renderers/makeRenderer";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
 import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
 import { loadDocTree } from "./doctree";
+import { populateDocTreeDoc } from "./populateDocTreeDoc";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -63,6 +64,7 @@ export function writeDocSet(docSet: DocSet) {
     const renderer = makeRenderer(format);
 
     for (const doc of docSet.makeRenderableCopy(renderer)) {
+      populateDocTreeDoc(docSet, doc, renderer);
       renderer.writeDoc({
         config: docSet.config,
         nj,

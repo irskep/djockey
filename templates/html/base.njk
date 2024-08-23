@@ -27,10 +27,12 @@
   <body>
     {{ nextPrevious('m-top') }}
 
-    <article>{{ docs.content | safe }}</article>
+    <article class="DJContent">{{ docs.content | safe }}</article>
 
     {{ nextPrevious('m-bottom') }}
 
-    <nav>{{ docs.toc | safe }}</nav>
+    <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>
+
+    <nav class="DJDocTree">{{ docs.doctree | safe }}
     </body>
 </html>
