@@ -9,6 +9,7 @@ import {
   ALL_OUTPUT_FORMATS,
   DjockeyConfigResolved,
   DjockeyDoc,
+  DjockeyRenderer,
 } from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
@@ -61,40 +62,60 @@ export function writeDocSet(docSet: DocSet) {
     const nj = new Environment(new FileSystemLoader(templateDir));
     const renderer = makeRenderer(format);
 
-    function getLink(
-      doc: DjockeyDoc,
-      map: Record<string, string | null> | null
-    ): { url: string; title: string } | null {
-      if (!map) return null;
-      const relativePath = map[doc.relativePath];
-      if (!relativePath) return null;
-
-      const destDoc = docSet.getDoc(relativePath);
-      if (!destDoc) {
-        throw Error(`Can't find doc for ${relativePath}???`);
-      }
-
-      const url = renderer.transformLink({
-        config: docSet.config,
-        sourcePath: doc.relativePath,
-        anchorWithoutHash: null,
-        docOriginalExtension: destDoc.originalExtension,
-        docRelativePath: relativePath,
-      });
-
-      return { url, title: destDoc.title };
-    }
-
     for (const doc of docSet.makeRenderableCopy(renderer)) {
       renderer.writeDoc({
         config: docSet.config,
         nj,
         doc,
-        context: {
-          previous: getLink(doc, docSet.tree?.prevMap || null),
-          next: getLink(doc, docSet.tree?.nextMap || null),
-        },
+        context: getTemplateContext(doc, docSet, renderer),
       });
     }
   }
+}
+
+function getTemplateContext(
+  doc: DjockeyDoc,
+  docSet: DocSet,
+  renderer: DjockeyRenderer
+): Record<string, unknown> {
+  return {
+    previous: getNextOrPreviousLink(
+      doc,
+      docSet,
+      renderer,
+      docSet.tree?.prevMap || null
+    ),
+    next: getNextOrPreviousLink(
+      doc,
+      docSet,
+      renderer,
+      docSet.tree?.nextMap || null
+    ),
+  };
+}
+
+function getNextOrPreviousLink(
+  doc: DjockeyDoc,
+  docSet: DocSet,
+  renderer: DjockeyRenderer,
+  map: Record<string, string | null> | null
+): { url: string; title: string } | null {
+  if (!map) return null;
+  const relativePath = map[doc.relativePath];
+  if (!relativePath) return null;
+
+  const destDoc = docSet.getDoc(relativePath);
+  if (!destDoc) {
+    throw Error(`Can't find doc for ${relativePath}???`);
+  }
+
+  const url = renderer.transformLink({
+    config: docSet.config,
+    sourcePath: doc.relativePath,
+    anchorWithoutHash: null,
+    docOriginalExtension: destDoc.originalExtension,
+    docRelativePath: relativePath,
+  });
+
+  return { url, title: destDoc.title };
 }
