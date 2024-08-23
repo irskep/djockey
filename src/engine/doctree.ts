@@ -11,22 +11,52 @@ function getDirs(path_: string): string[] {
 }
 
 export type DocTreeSection = {
-  absolutePath: string;
+  title: string;
   relativePath: string;
   children: DocTreeSection[];
   docs: DjockeyDoc[];
 };
 
-export function loadDocTree(docs: DjockeyDoc[]): DocTreeSection[] {
+export type DocTree = {
+  rootSection: DocTreeSection;
+  prevMap: Record<string, string | null>;
+  nextMap: Record<string, string | null>;
+};
+
+export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   sortDocsByPathWithFilesBeforeDirectories(docs);
 
-  const result = new Array<DocTreeSection>();
-  const sections: Record<string, DocTreeSection> = {};
+  const root: DocTreeSection = {
+    title: "",
+    relativePath: "",
+    children: [],
+    docs: [],
+  };
+  const sectionsByRelativePath: Record<string, DocTreeSection> = {};
 
-  let lastPathParts = new Array<string>();
+  function ensureDirCreated(relativePath: string): DocTreeSection {
+    if (sectionsByRelativePath[relativePath]) {
+      return sectionsByRelativePath[relativePath];
+    }
 
-  function ensureDirCreated(relativePath: string) {
-    console.log("Visit", relativePath);
+    const newSection: DocTreeSection = {
+      title: path.parse(relativePath).name,
+      relativePath,
+      children: [],
+      docs: [],
+    };
+    sectionsByRelativePath[relativePath] = newSection;
+
+    const parts = relativePath.split("/");
+    if (parts.length > 1) {
+      const parent = parts.slice(0, parts.length - 1).join("/");
+      const parentSection = sectionsByRelativePath[parent];
+      parentSection.children.push(newSection);
+    } else {
+      root.children.push(newSection);
+    }
+
+    return newSection;
   }
 
   for (const doc of docs) {
@@ -34,9 +64,61 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTreeSection[] {
     for (const dir of dirs) {
       ensureDirCreated(dir);
     }
+
+    const docSection = dirs.length
+      ? sectionsByRelativePath[dirs[dirs.length - 1]]
+      : root;
+    docSection.docs.push(doc);
   }
 
-  return result;
+  const prevMap: Record<string, string | null> = {};
+  const nextMap: Record<string, string | null> = {};
+  connectNextAndPrevious(root, prevMap, nextMap);
+
+  const tree: DocTree = {
+    rootSection: root,
+    prevMap,
+    nextMap,
+  };
+
+  return tree;
+}
+
+export function printDocTree(
+  tree: DocTree,
+  section: DocTreeSection,
+  indent: string = ""
+) {
+  console.log(`${indent}${section.relativePath} ("${section.title}")`);
+  for (const doc of section.docs) {
+    console.log(
+      `${indent}  - ${doc.relativePath} (prev: ${
+        tree.prevMap[doc.relativePath]
+      }, next: ${tree.nextMap[doc.relativePath]})`
+    );
+  }
+  for (const child of section.children) {
+    printDocTree(tree, child, indent + "  ");
+  }
+}
+
+export function connectNextAndPrevious(
+  section: DocTreeSection,
+  prevMap: Record<string, string | null>,
+  nextMap: Record<string, string | null>,
+  lastDoc_: DjockeyDoc | null = null
+): DjockeyDoc | null {
+  let lastDoc = lastDoc_;
+  for (const doc of section.docs) {
+    prevMap[doc.relativePath] = lastDoc?.relativePath || null;
+    nextMap[doc.relativePath] = null; // will be overwritten shortly
+    if (lastDoc) nextMap[lastDoc.relativePath] = doc.relativePath;
+    lastDoc = doc;
+  }
+  for (const child of section.children) {
+    lastDoc = connectNextAndPrevious(child, prevMap, nextMap, lastDoc);
+  }
+  return lastDoc;
 }
 
 function getCommonPrefix(a: string[], b: string[]) {
