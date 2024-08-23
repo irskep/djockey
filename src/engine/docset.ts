@@ -4,13 +4,20 @@ import {
   DjockeyPlugin,
   DjockeyRenderer,
 } from "../types";
+import { DocTree } from "./doctree";
 
 export class DocSet {
+  public tree: DocTree | null = null;
+
   constructor(
     public config: DjockeyConfigResolved,
     public plugins: DjockeyPlugin[],
     public docs: DjockeyDoc[]
   ) {}
+
+  public getDoc(relativePath: string): DjockeyDoc | null {
+    return this.docs.find((d) => d.relativePath === relativePath) || null;
+  }
 
   public runPasses() {
     this.runPass("onPass_read");

@@ -1,4 +1,23 @@
 <!doctype html>
+
+{%- macro nextPrevious(cls) -%}
+<nav class="DJNextAndPrevious m-bottom">
+  <div class="DJPrevious {% if not previous %}u-invisible{% endif %}">
+    {% if previous -%}
+    <div class="DJNextPrevious_Label">Previous</div>
+    <div class="DJNextPrevious_Link"><a href="{{ previous.url | safe }}">{{ previous.title }}</a></div>
+    {%- endif %}
+  </div>
+
+  <div class="DJNext {% if not next %}u-invisible{% endif %}">
+    {% if next -%}
+    <div class="DJNextPrevious_Label">Next</div>
+    <div class="DJNextPrevious_Link"><a href="{{ next.url | safe }}">{{ next.title }}</a></div>
+    {%- endif %}
+  </div>
+</nav>
+{%- endmacro -%}
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -6,7 +25,11 @@
     <title>{{ doc.title }}</title>
   </head>
   <body>
+    {{ nextPrevious('m-top') }}
+
     <article>{{ docs.content | safe }}</article>
+
+    {{ nextPrevious('m-bottom') }}
 
     <nav>{{ docs.toc | safe }}</nav>
     </body>

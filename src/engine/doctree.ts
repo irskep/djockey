@@ -1,15 +1,6 @@
 import path from "path";
 import { DjockeyDoc } from "../types";
 
-function getDirs(path_: string): string[] {
-  const parts = path_.split("/");
-  const result = new Array<string>();
-  for (let i = 1; i < parts.length; i++) {
-    result.push(parts.slice(0, i).join("/"));
-  }
-  return result;
-}
-
 export type DocTreeSection = {
   title: string;
   relativePath: string;
@@ -121,14 +112,21 @@ export function connectNextAndPrevious(
   return lastDoc;
 }
 
-function getCommonPrefix(a: string[], b: string[]) {
-  let lastCommonIndex = -1;
-  for (let i = 0; i < Math.min(a.length, b.length); i++) {
-    if (a[i] !== b[i]) break;
-    lastCommonIndex = i;
+/**
+ * For a given path, returns a string representing each parent directory,
+ * recursively back to the root, from outermost to innermost. For example.
+ * `getDirs('a/b/c')` returns `['a', 'a/b']`.
+ *
+ * @param path_
+ * @returns
+ */
+function getDirs(path_: string): string[] {
+  const parts = path_.split("/");
+  const result = new Array<string>();
+  for (let i = 1; i < parts.length; i++) {
+    result.push(parts.slice(0, i).join("/"));
   }
-  if (lastCommonIndex < 0) return [];
-  return a.slice(0, lastCommonIndex + 1);
+  return result;
 }
 
 function sortDocsByPathWithFilesBeforeDirectories(

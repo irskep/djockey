@@ -36,7 +36,12 @@ export class GFMRenderer implements DjockeyRenderer {
     }
   }
 
-  writeDoc(args: { config: DjockeyConfig; nj: Environment; doc: DjockeyDoc }) {
+  writeDoc(args: {
+    config: DjockeyConfig;
+    nj: Environment;
+    doc: DjockeyDoc;
+    context: Record<string, unknown>;
+  }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.outputDir.gfm}/${doc.relativePath}.md`;
     console.log("Rendering", outputPath);
@@ -53,6 +58,7 @@ export class GFMRenderer implements DjockeyRenderer {
     const outputPage = nj.render("base.njk", {
       doc,
       docs: renderedDocs,
+      ...args.context,
     });
 
     fs.writeFileSync(outputPath, outputPage);

@@ -5,7 +5,11 @@ import { Environment, FileSystemLoader } from "nunjucks";
 import { DocSet } from "./docset";
 import { parseDjot } from "../input/parseDjot";
 import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
-import { ALL_OUTPUT_FORMATS, DjockeyConfigResolved } from "../types";
+import {
+  ALL_OUTPUT_FORMATS,
+  DjockeyConfigResolved,
+  DjockeyDoc,
+} from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
 import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
@@ -17,7 +21,7 @@ function pluralize(n: number, singular: string, plural: string): string {
 
 export function executeConfig(config: DjockeyConfigResolved) {
   const docSet = readDocSet(config);
-  loadDocTree(docSet.docs);
+  docSet.tree = loadDocTree(docSet.docs);
   console.log(
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
   );
@@ -51,22 +55,45 @@ export function writeDocSet(docSet: DocSet) {
   for (const format of ALL_OUTPUT_FORMATS) {
     if (!docSet.config.outputFormats[format]) continue;
 
-    const nj = new Environment(
-      new FileSystemLoader(
-        path.resolve(path.join(__dirname, "..", "..", "templates", format))
-      )
+    const templateDir = path.resolve(
+      path.join(__dirname, "..", "..", "templates", format)
     );
-
+    const nj = new Environment(new FileSystemLoader(templateDir));
     const renderer = makeRenderer(format);
 
+    function getLink(
+      doc: DjockeyDoc,
+      map: Record<string, string | null> | null
+    ): { url: string; title: string } | null {
+      if (!map) return null;
+      const relativePath = map[doc.relativePath];
+      if (!relativePath) return null;
+
+      const destDoc = docSet.getDoc(relativePath);
+      if (!destDoc) {
+        throw Error(`Can't find doc for ${relativePath}???`);
+      }
+
+      const url = renderer.transformLink({
+        config: docSet.config,
+        sourcePath: doc.relativePath,
+        anchorWithoutHash: null,
+        docOriginalExtension: destDoc.originalExtension,
+        docRelativePath: relativePath,
+      });
+
+      return { url, title: destDoc.title };
+    }
+
     for (const doc of docSet.makeRenderableCopy(renderer)) {
-      const title: string =
-        (doc.frontMatter.title as string | undefined) ??
-        path.parse(doc.relativePath).name;
       renderer.writeDoc({
         config: docSet.config,
         nj,
         doc,
+        context: {
+          previous: getLink(doc, docSet.tree?.prevMap || null),
+          next: getLink(doc, docSet.tree?.nextMap || null),
+        },
       });
     }
   }
