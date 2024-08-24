@@ -42,7 +42,7 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const prefix = this.options.relativeLinks
       ? makePathBackToRoot(sourcePath, { sameDirectoryValue: "" })
-      : `${config.outputDir.html}/`;
+      : `${config.urlRoot}/`;
 
     if (anchorWithoutHash) {
       return `${prefix}${docRelativePath}.html#${anchorWithoutHash}`;
@@ -94,7 +94,7 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const baseURL = this.options.relativeLinks
       ? makePathBackToRoot(doc.relativePath, { sameDirectoryValue: "" })
-      : `${config.outputDir.html}/`;
+      : `${config.urlRoot}/`;
 
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {

@@ -3,6 +3,7 @@ outputDir:
   html: out/html
   gfm: out/gfm
 siteName: "Djockey"
+urlRoot: https://steveasleep.com/djockey
 
 outputFormats:
   html: true
@@ -10,4 +11,4 @@ outputFormats:
 
 html:
   footerText: "©2024 Steve Landey"
-  linkCSSToInputInsteadOfOutput: true
+  linkCSSToInputInsteadOfOutput: false
