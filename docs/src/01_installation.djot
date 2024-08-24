@@ -1,0 +1,18 @@
+# Installation
+
+I know I promised you a single-binary distribution, but since I haven't actually released Djockey yet, you'll need to download it.
+
+```sh
+git clone git@github.com:irskep/djockey.git
+cd djockey
+yarn install
+npm link
+```
+
+In the future, you'll be able to run it with `npx`:
+
+```sh
+npx djockey docs
+```
+
+Or grab a binary from the [GitHub releases page](https://github.com/irskep/djockey/releases).

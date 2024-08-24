@@ -16,13 +16,16 @@
   --fs-small: 14px;
   --fs-normal: 16px;
   --fs-large: 20px;
+  --fs-xlarge: 32px;
 
   --fw-bold: 800;
+  --fw-semibold: 600;
   --fw-normal: normal;
+  --fw-light: 300;
 
   /* Grays */
-  --c-white: white;
-  --c-black: black;
+  --c-white: rgb(249, 250, 251);
+  --c-black: rgb(49, 49, 56);
   --c-gray6: #f7f7f7;
   --c-gray5: #ddd;
   --c-gray4: #aaa;

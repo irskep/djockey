@@ -91,11 +91,20 @@ export function connectNextAndPrevious(
   lastDoc_: DjockeyDoc | null = null
 ): DjockeyDoc | null {
   let lastDoc = lastDoc_;
-  for (const doc of section.docs) {
+
+  function processDoc(doc: DjockeyDoc) {
     prevMap[doc.relativePath] = lastDoc?.relativePath || null;
     nextMap[doc.relativePath] = null; // will be overwritten shortly
     if (lastDoc) nextMap[lastDoc.relativePath] = doc.relativePath;
     lastDoc = doc;
+  }
+
+  if (section.selfDoc) {
+    processDoc(section.selfDoc);
+  }
+
+  for (const doc of section.docs) {
+    processDoc(doc);
   }
   for (const child of section.children) {
     lastDoc = connectNextAndPrevious(child, prevMap, nextMap, lastDoc);

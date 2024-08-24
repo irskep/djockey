@@ -6,10 +6,19 @@ title: Home
 Djockey is a powerful static site generator for technical writing and project documentation.
 
 - Write [Djot](https://djot.net) or [GitHub Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
+- Output HTML or Markdown, so your docs are readable in the GitHub interface or on a nice web site
 - Single binary distribution
 - Fancier [link resolution](TBD) than anything else out there
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
 
 ## To do
 
+### Low-hanging fruit
+
 - [ ] Syntax highlighting
+- [ ] Literal symbol parsing
+
+### Harder stuff
+
+- [ ] TypeDoc cross-referencing
+- [ ] Python autodoc

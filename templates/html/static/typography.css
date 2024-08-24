@@ -2,6 +2,7 @@ body {
   font-family: var(--f-system);
   font-size: 16px;
   line-height: var(--line-height-tall);
+  color: var(--color-fg-1);
 }
 
 h1,
@@ -16,4 +17,37 @@ h6 {
 header h1 {
   font-weight: var(--fw-bold);
   font-size: var(--fs-large);
+}
+
+article p {
+  margin-bottom: 1.25em;
+}
+
+article ul,
+article ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+article li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+article h1 {
+  font-size: var(--fs-xlarge);
+  font-weight: var(--fw-light);
+  margin: 0 0 1.25em;
+}
+
+article h2 {
+  font-size: var(--fs-large);
+  font-weight: var(--fw-semibold);
+  margin: 2em 0 1em;
+}
+
+article h3 {
+  font-size: var(--fs-large);
+  font-weight: var(--fw-normal);
+  margin: 2rem 0 1rem;
 }
