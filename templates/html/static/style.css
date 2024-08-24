@@ -26,7 +26,7 @@ a:visited {
 
 .DJFooter_Content {
   border-top: var(--border-weak);
-  padding: var(--ms) 0;
+  padding: var(--ms);
 }
 
 main {
