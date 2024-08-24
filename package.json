@@ -8,7 +8,8 @@
     "build": "npx tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "djockey": "npx tsc && node dist/cli.js"
+    "djockey": "npx tsc && node dist/cli.js",
+    "docs": "npx tsc && node dist/cli.js build docs"
   },
   "dependencies": {
     "@djot/djot": "^0.3.1",

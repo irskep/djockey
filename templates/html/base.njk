@@ -38,7 +38,7 @@
         {{ nextPrevious('m-bottom') }}
       </div>
       <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>
-      <nav class="DJDocTree">{{ docs.doctree | safe }}
+      {% if docs.doctree %}<nav class="DJDocTree">{{ docs.doctree | safe }}{% endif %}
     </main>
 
     <footer>{{ config.html.footerText }}</footer>

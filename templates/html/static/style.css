@@ -39,16 +39,25 @@ body > footer {
   display: none; /* hidden by default */
 }
 
-nav li a,
-nav li a:visited,
-nav li h1,
-nav li h2,
-nav li h3,
-nav li h4,
-nav li h5,
-nav li h6 {
+nav.DJDocTree a,
+nav.DJDocTree a:visited,
+nav.DJDocTree h1,
+nav.DJDocTree h2,
+nav.DJDocTree h3,
+nav.DJDocTree h4,
+nav.DJDocTree h5,
+nav.DJDocTree h6 {
   text-decoration: none;
   color: var(--color-fg-2);
+}
+
+nav h1,
+nav h2,
+nav h3,
+nav h4,
+nav h5,
+nav h6 {
+  font-size: var(--fs-normal);
 }
 
 .DJNextPrevious.m-bottom {

@@ -9,17 +9,19 @@ export function populateDocTreeDoc(
   renderer: DjockeyRenderer
 ) {
   if (!docSet.tree) return;
+  const children = renderSection(
+    docSet.config,
+    doc,
+    docSet.tree?.rootSection,
+    renderer
+  );
+  if (!children.length) return;
   doc.docs.doctree = {
     tag: "doc",
     references: {},
     autoReferences: {},
     footnotes: {},
-    children: renderSection(
-      docSet.config,
-      doc,
-      docSet.tree?.rootSection,
-      renderer
-    ),
+    children: children,
   };
 }
 
@@ -46,7 +48,7 @@ function renderSection(
 
   const result = new Array<Block>();
 
-  if (level > 1) {
+  if (level > 1 || section.selfDoc) {
     result.push({
       tag: "heading",
       level,

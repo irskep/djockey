@@ -1,0 +1,13 @@
+inputDir: src
+outputDir:
+  html: out/html
+  gfm: out/gfm
+siteName: "Djockey"
+
+outputFormats:
+  html: true
+  gfm: false
+
+html:
+  footerText: "©2024 Steve Landey"
+  linkCSSToInputInsteadOfOutput: true
