@@ -1,0 +1,12 @@
+# Front matter
+
+You can customize the title of your doc by adding YAML between `---` lines at the top, like this:
+
+```djot
+---
+title: Custom Title
+---
+# This would normally be the title
+
+...
+```
