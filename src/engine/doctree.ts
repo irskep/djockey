@@ -146,6 +146,7 @@ function sortDocsByPathWithFilesBeforeDirectories(
       const bName = path.parse(b).name;
       if (aName === "index") return -1;
       if (bName === "index") return 1;
+      return aName.localeCompare(bName);
     }
 
     if (a.startsWith(bDir)) {
