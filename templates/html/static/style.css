@@ -40,6 +40,9 @@ main {
   order: 2;
   flex-grow: 0;
 }
+.DJTableOfContents::before {
+  content: "Table of Contents";
+}
 
 /* NAVIGATION */
 
