@@ -75,5 +75,7 @@
   --header-height: 4rem;
   --page-max-width: 61rem;
   --sidebar-width: 12.1rem;
-  --approx-height-of-top-bar-during-scroll: 6rem;
+  --approx-height-of-top-bar-during-scroll: calc(
+    var(--header-height) + var(--mm)
+  );
 }

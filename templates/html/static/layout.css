@@ -24,7 +24,6 @@ body > footer {
 
 main {
   flex-grow: 1;
-  gap: 1em;
 
   display: flex;
   flex-direction: row;
@@ -61,6 +60,25 @@ main {
   order: 2;
 }
 
+/* HEADER/FOOTER */
+
+.DJHeader_Content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mm);
+  height: var(--header-height);
+}
+
+.DJHeader_Content_Group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--ms);
+}
+
 /* NEXT/PREVIOUS */
 
 .DJNextPrevious {
@@ -73,10 +91,9 @@ main {
   justify-content: space-between;
 }
 
-/* RESPONSIVENESS */
+/* STICKYNESS */
 
 .DJHeader {
-  height: var(--header-height);
   position: sticky;
   top: 0;
 }
@@ -88,4 +105,18 @@ main {
   position: sticky;
   overflow-y: auto;
   max-height: calc(100vh - var(--approx-height-of-top-bar-during-scroll));
+}
+
+/* RESPONSIVENESS */
+
+@media (max-width: 970px) {
+  .DJDocTree.m-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .DJTableOfContents.m-sidebar {
+    display: none;
+  }
 }

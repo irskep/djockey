@@ -1,0 +1,19 @@
+body {
+  font-family: var(--f-system);
+  font-size: 16px;
+  line-height: var(--line-height-tall);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height-short);
+}
+
+header h1 {
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-large);
+}
