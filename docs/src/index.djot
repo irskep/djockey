@@ -16,7 +16,7 @@ Djockey is a powerful static site generator for technical writing and project do
 ### Low-hanging fruit
 
 - [ ] Finish CSS stylesheets
-- [ ] Syntax highlighting
+- [ ] Syntax highlighting, Mermaid, Graphviz
 - [ ] Literal symbol parsing
 
 ### Harder stuff

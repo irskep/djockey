@@ -1,0 +1,13 @@
+# Plugins
+
+Djockey has a plugin API that allows arbitrary transforms on documents.
+
+There is a "read" pass and a "write" pass. If a plugin creates new content that should be processed in turn by other plugins, you can configure Djockey to run more than one set of passes.
+
+```mermaid
+flowchart LR
+    Parse(Read documents) --> Read(Read pass)
+    Read --> Write(Write pass)
+    Write -->|If configured| Read
+    Write --> Output
+```

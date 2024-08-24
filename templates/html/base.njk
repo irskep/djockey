@@ -92,5 +92,9 @@
         </div>
       </nav>
     </div>
+
+    {% for jsURL in jsURLs %}
+    <script src="{{ jsURL }}"></script>
+    {% endfor %}
   </body>
 </html>

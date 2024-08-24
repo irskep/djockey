@@ -84,6 +84,14 @@ nav h6 {
   font-size: var(--fs-normal);
 }
 
+nav h2,
+nav h3,
+nav h4,
+nav h5,
+nav h6 {
+  margin-top: 1em;
+}
+
 .DJNextPrevious > a {
   text-decoration: none;
   padding: var(--ms) var(--mm);
