@@ -16,7 +16,7 @@ export function makeArgumentParser() {
   return p;
 }
 
-export function main() {
+export async function main() {
   const args = makeArgumentParser().parse_args();
 
   switch (args.action) {
@@ -28,7 +28,7 @@ export function main() {
   }
 }
 
-export function doBuild(inputPath: string) {
+export async function doBuild(inputPath: string) {
   if (!fs.existsSync(inputPath)) {
     throw new Error("File does not exist: " + inputPath);
   }
@@ -36,7 +36,7 @@ export function doBuild(inputPath: string) {
     ? resolveConfigFromDirectory(inputPath)
     : resolveConfigFromSingleFile(inputPath);
   if (config) {
-    executeConfig(config);
+    await executeConfig(config);
   } else {
     console.error("Couldn't find a config file in", inputPath);
   }

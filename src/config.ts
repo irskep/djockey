@@ -13,9 +13,9 @@ import {
 } from "./types";
 import { getExtensionForInputFormat } from "./input/fileExtensions";
 
-export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
+export function getConfigDefaults(): DjockeyConfig {
   const isPandocInstalled = getIsPandocInstalled();
-  const defaults: DjockeyConfig = {
+  return {
     inputDir: "docs",
     outputDir: {
       html: "out/html",
@@ -32,11 +32,17 @@ export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
     numPasses: 1,
     siteName: "",
 
+    plugins: [],
+
     html: {
       footerText: "",
       linkCSSToInputInsteadOfOutput: false,
     },
   };
+}
+
+export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
+  const defaults = getConfigDefaults();
   return {
     ...defaults,
     ...values,
@@ -130,6 +136,8 @@ export function resolveConfigFromSingleFile(
     },
     numPasses: 1,
     siteName: "",
+
+    plugins: [],
 
     html: {
       footerText: "",

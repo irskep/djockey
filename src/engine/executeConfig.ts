@@ -12,6 +12,8 @@ import {
   ALL_OUTPUT_FORMATS,
   DjockeyConfigResolved,
   DjockeyDoc,
+  DjockeyPlugin,
+  DjockeyPluginModule,
   DjockeyRenderer,
 } from "../types";
 import { makeRenderer } from "../renderers/makeRenderer";
@@ -24,8 +26,8 @@ function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
 }
 
-export function executeConfig(config: DjockeyConfigResolved) {
-  const docSet = readDocSet(config);
+export async function executeConfig(config: DjockeyConfigResolved) {
+  const docSet = await readDocSet(config);
   docSet.tree = loadDocTree(docSet.docs);
   console.log(
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
@@ -36,7 +38,9 @@ export function executeConfig(config: DjockeyConfigResolved) {
   writeDocSet(docSet);
 }
 
-export function readDocSet(config: DjockeyConfigResolved): DocSet {
+export async function readDocSet(
+  config: DjockeyConfigResolved
+): Promise<DocSet> {
   const docs = config.fileList
     .map((path_) => {
       console.log("Parsing", path_);
@@ -45,12 +49,31 @@ export function readDocSet(config: DjockeyConfigResolved): DocSet {
     })
     .filter((doc) => !!doc);
 
+  const pluginPaths = config.plugins;
+  const userPlugins = new Array<DjockeyPlugin>();
+  for (const pluginPath of pluginPaths) {
+    console.log("Loading plugin", pluginPath);
+    try {
+      const plg = (await import(pluginPath)) as DjockeyPluginModule;
+      userPlugins.push(plg.makePlugin());
+    } catch {
+      console.log(
+        `Unable to load plugin ${pluginPath} from node_modules. Trying file path...`
+      );
+      const pluginPathAbsolute = path.resolve(pluginPath);
+      const plg = (await import(pluginPathAbsolute)) as DjockeyPluginModule;
+      console.log("...OK!");
+      userPlugins.push(plg.makePlugin());
+    }
+  }
+
   return new DocSet(
     config,
     [
       new TableOfContentsPlugin(),
       new LinkRewritingPlugin(config),
       new AutoTitlePlugin(),
+      ...userPlugins,
     ],
     docs
   );

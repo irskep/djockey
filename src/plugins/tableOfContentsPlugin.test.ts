@@ -4,6 +4,7 @@ import { TableOfContentsPlugin } from "./tableOfContentsPlugin";
 import { LinkRewritingPlugin } from "./linkRewritingPlugin";
 import { DocSet } from "../engine/docset";
 import { HTMLRenderer } from "../renderers/htmlRenderer";
+import { getConfigDefaults } from "../config";
 
 test("Generates TOCEntry tree for one doc", () => {
   const doc: DjockeyDoc = {
@@ -81,15 +82,14 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
   };
 
   const config: DjockeyConfigResolved = {
+    ...getConfigDefaults(),
     inputDir: ".",
     outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.djot"],
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
     outputFormats: { html: true },
-    numPasses: 1,
     rootPath: ".",
-    siteName: "",
     html: { footerText: "", linkCSSToInputInsteadOfOutput: false },
   };
   const docSet = new DocSet(

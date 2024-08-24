@@ -2,6 +2,7 @@ import { parse } from "@djot/djot";
 import { DjockeyConfigResolved, DjockeyDoc } from "../types";
 import { AutoTitlePlugin } from "./autoTitlePlugin";
 import { DocSet } from "../engine/docset";
+import { getConfigDefaults } from "../config";
 
 test("Title is set to first heading by default", () => {
   const doc: DjockeyDoc = {
@@ -28,16 +29,14 @@ test("Title is set to first heading by default", () => {
   };
 
   const config: DjockeyConfigResolved = {
+    ...getConfigDefaults(),
     inputDir: ".",
+    rootPath: ".",
     outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.djot"],
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
     outputFormats: { html: true },
-    numPasses: 1,
-    rootPath: ".",
-    siteName: "",
-    html: { footerText: "", linkCSSToInputInsteadOfOutput: false },
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();
@@ -70,16 +69,12 @@ test("Title is set to frontMatter.title if present", () => {
   };
 
   const config: DjockeyConfigResolved = {
+    ...getConfigDefaults(),
     inputDir: ".",
+    rootPath: ".",
     outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.djot"],
     urlRoot: "URL_ROOT",
-    inputFormats: { djot: true },
-    outputFormats: { html: true },
-    numPasses: 1,
-    rootPath: ".",
-    siteName: "",
-    html: { footerText: "", linkCSSToInputInsteadOfOutput: false },
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();

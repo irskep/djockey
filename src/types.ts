@@ -32,6 +32,8 @@ export type DjockeyConfig = {
   numPasses: number;
   siteName: string;
 
+  plugins: string[];
+
   html: {
     footerText: string;
     linkCSSToInputInsteadOfOutput: boolean;
@@ -77,4 +79,8 @@ export type DjockeyPlugin = {
   onPass_read?: (doc: DjockeyDoc) => void;
   onPass_write?: (doc: DjockeyDoc) => void;
   onPrepareForRender?: (doc: DjockeyDoc, renderer: DjockeyRenderer) => void;
+};
+
+export type DjockeyPluginModule = {
+  makePlugin: () => DjockeyPlugin;
 };
