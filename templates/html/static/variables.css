@@ -44,6 +44,8 @@
 
   /* DESIGN TOKENS */
 
+  --color-bg: var(--c-white);
+
   --color-fg-link: var(--c-linkblue);
   --color-fg-link-visited: var(--c-linkpurple);
 
@@ -70,5 +72,8 @@
 
   /* LAYOUT SIZES */
 
+  --header-height: 4rem;
   --page-max-width: 61rem;
+  --sidebar-width: 12.1rem;
+  --approx-height-of-top-bar-during-scroll: 6rem;
 }

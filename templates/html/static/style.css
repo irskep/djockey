@@ -4,6 +4,7 @@ body {
   font-family: var(--f-system);
   font-size: 16px;
   line-height: var(--line-height-tall);
+  background-color: var(--color-bg);
 }
 
 a {
@@ -25,6 +26,11 @@ h6 {
 
 /* HEADER & FOOTER */
 
+.DJHeader {
+  z-index: 1;
+  background-color: var(--color-bg);
+}
+
 .DJHeader_Content {
   border-bottom: var(--border-weak);
   padding: var(--ms) 0;
@@ -41,6 +47,23 @@ main {
 }
 
 /* NAVIGATION */
+
+nav > ul,
+nav > div > ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+nav > ul ul,
+nav > div > ul ul {
+  padding-left: 0;
+  list-style-type: none;
+  margin-left: 0.5em;
+}
+
+.DJTableOfContents_Content::before {
+  content: "On this page";
+}
 
 .DJNextPrevious.m-top {
   display: none; /* hidden by default */

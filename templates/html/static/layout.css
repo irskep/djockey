@@ -1,4 +1,4 @@
-/* LAYOUT */
+/* THREE-COLUMN LAYOUT */
 
 body {
   min-height: 100vh;
@@ -31,10 +31,11 @@ main {
 }
 
 .DJDocTree {
+  display: block;
   flex-grow: 0;
 }
 .DJDocTree.m-sidebar {
-  width: 12.1rem;
+  width: var(--sidebar-width);
   order: 0;
 }
 
@@ -52,25 +53,15 @@ main {
   flex-grow: 1;
 }
 .DJTableOfContents {
-  order: 2;
+  display: block;
   flex-grow: 0;
 }
-.DJTableOfContents::before {
-  content: "On this page";
+.DJTableOfContents.m-sidebar {
+  width: var(--sidebar-width);
+  order: 2;
 }
 
-/* NAVIGATION */
-
-nav > ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-nav > ul ul {
-  padding-left: 0;
-  list-style-type: none;
-  margin-left: 0.5em;
-}
+/* NEXT/PREVIOUS */
 
 .DJNextPrevious {
   flex-grow: 0;
@@ -80,4 +71,21 @@ nav > ul ul {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+/* RESPONSIVENESS */
+
+.DJHeader {
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+}
+
+.DJDocTree.m-sidebar .DJDocTree_Content,
+.DJTableOfContents.m-sidebar .DJTableOfContents_Content {
+  top: var(--approx-height-of-top-bar-during-scroll);
+  bottom: 0;
+  position: sticky;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--approx-height-of-top-bar-during-scroll));
 }
