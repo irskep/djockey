@@ -103,3 +103,46 @@ nav h6 {
 .DJPrevious .DJNextPrevious_Label::before {
   content: "← ";
 }
+
+/* MOBILE MENU POPOVER */
+
+#dj-mobile-menu {
+  border: none;
+  border-right: var(--border-strong);
+  height: 100%;
+  padding: 0;
+  min-width: var(--sidebar-width);
+}
+
+#dj-mobile-menu header {
+  margin-bottom: var(--mm);
+
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 var(--ms);
+
+  border-bottom: var(--border-weak);
+}
+
+#dj-mobile-menu::backdrop {
+  background-color: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+/* COMPONENTS */
+
+.DJIconButton {
+  all: unset;
+  cursor: pointer;
+  font-size: var(--fs-large);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--ms);
+}

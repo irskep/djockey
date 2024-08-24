@@ -109,9 +109,18 @@ main {
 
 /* RESPONSIVENESS */
 
+.DJHeader_Hamburger {
+  display: none;
+}
+
 @media (max-width: 970px) {
   .DJDocTree.m-sidebar {
     display: none;
+  }
+
+  .DJHeader_Hamburger {
+    display: block;
+    cursor: pointer;
   }
 }
 
