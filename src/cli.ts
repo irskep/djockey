@@ -13,6 +13,7 @@ export function makeArgumentParser() {
   const subparsers = p.add_subparsers({ required: true });
   const buildParser = subparsers.add_parser("build");
   buildParser.set_defaults({ action: "build" });
+  buildParser.add_argument("--local", { default: false, action: "store_true" });
   buildParser.add_argument("input");
 
   return p;
@@ -23,19 +24,19 @@ export async function main() {
 
   switch (args.action) {
     case "build":
-      doBuild(args.input);
+      doBuild(args.input, args.local);
       break;
     default:
       throw new Error("Invalid action");
   }
 }
 
-export async function doBuild(inputPath: string) {
+export async function doBuild(inputPath: string, isLocal: boolean) {
   if (!fs.existsSync(inputPath)) {
     throw new Error("File does not exist: " + inputPath);
   }
   const config = fs.statSync(inputPath).isDirectory()
-    ? resolveConfigFromDirectory(inputPath)
+    ? resolveConfigFromDirectory(inputPath, isLocal)
     : resolveConfigFromSingleFile(inputPath);
   if (config) {
     await executeConfig(config);

@@ -63,7 +63,8 @@ function absify(rootPath: string, path_: string): string {
 
 export function resolveConfig(
   rootPath: string,
-  config: DjockeyConfig
+  config: DjockeyConfig,
+  useFileURLRoot: boolean
 ): DjockeyConfigResolved {
   let inputExtensions: string[] = [];
   for (const format of Object.keys(
@@ -95,20 +96,24 @@ export function resolveConfig(
   const configURLRoot = config.urlRoot;
   const fileURLRoot = url.pathToFileURL(result.outputDir.html).toString();
 
-  if (!configURLRoot) {
-    console.warn(
-      `Set root URL to ${fileURLRoot}. This will only work on your computer; you'll need to set urlRoot before you deploy.`
+  if (useFileURLRoot) {
+    return { ...result, urlRoot: fileURLRoot };
+  } else if (!configURLRoot) {
+    console.error(
+      `urlRoot is mandatory, though you can pass --local to use file URLs for local testing.`
     );
+    throw Error();
   }
-  return { ...result, urlRoot: configURLRoot ?? fileURLRoot };
+  return { ...result, urlRoot: configURLRoot };
 }
 
 export function resolveConfigFromDirectory(
-  path_: string
+  path_: string,
+  isLocal: boolean
 ): DjockeyConfigResolved | null {
   const configPath = `${path_}/djockey.yaml`;
   if (fs.existsSync(configPath)) {
-    return resolveConfig(path.resolve(path_), readConfig(configPath));
+    return resolveConfig(path.resolve(path_), readConfig(configPath), isLocal);
   } else {
     return null;
   }
@@ -145,5 +150,5 @@ export function resolveConfigFromSingleFile(
     },
   };
 
-  return resolveConfig(parentDir, config);
+  return resolveConfig(parentDir, config, false);
 }
