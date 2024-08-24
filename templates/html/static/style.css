@@ -1,0 +1,38 @@
+/* LAYOUT */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > header,
+body > footer {
+  flex-grow: 0;
+}
+
+body > header {
+  border-bottom: 1px solid red;
+}
+
+body > footer {
+  border-top: 1px solid red;
+}
+
+main {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.DJDocTree {
+  order: 0;
+}
+.DJContent {
+  order: 1;
+}
+.DJTableOfContents {
+  order: 2;
+}

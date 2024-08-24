@@ -1,5 +1,8 @@
 import fs from "fs";
 import path from "path";
+import url from "url";
+
+import fastGlob from "fast-glob";
 
 import { renderHTML } from "@djot/djot";
 import { Environment } from "nunjucks";
@@ -20,6 +23,9 @@ import { DocSet } from "../engine/docset";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
+
+  cssFilesFromInput = new Array<string>();
+  cssFilesRelative = new Array<string>();
 
   constructor(
     public options: { relativeLinks: boolean } = { relativeLinks: false }
@@ -62,6 +68,17 @@ export class HTMLRenderer implements DjockeyRenderer {
       pattern: "**/*",
       exclude: docs.map((d) => d.absolutePath),
     });
+
+    const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
+    const inputCSSFiles = fastGlob.sync(`${config.inputDir}/**/*.css`);
+    this.cssFilesFromInput = templateCSSFiles
+      .concat(inputCSSFiles)
+      .map((path_) => url.pathToFileURL(path_).toString());
+    this.cssFilesRelative = templateCSSFiles
+      .map((path_) => path.relative(templateDir, path_))
+      .concat(
+        inputCSSFiles.map((path_) => path.relative(config.inputDir, path_))
+      );
   }
 
   writeDoc(args: {
@@ -87,6 +104,9 @@ export class HTMLRenderer implements DjockeyRenderer {
       doc,
       docs: renderedDocs,
       baseURL,
+      cssURLs: config.html.linkCSSToInputInsteadOfOutput
+        ? this.cssFilesFromInput
+        : this.cssFilesRelative.map((path_) => `${baseURL}${path_}`),
       ...args.context,
     });
 

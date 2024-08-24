@@ -98,7 +98,7 @@ function getTemplateContext(
       renderer,
       docSet.tree?.nextMap || null
     ),
-    siteName: docSet.config.siteName,
+    config: docSet.config,
   };
 }
 

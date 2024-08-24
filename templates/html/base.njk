@@ -21,22 +21,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ baseURL }}static/reset.css">
+    {% for cssURL in cssURLs %}
+    <link rel="stylesheet" href="{{ cssURL }}">
+    {% endfor %}
     <title>{{ doc.title }}</title>
   </head>
   <body>
     <header class="DJHeading">
-      <h1>{{ siteName }}</h1>
+      <h1>{{ config.siteName }}</h1>
     </header>
 
-    {{ nextPrevious('m-top') }}
+    <main>
+      <div class="DJContent">
+        {{ nextPrevious('m-top') }}
+        <article class="DJContent">{{ docs.content | safe }}</article>
+        {{ nextPrevious('m-bottom') }}
+      </div>
+      <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>
+      <nav class="DJDocTree">{{ docs.doctree | safe }}
+    </main>
 
-    <article class="DJContent">{{ docs.content | safe }}</article>
-
-    {{ nextPrevious('m-bottom') }}
-
-    <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>
-
-    <nav class="DJDocTree">{{ docs.doctree | safe }}
-    </body>
+    <footer>{{ config.html.footerText }}</footer>
+  </body>
 </html>

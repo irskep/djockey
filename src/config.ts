@@ -13,11 +13,8 @@ import {
 } from "./types";
 import { getExtensionForInputFormat } from "./input/fileExtensions";
 
-export function readConfig(path_: string): DjockeyConfig {
-  const values = yaml.load(fs.readFileSync(path_, "utf8")) as DjockeyConfig;
-
+export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
   const isPandocInstalled = getIsPandocInstalled();
-
   const defaults: DjockeyConfig = {
     inputDir: "docs",
     outputDir: {
@@ -34,11 +31,23 @@ export function readConfig(path_: string): DjockeyConfig {
     },
     numPasses: 1,
     siteName: "",
+
+    html: {
+      footerText: "",
+      linkCSSToInputInsteadOfOutput: false,
+    },
   };
   return {
     ...defaults,
     ...values,
+    html: { ...defaults.html, ...(values.html || {}) },
   };
+}
+
+export function readConfig(path_: string): DjockeyConfig {
+  return populateConfig(
+    yaml.load(fs.readFileSync(path_, "utf8")) as Partial<DjockeyConfig>
+  );
 }
 
 function absify(rootPath: string, path_: string): string {
@@ -121,6 +130,11 @@ export function resolveConfigFromSingleFile(
     },
     numPasses: 1,
     siteName: "",
+
+    html: {
+      footerText: "",
+      linkCSSToInputInsteadOfOutput: false,
+    },
   };
 
   return resolveConfig(parentDir, config);

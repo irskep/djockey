@@ -31,6 +31,11 @@ export type DjockeyConfig = {
   outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
   numPasses: number;
   siteName: string;
+
+  html: {
+    footerText: string;
+    linkCSSToInputInsteadOfOutput: boolean;
+  };
 };
 
 export type DjockeyConfigResolved = DjockeyConfig & {
