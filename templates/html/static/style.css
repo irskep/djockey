@@ -21,6 +21,7 @@ body > footer {
 
 main {
   flex-grow: 1;
+  gap: 1em;
 
   display: flex;
   flex-direction: row;
@@ -35,4 +36,28 @@ main {
 }
 .DJTableOfContents {
   order: 2;
+}
+
+/* NAVIGATION */
+
+nav > ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+nav > ul ul {
+  padding-left: 0;
+  list-style-type: none;
+  margin-left: 0.5em;
+}
+
+.DJNextAndPrevious {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.DJNextAndPrevious.m-top {
+  display: none; /* hidden by default */
 }

@@ -1,5 +1,5 @@
 {%- macro nextPrevious(cls) -%}
-<nav class="DJNextAndPrevious m-bottom">
+<nav class="DJNextAndPrevious {{ cls }}">
   <div class="DJPrevious {% if not previous %}u-invisible{% endif %}">
     {% if previous -%}
     <div class="DJNextPrevious_Label">Previous</div>
