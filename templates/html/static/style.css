@@ -30,12 +30,15 @@ main {
 
 .DJDocTree {
   order: 0;
+  flex-grow: 0;
 }
 .DJContent {
+  flex-grow: 1;
   order: 1;
 }
 .DJTableOfContents {
   order: 2;
+  flex-grow: 0;
 }
 
 /* NAVIGATION */

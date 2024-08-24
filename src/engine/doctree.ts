@@ -4,6 +4,7 @@ import { DjockeyDoc } from "../types";
 export type DocTreeSection = {
   title: string;
   relativePath: string;
+  selfDoc: DjockeyDoc | null;
   children: DocTreeSection[];
   docs: DjockeyDoc[];
 };
@@ -20,6 +21,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   const root: DocTreeSection = {
     title: "",
     relativePath: "",
+    selfDoc: null,
     children: [],
     docs: [],
   };
@@ -33,6 +35,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     const newSection: DocTreeSection = {
       title: path.parse(relativePath).name,
       relativePath,
+      selfDoc: null,
       children: [],
       docs: [],
     };
@@ -59,7 +62,13 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     const docSection = dirs.length
       ? sectionsByRelativePath[dirs[dirs.length - 1]]
       : root;
-    docSection.docs.push(doc);
+
+    if (path.parse(doc.filename).name === "index") {
+      docSection.selfDoc = doc;
+      docSection.title = doc.title;
+    } else {
+      docSection.docs.push(doc);
+    }
   }
 
   const prevMap: Record<string, string | null> = {};
@@ -73,24 +82,6 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   };
 
   return tree;
-}
-
-export function printDocTree(
-  tree: DocTree,
-  section: DocTreeSection,
-  indent: string = ""
-) {
-  console.log(`${indent}${section.relativePath} ("${section.title}")`);
-  for (const doc of section.docs) {
-    console.log(
-      `${indent}  - ${doc.relativePath} (prev: ${
-        tree.prevMap[doc.relativePath]
-      }, next: ${tree.nextMap[doc.relativePath]})`
-    );
-  }
-  for (const child of section.children) {
-    printDocTree(tree, child, indent + "  ");
-  }
 }
 
 export function connectNextAndPrevious(
