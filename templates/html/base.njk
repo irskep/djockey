@@ -1,5 +1,5 @@
 {%- macro nextPrevious(cls) -%}
-<nav class="DJNextAndPrevious {{ cls }}">
+<nav class="DJNextPrevious {{ cls }}">
   <div class="DJPrevious {% if not previous %}u-invisible{% endif %}">
     {% if previous -%}
     <div class="DJNextPrevious_Label">Previous</div>
@@ -34,7 +34,7 @@
     <main>
       <div class="DJContent">
         {{ nextPrevious('m-top') }}
-        <article class="DJContent">{{ docs.content | safe }}</article>
+        <article>{{ docs.content | safe }}</article>
         {{ nextPrevious('m-bottom') }}
       </div>
       <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>

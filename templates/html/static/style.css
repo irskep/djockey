@@ -1,69 +1,72 @@
-/* LAYOUT */
+/* GLOBAL STYLES */
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: var(--f-system);
+  font-size: 16px;
+  line-height: var(--line-height-tall);
 }
 
-body > header,
-body > footer {
-  flex-grow: 0;
+a {
+  color: var(--color-fg-link);
 }
+
+a:visited {
+  color: var(--color-fg-link-visited);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height-short);
+}
+
+/* HEADER & FOOTER */
 
 body > header {
-  border-bottom: 1px solid red;
+  border-bottom: var(--border-strong);
 }
 
 body > footer {
-  border-top: 1px solid red;
-}
-
-main {
-  flex-grow: 1;
-  gap: 1em;
-
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-.DJDocTree {
-  order: 0;
-  flex-grow: 0;
-}
-.DJContent {
-  flex-grow: 1;
-  order: 1;
-}
-.DJTableOfContents {
-  order: 2;
-  flex-grow: 0;
-}
-.DJTableOfContents::before {
-  content: "Table of Contents";
+  border-top: var(--border-strong);
 }
 
 /* NAVIGATION */
 
-nav > ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-nav > ul ul {
-  padding-left: 0;
-  list-style-type: none;
-  margin-left: 0.5em;
-}
-
-.DJNextAndPrevious {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.DJNextAndPrevious.m-top {
+.DJNextPrevious.m-top {
   display: none; /* hidden by default */
+}
+
+nav li a,
+nav li a:visited,
+nav li h1,
+nav li h2,
+nav li h3,
+nav li h4,
+nav li h5,
+nav li h6 {
+  text-decoration: none;
+  color: var(--color-fg-2);
+}
+
+.DJNextPrevious.m-bottom {
+  margin-bottom: var(--mm);
+}
+
+.DJNext {
+  text-align: right;
+}
+
+.DJNextPrevious_Label {
+  font-size: var(--fs-small);
+  color: var(--color-fg-2);
+}
+.DJNext .DJNextPrevious_Label::after {
+  content: " →";
+}
+
+.DJPrevious .DJNextPrevious_Label::before {
+  content: "← ";
 }

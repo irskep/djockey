@@ -16,11 +16,11 @@
 }
 /*
   Typographic tweaks!
-  3. Add accessible line-height
+  3. Add accessible line-height (NO)
   4. Improve text rendering
 */
 body {
-  line-height: 1.5;
+  /* line-height: 1.5; */
   -webkit-font-smoothing: antialiased;
 }
 /*

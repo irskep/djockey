@@ -1,0 +1,69 @@
+/* LAYOUT */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > header,
+body > footer {
+  flex-grow: 0;
+}
+
+main {
+  flex-grow: 1;
+  gap: 1em;
+
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.DJDocTree {
+  order: 0;
+  flex-grow: 0;
+}
+.DJContent {
+  flex-grow: 1;
+  order: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 100%;
+}
+.DJContent > article {
+  flex-grow: 1;
+}
+.DJTableOfContents {
+  order: 2;
+  flex-grow: 0;
+}
+.DJTableOfContents::before {
+  content: "Table of Contents";
+}
+
+/* NAVIGATION */
+
+nav > ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+nav > ul ul {
+  padding-left: 0;
+  list-style-type: none;
+  margin-left: 0.5em;
+}
+
+.DJNextPrevious {
+  flex-grow: 0;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}

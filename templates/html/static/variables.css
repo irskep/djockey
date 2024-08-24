@@ -1,0 +1,67 @@
+:root {
+  /* PALETTE */
+
+  /*
+  Prefixes:
+  -f: fonts
+  -fs: font size
+  -fw: font weight
+  -c: colors
+  -d: distance
+  */
+  --f-system: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
+    helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
+    sans-serif;
+
+  --fs-small: 14px;
+  --fs-normal: 16px;
+  --fs-large: 20px;
+
+  --fw-bold: 800;
+  --fw-normal: normal;
+
+  /* Grays */
+  --c-white: white;
+  --c-black: black;
+  --c-gray6: #f7f7f7;
+  --c-gray5: #ddd;
+  --c-gray4: #aaa;
+  --c-gray3: #777;
+  --c-gray2: #555;
+  --c-gray1: #333;
+
+  /* Accents */
+  --c-linkblue: blue;
+  --c-linkpurple: purple;
+
+  /* Distances */
+
+  --d-tiny: 0.25rem;
+  --d-small: 0.5rem;
+  --d-medium: 1rem;
+  --d-large: 2rem;
+
+  /* DESIGN TOKENS */
+
+  --color-fg-link: var(--c-linkblue);
+  --color-fg-link-visited: var(--c-linkpurple);
+
+  --color-fg-1: var(--c-black);
+  --color-fg-2: var(--c-gray2);
+  --color-bg-1: var(--c-white);
+
+  --border-strong: 1px solid var(--c-gray2);
+  --border-weak: 1px solid var(--c-gray5);
+
+  --line-height-short: 1.2em;
+  --line-height-tall: 1.5em;
+
+  /* Margin (large) */
+  --ml: var(--d-large);
+  /* Margin (normal) */
+  --mm: var(--d-medium);
+  /* Margin (small) */
+  --ms: var(--d-small);
+  /* Margin (very small) */
+  --mss: var(--d-tiny);
+}
