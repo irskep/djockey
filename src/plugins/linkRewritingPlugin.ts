@@ -40,6 +40,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
         "*": (node) => {
           if (!node.destination) return;
           const newDestination = this.transformNodeDestination(
+            doc.relativePath,
             node.destination,
             {
               config: this.config,
@@ -54,13 +55,19 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
   }
 
   private transformNodeDestination(
-    nodeDestination: string,
+    sourcePath: string,
+    unresolvedNodeDestination: string,
     renderArgs: Parameters<LinkTarget["renderDestination"]>[0]
   ): string {
     // Don't transform ordinary URLs
-    if (isURL(nodeDestination)) {
-      return nodeDestination;
+    if (isURL(unresolvedNodeDestination)) {
+      return unresolvedNodeDestination;
     }
+
+    const nodeDestination = resolveRelativePath(
+      sourcePath,
+      unresolvedNodeDestination
+    );
 
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
@@ -77,6 +84,23 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }
     return values[0].renderDestination(renderArgs);
   }
+}
+
+export function resolveRelativePath(sourcePath: string, path_: string): string {
+  if (!path_.startsWith("./") && !path_.startsWith("../")) return path_;
+  let pathParts = path_.split("/");
+  const sourceParts = sourcePath.split("/");
+  sourceParts.pop();
+
+  if (pathParts[0] === ".") {
+    pathParts = pathParts.slice(1);
+  }
+
+  while (pathParts.length && pathParts[0] === "..") {
+    pathParts = pathParts.slice(1);
+    sourceParts.pop();
+  }
+  return "/" + sourceParts.concat(pathParts).join("/");
 }
 
 function pushToListIfNotPresent<T>(
