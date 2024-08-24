@@ -7,6 +7,8 @@ title: Home
 Here is a [link to the other doc](#second-doc-heading)
 [Another link using extension](/second.djot#second-doc-heading)
 
+![image](image.png)
+
 ## Heading 1.1
 
 Content

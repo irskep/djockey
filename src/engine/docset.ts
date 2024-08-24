@@ -39,7 +39,11 @@ export class DocSet {
     for (const doc of docsCopy) {
       for (const plugin of this.plugins) {
         if (plugin.onPrepareForRender) {
-          plugin.onPrepareForRender(doc, renderer);
+          plugin.onPrepareForRender({
+            doc,
+            renderer,
+            config: this.config,
+          });
         }
       }
     }

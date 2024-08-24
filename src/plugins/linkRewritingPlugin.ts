@@ -1,3 +1,5 @@
+import fs from "fs";
+
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
@@ -34,13 +36,19 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }
   }
 
-  onPrepareForRender(doc: DjockeyDoc, renderer: DjockeyRenderer) {
+  onPrepareForRender(args: {
+    doc: DjockeyDoc;
+    renderer: DjockeyRenderer;
+    config: DjockeyConfigResolved;
+  }) {
+    const { doc, renderer, config } = args;
     for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({
         "*": (node) => {
           if (!node.destination) return;
           const newDestination = this.transformNodeDestination(
             doc.relativePath,
+            config.inputDir,
             node.destination,
             {
               config: this.config,
@@ -56,6 +64,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
   private transformNodeDestination(
     sourcePath: string,
+    inputRoot: string,
     unresolvedNodeDestination: string,
     renderArgs: Parameters<LinkTarget["renderDestination"]>[0]
   ): string {
@@ -71,9 +80,16 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
-      console.log(
-        `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
-      );
+      const staticFilePath = `${inputRoot}/${nodeDestination}`;
+      if (fs.existsSync(staticFilePath)) {
+        console.log(
+          `${unresolvedNodeDestination} appears to be a static file; leaving link alone`
+        );
+      } else {
+        console.log(
+          `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
+        );
+      }
       return nodeDestination;
     }
 

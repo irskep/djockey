@@ -78,7 +78,11 @@ export type DjockeyRenderer = {
 export type DjockeyPlugin = {
   onPass_read?: (doc: DjockeyDoc) => void;
   onPass_write?: (doc: DjockeyDoc) => void;
-  onPrepareForRender?: (doc: DjockeyDoc, renderer: DjockeyRenderer) => void;
+  onPrepareForRender?: (args: {
+    doc: DjockeyDoc;
+    renderer: DjockeyRenderer;
+    config: DjockeyConfigResolved;
+  }) => void;
 };
 
 export type DjockeyPluginModule = {
