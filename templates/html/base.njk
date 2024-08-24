@@ -1,18 +1,18 @@
 {%- macro nextPrevious(cls) -%}
 <nav class="DJNextPrevious {{ cls }}">
-  <div class="DJPrevious {% if not previous %}u-invisible{% endif %}">
+  <a class="DJPrevious {% if not previous %}u-invisible{% endif %}" href="{{ previous.url }}">
     {% if previous -%}
     <div class="DJNextPrevious_Label">Previous</div>
-    <div class="DJNextPrevious_Link"><a href="{{ previous.url | safe }}">{{ previous.title }}</a></div>
+    <div class="DJNextPrevious_Link">{{ previous.title }}</div>
     {%- endif %}
-  </div>
+  </a>
 
-  <div class="DJNext {% if not next %}u-invisible{% endif %}">
+  <a class="DJNext {% if not next %}u-invisible{% endif %}" href="{{ next.url }}">
     {% if next -%}
     <div class="DJNextPrevious_Label">Next</div>
-    <div class="DJNextPrevious_Link"><a href="{{ next.url | safe }}">{{ next.title }}</a></div>
+    <div class="DJNextPrevious_Link">{{ next.title }}</div>
     {%- endif %}
-  </div>
+  </a>
 </nav>
 {%- endmacro -%}
 

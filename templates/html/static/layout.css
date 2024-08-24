@@ -17,6 +17,10 @@ body > footer {
   align-items: center;
 }
 
+.u-invisible {
+  visibility: hidden;
+}
+
 .u-page-width {
   width: 100%;
   max-width: var(--page-max-width);

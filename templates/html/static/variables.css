@@ -55,6 +55,7 @@
   --color-fg-1: var(--c-black);
   --color-fg-2: var(--c-gray2);
   --color-bg-1: var(--c-white);
+  --color-bg-1-hover: var(--c-gray6);
 
   --border-strong: 1px solid var(--c-gray3);
   --border-weak: 1px solid var(--c-gray5);

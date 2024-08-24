@@ -84,6 +84,17 @@ nav h6 {
   font-size: var(--fs-normal);
 }
 
+.DJNextPrevious > a {
+  text-decoration: none;
+  padding: var(--ms) var(--mm);
+  border-radius: var(--d-xsmall);
+  border: var(--border-weak);
+}
+
+.DJNextPrevious a:hover {
+  background-color: var(--color-bg-1-hover);
+}
+
 .DJNextPrevious.m-bottom {
   margin-bottom: var(--mm);
 }
@@ -96,6 +107,11 @@ nav h6 {
   font-size: var(--fs-small);
   color: var(--color-fg-2);
 }
+
+.DJNextPrevious_Link {
+  text-decoration: underline;
+}
+
 .DJNext .DJNextPrevious_Label::after {
   content: " →";
 }
