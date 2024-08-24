@@ -97,6 +97,8 @@ nav h6 {
   padding: var(--ms) var(--mm);
   border-radius: var(--d-xsmall);
   border: var(--border-weak);
+
+  min-width: 10rem;
 }
 
 .DJNextPrevious a:hover {

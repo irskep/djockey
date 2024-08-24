@@ -36,6 +36,7 @@ main {
 .DJDocTree {
   display: block;
   flex-grow: 0;
+  flex-shrink: 0;
 }
 .DJDocTree.m-sidebar {
   width: var(--sidebar-width);
@@ -44,6 +45,7 @@ main {
 
 .DJContent {
   flex-grow: 1;
+  flex-shrink: 1;
   order: 1;
 
   display: flex;
@@ -58,6 +60,7 @@ main {
 .DJTableOfContents {
   display: block;
   flex-grow: 0;
+  flex-shrink: 0;
 }
 .DJTableOfContents.m-sidebar {
   width: var(--sidebar-width);
