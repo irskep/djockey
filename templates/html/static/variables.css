@@ -36,10 +36,11 @@
 
   /* Distances */
 
-  --d-tiny: 0.25rem;
+  --d-xsmall: 0.25rem;
   --d-small: 0.5rem;
   --d-medium: 1rem;
   --d-large: 2rem;
+  --d-xlarge: 4rem;
 
   /* DESIGN TOKENS */
 
@@ -50,12 +51,14 @@
   --color-fg-2: var(--c-gray2);
   --color-bg-1: var(--c-white);
 
-  --border-strong: 1px solid var(--c-gray2);
+  --border-strong: 1px solid var(--c-gray3);
   --border-weak: 1px solid var(--c-gray5);
 
   --line-height-short: 1.2em;
   --line-height-tall: 1.5em;
 
+  /* Margin (very large) */
+  --mll: var(--d-xlarge);
   /* Margin (large) */
   --ml: var(--d-large);
   /* Margin (normal) */
@@ -63,5 +66,9 @@
   /* Margin (small) */
   --ms: var(--d-small);
   /* Margin (very small) */
-  --mss: var(--d-tiny);
+  --mss: var(--d-xsmall);
+
+  /* LAYOUT SIZES */
+
+  --page-max-width: 61rem;
 }

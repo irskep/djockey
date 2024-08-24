@@ -25,12 +25,19 @@ h6 {
 
 /* HEADER & FOOTER */
 
-body > header {
-  border-bottom: var(--border-strong);
+.DJHeader_Content {
+  border-bottom: var(--border-weak);
+  padding: var(--ms) 0;
 }
 
-body > footer {
-  border-top: var(--border-strong);
+.DJFooter_Content {
+  border-top: var(--border-weak);
+  padding: var(--ms) 0;
+}
+
+main {
+  margin-top: var(--mll);
+  margin-bottom: var(--mm);
 }
 
 /* NAVIGATION */

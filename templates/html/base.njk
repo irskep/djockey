@@ -24,23 +24,31 @@
     {% for cssURL in cssURLs %}
     <link rel="stylesheet" href="{{ cssURL }}">
     {% endfor %}
-    <title>{{ doc.title }}</title>
+    <title>{{ config.siteName }} - {{ doc.title }}</title>
   </head>
   <body>
-    <header class="DJHeading">
-      <h1>{{ config.siteName }}</h1>
+    <header class="DJHeader">
+      <div class="DJHeader_Content u-page-width">
+        <h1>{{ config.siteName }}</h1>
+      </div>
     </header>
 
-    <main>
+    <main class="u-page-width">
       <div class="DJContent">
         {{ nextPrevious('m-top') }}
         <article>{{ docs.content | safe }}</article>
         {{ nextPrevious('m-bottom') }}
       </div>
-      <nav class="DJTableOfContents">{{ docs.toc | safe }}</nav>
-      {% if docs.doctree %}<nav class="DJDocTree">{{ docs.doctree | safe }}{% endif %}
+      <nav class="DJTableOfContents m-sidebar">{{ docs.toc | safe }}</nav>
+      {% if docs.doctree %}<nav class="DJDocTree m-sidebar">{{ docs.doctree | safe }}{% endif %}
     </main>
 
-    <footer>{{ config.html.footerText }}</footer>
+    {%if config.html.footerText -%}
+    <footer class="DJFooter">
+      <div class="DJFooter_Content u-page-width">
+        {{ config.html.footerText }}
+      </div>
+    </footer>
+    {% endif %}
   </body>
 </html>

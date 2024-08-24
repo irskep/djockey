@@ -4,11 +4,22 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 body > header,
 body > footer {
   flex-grow: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.u-page-width {
+  width: 100%;
+  max-width: var(--page-max-width);
 }
 
 main {
@@ -17,13 +28,16 @@ main {
 
   display: flex;
   flex-direction: row;
-  width: 100%;
 }
 
 .DJDocTree {
-  order: 0;
   flex-grow: 0;
 }
+.DJDocTree.m-sidebar {
+  width: 12.1rem;
+  order: 0;
+}
+
 .DJContent {
   flex-grow: 1;
   order: 1;
@@ -42,7 +56,7 @@ main {
   flex-grow: 0;
 }
 .DJTableOfContents::before {
-  content: "Table of Contents";
+  content: "On this page";
 }
 
 /* NAVIGATION */
