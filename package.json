@@ -1,9 +1,24 @@
 {
   "name": "djockey",
+  "version": "0.0.1",
   "packageManager": "yarn@3.5.0",
   "engines": {
     "node": ">=17.0.0"
   },
+  "license": "MIT",
+  "repository": "https://github.com/irskep/djockey",
+  "homepage": "https://steveasleep.com/djockey/",
+  "keywords": [
+    "documentation",
+    "generator",
+    "djot",
+    "markdown",
+    "pandoc"
+  ],
+  "bin": "./dist/cli.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "prepublish": "tsc",
   "scripts": {
     "build": "npx tsc",
     "test": "jest",

@@ -1,8 +1,6 @@
 import fs from "fs";
 import path from "path";
 
-import fastGlob from "fast-glob";
-
 import { Environment, FileSystemLoader } from "nunjucks";
 
 import { DocSet } from "./docset";

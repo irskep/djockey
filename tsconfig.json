@@ -4,9 +4,11 @@
     "outDir": "dist",
     "strict": true,
     "target": "es6",
+    "declaration": true,
     "module": "commonjs",
     "sourceMap": true,
     "esModuleInterop": true,
     "moduleResolution": "node"
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
