@@ -30,7 +30,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% for cssURL in cssURLs %}
-    <link rel="stylesheet" href="{{ cssURL }}">
+      {%- if cssURL.endsWith('.light.css') -%}
+      <link rel="stylesheet"  media="(prefers-color-scheme: light)" href="{{ cssURL }}">
+      {%- elif cssURL.endsWith('.dark.css') -%}
+      <link rel="stylesheet"  media="(prefers-color-scheme: dark)" href="{{ cssURL }}">
+      {%- else -%}
+      <link rel="stylesheet" href="{{ cssURL }}">
+      {%- endif %}
     {% endfor %}
     <title>{{ config.siteName }} - {{ doc.title }}</title>
   </head>
