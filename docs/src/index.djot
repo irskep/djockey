@@ -13,10 +13,12 @@ Djockey is a powerful static site generator for technical writing and project do
 
 ## To do
 
+Example of `jsFunctionCall(arg)`{.language-js}
+
 ### Low-hanging fruit
 
 - [ ] Finish CSS stylesheets
-- [ ] Syntax highlighting, Mermaid, Graphviz
+- [x] Syntax highlighting, Mermaid, Graphviz
 - [ ] Literal symbol parsing
 
 ### Harder stuff

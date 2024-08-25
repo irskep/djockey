@@ -20,4 +20,11 @@ window.onload = () => {
   /* HIGHLIGHT.JS */
 
   hljs.highlightAll();
+
+  [...document.querySelectorAll("code")].forEach((codeEl) => {
+    const parent = codeEl.parentElement!;
+    if (parent.tagName === "pre") return;
+    console.log("Highlight", codeEl);
+    hljs.highlightElement(codeEl);
+  });
 };
