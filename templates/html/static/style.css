@@ -12,6 +12,23 @@ a:visited {
   color: var(--color-fg-link-visited);
 }
 
+li.checked,
+li.unchecked {
+  list-style-type: none;
+}
+li.checked:before {
+  content: "☒";
+  margin-left: -1.31em;
+  margin-top: -0.08em;
+  float: left;
+}
+li.unchecked:before {
+  content: "☐";
+  margin-left: -1.31em;
+  margin-top: -0.08em;
+  float: left;
+}
+
 /* HEADER & FOOTER */
 
 .DJHeader {
@@ -82,6 +99,7 @@ nav h4,
 nav h5,
 nav h6 {
   font-size: var(--fs-normal);
+  margin-bottom: 0.5em;
 }
 
 nav h2,
