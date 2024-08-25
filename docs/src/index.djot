@@ -13,12 +13,22 @@ Djockey is a powerful static site generator for technical writing and project do
 
 ## To do
 
+### Documentation
+
+- [ ] Why Djockey? Why Djot?
+- [ ] Developing/contributing
+- [ ] Plugin API docs
+- [ ] How to use plugins
+- [ ] Config reference
+
 ### Low-hanging fruit
 
 - [ ] Finish CSS stylesheets
 - [x] Syntax highlighting, Mermaid, Graphviz
-- [ ] Literal symbol parsing
-- [ ] Dark mode
+- [x] Literal symbol parsing
+- [x] Dark mode
+- [ ] Multi-tab code blocks/divs
+- [ ] Readme-as-output
 
 ### Harder stuff
 

@@ -4,6 +4,14 @@ body {
   background-color: var(--color-bg);
 }
 
+svg line {
+  stroke: var(--color-fg-1);
+}
+
+svg rect {
+  fill: var(--color-fg-1);
+}
+
 a {
   color: var(--color-fg-link);
 }
@@ -156,6 +164,8 @@ nav h6 {
   height: 100%;
   padding: 0;
   min-width: var(--sidebar-width);
+  background-color: var(--color-bg-1);
+  color: var(--color-fg-1);
 }
 
 #dj-mobile-menu header {

@@ -83,3 +83,20 @@
     var(--header-height) + var(--mm)
   );
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-black: rgb(249, 250, 251);
+    --c-white: rgb(49, 49, 56);
+    --c-gray1: #f7f7f7;
+    --c-gray2: #ddd;
+    --c-gray3: #aaa;
+    --c-gray4: #777;
+    --c-gray5: #555;
+    --c-gray6: #333;
+
+    /* Accents */
+    --c-linkblue: lightblue;
+    --c-linkpurple: purple;
+  }
+}
