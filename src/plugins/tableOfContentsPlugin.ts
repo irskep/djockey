@@ -2,6 +2,8 @@ import { BulletList, Heading, Link, ListItem, Section } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 
+// TODO: destinations need to include full paths! TOCEntry needs a relativePath argument.
+// Should have slash prefix.
 export type TOCEntry = {
   id: string;
   node: Heading;
