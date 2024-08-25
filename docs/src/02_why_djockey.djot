@@ -1,0 +1,46 @@
+# Why Djockey? Why Djot?
+
+## Djot
+
+While Markdown is great, it has some well-documented issues when used for technical writing. Mainly, it lacks consistent syntax for extensibility and rich inline metadata. You can read more in these two blog posts written by maintainers of popular documentation tools:
+
+1. [Why you shouldn't use "Markdown" for documentation](https://ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/), by a maintainer of [Read the Docs](https://readthedocs.com)
+2. [Beyond Markdown](https://johnmacfarlane.net/beyond-markdown.html), by the maintainer of [Pandoc](https://pandoc.org)
+
+Critically, in order to extend a Markdown parser/renderer, the typical workflow is to add new syntax using regular expressions, and write a custom HTML renderer. This means every project potentially has its own little subset of Markdown for contributors to remember, and can only ever render to HTML.
+
+Djot is similar to Markdown, and solves the extensibility problem nicely ([1](https://htmlpreview.github.io/?https://github.com/jgm/djot/blob/master/doc/syntax.html#inline-attributes), [2](https://htmlpreview.github.io/?https://github.com/jgm/djot/blob/master/doc/syntax.html#block-attributes)), with equivalent tooling written in six programming languages. One syntax to rule them all! That's why Djockey works with Djot data structures internally.
+
+On the other hand, the reality is that people know Markdown and people want to write Markdown. Pandoc and the Djot libraries make it trivial to convert from Markdown to Djot data structures, so Djockey supports Markdown as well.
+
+### Other options
+
+The [MyST](https://myst-parser.readthedocs.io/en/latest/) flavor of Markdown uses a very effective approach to bringing the deep extensibility of [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html) to Markdown. Unfortunately, the only existing parser is written in Python, and Djockey is not written in Python. It would be possible to try supporting MyST down the line by porting MyST's markdown-it extensions to JavaScript.
+
+## Djockey
+
+This is a messy section because I'm still figuring out what Djockey is. It is experimental.
+
+There are already several top-tier documentation tools available to you: [Sphinx](https://www.sphinx-doc.org/en/master/), [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), and [VitePress](https://vitepress.dev), to name a few. So why consider Djockey?
+
+I will try to answer the question with a comparison table. I apologize if I get any details wrong; please [let me know](https://github.com/irskep/djockey/issues/new) if I did.
+
+{.table-2d}
+| | [Sphinx](https://sphinx-doc.org) | [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) | [VitePress](https://vitepress.dev) | Djockey |
+|-:|-|-|-|-|
+| *Markup* | md/rst | md | md | md/djot |
+| *Extensions* | Tree-based 🌲 | Regex+HTML 🥲 | Regex+HTML 🥲 | Tree-based 🌲 |
+| *Ecosystem* | Python | Python | JS | JS |
+| *Theme* | 😕 | 🤩 | 🥰 | 🤷‍♂️ |
+| *Output* | HTML, PDF | HTML | HTML | HTML, Markdown |
+
+For a long time, Sphinx was the gold standard for documentation tools. It has more powerful cross-referencing and organization features than anything else. But once people got a taste for Markdown, other tools with less power but better UX took over. And the JavaScript community never really touched Sphinx, since it's so tied to Python.
+
+Another interesting thing that happened along the way was that people started expecting to browse docs directly in the GitHub UI. Markdown-based tools get decent support for free (unless they use extensions that aren't compatible with GitHub, like Material for MkDocs does). This creates a barrier to the adoption of new markup languages. If GitHub can't display it, people don't like it.
+
+With all this in mind, Djockey:
+
+1. Has the cross-referencing power and extensibility of Sphinx
+2. Renders Markdown specifically for viewing on GitHub
+3. Is written in TypeScript, and in the future will integrate with TypeDoc
+4. Hopes to evangelize Djot, but lets you write Markdown

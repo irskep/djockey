@@ -16,3 +16,7 @@ npx djockey docs
 ```
 
 Or grab a binary from the [GitHub releases page](https://github.com/irskep/djockey/releases).
+
+## Pandoc
+
+In order to use Markdown, you must also [install Pandoc](https://pandoc.org/installing.html).

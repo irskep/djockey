@@ -37,6 +37,29 @@ li.unchecked:before {
   float: left;
 }
 
+:where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-indent: 0;
+  margin-bottom: 1.25em;
+}
+
+td,
+th {
+  padding: var(--ms);
+}
+
+td {
+  border-bottom: var(--border-weak);
+}
+
+th {
+  border-bottom: var(--border-strong);
+  text-align: left;
+  text-align: start;
+}
+
 /* HEADER & FOOTER */
 
 .DJHeader {

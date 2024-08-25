@@ -1,0 +1,7 @@
+.table-2d td:first-child {
+  border-bottom: none;
+}
+
+.table-2d th:first-child {
+  border-bottom: none;
+}
