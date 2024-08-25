@@ -1,0 +1,23 @@
+You can include [Mermaid](https://mermaid.js.org) diagrams using a ```` ```mermaid```` code fence.
+
+Example input:
+
+````djot
+```mermaid
+flowchart LR
+    Parse(Read documents) --> Read(Read pass)
+    Read --> Write(Write pass)
+    Write -->|If configured| Read
+    Write --> Output
+```
+````
+
+Example output:
+
+```mermaid
+flowchart LR
+    Parse(Read documents) --> Read(Read pass)
+    Read --> Write(Write pass)
+    Write -->|If configured| Read
+    Write --> Output
+```

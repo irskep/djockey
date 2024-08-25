@@ -91,13 +91,17 @@ main {
 }
 
 nav > ul,
-nav > div > ul {
+nav > div > ul,
+nav > ul > li > ul,
+nav > div > ul,
+nav > div > ul > li > ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-nav > ul ul,
-nav > div > ul ul {
+/* Only indent third-level lists */
+nav > ul ul ul,
+nav > div > ul ul ul {
   padding-left: 0;
   list-style-type: none;
   margin-left: 0.5em;
@@ -121,6 +125,17 @@ nav.DJDocTree h5,
 nav.DJDocTree h6 {
   text-decoration: none;
   color: var(--color-fg-2);
+}
+
+/* Add underlines to sections with self-docs */
+nav.DJDocTree a:hover,
+nav.DJDocTree h1 > a,
+nav.DJDocTree h2 > a,
+nav.DJDocTree h3 > a,
+nav.DJDocTree h4 > a,
+nav.DJDocTree h5 > a,
+nav.DJDocTree h6 > a {
+  text-decoration: underline;
 }
 
 nav h1,

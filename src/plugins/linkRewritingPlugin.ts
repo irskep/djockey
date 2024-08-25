@@ -95,7 +95,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
     if (values.length > 1) {
       console.warn(
-        `Multiple possible destinations for ${nodeDestination} in ${renderArgs.sourcePath}`
+        `Multiple possible destinations for ${nodeDestination} in ${renderArgs.sourcePath}: ${values}`
       );
     }
     return values[0].renderDestination(renderArgs);

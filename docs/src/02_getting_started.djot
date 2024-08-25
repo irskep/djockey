@@ -1,0 +1,21 @@
+# Getting Started
+
+Once you've [installed Djockey](#installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
+
+```yaml
+inputDir: path-to-your-docs
+outputDir:
+  html: docs_out/html
+  gfm: docs_out/gfm
+siteName: "Your Name Here"
+urlRoot: https://where-docs-will-be-deployed
+
+outputFormats:
+  html: true
+  gfm: true  # make sure you've installed Pandoc!
+
+html:
+  footerText: "©2024 You"
+```
+
+Now try running `npx djockey`. Maybe it'll just work!

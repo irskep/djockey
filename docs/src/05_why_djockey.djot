@@ -44,3 +44,5 @@ With all this in mind, Djockey:
 2. Renders Markdown specifically for viewing on GitHub
 3. Is written in TypeScript, and in the future will integrate with TypeDoc
 4. Hopes to evangelize Djot, but lets you write Markdown
+
+The outcome is that you have an easy time writing your docs, and your users get the best possible UX.
