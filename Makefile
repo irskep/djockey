@@ -1,4 +1,7 @@
-.PHONY: docs
+.PHONY: docs client-nocache
+
+client-nocache:
+	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify
 
 templates/html/static/client.js: src/clientjs/*
 	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify

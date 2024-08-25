@@ -29,6 +29,7 @@
     "@djot/djot": "^0.3.1",
     "argparse": "^2.0.1",
     "fast-glob": "^3.3.2",
+    "highlight.js": "^11.10.0",
     "js-yaml": "^4.1.0",
     "mermaid": "^11.0.2",
     "nunjucks": "^3.2.4"
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/argparse": "^2.0.16",
+    "@types/highlight.js": "^10.1.0",
     "@types/jest": "^29.5.12",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.4.0",

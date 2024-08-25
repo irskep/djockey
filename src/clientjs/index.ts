@@ -1,3 +1,4 @@
+import hljs from "highlight.js";
 import mermaid from "mermaid";
 
 window.onload = () => {
@@ -15,4 +16,8 @@ window.onload = () => {
   });
 
   mermaid.run({ querySelector: ".language-mermaid" });
+
+  /* HIGHLIGHT.JS */
+
+  hljs.highlightAll();
 };
