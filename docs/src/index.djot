@@ -15,7 +15,7 @@ Djockey is a powerful but experimental static site generator for technical writi
 ### Documentation
 
 - [x] Why Djockey? Why Djot?
-- [ ] Developing/contributing
+- [x] Developing/contributing
 - [ ] Plugin API docs
 - [ ] How to use plugins
 - [x] Config reference
@@ -27,10 +27,11 @@ Djockey is a powerful but experimental static site generator for technical writi
 - [ ] Switch from highlight.js to Shiki so we can use [the Djot Textmate grammar](https://github.com/ryanabx/djot-vscode/blob/main/syntaxes/djot.tmLanguage.json)
 - [ ] Fancy logging and error reporting
 - [ ] Finish CSS stylesheets
+- [ ] Multi-tab code blocks/divs
+- [ ] `defaultLanguage`{.language-plaintext} in front matter
 - [x] Syntax highlighting, Mermaid, Graphviz
 - [x] Literal symbol parsing
 - [x] Dark mode
-- [ ] Multi-tab code blocks/divs
 - [x] Sections with and without self-docs have the same appearance but only one is clickable
 
 ### Harder stuff

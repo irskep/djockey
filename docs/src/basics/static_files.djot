@@ -1,8 +1,6 @@
 # Static Files
 
-One design goal of Djockey is to minimize the need to edit a config file.
-
-In this spirit, all files that are not markup (Markdown, Djot) are copied to the output directory.
+One design goal of Djockey is to minimize the need to edit a config file. In this spirit, all files that are not markup (i.e. not Markdown or Djot) are copied to the output directory.
 
 Any CSS and JavaScript files will be included in the HTML output. If your CSS file ends in `.light.css`{.lang-sh} or `.dark.css`{.lang-sh}, it will only be enabled for light or dark mode, respectively.
 

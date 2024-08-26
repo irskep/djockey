@@ -1,0 +1,20 @@
+# Dependencies
+
+Djockey's dependencies should:
+
+1. Be written by a person who knows what they are doing
+2. Have few transitive dependencies
+
+Dependencies supporting the core functionality of Djockey:
+
+- [Pandoc](https://pandoc.org) (optional): Convert to and from non-Djot formats
+- [@djot/djot](https://www.npmjs.com/package/@djot/djot): Parse Djot
+- [argparse](https://www.npmjs.com/package/argparse): Parse command-line arguments
+- [fast-glob](https://www.npmjs.com/package/fast-glob): Select files based on config options
+- [Nunjucks](https://mozilla.github.io/nunjucks/): String templates
+- [parse5](https://www.npmjs.com/package/parse5): Spec-compliant HTML5 parsing
+
+Dependencies supporting individual features:
+
+- [highlight.js](https://www.npmjs.com/package/highlight.js): Syntax highlighting (will be replaced with Shiki)
+- [Mermaid](https://mermaid.js.org): Diagram rendering

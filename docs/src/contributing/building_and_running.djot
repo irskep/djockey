@@ -1,0 +1,18 @@
+---
+title: Building and running
+---
+# Building and running Djot locally
+
+## Using [Bun](https://bun.sh) (preferred)
+
+It's best to iterate on Djockey with Bun because you don't need to compile the TypeScript and it boots instantly.
+
+Assuming you've already installed `bun`{.language-sh}, `bun install`{.language-sh} and `bun test`{.language-sh} work as usual.
+
+`Makefile`{.language-sh} has a few shortcuts for working this way. Run `make docs`{.language-sh} to build the documentation for local browsing using Bun; this is effectively the best integration test for Djockey right now.
+
+## Using Node
+
+Djockey supports Node because most potential users already have Node installed.
+
+You can use `yarn djockey`{.language-sh} to build Djockey with `tsc`{.language-sh} and run Djockey using Node. `yarn test`{.language-sh} and `yarn test:watch`{.language-sh} will run the tests using [Jest](https://jestjs.io).
