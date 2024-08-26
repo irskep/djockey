@@ -3,6 +3,11 @@ order: -1
 ---
 # Configuration reference
 
+{.tag-aside .warning}
+:::
+Djockey is pre-alpha and config options _will_ change.
+:::
+
 ```yaml
 # djockey.yaml
 siteName: "Your name here"

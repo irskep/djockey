@@ -21,6 +21,7 @@ header h1 {
 
 article p,
 article pre,
+article aside,
 article ol,
 article ul {
   margin-bottom: 1.25em;

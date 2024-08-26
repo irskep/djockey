@@ -1,0 +1,31 @@
+aside {
+  border-width: var(--aside-border-width);
+  border-radius: var(--aside-border-radius);
+  border-style: solid;
+  overflow: hidden;
+}
+
+aside > * {
+  margin: 0 var(--ms);
+}
+
+aside > *:last-child {
+  margin-bottom: var(--ms);
+}
+
+aside::before {
+  font-weight: var(--fw-bold);
+  margin: 0 0 var(--ms) 0;
+  padding: var(--mss) var(--ms);
+  display: block;
+  background-color: var(--aside-title-color-bg-warning);
+}
+
+aside.warning::before {
+  content: "Warning";
+}
+
+aside.warning {
+  border-color: var(--aside-color-border-warning);
+  font-size: var(--fs-small);
+}
