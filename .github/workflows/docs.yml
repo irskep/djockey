@@ -35,13 +35,13 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       # Build the docs
-      - run: make docs
+      - run: bun src/cli.ts build docs
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'docs/out/html'
+          path: "docs/out/html"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
