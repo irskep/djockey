@@ -1,6 +1,9 @@
+---
+order: 1
+---
 # Getting Started
 
-Once you've [installed Djockey](#installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
+Once you've [installed Djockey](#Installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
 
 ```yaml
 inputDir: path-to-your-docs

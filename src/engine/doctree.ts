@@ -1,5 +1,6 @@
 import path from "path";
 import { DjockeyDoc } from "../types";
+import { CustomSortValue } from "./customSortValue";
 
 export type DocTreeSection = {
   title: string;
@@ -133,6 +134,14 @@ function sortDocsByPathWithFilesBeforeDirectories(
   docs: DjockeyDoc[]
 ): DjockeyDoc[] {
   return docs.sort((docA, docB) => {
+    const customSortValueA = new CustomSortValue(docA.frontMatter);
+    const customSortValueB = new CustomSortValue(docB.frontMatter);
+
+    if (customSortValueA.isComparable(customSortValueB)) {
+      const result = customSortValueA.compareTo(customSortValueB);
+      if (result !== 0) return result; // otherwise break the tie
+    }
+
     const a = docA.relativePath;
     const b = docB.relativePath;
     const partsA = a.split("/");

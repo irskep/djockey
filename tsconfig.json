@@ -3,7 +3,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,
-    "target": "es6",
+    "target": "es2020",
     "declaration": true,
     "module": "commonjs",
     "sourceMap": true,

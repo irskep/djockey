@@ -8,11 +8,25 @@ import { DjockeyDoc } from "../types";
 import { getPandocAST } from "../pandoc";
 import { getInputFormatForFileExtension } from "./fileExtensions";
 
-const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
-const FRONT_MATTER_RE_2 = /^---\n(.*?)\n---$/g;
-
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
+}
+
+export function parseFrontmatter(text: string): {
+  text: string;
+  frontMatter: Record<string, unknown>;
+} {
+  const FM_RE = /^---\n(.*?)\n---\n?/gs;
+  const match = FM_RE.exec(text);
+
+  if (match) {
+    const justText = text.slice(match[0].length);
+    const fmText = match[1];
+    const frontMatter = yaml.load(fmText) as Record<string, unknown>;
+    return { text: justText, frontMatter };
+  } else {
+    return { text, frontMatter: {} };
+  }
 }
 
 export function parseDjot(
@@ -20,20 +34,9 @@ export function parseDjot(
   absolutePath: string
 ): DjockeyDoc | null {
   const relativePath = path.relative(inputRoot, absolutePath);
-  let text = fs.readFileSync(absolutePath, "utf8");
-  let frontMatter: Record<string, unknown> = {};
-
-  const match = FRONT_MATTER_RE.exec(text);
-  if (match) {
-    text = match[2];
-    frontMatter = yaml.load(match[1]) as Record<string, unknown>;
-  } else {
-    const match2 = FRONT_MATTER_RE_2.exec(text);
-    if (match2) {
-      text = "";
-      frontMatter = yaml.load(match2[1]) as Record<string, unknown>;
-    }
-  }
+  const { text, frontMatter } = parseFrontmatter(
+    fs.readFileSync(absolutePath, "utf8")
+  );
 
   let djotDoc: Doc | undefined;
 

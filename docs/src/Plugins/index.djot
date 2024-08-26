@@ -1,3 +1,6 @@
+---
+order: 0
+---
 # Plugins
 
 Djockey has a plugin API that allows arbitrary transforms on documents.

@@ -38,18 +38,18 @@ test("Generates TOCEntry tree for one doc", () => {
 
   expect(html).toEqual(`<ul>
 <li>
-<a href="#Heading-1">Heading 1</a>
+<a href="/Test Doc.djot#Heading-1">Heading 1</a>
 <ul>
 <li>
-<a href="#Heading-1-1">Heading 1.1</a>
+<a href="/Test Doc.djot#Heading-1-1">Heading 1.1</a>
 </li>
 </ul>
 </li>
 <li>
-<a href="#Heading-2">Heading 2</a>
+<a href="/Test Doc.djot#Heading-2">Heading 2</a>
 <ul>
 <li>
-<a href="#Heading-2-2">Heading 2.2</a>
+<a href="/Test Doc.djot#Heading-2-2">Heading 2.2</a>
 </li>
 </ul>
 </li>
