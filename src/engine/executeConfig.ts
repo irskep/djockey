@@ -26,13 +26,13 @@ function pluralize(n: number, singular: string, plural: string): string {
 
 export async function executeConfig(config: DjockeyConfigResolved) {
   const docSet = await readDocSet(config);
-  docSet.tree = loadDocTree(docSet.docs);
   console.log(
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
   );
   for (let i = 0; i < config.numPasses; i++) {
     docSet.runPasses();
   }
+  docSet.tree = loadDocTree(docSet.docs);
   writeDocSet(docSet);
 }
 

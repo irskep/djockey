@@ -9,6 +9,7 @@ import { getPandocAST } from "../pandoc";
 import { getInputFormatForFileExtension } from "./fileExtensions";
 
 const FRONT_MATTER_RE = /^---\n(.*?)\n---\n((.|[\s\S])*)$/g;
+const FRONT_MATTER_RE_2 = /^---\n(.*?)\n---$/g;
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -26,6 +27,12 @@ export function parseDjot(
   if (match) {
     text = match[2];
     frontMatter = yaml.load(match[1]) as Record<string, unknown>;
+  } else {
+    const match2 = FRONT_MATTER_RE_2.exec(text);
+    if (match2) {
+      text = "";
+      frontMatter = yaml.load(match2[1]) as Record<string, unknown>;
+    }
   }
 
   let djotDoc: Doc | undefined;
