@@ -89,8 +89,12 @@
 
   --aside-border-width: 1px;
   --aside-border-radius: 4px;
-  --aside-color-border-warning: red;
-  --aside-title-color-bg-warning: rgb(251, 205, 205);
+  --aside-color-border-note: rgb(60, 60, 255);
+  --aside-title-color-bg-note: rgb(211, 211, 255);
+  --aside-color-border-warning: rgb(155, 159, 31);
+  --aside-title-color-bg-warning: rgb(252, 255, 187);
+  --aside-color-border-danger: red;
+  --aside-title-color-bg-danger: rgb(251, 205, 205);
 }
 
 @media (prefers-color-scheme: dark) {

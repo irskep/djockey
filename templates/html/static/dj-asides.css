@@ -3,6 +3,7 @@ aside {
   border-radius: var(--aside-border-radius);
   border-style: solid;
   overflow: hidden;
+  font-size: var(--fs-small);
 }
 
 aside > * {
@@ -18,14 +19,37 @@ aside::before {
   margin: 0 0 var(--ms) 0;
   padding: var(--mss) var(--ms);
   display: block;
-  background-color: var(--aside-title-color-bg-warning);
 }
+
+/* Note */
+
+aside.note::before {
+  content: "Note";
+  background-color: var(--aside-title-color-bg-note);
+}
+
+aside.note {
+  border-color: var(--aside-color-border-note);
+}
+
+/* Warning */
 
 aside.warning::before {
   content: "Warning";
+  background-color: var(--aside-title-color-bg-warning);
 }
 
 aside.warning {
   border-color: var(--aside-color-border-warning);
-  font-size: var(--fs-small);
+}
+
+/* Danger */
+
+aside.danger::before {
+  content: "Danger";
+  background-color: var(--aside-title-color-bg-danger);
+}
+
+aside.danger {
+  border-color: var(--aside-color-border-danger);
 }

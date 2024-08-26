@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import fastGlob from "fast-glob";
+import { HasAttributes } from "@djot/djot";
 
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,
@@ -52,4 +53,10 @@ export function copyFilesMatchingPattern(args: {
     console.log("Copying static file", relativePath, "to", newFullPath);
     fs.copyFileSync(path_, `${dest}/${relativePath}`);
   }
+}
+
+export function getHasClass(node: HasAttributes, cls: string): boolean {
+  if (!node.attributes || !node.attributes["class"]) return false;
+  const values = new Set(node.attributes["class"].split(" "));
+  return values.has(cls);
 }

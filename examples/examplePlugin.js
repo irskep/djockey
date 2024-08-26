@@ -3,4 +3,4 @@ class ExamplePlugin {
     console.log("The example plugin is running on", doc.title);
   }
 }
-export const makePlugin = () => new ExamplePlugin();
+export const makePlugin = (config) => new ExamplePlugin();

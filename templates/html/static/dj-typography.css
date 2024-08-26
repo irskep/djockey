@@ -56,5 +56,6 @@ article h3 {
 }
 
 article pre {
+  overflow-x: auto;
   min-width: 0;
 }

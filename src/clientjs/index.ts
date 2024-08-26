@@ -19,6 +19,11 @@ window.onload = () => {
 
   /* HIGHLIGHT.JS */
 
+  // Temporary fallback
+  [...document.querySelectorAll("code.language-djot")].forEach((codeEl) => {
+    codeEl.className = "language-markdown";
+  });
+
   hljs.highlightAll();
 
   [...document.querySelectorAll("code")].forEach((codeEl) => {

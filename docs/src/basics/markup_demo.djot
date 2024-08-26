@@ -21,3 +21,35 @@ Output:
 [I'm from Mattel!]{.tag-summary}
 Well, I'm not really from Mattel. I'm actually from a smaller company that was purchased in a leveraged buyout.
 :::
+
+## Asides
+
+### Note
+
+{.dj-djot-demo}
+```
+{.tag-aside .note}
+:::
+Objects in mirror may be closer than they appear
+:::
+```
+
+### Warning
+
+{.dj-djot-demo}
+```
+{.tag-aside .warning}
+:::
+Objects in mirror may be closer than they appear
+:::
+```
+
+### Danger
+
+{.dj-djot-demo}
+```
+{.tag-aside .danger}
+:::
+Objects in mirror may be closer than they appear
+:::
+```

@@ -19,6 +19,7 @@ import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
 import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
 import { loadDocTree } from "./doctree";
 import { populateDocTreeDoc } from "./populateDocTreeDoc";
+import { DjotDemoPlugin } from "../plugins/djotDemoPlugin";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -53,7 +54,7 @@ export async function readDocSet(
     console.log("Loading plugin", pluginPath);
     try {
       const plg = (await import(pluginPath)) as DjockeyPluginModule;
-      userPlugins.push(plg.makePlugin());
+      userPlugins.push(plg.makePlugin(config));
     } catch {
       console.log(
         `Unable to load plugin ${pluginPath} from node_modules. Trying file path...`
@@ -61,7 +62,7 @@ export async function readDocSet(
       const pluginPathAbsolute = path.resolve(pluginPath);
       const plg = (await import(pluginPathAbsolute)) as DjockeyPluginModule;
       console.log("...OK!");
-      userPlugins.push(plg.makePlugin());
+      userPlugins.push(plg.makePlugin(config));
     }
   }
 
@@ -70,6 +71,7 @@ export async function readDocSet(
     [
       new TableOfContentsPlugin(),
       new LinkRewritingPlugin(config),
+      new DjotDemoPlugin(),
       new AutoTitlePlugin(),
       ...userPlugins,
     ],

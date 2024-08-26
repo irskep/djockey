@@ -86,5 +86,5 @@ export type DjockeyPlugin = {
 };
 
 export type DjockeyPluginModule = {
-  makePlugin: () => DjockeyPlugin;
+  makePlugin: (config: DjockeyConfig) => DjockeyPlugin;
 };
