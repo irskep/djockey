@@ -12,7 +12,7 @@ urlRoot: https://where-docs-will-be-deployed
 
 outputFormats:
   html: true
-  gfm: true  # make sure you've installed Pandoc!
+  gfm: false # set this to true if you want Markdown output for GitHub
 
 html:
   footerText: "©2024 You"

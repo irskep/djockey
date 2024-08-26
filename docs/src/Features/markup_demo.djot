@@ -1,0 +1,23 @@
+# Markup demo
+
+## Overriding HTML tags
+
+Djot does not ([yet](https://github.com/jgm/djot/issues/240)) support arbitrary HTML tags in its input or output. Djockey works around this by postprocessing Djot's HTML output. Whenever you add a CSS class starting with `tag-`{.language-plaintext}, Djockey will replace the element's tag with the rest of the class.
+
+Input:
+
+```djot
+{.tag-details}
+:::
+[I'm from Mattel!]{.tag-summary}
+Well, I'm not really from Mattel. I'm actually from a smaller company that was purchased in a leveraged buyout.
+:::
+```
+
+Output:
+
+{.tag-details}
+:::
+[I'm from Mattel!]{.tag-summary}
+Well, I'm not really from Mattel. I'm actually from a smaller company that was purchased in a leveraged buyout.
+:::

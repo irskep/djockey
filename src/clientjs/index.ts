@@ -24,7 +24,13 @@ window.onload = () => {
   [...document.querySelectorAll("code")].forEach((codeEl) => {
     const parent = codeEl.parentElement!;
     if (parent.tagName === "pre") return;
-    console.log("Highlight", codeEl);
-    hljs.highlightElement(codeEl);
+
+    for (const cls of codeEl.classList) {
+      if (cls.startsWith("language-")) {
+        console.log("Highlight", codeEl);
+        hljs.highlightElement(codeEl);
+        break;
+      }
+    }
   });
 };

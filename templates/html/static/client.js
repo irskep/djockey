@@ -1541,4 +1541,4 @@ ${Z.themeCSS}`;if(Z.fontFamily!==void 0)Q+=`
 
 js-yaml/dist/js-yaml.mjs:
   (*! js-yaml 4.1.0 https://github.com/nodeca/js-yaml @license MIT *)
-*/window.onload=()=>{[...document.querySelectorAll("pre code.language-mermaid")].map((Z)=>{const J=Z.parentElement;J.innerHTML=Z.innerHTML,J.className="language-mermaid"}),Y20.run({querySelector:".language-mermaid"}),EI.highlightAll(),[...document.querySelectorAll("code")].forEach((Z)=>{if(Z.parentElement.tagName==="pre")return;console.log("Highlight",Z),EI.highlightElement(Z)})};
+*/window.onload=()=>{[...document.querySelectorAll("pre code.language-mermaid")].map((Z)=>{const J=Z.parentElement;J.innerHTML=Z.innerHTML,J.className="language-mermaid"}),Y20.run({querySelector:".language-mermaid"}),EI.highlightAll(),[...document.querySelectorAll("code")].forEach((Z)=>{if(Z.parentElement.tagName==="pre")return;for(let Q of Z.classList)if(Q.startsWith("language-")){console.log("Highlight",Z),EI.highlightElement(Z);break}})};

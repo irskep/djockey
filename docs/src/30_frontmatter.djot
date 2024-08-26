@@ -2,7 +2,7 @@
 
 You can customize the title of your doc by adding YAML between `---` lines at the top, like this:
 
-```md
+```plaintext
 ---
 title: Custom Title
 ---

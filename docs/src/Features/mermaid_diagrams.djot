@@ -1,3 +1,5 @@
+# Mermaid diagrams
+
 You can include [Mermaid](https://mermaid.js.org) diagrams using a ```` ```mermaid```` code fence.
 
 Example input:
