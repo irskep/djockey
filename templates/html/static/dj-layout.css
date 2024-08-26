@@ -48,6 +48,12 @@ main {
   flex-shrink: 1;
   order: 1;
 
+  /*
+  This fixes a spooky layout relationship with <pre> tags inside articles. Flex environments
+  respect min-width, which can force <pre> to be much too big for long lines.
+  */
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
   align-items: stretch;

@@ -53,3 +53,7 @@ article h3 {
   font-weight: var(--fw-normal);
   margin: 2rem 0 1rem;
 }
+
+article pre {
+  min-width: 0;
+}
