@@ -3,6 +3,7 @@ import path from "path";
 import url from "url";
 
 import fastGlob from "fast-glob";
+import { parseFragment, serialize } from "parse5";
 
 import { renderHTML } from "@djot/djot";
 import { Environment } from "nunjucks";
@@ -19,7 +20,6 @@ import {
   ensureParentDirectoriesExist,
   makePathBackToRoot,
 } from "../util";
-import { DocSet } from "../engine/docset";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -111,7 +111,9 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
-      renderedDocs[k] = renderHTML(doc.docs[k]);
+      const rawHTML = renderHTML(doc.docs[k]);
+      const postprocessedHTML = postprocessHTML(rawHTML);
+      renderedDocs[k] = postprocessedHTML;
     }
 
     const outputPage = nj.render("base.njk", {
@@ -127,4 +129,63 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     fs.writeFileSync(outputPath, outputPage);
   }
+}
+
+interface Element {
+  attrs: { name: string; value: string }[];
+  childNodes: (Element | TextNode)[];
+  namespaceURI: unknown;
+  nodeName: string;
+  parentNode: null | Element;
+  sourceCodeLocation?: null | unknown;
+  tagName: string;
+}
+
+interface TextNode {
+  nodeName: "#text";
+  value: string;
+}
+
+/**
+ * For any node that has a class `tag-X`, replace its tag name with `X`.
+ */
+export function postprocessHTML(html: string): string {
+  const fragment = parseFragment(html);
+  fragment.childNodes;
+
+  function replaceNode(node: Element, tagName: string) {
+    const newEl: Element = { ...node, tagName: tagName };
+    const parent = node.parentNode!;
+
+    const ix = parent.childNodes.indexOf(node);
+    parent.childNodes[ix] = newEl;
+  }
+
+  function visit(node: Element | TextNode) {
+    if (node.nodeName === "#text") return;
+    node = node as Element;
+
+    for (const attr of node.attrs) {
+      if (attr.name !== "class") {
+        continue;
+      }
+      for (const cls of attr.value.split(" ")) {
+        if (!cls.startsWith("tag-")) {
+          continue;
+        }
+        const tagName = cls.slice("tag-".length);
+        replaceNode(node, tagName);
+      }
+    }
+
+    for (const child of node.childNodes) {
+      visit(child);
+    }
+  }
+
+  for (const child of fragment.childNodes) {
+    visit(child as Element | TextNode);
+  }
+
+  return serialize(fragment);
 }

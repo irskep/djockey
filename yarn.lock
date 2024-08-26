@@ -984,6 +984,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/parse5@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@types/parse5@npm:7.0.0"
+  dependencies:
+    parse5: "*"
+  checksum: ae9ffc515ac3130e125922ef4cc1cd98ec29f2b841b5c5da4b3ca47b7d580b38ffbc0f82554739ffb3cf620876d662434af8ffbcec229687512263fdeb183bed
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
@@ -2000,6 +2009,7 @@ __metadata:
     "@types/js-yaml": ^4.0.9
     "@types/node": ^22.4.0
     "@types/nunjucks": ^3.2.6
+    "@types/parse5": ^7.0.0
     argparse: ^2.0.1
     fast-glob: ^3.3.2
     highlight.js: ^11.10.0
@@ -2007,6 +2017,7 @@ __metadata:
     js-yaml: ^4.1.0
     mermaid: ^11.0.2
     nunjucks: ^3.2.4
+    parse5: ^7.1.2
     ts-jest: ^29.2.4
     typescript: ^5.5.4
   bin:
@@ -2073,6 +2084,13 @@ __metadata:
   dependencies:
     iconv-lite: ^0.6.2
   checksum: bb98632f8ffa823996e508ce6a58ffcf5856330fde839ae42c9e1f436cc3b5cc651d4aeae72222916545428e54fd0f6aa8862fd8d25bdbcc4589f1e3f3715e7f
+  languageName: node
+  linkType: hard
+
+"entities@npm:^4.4.0":
+  version: 4.5.0
+  resolution: "entities@npm:4.5.0"
+  checksum: 853f8ebd5b425d350bffa97dd6958143179a5938352ccae092c62d1267c4e392a039be1bae7d51b6e4ffad25f51f9617531fedf5237f15df302ccfb452cbf2d7
   languageName: node
   linkType: hard
 
@@ -3715,6 +3733,15 @@ __metadata:
     json-parse-even-better-errors: ^2.3.0
     lines-and-columns: ^1.1.6
   checksum: 62085b17d64da57f40f6afc2ac1f4d95def18c4323577e1eced571db75d9ab59b297d1d10582920f84b15985cbfc6b6d450ccbf317644cfa176f3ed982ad87e2
+  languageName: node
+  linkType: hard
+
+"parse5@npm:*, parse5@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "parse5@npm:7.1.2"
+  dependencies:
+    entities: ^4.4.0
+  checksum: 59465dd05eb4c5ec87b76173d1c596e152a10e290b7abcda1aecf0f33be49646ea74840c69af975d7887543ea45564801736356c568d6b5e71792fd0f4055713
   languageName: node
   linkType: hard
 
