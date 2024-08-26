@@ -31,7 +31,7 @@ Djockey is a powerful but experimental static site generator for technical writi
 - [x] Literal symbol parsing
 - [x] Dark mode
 - [ ] Multi-tab code blocks/divs
-- [ ] Sections with and without self-docs have the same appearance but only one is clickable
+- [x] Sections with and without self-docs have the same appearance but only one is clickable
 
 ### Harder stuff
 

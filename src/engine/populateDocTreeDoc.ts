@@ -48,12 +48,12 @@ function renderSection(
 
   const result = new Array<Block>();
 
-  if (level > 1 || section.selfDoc) {
+  if (level > 1 || section.selfDocHasContent) {
     result.push({
       tag: "heading",
       level,
       children: [
-        section.selfDoc
+        section.selfDoc && section.selfDocHasContent
           ? getDocLink(section.selfDoc)
           : {
               tag: "str",

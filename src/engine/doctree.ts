@@ -6,6 +6,7 @@ export type DocTreeSection = {
   title: string;
   relativePath: string;
   selfDoc: DjockeyDoc | null;
+  selfDocHasContent: boolean;
   children: DocTreeSection[];
   docs: DjockeyDoc[];
 };
@@ -23,6 +24,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     title: "",
     relativePath: "",
     selfDoc: null,
+    selfDocHasContent: false,
     children: [],
     docs: [],
   };
@@ -37,6 +39,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
       title: path.parse(relativePath).name,
       relativePath,
       selfDoc: null,
+      selfDocHasContent: false,
       children: [],
       docs: [],
     };
@@ -67,6 +70,8 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     if (path.parse(doc.filename).name === "index") {
       docSection.selfDoc = doc;
       docSection.title = doc.title;
+
+      docSection.selfDocHasContent = !!doc.docs.content.children.length;
     } else {
       docSection.docs.push(doc);
     }
@@ -131,7 +136,7 @@ export function connectNextAndPrevious(
     lastDoc = doc;
   }
 
-  if (section.selfDoc) {
+  if (section.selfDoc && section.selfDocHasContent) {
     processDoc(section.selfDoc);
   }
 

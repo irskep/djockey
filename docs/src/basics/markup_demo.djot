@@ -1,8 +1,15 @@
 # Markup demo
 
+{.tag-aside .warning}
+:::
+The details of this markup are likely to change, since Djockey is experimental.
+:::
+
 ## Overriding HTML tags
 
 Djot does not ([yet](https://github.com/jgm/djot/issues/240)) support arbitrary HTML tags in its input or output. Djockey works around this by postprocessing Djot's HTML output. Whenever you add a CSS class starting with `tag-`{.language-plaintext}, Djockey will replace the element's tag with the rest of the class.
+
+{% can't use .dj-djot-demo for features that require the entire Djockey pipeline (yet) %}
 
 Input:
 
