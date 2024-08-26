@@ -2,8 +2,8 @@ export class CustomSortValue {
   public value: number | null;
 
   constructor(frontMatter: Record<string, unknown>) {
-    if (Object.keys(frontMatter).includes("sort")) {
-      this.value = frontMatter.sort! as number;
+    if (Object.keys(frontMatter).includes("order")) {
+      this.value = frontMatter.order! as number;
     } else {
       this.value = null;
     }
@@ -16,9 +16,11 @@ export class CustomSortValue {
   compareTo(other: CustomSortValue): number {
     if (this.value == null && other.value == null) return 0; // call isComparable first!
 
-    if (!this.value) return other.compareTo(this);
+    if (this.value == null) {
+      return other.compareTo(this) * -1;
+    }
 
-    if (other.value) {
+    if (other.value != null) {
       if (this.value >= 0 && other.value >= 0) {
         return this.value - other.value; // ordinary sort if both non-negative
       } else if (this.value < 0 && other.value < 0) {

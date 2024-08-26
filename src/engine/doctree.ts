@@ -72,6 +72,8 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     }
   }
 
+  recursivelySortSection(root);
+
   const prevMap: Record<string, string | null> = {};
   const nextMap: Record<string, string | null> = {};
   connectNextAndPrevious(root, prevMap, nextMap);
@@ -83,6 +85,35 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   };
 
   return tree;
+}
+
+export function recursivelySortSection(section: DocTreeSection) {
+  type Docish = {
+    title: string;
+    frontMatter: Record<string, unknown> | undefined;
+  };
+  function sortDocuments(docA: Docish, docB: Docish): number {
+    const valA = new CustomSortValue(docA?.frontMatter ?? {});
+    const valB = new CustomSortValue(docB?.frontMatter ?? {});
+    const result = valA.compareTo(valB);
+    if (valA.isComparable(valB) && result !== 0) {
+      return result;
+    } else {
+      return docA.title.localeCompare(docB.title);
+    }
+  }
+
+  section.docs.sort(sortDocuments);
+  section.children.sort((a, b) => {
+    return sortDocuments(
+      { title: a.title, frontMatter: a.selfDoc?.frontMatter },
+      { title: b.title, frontMatter: b.selfDoc?.frontMatter }
+    );
+  });
+
+  for (const child of section.children) {
+    recursivelySortSection(child);
+  }
 }
 
 export function connectNextAndPrevious(
