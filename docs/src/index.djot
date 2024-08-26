@@ -18,8 +18,8 @@ Djockey is a powerful but experimental static site generator for technical writi
 - [ ] Developing/contributing
 - [ ] Plugin API docs
 - [ ] How to use plugins
-- [ ] Config reference
-- [ ] How to use custom CSS and JS
+- [x] Config reference
+- [x] How to use custom CSS and JS
 
 ### Low-hanging fruit
 
