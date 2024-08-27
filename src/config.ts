@@ -43,6 +43,7 @@ export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
     ...defaults,
     ...values,
     html: { ...defaults.html, ...(values.html || {}) },
+    outputDir: { ...defaults.outputDir, ...(values.outputDir || {}) },
   };
 }
 

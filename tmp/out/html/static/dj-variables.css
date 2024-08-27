@@ -1,0 +1,116 @@
+:root {
+  /* PALETTE */
+
+  /* It's OK to define one-off colors, but consider promoting them to palette colors ASAP. */
+
+  /*
+  Prefixes:
+  -f: fonts
+  -fs: font size
+  -fw: font weight
+  -c: colors
+  -d: distance
+  */
+  --f-system: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
+    helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
+    sans-serif;
+  --f-monospace: Menlo, monospace;
+
+  --fs-small: 14px;
+  --fs-normal: 16px;
+  --fs-large: 20px;
+  --fs-xlarge: 32px;
+
+  --fw-bold: 800;
+  --fw-semibold: 600;
+  --fw-normal: normal;
+  --fw-light: 300;
+
+  /* Grays */
+  --c-white: rgb(249, 250, 251);
+  --c-black: rgb(49, 49, 56);
+  --c-gray6: #f7f7f7;
+  --c-gray5: #ddd;
+  --c-gray4: #aaa;
+  --c-gray3: #777;
+  --c-gray2: #555;
+  --c-gray1: #333;
+
+  /* Accents */
+  --c-linkblue: blue;
+  --c-linkpurple: purple;
+
+  /* Distances */
+
+  --d-xsmall: 0.25rem;
+  --d-small: 0.5rem;
+  --d-medium: 1rem;
+  --d-large: 2rem;
+  --d-xlarge: 4rem;
+
+  /* DESIGN TOKENS */
+
+  --color-bg: var(--c-white);
+
+  --color-fg-link: var(--c-linkblue);
+  --color-fg-link-visited: var(--c-linkpurple);
+
+  --color-fg-1: var(--c-black);
+  --color-fg-2: var(--c-gray2);
+  --color-bg-1: var(--c-white);
+  --color-bg-1-hover: var(--c-gray6);
+
+  --border-strong: 1px solid var(--c-gray3);
+  --border-weak: 1px solid var(--c-gray5);
+
+  --line-height-short: 1.2em;
+  --line-height-tall: 1.5em;
+
+  /* Margin (very large) */
+  --mll: var(--d-xlarge);
+  /* Margin (large) */
+  --ml: var(--d-large);
+  /* Margin (normal) */
+  --mm: var(--d-medium);
+  /* Margin (small) */
+  --ms: var(--d-small);
+  /* Margin (very small) */
+  --mss: var(--d-xsmall);
+
+  /* LAYOUT SIZES */
+
+  --header-height: 4rem;
+  --page-max-width: 80rem;
+  --sidebar-width: 14rem;
+  --approx-height-of-top-bar-during-scroll: calc(
+    var(--header-height) + var(--mm)
+  );
+
+  /* COMPONENT VALUES */
+
+  --aside-border-width: 1px;
+  --aside-border-radius: 4px;
+  --aside-color-border-note: rgb(60, 60, 255);
+  --aside-title-color-bg-note: rgb(211, 211, 255);
+  --aside-color-border-warning: rgb(155, 159, 31);
+  --aside-title-color-bg-warning: rgb(252, 255, 187);
+  --aside-color-border-danger: red;
+  --aside-title-color-bg-danger: rgb(251, 205, 205);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-black: rgb(249, 250, 251);
+    --c-white: rgb(49, 49, 56);
+    --c-gray1: #f7f7f7;
+    --c-gray2: #ddd;
+    --c-gray3: #aaa;
+    --c-gray4: #777;
+    --c-gray5: #555;
+    --c-gray6: #333;
+
+    /* Accents */
+    --c-linkblue: lightblue;
+    --c-linkpurple: rgb(232, 120, 232);
+  }
+}
