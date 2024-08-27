@@ -10,6 +10,7 @@ import {
   ALL_OUTPUT_FORMATS,
   DjockeyConfigResolved,
   DjockeyDoc,
+  DjockeyOutputFormat,
   DjockeyPlugin,
   DjockeyPluginModule,
   DjockeyRenderer,
@@ -36,7 +37,10 @@ function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
   ];
 }
 
-export async function executeConfig(config: DjockeyConfigResolved) {
+export async function executeConfig(
+  config: DjockeyConfigResolved,
+  outputFormats: DjockeyOutputFormat[]
+) {
   const docSet = await readDocSet(config);
   console.log(
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
@@ -45,7 +49,7 @@ export async function executeConfig(config: DjockeyConfigResolved) {
     await docSet.runPasses();
   }
   docSet.tree = loadDocTree(docSet.docs);
-  writeDocSet(docSet);
+  writeDocSet(docSet, outputFormats);
 }
 
 export async function readDocSet(
@@ -87,10 +91,11 @@ export async function readDocSet(
   return new DocSet(config, plugins, docs);
 }
 
-export function writeDocSet(docSet: DocSet) {
-  for (const format of ALL_OUTPUT_FORMATS) {
-    if (!docSet.config.outputFormats[format]) continue;
-
+export function writeDocSet(
+  docSet: DocSet,
+  outputFormats: DjockeyOutputFormat[]
+) {
+  for (const format of new Set(outputFormats)) {
     const templateDir = path.resolve(
       path.join(__dirname, "..", "..", "templates", format)
     );

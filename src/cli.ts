@@ -7,6 +7,7 @@ import {
   resolveConfigFromSingleFile,
 } from "./config";
 import { executeConfig } from "./engine/executeConfig";
+import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types";
 
 export function makeArgumentParser() {
   const p = new ArgumentParser();
@@ -14,6 +15,11 @@ export function makeArgumentParser() {
   const buildParser = subparsers.add_parser("build");
   buildParser.set_defaults({ action: "build" });
   buildParser.add_argument("--local", { default: false, action: "store_true" });
+  buildParser.add_argument("-f", "--output-format", {
+    default: [],
+    choices: ALL_OUTPUT_FORMATS,
+    action: "append",
+  });
   buildParser.add_argument("input");
 
   return p;
@@ -24,14 +30,18 @@ export async function main() {
 
   switch (args.action) {
     case "build":
-      doBuild(args.input, args.local);
+      doBuild(args.input, args.local, args.output_format);
       break;
     default:
       throw new Error("Invalid action");
   }
 }
 
-export async function doBuild(inputPath: string, isLocal: boolean) {
+export async function doBuild(
+  inputPath: string,
+  isLocal: boolean,
+  outputFormats: DjockeyOutputFormat[]
+) {
   if (!fs.existsSync(inputPath)) {
     throw new Error("File does not exist: " + inputPath);
   }
@@ -39,7 +49,10 @@ export async function doBuild(inputPath: string, isLocal: boolean) {
     ? resolveConfigFromDirectory(inputPath, isLocal)
     : resolveConfigFromSingleFile(inputPath);
   if (config) {
-    await executeConfig(config);
+    await executeConfig(
+      config,
+      outputFormats.length ? outputFormats : ["html"]
+    );
   } else {
     console.error("Couldn't find a config file in", inputPath);
   }

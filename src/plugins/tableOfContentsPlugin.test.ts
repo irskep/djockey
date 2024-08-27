@@ -88,7 +88,6 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     fileList: ["Test Doc.djot"],
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
-    outputFormats: { html: true },
     rootPath: ".",
     html: { footerText: "", linkCSSToInputInsteadOfOutput: false },
   };

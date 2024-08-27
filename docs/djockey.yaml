@@ -8,10 +8,6 @@ projectInfo:
   version: 0.0.1
   githubURL: https://github.com/irskep/djockey
 
-outputFormats:
-  html: true
-  gfm: false
-
 html:
   cssIgnorePatterns: ["api/**/*.css"] # ignore TypeDoc CSS
   footerText: "©2024 Steve Landey"

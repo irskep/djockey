@@ -25,10 +25,6 @@ export function getConfigDefaults(): DjockeyConfig {
       djot: true,
       gfm: isPandocInstalled,
     },
-    outputFormats: {
-      html: true,
-      gfm: isPandocInstalled,
-    },
     numPasses: 1,
     siteName: "",
 
@@ -134,10 +130,6 @@ export function resolveConfigFromSingleFile(
     inputFormats: {
       djot: true,
       gfm: getIsPandocInstalled(),
-    },
-    outputFormats: {
-      gfm: false,
-      html: true,
     },
     numPasses: 1,
     siteName: "",

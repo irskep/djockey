@@ -7,7 +7,6 @@ export type DjockeyConfig = {
   fileList?: string[];
   urlRoot?: string;
   inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
-  outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
   numPasses: number;
   siteName: string;
 

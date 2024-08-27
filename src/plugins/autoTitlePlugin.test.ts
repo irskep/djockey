@@ -36,7 +36,6 @@ test("Title is set to first heading by default", () => {
     fileList: ["Test Doc.djot"],
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
-    outputFormats: { html: true },
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();
