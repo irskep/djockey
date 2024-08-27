@@ -9,7 +9,8 @@ Djockey's dependencies should:
 
 Dependencies supporting developent and build process:
 
-- [Bun](https://bun.sh)
+- [Bun](https://bun.sh): Runtime, client build, test suite
+- [Jest](https://https://jestjs.io): Making sure it works on vanilla Node
 
 Dependencies supporting the core functionality of Djockey:
 
