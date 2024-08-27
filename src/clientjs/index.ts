@@ -1,4 +1,3 @@
-import hljs from "highlight.js";
 import mermaid from "mermaid";
 
 window.onload = () => {
@@ -16,26 +15,4 @@ window.onload = () => {
   });
 
   mermaid.run({ querySelector: ".language-mermaid" });
-
-  /* HIGHLIGHT.JS */
-
-  // Temporary fallback
-  [...document.querySelectorAll("code.language-djot")].forEach((codeEl) => {
-    codeEl.className = "language-markdown";
-  });
-
-  hljs.highlightAll();
-
-  [...document.querySelectorAll("code")].forEach((codeEl) => {
-    const parent = codeEl.parentElement!;
-    if (parent.tagName === "pre") return;
-
-    for (const cls of codeEl.classList) {
-      if (cls.startsWith("language-")) {
-        console.log("Highlight", codeEl);
-        hljs.highlightElement(codeEl);
-        break;
-      }
-    }
-  });
 };

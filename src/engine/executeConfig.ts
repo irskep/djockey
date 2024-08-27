@@ -20,9 +20,20 @@ import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
 import { loadDocTree } from "./doctree";
 import { populateDocTreeDoc } from "./populateDocTreeDoc";
 import { DjotDemoPlugin } from "../plugins/djotDemoPlugin";
+import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
+}
+
+function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
+  return [
+    new TableOfContentsPlugin(),
+    new LinkRewritingPlugin(config),
+    new DjotDemoPlugin(),
+    new AutoTitlePlugin(),
+    new SyntaxHighlightingPlugin(config),
+  ];
 }
 
 export async function executeConfig(config: DjockeyConfigResolved) {
@@ -68,13 +79,7 @@ export async function readDocSet(
 
   return new DocSet(
     config,
-    [
-      new TableOfContentsPlugin(),
-      new LinkRewritingPlugin(config),
-      new DjotDemoPlugin(),
-      new AutoTitlePlugin(),
-      ...userPlugins,
-    ],
+    [...makeBuiltinPlugins(config), ...userPlugins],
     docs
   );
 }

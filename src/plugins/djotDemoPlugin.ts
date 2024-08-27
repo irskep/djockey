@@ -4,6 +4,8 @@ import { applyFilter } from "../engine/djotFiltersPlus";
 import { getHasClass } from "../util";
 
 export class DjotDemoPlugin implements DjockeyPlugin {
+  name = "Djot Example";
+
   onPass_write(doc: DjockeyDoc) {
     for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({

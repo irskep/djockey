@@ -3,6 +3,8 @@ import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 
 export class AutoTitlePlugin implements DjockeyPlugin {
+  name = "Auto Titler";
+
   onPass_read(doc: DjockeyDoc) {
     if (doc.frontMatter.title) {
       doc.title = doc.frontMatter.title as string;

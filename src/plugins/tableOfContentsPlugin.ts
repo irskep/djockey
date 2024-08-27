@@ -13,6 +13,8 @@ function lastOf<T>(arr: T[]): T | null {
 }
 
 export class TableOfContentsPlugin implements DjockeyPlugin {
+  name = "Table of Contents";
+
   topLevelTOCEntriesByDoc: Record<string, TOCEntry[]> = {};
 
   onPass_read(doc: DjockeyDoc) {

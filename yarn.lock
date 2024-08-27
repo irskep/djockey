@@ -1188,15 +1188,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/highlight.js@npm:^10.1.0":
-  version: 10.1.0
-  resolution: "@types/highlight.js@npm:10.1.0"
-  dependencies:
-    highlight.js: "*"
-  checksum: 284f47e89bfe300f307ad76523a257ff12ed7cf0318cdc0a7fe6965a1d7e21840d133cfc623ec705495550d37341c278c2c9641bafce8b8dbb4bea4acd46f0ec
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
   version: 2.0.6
   resolution: "@types/istanbul-lib-coverage@npm:2.0.6"
@@ -2328,7 +2319,6 @@ __metadata:
     "@types/argparse": ^2.0.16
     "@types/d3": ^7.4.3
     "@types/dompurify": ^3.0.5
-    "@types/highlight.js": ^10.1.0
     "@types/jest": ^29.5.12
     "@types/js-yaml": ^4.0.9
     "@types/micromatch": ^4.0.9
@@ -2337,13 +2327,13 @@ __metadata:
     "@types/parse5": ^7.0.0
     argparse: ^2.0.1
     fast-glob: ^3.3.2
-    highlight.js: ^11.10.0
     jest: ^29.7.0
     js-yaml: ^4.1.0
     mermaid: ^10.9.1
     micromatch: ^4.0.8
     nunjucks: ^3.2.4
     parse5: ^7.1.2
+    shiki: ^1.14.1
     ts-jest: ^29.2.4
     typedoc: ^0.26.6
     typescript: ^5.5.4
@@ -2754,13 +2744,6 @@ __metadata:
   dependencies:
     function-bind: ^1.1.2
   checksum: e8516f776a15149ca6c6ed2ae3110c417a00b62260e222590e54aa367cbcd6ed99122020b37b7fbdf05748df57b265e70095d7bf35a47660587619b15ffb93db
-  languageName: node
-  linkType: hard
-
-"highlight.js@npm:*, highlight.js@npm:^11.10.0":
-  version: 11.10.0
-  resolution: "highlight.js@npm:11.10.0"
-  checksum: 65f89966a164f283a3083ce90f65d6f78c5d91c2ab753c70dc2f1d117ee8fe982ed428e51e663c37c562c88b7dad18cdd84769e522f0f8764462c448017c6dfa
   languageName: node
   linkType: hard
 
@@ -4665,7 +4648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shiki@npm:^1.9.1":
+"shiki@npm:^1.14.1, shiki@npm:^1.9.1":
   version: 1.14.1
   resolution: "shiki@npm:1.14.1"
   dependencies:

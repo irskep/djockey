@@ -10,6 +10,8 @@ import { applyFilter } from "../engine/djotFiltersPlus";
 import path from "path";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
+  name = "Link Rewriter";
+
   private _linkTargets: Record<string, LinkTarget[]> = {};
 
   constructor(public config: DjockeyConfigResolved) {}
@@ -57,7 +59,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
               sourcePath: doc.relativePath,
             }
           );
-          node.destination = newDestination;
+          return { ...node, destination: newDestination };
         },
       }));
     }
@@ -87,9 +89,6 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
       const staticFilePath = `${inputRoot}/${prefixlessNodeDestination}`;
       if (fs.existsSync(staticFilePath)) {
-        console.log(
-          `${unresolvedNodeDestination} appears to be a static file; converting to absolute`
-        );
         return renderArgs.renderer.transformLink({
           config: renderArgs.config,
           sourcePath: renderArgs.sourcePath,

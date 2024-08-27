@@ -87,6 +87,8 @@ export type DjockeyRenderer = {
  * - Passes should be idempotent so they can be run multiple times
  */
 export type DjockeyPlugin = {
+  name: string;
+
   /**
    * Comment 1
    * @param doc

@@ -29,19 +29,18 @@
     "@djot/djot": "^0.3.1",
     "argparse": "^2.0.1",
     "fast-glob": "^3.3.2",
-    "highlight.js": "^11.10.0",
     "js-yaml": "^4.1.0",
     "mermaid": "^10.9.1",
     "micromatch": "^4.0.8",
     "nunjucks": "^3.2.4",
-    "parse5": "^7.1.2"
+    "parse5": "^7.1.2",
+    "shiki": "^1.14.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "@types/argparse": "^2.0.16",
     "@types/d3": "^7.4.3",
     "@types/dompurify": "^3.0.5",
-    "@types/highlight.js": "^10.1.0",
     "@types/jest": "^29.5.12",
     "@types/js-yaml": "^4.0.9",
     "@types/micromatch": "^4.0.9",
