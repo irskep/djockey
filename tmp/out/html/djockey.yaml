@@ -1,8 +1,0 @@
-inputDir: .
-outputDir:
-  html: out/html
-siteName: "Test"
-urlRoot: https://steveasleep.com/djockey
-
-html:
-  footerText: "©2024 Steve Landey"
