@@ -81,8 +81,25 @@ export type DjockeyRenderer = {
  * - Passes should be idempotent so they can be run multiple times
  */
 export type DjockeyPlugin = {
+  /**
+   * Comment 1
+   * @param doc
+   * @returns
+   */
   onPass_read?: (doc: DjockeyDoc) => void;
+
+  /**
+   * Comment 2
+   * @param doc
+   * @returns
+   */
   onPass_write?: (doc: DjockeyDoc) => void;
+
+  /**
+   * Comment 3
+   * @param args
+   * @returns
+   */
   onPrepareForRender?: (args: {
     doc: DjockeyDoc;
     renderer: DjockeyRenderer;
