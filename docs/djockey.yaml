@@ -4,6 +4,9 @@ outputDir:
   gfm: out/gfm
 siteName: "Djockey"
 urlRoot: https://steveasleep.com/djockey
+projectInfo:
+  version: 0.0.1
+  githubURL: https://github.com/irskep/djockey
 
 outputFormats:
   html: true

@@ -72,6 +72,11 @@ th {
   padding: var(--ms);
 }
 
+.DJProjectInfo {
+  font-size: var(--fs-small);
+  color: var(--color-fg-2);
+}
+
 .DJFooter_Content {
   border-top: var(--border-weak);
   padding: var(--ms);

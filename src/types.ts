@@ -1,6 +1,35 @@
 import { Doc } from "@djot/djot";
 import { Environment } from "nunjucks";
 
+export type DjockeyConfig = {
+  inputDir: string;
+  outputDir: Record<DjockeyOutputFormat, string>;
+  fileList?: string[];
+  urlRoot?: string;
+  inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
+  outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
+  numPasses: number;
+  siteName: string;
+
+  projectInfo?: {
+    version?: string;
+    githubURL?: string;
+  };
+
+  plugins: string[];
+
+  html: {
+    footerText: string;
+    linkCSSToInputInsteadOfOutput: boolean;
+  };
+};
+
+export type DjockeyConfigResolved = DjockeyConfig & {
+  rootPath: string;
+  fileList: string[];
+  urlRoot: string;
+};
+
 export type DjockeyDoc = {
   docs: { content: Doc } & Record<string, Doc>;
   title: string;
@@ -21,30 +50,6 @@ export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = ["djot", "gfm"];
 // Keep these two lines in sync.
 export type DjockeyOutputFormat = "html" | "gfm";
 export const ALL_OUTPUT_FORMATS: DjockeyOutputFormat[] = ["html", "gfm"];
-
-export type DjockeyConfig = {
-  inputDir: string;
-  outputDir: Record<DjockeyOutputFormat, string>;
-  fileList?: string[];
-  urlRoot?: string;
-  inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
-  outputFormats: Partial<Record<DjockeyOutputFormat, boolean>>;
-  numPasses: number;
-  siteName: string;
-
-  plugins: string[];
-
-  html: {
-    footerText: string;
-    linkCSSToInputInsteadOfOutput: boolean;
-  };
-};
-
-export type DjockeyConfigResolved = DjockeyConfig & {
-  rootPath: string;
-  fileList: string[];
-  urlRoot: string;
-};
 
 export type DjockeyRenderer = {
   identifier: DjockeyOutputFormat;

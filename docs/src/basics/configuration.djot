@@ -12,6 +12,9 @@ Djockey is pre-alpha and config options _will_ change.
 # djockey.yaml
 siteName: "Your name here"
 urlRoot: "https://your-docs-site-here"
+projectInfo:
+  version: 0.0.1
+  githubURL: https://github.com/your/project
 inputDir: "path to your docs"
 outputDir:
   html: "path to your HTML output"

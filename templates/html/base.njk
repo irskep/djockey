@@ -24,6 +24,21 @@
 </svg>
 {%- endmacro -%}
 
+{%- macro header_project_info() -%}
+{% if config.projectInfo %}
+<div class="DJProjectInfo">
+  {%- if config.projectInfo.githubURL -%}
+  <div class="DJProjectInfo_Repo">
+    <a href="{{ confnig.projectInfo.githubURL }}">GitHub</a>
+  </div>
+  {%- endif %}
+  {%- if config.projectInfo.version %}
+  <div class="DJProjectInfo_Version">Version {{ config.projectInfo.version }}</div>
+  {%- endif -%}
+</div>
+{% endif %}
+{%- endmacro -%}
+
 <!doctype html>
 <html>
   <head>
@@ -52,6 +67,9 @@
             {{ hamburger('1.5em', '1em', 18, 16) }}
           </button>
           <h1>{{ config.siteName }}</h1>
+        </div>
+        <div class="DJHeader_Content_Group">
+          {{ header_project_info() }}
         </div>
       </div>
     </header>
