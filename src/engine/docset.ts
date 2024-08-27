@@ -22,12 +22,16 @@ export class DocSet {
   public async runPasses() {
     this.runPass("onPass_read");
 
+    const jobs = new Array<Promise<void>>();
     for (const doc of this.docs) {
       for (const plugin of this.plugins) {
         if (plugin.doAsyncWorkBetweenReadAndWrite) {
-          await plugin.doAsyncWorkBetweenReadAndWrite(doc);
+          jobs.push(plugin.doAsyncWorkBetweenReadAndWrite(doc));
         }
       }
+    }
+    for (const job of jobs) {
+      await job;
     }
 
     this.runPass("onPass_write");

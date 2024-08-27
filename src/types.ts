@@ -89,6 +89,8 @@ export type DjockeyRenderer = {
 export type DjockeyPlugin = {
   name: string;
 
+  setup?: () => Promise<void>;
+
   onPass_read?: (doc: DjockeyDoc) => void;
 
   doAsyncWorkBetweenReadAndWrite?: (doc: DjockeyDoc) => Promise<void>;

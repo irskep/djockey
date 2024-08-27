@@ -6,25 +6,15 @@ import {
 } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { CodeBlock, Doc, RawBlock, RawInline, Verbatim } from "@djot/djot";
-import { BundledLanguage, codeToHtml } from "shiki/index.mjs";
-
-async function tryHighlighting(text: string, lang: string): Promise<string> {
-  const themes = {
-    light: "vitesse-light",
-    dark: "vitesse-dark",
-  };
-  try {
-    return await codeToHtml(text, {
-      lang: lang as BundledLanguage,
-      themes,
-    });
-  } catch {
-    return await codeToHtml(text, {
-      lang: "text",
-      themes,
-    });
-  }
-}
+import {
+  BundledLanguage,
+  BundledTheme,
+  codeToHtml,
+  createHighlighter,
+  HighlighterGeneric,
+  LanguageRegistration,
+} from "shiki/index.mjs";
+import * as djotTextmateGrammar from "../djotTextmateGrammar.json";
 
 let nextID = 0;
 
@@ -34,7 +24,42 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   highlightRequests: Record<string, { text: string; lang: string }> = {};
   highlightResults: Record<string, string> = {};
 
+  djotHighlighter!: HighlighterGeneric<BundledLanguage, BundledTheme>;
+
   constructor(public config: DjockeyConfigResolved) {}
+
+  async setup() {
+    this.djotHighlighter = await createHighlighter({
+      langs: [djotTextmateGrammar as unknown as LanguageRegistration],
+      themes: ["vitesse-light", "vitesse-dark"],
+    });
+  }
+
+  async highlight(text: string, lang: string): Promise<string> {
+    const themes = {
+      light: "vitesse-light",
+      dark: "vitesse-dark",
+    };
+
+    try {
+      if (lang === "djot") {
+        return await this.djotHighlighter.codeToHtml(text, {
+          lang: lang as BundledLanguage,
+          themes,
+        });
+      } else {
+        return await codeToHtml(text, {
+          lang: lang as BundledLanguage,
+          themes,
+        });
+      }
+    } catch {
+      return await codeToHtml(text, {
+        lang: "text",
+        themes,
+      });
+    }
+  }
 
   readDoc(doc: Doc) {
     applyFilter(doc, () => ({
@@ -84,7 +109,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     console.log(`Highlighting ${doc.relativePath}...`);
     for (const k of Object.keys(this.highlightRequests)) {
       const v = this.highlightRequests[k];
-      this.highlightResults[k] = await tryHighlighting(v.text, v.lang);
+      this.highlightResults[k] = await this.highlight(v.text, v.lang);
     }
   }
 

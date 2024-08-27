@@ -60,6 +60,11 @@ th {
   text-align: start;
 }
 
+.shiki {
+  padding: 2px;
+  border-radius: 4px;
+}
+
 /* HEADER & FOOTER */
 
 .DJHeader {

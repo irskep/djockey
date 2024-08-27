@@ -1,0 +1,19 @@
+# Syntax highlighting
+
+Djockey supports [all the languages that Shiki supports by default](https://shiki.style/languages), plus Djot.
+
+To highlight a code block, put the language next to the first set of backticks:
+
+````djot
+```md
+# Some Markdown
+```
+````
+
+To highlight an inline verbatim expression, add `{.language-foo}`{.language-djot} after your backticks:
+
+```djot
+`print("Hello, world")`{.language-python}
+```
+
+Output: `print("Hello, world")`{.language-python}

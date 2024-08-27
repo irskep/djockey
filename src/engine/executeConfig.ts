@@ -77,11 +77,14 @@ export async function readDocSet(
     }
   }
 
-  return new DocSet(
-    config,
-    [...makeBuiltinPlugins(config), ...userPlugins],
-    docs
-  );
+  const plugins = [...makeBuiltinPlugins(config), ...userPlugins];
+  for (const plugin of plugins) {
+    if (plugin.setup) {
+      await plugin.setup();
+    }
+  }
+
+  return new DocSet(config, plugins, docs);
 }
 
 export function writeDocSet(docSet: DocSet) {
