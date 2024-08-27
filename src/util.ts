@@ -30,7 +30,6 @@ export function makePathBackToRoot(
 export function ensureParentDirectoriesExist(filePath: string) {
   if (fs.existsSync(path.resolve(path.join(filePath, "..")))) return;
 
-  console.log("mkdirSync", path.resolve(path.join(filePath, "..")));
   fs.mkdirSync(path.resolve(path.join(filePath, "..")), {
     recursive: true,
   });
