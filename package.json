@@ -22,7 +22,7 @@
   "prepublish": "tsc",
   "scripts": {
     "build": "npx tsc",
-    "test": "tsc && NODE_OPTIONS=\"--experimental-vm-modules\" jest",
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest",
     "djockey": "npx tsc && node dist/cli.js"
   },
   "dependencies": {
