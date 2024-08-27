@@ -6,7 +6,7 @@ import {
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { CodeBlock, Doc, RawBlock, RawInline, Verbatim } from "@djot/djot";
-import * as djotTextmateGrammar from "../djotTextmateGrammar.json" with { type: "json" };
+import * as djotTextmateGrammar from "../djotTextmateGrammar.json" assert { type: "json" };
 
 let nextID = 0;
 
