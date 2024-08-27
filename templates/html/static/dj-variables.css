@@ -110,6 +110,6 @@
 
     /* Accents */
     --c-linkblue: lightblue;
-    --c-linkpurple: purple;
+    --c-linkpurple: rgb(232, 120, 232);
   }
 }
