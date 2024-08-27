@@ -1,4 +1,4 @@
-import { Heading, Str } from "@djot/djot";
+import { Heading } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
 import { djotASTToText } from "../util";

@@ -61,6 +61,7 @@ export function parseDjot(
   return {
     docs: { content: djotDoc },
     title: path.parse(relativePath).name,
+    titleAST: [{ tag: "str", text: path.parse(relativePath).name }],
     originalExtension: path.parse(relativePath).ext,
     absolutePath,
     relativePath: removeExtensionFromPath(relativePath),
