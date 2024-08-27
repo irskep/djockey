@@ -35,7 +35,9 @@ order: -1
     // console.log(result);
     expect(FM_RE.dotAll).toBeTruthy();
     expect(result).toBeTruthy();
-    expect(result![1]).toEqual("order: -1");
+    if (result) {
+      expect(result[1]).toEqual("order: -1");
+    }
     expect(testString.slice(result![0].length)).toEqual(
       "# Why Djockey? Why Djot?"
     );
