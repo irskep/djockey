@@ -1,4 +1,4 @@
-.PHONY: docs client-nocache typedoc
+.PHONY: docs client-nocache typedoc clean
 
 client-nocache:
 	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify
@@ -16,3 +16,6 @@ docs: templates/html/static/client.js
 
 test:
 	bun test
+
+clean:
+	rm -rf docs/out/html/*

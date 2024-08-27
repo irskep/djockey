@@ -166,6 +166,7 @@ function getDirs(path_: string): string[] {
   return result;
 }
 
+// This whole function might be useless. Try deleting it.
 function sortDocsByPathWithFilesBeforeDirectories(
   docs: DjockeyDoc[]
 ): DjockeyDoc[] {
