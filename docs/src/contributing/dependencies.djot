@@ -5,6 +5,13 @@ Djockey's dependencies should:
 1. Be written by a person who knows what they are doing
 2. Have few transitive dependencies
 
+## Current dependencies
+
+Dependencies supporting developent and build process:
+
+- [Bun](https://bun.sh)
+- [Jest](https://jestjs.io): make sure everything also works in Node
+
 Dependencies supporting the core functionality of Djockey:
 
 - [Pandoc](https://pandoc.org) (optional): Convert to and from non-Djot formats

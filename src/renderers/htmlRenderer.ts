@@ -124,6 +124,7 @@ export class HTMLRenderer implements DjockeyRenderer {
     const baseURL = this.options.relativeLinks
       ? makePathBackToRoot(doc.relativePath, { sameDirectoryValue: "" })
       : `${config.urlRoot}/`;
+    const isFileURL = baseURL.startsWith("file://");
 
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
@@ -136,10 +137,13 @@ export class HTMLRenderer implements DjockeyRenderer {
       doc,
       docs: renderedDocs,
       baseURL,
-      cssURLs: config.html.linkCSSToInputInsteadOfOutput
-        ? this.cssFilePaths
-        : this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
-      jsURLs: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+      urls: {
+        css: config.html.linkCSSToInputInsteadOfOutput
+          ? this.cssFilePaths
+          : this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+        js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+        home: isFileURL ? baseURL + "index.html" : baseURL,
+      },
       ...args.context,
     });
 
