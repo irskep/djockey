@@ -42,7 +42,7 @@ export async function executeConfig(config: DjockeyConfigResolved) {
     `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
   );
   for (let i = 0; i < config.numPasses; i++) {
-    docSet.runPasses();
+    await docSet.runPasses();
   }
   docSet.tree = loadDocTree(docSet.docs);
   writeDocSet(docSet);

@@ -19,8 +19,17 @@ export class DocSet {
     return this.docs.find((d) => d.relativePath === relativePath) || null;
   }
 
-  public runPasses() {
+  public async runPasses() {
     this.runPass("onPass_read");
+
+    for (const doc of this.docs) {
+      for (const plugin of this.plugins) {
+        if (plugin.doAsyncWorkBetweenReadAndWrite) {
+          await plugin.doAsyncWorkBetweenReadAndWrite(doc);
+        }
+      }
+    }
+
     this.runPass("onPass_write");
   }
 

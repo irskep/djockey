@@ -89,25 +89,12 @@ export type DjockeyRenderer = {
 export type DjockeyPlugin = {
   name: string;
 
-  /**
-   * Comment 1
-   * @param doc
-   * @returns
-   */
   onPass_read?: (doc: DjockeyDoc) => void;
 
-  /**
-   * Comment 2
-   * @param doc
-   * @returns
-   */
+  doAsyncWorkBetweenReadAndWrite?: (doc: DjockeyDoc) => Promise<void>;
+
   onPass_write?: (doc: DjockeyDoc) => void;
 
-  /**
-   * Comment 3
-   * @param args
-   * @returns
-   */
   onPrepareForRender?: (args: {
     doc: DjockeyDoc;
     renderer: DjockeyRenderer;

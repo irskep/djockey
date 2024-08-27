@@ -12,6 +12,5 @@ Djockey is a powerful but experimental static site generator for technical writi
 
 ## Release blockers
 
-- [ ] Switch from highlight.js to Shiki so we can use [the Djot Textmate grammar](https://github.com/ryanabx/djot-vscode/blob/main/syntaxes/djot.tmLanguage.json)
 - [ ] Render Mermaid at build time
 - [ ] Fancy logging and error reporting
