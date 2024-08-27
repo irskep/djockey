@@ -1,4 +1,4 @@
-import { Block, Link, ListItem } from "@djot/djot";
+import { Block, Inline, Link, ListItem } from "@djot/djot";
 import { DjockeyConfigResolved, DjockeyDoc, DjockeyRenderer } from "../types";
 import { DocSet } from "./docset";
 import { DocTreeSection } from "./doctree";
@@ -35,7 +35,7 @@ function renderSection(
   function getDocLink(doc: DjockeyDoc): Link {
     return {
       tag: "link",
-      children: [{ tag: "str", text: doc.title }],
+      children: structuredClone(doc.titleAST),
       destination: renderer.transformLink({
         config,
         sourcePath: activeDoc.relativePath,
@@ -53,14 +53,10 @@ function renderSection(
     result.push({
       tag: "heading",
       level,
-      children: [
+      children:
         section.selfDoc && section.selfDocHasContent
-          ? getDocLink(section.selfDoc)
-          : {
-              tag: "str",
-              text: section.title,
-            },
-      ],
+          ? [getDocLink(section.selfDoc)]
+          : section.title,
     });
   }
 

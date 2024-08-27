@@ -1,9 +1,11 @@
 import path from "path";
 import { DjockeyDoc } from "../types";
 import { CustomSortValue } from "./customSortValue";
+import { Inline } from "@djot/djot";
+import { djotASTToText } from "../util";
 
 export type DocTreeSection = {
-  title: string;
+  title: Inline[];
   relativePath: string;
   selfDoc: DjockeyDoc | null;
   selfDocHasContent: boolean;
@@ -21,7 +23,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   sortDocsByPathWithFilesBeforeDirectories(docs);
 
   const root: DocTreeSection = {
-    title: "",
+    title: [],
     relativePath: "",
     selfDoc: null,
     selfDocHasContent: false,
@@ -36,7 +38,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
     }
 
     const newSection: DocTreeSection = {
-      title: path.parse(relativePath).name,
+      title: [{ tag: "str", text: path.parse(relativePath).name }],
       relativePath,
       selfDoc: null,
       selfDocHasContent: false,
@@ -69,7 +71,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
 
     if (path.parse(doc.filename).name === "index") {
       docSection.selfDoc = doc;
-      docSection.title = doc.title;
+      docSection.title = doc.titleAST;
 
       docSection.selfDocHasContent = !!doc.docs.content.children.length;
     } else {
@@ -111,8 +113,14 @@ export function recursivelySortSection(section: DocTreeSection) {
   section.docs.sort(sortDocuments);
   section.children.sort((a, b) => {
     return sortDocuments(
-      { title: a.title, frontMatter: a.selfDoc?.frontMatter },
-      { title: b.title, frontMatter: b.selfDoc?.frontMatter }
+      {
+        title: djotASTToText([{ tag: "para", children: a.title }]),
+        frontMatter: a.selfDoc?.frontMatter,
+      },
+      {
+        title: djotASTToText([{ tag: "para", children: b.title }]),
+        frontMatter: b.selfDoc?.frontMatter,
+      }
     );
   });
 

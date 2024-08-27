@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 
 import fastGlob from "fast-glob";
-import { HasAttributes } from "@djot/djot";
+import { AstNode, Block, Doc, HasAttributes, HasText } from "@djot/djot";
+import { applyFilter } from "./engine/djotFiltersPlus";
 
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,
@@ -70,4 +71,25 @@ export function getHasClass(node: HasAttributes, cls: string): boolean {
   if (!node.attributes || !node.attributes["class"]) return false;
   const values = new Set(node.attributes["class"].split(" "));
   return values.has(cls);
+}
+
+export function makeStubDjotDoc(children: Block[]): Doc {
+  return {
+    tag: "doc",
+    references: {},
+    autoReferences: {},
+    footnotes: {},
+    children,
+  };
+}
+
+export function djotASTToText(children: Block[]) {
+  const result = new Array<string>();
+  applyFilter(makeStubDjotDoc(children), () => ({
+    "*": (node: HasText) => {
+      if (!node.text) return;
+      result.push(node.text);
+    },
+  }));
+  return result.join("");
 }

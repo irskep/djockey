@@ -1,4 +1,4 @@
-import { Doc } from "@djot/djot";
+import { Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 
 export type DjockeyConfig = {
@@ -37,6 +37,7 @@ export type DjockeyConfigResolved = DjockeyConfig & {
 export type DjockeyDoc = {
   docs: { content: Doc } & Record<string, Doc>;
   title: string;
+  titleAST: Inline[];
   originalExtension: string;
   absolutePath: string;
   relativePath: string;

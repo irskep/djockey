@@ -1,6 +1,7 @@
 import { Heading, Str } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus";
 import { DjockeyDoc, DjockeyPlugin } from "../types";
+import { djotASTToText } from "../util";
 
 export class AutoTitlePlugin implements DjockeyPlugin {
   name = "Auto Titler";
@@ -8,34 +9,20 @@ export class AutoTitlePlugin implements DjockeyPlugin {
   onPass_read(doc: DjockeyDoc) {
     if (doc.frontMatter.title) {
       doc.title = doc.frontMatter.title as string;
+      doc.titleAST = [{ tag: "str", text: doc.title }];
       return;
     }
 
-    let title: string | null = null;
-    let didFindHeading = false;
-
-    const stringParts = new Array<string>();
-    let isInFirstHeading = false;
+    let isFinished = false;
 
     applyFilter(doc.docs.content, () => ({
-      heading: {
-        enter: (node: Heading) => {
-          didFindHeading = true;
-          if (title === null) isInFirstHeading = true;
-        },
-        exit: (node: Heading) => {
-          isInFirstHeading = false;
-          title = stringParts.join("");
-        },
-      },
-      str: (node: Str) => {
-        if (!isInFirstHeading) return;
-        stringParts.push(node.text);
+      heading: (node: Heading) => {
+        if (isFinished) return;
+        isFinished = true;
+        doc.title = djotASTToText([node]);
+        doc.titleAST = structuredClone(node.children);
+        return { stop: [node] };
       },
     }));
-
-    if (didFindHeading) {
-      doc.title = title!;
-    }
   }
 }
