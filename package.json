@@ -1,6 +1,6 @@
 {
   "name": "djockey",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "packageManager": "yarn@3.5.0",
   "engines": {
     "node": ">=17.0.0"
