@@ -17,4 +17,4 @@ Dependencies supporting the core functionality of Djockey:
 Dependencies supporting individual features:
 
 - [highlight.js](https://www.npmjs.com/package/highlight.js): Syntax highlighting (will be replaced with Shiki)
-- [Mermaid](https://mermaid.js.org): Diagram rendering
+- [Mermaid](https://mermaid.js.org): Diagram rendering (pinned <11 due to broken TypeScript definitions)

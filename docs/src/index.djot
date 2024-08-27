@@ -14,10 +14,10 @@ Djockey is a powerful but experimental static site generator for technical writi
 
 ### Documentation
 
+- [ ] Plugin API docs
 - [x] Why Djockey? Why Djot?
 - [x] Developing/contributing
-- [ ] Plugin API docs
-- [ ] How to use plugins
+- [x] How to use plugins
 - [x] Config reference
 - [x] How to use custom CSS and JS
 - [x] Deploying to GitHub Pages
