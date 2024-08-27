@@ -10,35 +10,8 @@ Djockey is a powerful but experimental static site generator for technical writi
 - Rich cross-references, checked at build time
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
 
-## To do
-
-### Documentation
-
-- [ ] Plugin API docs
-- [x] Why Djockey? Why Djot?
-- [x] Developing/contributing
-- [x] How to use plugins
-- [x] Config reference
-- [x] How to use custom CSS and JS
-- [x] Deploying to GitHub Pages
-
-### Low-hanging fruit
+## Release blockers
 
 - [ ] Switch from highlight.js to Shiki so we can use [the Djot Textmate grammar](https://github.com/ryanabx/djot-vscode/blob/main/syntaxes/djot.tmLanguage.json)
+- [ ] Render Mermaid at build time
 - [ ] Fancy logging and error reporting
-- [ ] Finish CSS stylesheets
-- [ ] Multi-tab code blocks/divs
-- [ ] `defaultLanguage`{.language-plaintext} in front matter
-- [x] Syntax highlighting, Mermaid, Graphviz
-- [x] Literal symbol parsing
-- [x] Dark mode
-- [x] Sections with and without self-docs have the same appearance but only one is clickable
-
-### Harder stuff
-
-- [ ] TypeDoc cross-referencing
-- [ ] Python autodoc
-
-### Less important but nice
-
-- [ ] Readme-as-output
