@@ -3,9 +3,9 @@ import { ALL_INPUT_FORMATS, DjockeyInputFormat } from "../types.js";
 export function getExtensionForInputFormat(fmt: DjockeyInputFormat): string[] {
   switch (fmt) {
     case "gfm":
-      return ["md"];
+      return ["md", "markdown"];
     case "djot":
-      return ["djot"];
+      return ["djot", "dj"];
   }
 }
 

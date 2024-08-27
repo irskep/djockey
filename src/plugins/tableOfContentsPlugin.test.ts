@@ -23,9 +23,9 @@ test("Generates TOCEntry tree for one doc", () => {
     },
     title: "Test doc",
     titleAST: [{ tag: "str", text: "Test doc" }],
-    originalExtension: ".djot",
-    absolutePath: "Test Doc.djot",
-    relativePath: "Test Doc.djot",
+    originalExtension: ".dj",
+    absolutePath: "Test Doc.dj",
+    relativePath: "Test Doc.dj",
     filename: "Test Doc",
     frontMatter: {},
     data: {},
@@ -39,18 +39,18 @@ test("Generates TOCEntry tree for one doc", () => {
 
   expect(html).toEqual(`<ul>
 <li>
-<a href="/Test Doc.djot#Heading-1">Heading 1</a>
+<a href="/Test Doc.dj#Heading-1">Heading 1</a>
 <ul>
 <li>
-<a href="/Test Doc.djot#Heading-1-1">Heading 1.1</a>
+<a href="/Test Doc.dj#Heading-1-1">Heading 1.1</a>
 </li>
 </ul>
 </li>
 <li>
-<a href="/Test Doc.djot#Heading-2">Heading 2</a>
+<a href="/Test Doc.dj#Heading-2">Heading 2</a>
 <ul>
 <li>
-<a href="/Test Doc.djot#Heading-2-2">Heading 2.2</a>
+<a href="/Test Doc.dj#Heading-2-2">Heading 2.2</a>
 </li>
 </ul>
 </li>
@@ -75,9 +75,9 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     },
     title: "Test doc",
     titleAST: [{ tag: "str", text: "Test doc" }],
-    originalExtension: ".djot",
-    absolutePath: "Test Doc.djot",
-    relativePath: "Test Doc.djot",
+    originalExtension: ".dj",
+    absolutePath: "Test Doc.dj",
+    relativePath: "Test Doc.dj",
     filename: "Test Doc",
     frontMatter: {},
     data: {},
@@ -87,7 +87,7 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     ...getConfigDefaults(),
     inputDir: ".",
     outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
-    fileList: ["Test Doc.djot"],
+    fileList: ["Test Doc.dj"],
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
     rootPath: ".",
@@ -106,18 +106,18 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
 
   expect(html).toEqual(`<ul>
 <li>
-<a href="Test Doc.djot.html#Heading-1">Heading 1</a>
+<a href="Test Doc.dj.html#Heading-1">Heading 1</a>
 <ul>
 <li>
-<a href="Test Doc.djot.html#Heading-1-1">Heading 1.1</a>
+<a href="Test Doc.dj.html#Heading-1-1">Heading 1.1</a>
 </li>
 </ul>
 </li>
 <li>
-<a href="Test Doc.djot.html#Heading-2">Heading 2</a>
+<a href="Test Doc.dj.html#Heading-2">Heading 2</a>
 <ul>
 <li>
-<a href="Test Doc.djot.html#Heading-2-2">Heading 2.2</a>
+<a href="Test Doc.dj.html#Heading-2-2">Heading 2.2</a>
 </li>
 </ul>
 </li>
