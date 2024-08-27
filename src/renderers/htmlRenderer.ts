@@ -137,6 +137,9 @@ export class HTMLRenderer implements DjockeyRenderer {
       doc,
       docs: renderedDocs,
       baseURL,
+      github: {
+        path: parseGitHubPath(config.projectInfo?.githubURL),
+      },
       urls: {
         css: config.html.linkCSSToInputInsteadOfOutput
           ? this.cssFilePaths
@@ -149,6 +152,12 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     fs.writeFileSync(outputPath, outputPage);
   }
+}
+
+function parseGitHubPath(maybeURL?: string): string | undefined {
+  const GH_BASE = "https://github.com/";
+  if (!maybeURL || !maybeURL.startsWith(GH_BASE)) return maybeURL;
+  return maybeURL.slice(GH_BASE.length);
 }
 
 interface Element {

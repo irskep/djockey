@@ -29,7 +29,7 @@
 <div class="DJProjectInfo">
   {%- if config.projectInfo.githubURL -%}
   <div class="DJProjectInfo_Repo">
-    <a href="{{ config.projectInfo.githubURL }}">GitHub</a>
+    <a href="{{ config.projectInfo.githubURL }}">{{ github.path or "GitHub" }}</a>
   </div>
   {%- endif %}
   {%- if config.projectInfo.version %}
