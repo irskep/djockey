@@ -22,8 +22,6 @@
   "prepublish": "tsc",
   "scripts": {
     "build": "npx tsc",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "djockey": "npx tsc && node dist/cli.js"
   },
   "dependencies": {
