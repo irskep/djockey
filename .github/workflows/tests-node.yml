@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Run tests (Node)
 
 on: push
 
@@ -24,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Compile TypeScript
-        run: npm run tsc
+        run: npm x tsc
 
       - name: Run tests
         run: npm test
