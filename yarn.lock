@@ -866,6 +866,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/braces@npm:*":
+  version: 3.0.4
+  resolution: "@types/braces@npm:3.0.4"
+  checksum: 7324497b6cc34c963c44d3f8516c67a83b749ab4f18defd9418b231b071af7ee8f0a0f345a52b204e867de80f684cabb21158512e1eaecbcebbabed1d1e357a3
+  languageName: node
+  linkType: hard
+
 "@types/d3-array@npm:*":
   version: 3.2.1
   resolution: "@types/d3-array@npm:3.2.1"
@@ -1238,6 +1245,15 @@ __metadata:
   dependencies:
     "@types/unist": ^2
   checksum: af85042a4e3af3f879bde4059fa9e76c71cb552dffc896cdcc6cf9dc1fd38e37035c2dbd6245cfa6535b433f1f0478f5549696234ccace47a64055a10c656530
+  languageName: node
+  linkType: hard
+
+"@types/micromatch@npm:^4.0.9":
+  version: 4.0.9
+  resolution: "@types/micromatch@npm:4.0.9"
+  dependencies:
+    "@types/braces": "*"
+  checksum: 109920dd54116dc9b52a2973221230f0db98f119c5c20169f84358c4f956fe7c9f20b645824c1fcdf872ad2beb7c795fb503663da3283c4896785c23443abc32
   languageName: node
   linkType: hard
 
@@ -2315,6 +2331,7 @@ __metadata:
     "@types/highlight.js": ^10.1.0
     "@types/jest": ^29.5.12
     "@types/js-yaml": ^4.0.9
+    "@types/micromatch": ^4.0.9
     "@types/node": ^22.4.0
     "@types/nunjucks": ^3.2.6
     "@types/parse5": ^7.0.0
@@ -2324,6 +2341,7 @@ __metadata:
     jest: ^29.7.0
     js-yaml: ^4.1.0
     mermaid: ^10.9.1
+    micromatch: ^4.0.8
     nunjucks: ^3.2.4
     parse5: ^7.1.2
     ts-jest: ^29.2.4
@@ -4027,6 +4045,16 @@ __metadata:
     braces: ^3.0.3
     picomatch: ^2.3.1
   checksum: 3cde047d70ad80cf60c787b77198d680db3b8c25b23feb01de5e2652205d9c19f43bd81882f69a0fd1f0cde6a7a122d774998aad3271ddb1b8accf8a0f480cf7
+  languageName: node
+  linkType: hard
+
+"micromatch@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "micromatch@npm:4.0.8"
+  dependencies:
+    braces: ^3.0.3
+    picomatch: ^2.3.1
+  checksum: 79920eb634e6f400b464a954fcfa589c4e7c7143209488e44baf627f9affc8b1e306f41f4f0deedde97e69cb725920879462d3e750ab3bd3c1aed675bb3a8966
   languageName: node
   linkType: hard
 

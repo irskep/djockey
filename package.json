@@ -32,6 +32,7 @@
     "highlight.js": "^11.10.0",
     "js-yaml": "^4.1.0",
     "mermaid": "^10.9.1",
+    "micromatch": "^4.0.8",
     "nunjucks": "^3.2.4",
     "parse5": "^7.1.2"
   },
@@ -43,6 +44,7 @@
     "@types/highlight.js": "^10.1.0",
     "@types/jest": "^29.5.12",
     "@types/js-yaml": "^4.0.9",
+    "@types/micromatch": "^4.0.9",
     "@types/node": "^22.4.0",
     "@types/nunjucks": "^3.2.6",
     "@types/parse5": "^7.0.0",

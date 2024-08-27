@@ -13,5 +13,5 @@ outputFormats:
   gfm: false
 
 html:
+  cssIgnorePatterns: ["api/**/*.css"] # ignore TypeDoc CSS
   footerText: "©2024 Steve Landey"
-  linkCSSToInputInsteadOfOutput: false

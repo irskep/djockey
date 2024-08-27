@@ -16,10 +16,15 @@ export type DjockeyConfig = {
     githubURL?: string;
   };
 
+  static?: {
+    copyIgnorePatterns?: string[];
+  };
+
   plugins: string[];
 
   html: {
     footerText: string;
+    cssIgnorePatterns?: string[];
     linkCSSToInputInsteadOfOutput: boolean;
   };
 };

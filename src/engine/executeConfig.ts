@@ -146,6 +146,7 @@ function getNextOrPreviousLink(
     anchorWithoutHash: null,
     docOriginalExtension: destDoc.originalExtension,
     docRelativePath: relativePath,
+    isLinkToStaticFile: false,
   });
 
   return { url, title: destDoc.title };

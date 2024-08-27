@@ -24,10 +24,10 @@ import {
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
-  cssFilesFromInput = new Array<string>();
-  cssFilesRelative = new Array<string>();
-  jsFilesFromInput = new Array<string>();
-  jsFilesRelative = new Array<string>();
+  cssFilePaths = new Array<string>();
+  cssURLsRelativeToBase = new Array<string>();
+  jsFilePaths = new Array<string>();
+  jsURLsRelativeToBase = new Array<string>();
 
   constructor(
     public options: { relativeLinks: boolean } = { relativeLinks: false }
@@ -67,25 +67,32 @@ export class HTMLRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
+    const ignorePatterns = config.static?.copyIgnorePatterns ?? [];
     copyFilesMatchingPattern({
       base: templateDir,
       dest: config.outputDir.html,
       pattern: "static/**/*",
-      exclude: [],
+      excludePaths: [],
+      excludePatterns: ignorePatterns,
     });
     copyFilesMatchingPattern({
       base: config.inputDir,
       dest: config.outputDir.html,
       pattern: "**/*",
-      exclude: docs.map((d) => d.absolutePath),
+      excludePaths: docs.map((d) => d.absolutePath),
+      excludePatterns: ignorePatterns,
     });
 
     const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
-    const inputCSSFiles = fastGlob.sync(`${config.inputDir}/**/*.css`);
-    this.cssFilesFromInput = templateCSSFiles
+    const inputCSSFiles = fastGlob.sync(`${config.inputDir}/**/*.css`, {
+      ignore: (config.html.cssIgnorePatterns ?? []).map(
+        (pattern) => `**/${pattern}`
+      ),
+    });
+    this.cssFilePaths = templateCSSFiles
       .concat(inputCSSFiles)
       .map((path_) => url.pathToFileURL(path_).toString());
-    this.cssFilesRelative = templateCSSFiles
+    this.cssURLsRelativeToBase = templateCSSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
         inputCSSFiles.map((path_) => path.relative(config.inputDir, path_))
@@ -93,10 +100,10 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
     const inputJSFiles = fastGlob.sync(`${config.inputDir}/**/*.js`);
-    this.jsFilesFromInput = templateJSFiles
+    this.jsFilePaths = templateJSFiles
       .concat(inputJSFiles)
       .map((path_) => url.pathToFileURL(path_).toString());
-    this.jsFilesRelative = templateJSFiles
+    this.jsURLsRelativeToBase = templateJSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
         inputJSFiles.map((path_) => path.relative(config.inputDir, path_))
@@ -130,9 +137,9 @@ export class HTMLRenderer implements DjockeyRenderer {
       docs: renderedDocs,
       baseURL,
       cssURLs: config.html.linkCSSToInputInsteadOfOutput
-        ? this.cssFilesFromInput
-        : this.cssFilesRelative.map((path_) => `${baseURL}${path_}`),
-      jsURLs: this.jsFilesRelative.map((path_) => `${baseURL}${path_}`),
+        ? this.cssFilePaths
+        : this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+      jsURLs: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
       ...args.context,
     });
 

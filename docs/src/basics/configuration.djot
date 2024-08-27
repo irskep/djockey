@@ -37,4 +37,7 @@ plugins: ["my-plugin.js"]
 # Output-specific options
 html:
   footerText: "©2024 You"
+  # If you use TypeDoc, you'd want to set this to
+  # path/to/typedoc/**/*.css
+  cssIgnorePatterns: ['some/css/you/dont/want.css']
 ```

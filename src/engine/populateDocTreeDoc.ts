@@ -42,6 +42,7 @@ function renderSection(
         anchorWithoutHash: null,
         docOriginalExtension: doc.originalExtension,
         docRelativePath: doc.relativePath,
+        isLinkToStaticFile: false,
       }),
     };
   }

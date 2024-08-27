@@ -55,17 +55,20 @@ export class GFMRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
+    const ignorePatterns = config.static?.copyIgnorePatterns ?? [];
     copyFilesMatchingPattern({
       base: templateDir,
       dest: config.outputDir.gfm,
       pattern: "static/**/*",
-      exclude: [],
+      excludePaths: [],
+      excludePatterns: ignorePatterns,
     });
     copyFilesMatchingPattern({
       base: config.inputDir,
       dest: config.outputDir.gfm,
       pattern: "**/*",
-      exclude: docs.map((d) => d.absolutePath),
+      excludePaths: docs.map((d) => d.absolutePath),
+      excludePatterns: ignorePatterns,
     });
   }
 

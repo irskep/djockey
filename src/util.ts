@@ -37,21 +37,30 @@ export function copyFilesMatchingPattern(args: {
   base: string;
   dest: string;
   pattern: string;
-  exclude: string[]; // Absolute paths!
+  excludePaths: string[]; // Absolute paths!
+  excludePatterns: string[];
 }) {
-  const { base, dest, pattern, exclude } = args;
+  const { base, dest, pattern, excludePaths, excludePatterns } = args;
 
-  const excludeSet = new Set(exclude);
+  const excludeSet = new Set(excludePaths);
 
-  for (const path_ of fastGlob.sync(`${base}/${pattern}`)) {
+  function copyPath(path_: string) {
     const relativePath = path.relative(base, path_);
+
+    if (excludeSet.has(`${base}/${relativePath}`)) return;
+
     const newFullPath = `${dest}/${relativePath}`;
 
     ensureParentDirectoriesExist(newFullPath);
 
-    if (excludeSet.has(`${base}/${relativePath}`)) continue;
     console.log("Copying static file", relativePath, "to", newFullPath);
     fs.copyFileSync(path_, `${dest}/${relativePath}`);
+  }
+
+  for (const path_ of fastGlob.sync(`${base}/${pattern}`, {
+    ignore: excludePatterns,
+  })) {
+    copyPath(path_);
   }
 }
 
