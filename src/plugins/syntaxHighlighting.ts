@@ -64,6 +64,8 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   readDoc(doc: Doc) {
     applyFilter(doc, () => ({
       code_block: (node: CodeBlock) => {
+        if (node.attributes?.hlRequestID) return; // Already scheduled
+
         const hlRequestID = `${nextID++}`;
         this.highlightRequests[hlRequestID] = {
           text: node.text,
@@ -76,6 +78,8 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
         return result;
       },
       verbatim: (node: Verbatim) => {
+        if (node.attributes?.hlRequestID) return; // Already scheduled
+
         const nodeClass = node.attributes?.class ?? "";
 
         const CLASS_PREFIX = "language-";
