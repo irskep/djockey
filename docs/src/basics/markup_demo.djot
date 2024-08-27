@@ -1,31 +1,31 @@
 # Markup demo
 
-{.tag-aside .warning}
+{tag=aside .warning}
 :::
 The details of this markup are likely to change, since Djockey is experimental.
 :::
 
 ## Overriding HTML tags
 
-Djot does not ([yet](https://github.com/jgm/djot/issues/240)) support arbitrary HTML tags in its input or output. Djockey works around this by postprocessing Djot's HTML output. Whenever you add a CSS class starting with `tag-`{.language-plaintext}, Djockey will replace the element's tag with the rest of the class.
+Djot does not ([yet](https://github.com/jgm/djot/issues/240)) support arbitrary HTML tags in its input or output. Djockey works around this by postprocessing Djot's HTML output. Whenever you add a `tag=foo`{.language-plaintext} attribute, Djockey will replace the element's tag with the rest of the class.
 
 {% can't use .dj-djot-demo for features that require the entire Djockey pipeline (yet) %}
 
 Input:
 
 ```djot
-{.tag-details}
+{tag=details}
 :::
-[I'm from Mattel!]{.tag-summary}
+[I'm from Mattel!]{tag=summary}
 Well, I'm not really from Mattel. I'm actually from a smaller company that was purchased in a leveraged buyout.
 :::
 ```
 
 Output:
 
-{.tag-details}
+{tag=details}
 :::
-[I'm from Mattel!]{.tag-summary}
+[I'm from Mattel!]{tag=summary}
 Well, I'm not really from Mattel. I'm actually from a smaller company that was purchased in a leveraged buyout.
 :::
 
@@ -35,7 +35,7 @@ Well, I'm not really from Mattel. I'm actually from a smaller company that was p
 
 {.dj-djot-demo}
 ```
-{.tag-aside .note}
+{tag=aside .note}
 :::
 Objects in mirror may be closer than they appear
 :::
@@ -45,7 +45,7 @@ Objects in mirror may be closer than they appear
 
 {.dj-djot-demo}
 ```
-{.tag-aside .warning}
+{tag=aside .warning}
 :::
 Objects in mirror may be closer than they appear
 :::
@@ -55,7 +55,7 @@ Objects in mirror may be closer than they appear
 
 {.dj-djot-demo}
 ```
-{.tag-aside .danger}
+{tag=aside .danger}
 :::
 Objects in mirror may be closer than they appear
 :::

@@ -195,15 +195,8 @@ export function postprocessHTML(html: string): string {
     node = node as Element;
 
     for (const attr of node.attrs) {
-      if (attr.name !== "class") {
-        continue;
-      }
-      for (const cls of attr.value.split(" ")) {
-        if (!cls.startsWith("tag-")) {
-          continue;
-        }
-        const tagName = cls.slice("tag-".length);
-        replaceNode(node, tagName);
+      if (attr.name === "tag") {
+        replaceNode(node, attr.value);
       }
     }
 
