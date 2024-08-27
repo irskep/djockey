@@ -27,18 +27,26 @@ export class GFMRenderer implements DjockeyRenderer {
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
     docRelativePath: string;
+    isLinkToStaticFile: boolean;
   }) {
-    const { anchorWithoutHash, docRelativePath, sourcePath } = args;
+    const {
+      anchorWithoutHash,
+      docRelativePath,
+      sourcePath,
+      isLinkToStaticFile,
+    } = args;
     // All links first use `../` to go back to the root, followed by the
     // full relative path of the destination doc. When rendering Markdown
     // we always use relative paths because you can't assume any given
     // Markdown file is in a predictable place.
     const pathBackToRoot = makePathBackToRoot(sourcePath);
 
+    const ext = isLinkToStaticFile ? "" : ".md";
+
     if (anchorWithoutHash) {
-      return `${pathBackToRoot}${docRelativePath}.md#${anchorWithoutHash}`;
+      return `${pathBackToRoot}${docRelativePath}${ext}#${anchorWithoutHash}`;
     } else {
-      return `${pathBackToRoot}${docRelativePath}.md`;
+      return `${pathBackToRoot}${docRelativePath}${ext}`;
     }
   }
 

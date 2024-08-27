@@ -7,6 +7,7 @@ import {
   DjockeyRenderer,
 } from "../types";
 import { applyFilter } from "../engine/djotFiltersPlus";
+import path from "path";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   private _linkTargets: Record<string, LinkTarget[]> = {};
@@ -80,11 +81,23 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
-      const staticFilePath = `${inputRoot}/${nodeDestination}`;
+      const prefixlessNodeDestination = nodeDestination.startsWith("/")
+        ? nodeDestination.slice(1)
+        : nodeDestination;
+
+      const staticFilePath = `${inputRoot}/${prefixlessNodeDestination}`;
       if (fs.existsSync(staticFilePath)) {
         console.log(
-          `${unresolvedNodeDestination} appears to be a static file; leaving link alone`
+          `${unresolvedNodeDestination} appears to be a static file; converting to absolute`
         );
+        return renderArgs.renderer.transformLink({
+          config: renderArgs.config,
+          sourcePath: renderArgs.sourcePath,
+          anchorWithoutHash: null,
+          docOriginalExtension: path.parse(nodeDestination).ext,
+          docRelativePath: prefixlessNodeDestination,
+          isLinkToStaticFile: true,
+        });
       } else {
         console.log(
           `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
@@ -195,6 +208,7 @@ export class LinkTarget {
       anchorWithoutHash: this.anchorWithoutHash,
       docOriginalExtension: this.docOriginalExtension,
       docRelativePath: this.docRelativePath,
+      isLinkToStaticFile: false,
     });
   }
 }

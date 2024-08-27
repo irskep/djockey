@@ -73,6 +73,7 @@ export type DjockeyRenderer = {
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
     docRelativePath: string;
+    isLinkToStaticFile: boolean;
   }) => string;
 };
 

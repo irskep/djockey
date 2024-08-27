@@ -39,17 +39,26 @@ export class HTMLRenderer implements DjockeyRenderer {
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
     docRelativePath: string;
+    isLinkToStaticFile: boolean;
   }) {
-    const { anchorWithoutHash, config, docRelativePath, sourcePath } = args;
+    const {
+      anchorWithoutHash,
+      config,
+      docRelativePath,
+      sourcePath,
+      isLinkToStaticFile,
+    } = args;
 
     const prefix = this.options.relativeLinks
       ? makePathBackToRoot(sourcePath, { sameDirectoryValue: "" })
       : `${config.urlRoot}/`;
 
+    const ext = isLinkToStaticFile ? "" : ".html";
+
     if (anchorWithoutHash) {
-      return `${prefix}${docRelativePath}.html#${anchorWithoutHash}`;
+      return `${prefix}${docRelativePath}${ext}#${anchorWithoutHash}`;
     } else {
-      return `${prefix}${docRelativePath}.html`;
+      return `${prefix}${docRelativePath}${ext}`;
     }
   }
 
