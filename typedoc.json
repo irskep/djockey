@@ -1,5 +1,7 @@
 {
+  "name": "Djockey Plugin API",
   "entryPoints": ["src/index.ts"],
+  "readme": "docs/meta/api_readme.md",
   "out": "docs/out/html/api/",
   "json": "docs/src/types.json"
 }
