@@ -4,6 +4,13 @@ body {
   background-color: var(--color-bg);
 }
 
+tt,
+code,
+kbd,
+samp {
+  font-family: var(--f-monospace);
+}
+
 svg line {
   stroke: var(--color-fg-1);
 }

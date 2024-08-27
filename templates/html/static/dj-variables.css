@@ -14,6 +14,7 @@
   --f-system: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
     helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
     sans-serif;
+  --f-monospace: Menlo, monospace;
 
   --fs-small: 14px;
   --fs-normal: 16px;
