@@ -87,6 +87,12 @@ main {
   margin-bottom: var(--mm);
 }
 
+@media (max-width: 970px) {
+  main {
+    margin-top: var(--ml);
+  }
+}
+
 /* NAVIGATION */
 
 .DJContent,
