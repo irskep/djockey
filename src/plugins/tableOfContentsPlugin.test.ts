@@ -1,10 +1,10 @@
-import { Doc, parse, renderHTML } from "@djot/djot";
-import { DjockeyConfig, DjockeyConfigResolved, DjockeyDoc } from "../types";
-import { TableOfContentsPlugin } from "./tableOfContentsPlugin";
-import { LinkRewritingPlugin } from "./linkRewritingPlugin";
-import { DocSet } from "../engine/docset";
-import { HTMLRenderer } from "../renderers/htmlRenderer";
-import { getConfigDefaults } from "../config";
+import { parse, renderHTML } from "@djot/djot";
+import { DjockeyConfigResolved, DjockeyDoc } from "../types.js";
+import { TableOfContentsPlugin } from "./tableOfContentsPlugin.js";
+import { LinkRewritingPlugin } from "./linkRewritingPlugin.js";
+import { DocSet } from "../engine/docset.js";
+import { HTMLRenderer } from "../renderers/htmlRenderer.js";
+import { getConfigDefaults } from "../config.js";
 
 test("Generates TOCEntry tree for one doc", () => {
   const doc: DjockeyDoc = {

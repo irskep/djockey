@@ -5,9 +5,9 @@ import { ArgumentParser } from "argparse";
 import {
   resolveConfigFromDirectory,
   resolveConfigFromSingleFile,
-} from "./config";
-import { executeConfig } from "./engine/executeConfig";
-import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types";
+} from "./config.js";
+import { executeConfig } from "./engine/executeConfig.js";
+import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types.js";
 
 export function makeArgumentParser() {
   const p = new ArgumentParser();
@@ -27,6 +27,7 @@ export function makeArgumentParser() {
 
 export async function main() {
   const args = makeArgumentParser().parse_args();
+  console.log(args);
 
   switch (args.action) {
     case "build":

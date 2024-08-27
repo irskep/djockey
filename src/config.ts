@@ -5,13 +5,13 @@ import url from "url";
 import fastGlob from "fast-glob";
 import yaml from "js-yaml";
 
-import { getIsPandocInstalled } from "./pandoc";
+import { getIsPandocInstalled } from "./pandoc.js";
 import {
   DjockeyConfig,
   DjockeyConfigResolved,
   DjockeyInputFormat,
-} from "./types";
-import { getExtensionForInputFormat } from "./input/fileExtensions";
+} from "./types.js";
+import { getExtensionForInputFormat } from "./input/fileExtensions.js";
 
 export function getConfigDefaults(): DjockeyConfig {
   const isPandocInstalled = getIsPandocInstalled();

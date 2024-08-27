@@ -1,8 +1,8 @@
 import path from "path";
-import { DjockeyDoc } from "../types";
-import { CustomSortValue } from "./customSortValue";
+import { DjockeyDoc } from "../types.js";
+import { CustomSortValue } from "./customSortValue.js";
 import { Inline } from "@djot/djot";
-import { djotASTToText } from "../util";
+import { djotASTToText } from "../util.js";
 
 export type DocTreeSection = {
   title: Inline[];

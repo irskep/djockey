@@ -1,4 +1,4 @@
-import { ALL_INPUT_FORMATS, DjockeyInputFormat } from "../types";
+import { ALL_INPUT_FORMATS, DjockeyInputFormat } from "../types.js";
 
 export function getExtensionForInputFormat(fmt: DjockeyInputFormat): string[] {
   switch (fmt) {

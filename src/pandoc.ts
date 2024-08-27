@@ -1,4 +1,3 @@
-import { Pandoc } from "@djot/djot/types/pandoc";
 import { spawnSync } from "child_process";
 import path from "path";
 
@@ -7,7 +6,7 @@ export function getIsPandocInstalled(): boolean {
   return result.status === 0;
 }
 
-export function getPandocAST(path_: string): Pandoc {
+export function getPandocAST(path_: string): unknown {
   const result = spawnSync(
     "pandoc",
     [path.resolve(path_), "-f", "gfm", "-t", "json"],

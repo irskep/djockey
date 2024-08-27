@@ -1,6 +1,6 @@
 import { BulletList, Heading, Link, ListItem, Section } from "@djot/djot";
-import { applyFilter } from "../engine/djotFiltersPlus";
-import { DjockeyDoc, DjockeyPlugin } from "../types";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 
 export type TOCEntry = {
   id: string;

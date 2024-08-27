@@ -3,7 +3,7 @@ import path from "path";
 
 import fastGlob from "fast-glob";
 import { AstNode, Block, Doc, HasAttributes, HasText } from "@djot/djot";
-import { applyFilter } from "./engine/djotFiltersPlus";
+import { applyFilter } from "./engine/djotFiltersPlus.js";
 
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,

@@ -1,8 +1,8 @@
 import { parse } from "@djot/djot";
-import { DjockeyConfigResolved, DjockeyDoc } from "../types";
-import { AutoTitlePlugin } from "./autoTitlePlugin";
-import { DocSet } from "../engine/docset";
-import { getConfigDefaults } from "../config";
+import { DjockeyConfigResolved, DjockeyDoc } from "../types.js";
+import { AutoTitlePlugin } from "./autoTitlePlugin.js";
+import { DocSet } from "../engine/docset.js";
+import { getConfigDefaults } from "../config.js";
 
 test("Title is set to first heading by default", () => {
   const doc: DjockeyDoc = {

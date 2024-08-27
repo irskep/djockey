@@ -9,14 +9,14 @@ import {
   DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyRenderer,
-} from "../types";
-import { runPandocOnAST } from "../pandoc";
+} from "../types.js";
+import { runPandocOnAST } from "../pandoc.js";
 import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
   makePathBackToRoot,
-} from "../util";
-import { DocSet } from "../engine/docset";
+} from "../util.js";
+import { DocSet } from "../engine/docset.js";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";

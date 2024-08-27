@@ -5,7 +5,7 @@ outputDir:
 siteName: "Djockey"
 urlRoot: https://steveasleep.com/djockey
 projectInfo:
-  version: 0.0.1
+  version: 0.0.2
   githubURL: https://github.com/irskep/djockey
 
 html:

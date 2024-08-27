@@ -1,4 +1,4 @@
-import { parseFrontmatter } from "./parseDjot";
+import { parseFrontmatter } from "./parseDjot.js";
 
 describe("parseFrontmatter", () => {
   test("parseFrontmatter no text", () => {

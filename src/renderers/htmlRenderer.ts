@@ -14,12 +14,12 @@ import {
   DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyRenderer,
-} from "../types";
+} from "../types.js";
 import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
   makePathBackToRoot,
-} from "../util";
+} from "../util.js";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";

@@ -1,7 +1,7 @@
 import { Heading } from "@djot/djot";
-import { applyFilter } from "../engine/djotFiltersPlus";
-import { DjockeyDoc, DjockeyPlugin } from "../types";
-import { djotASTToText } from "../util";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { DjockeyDoc, DjockeyPlugin } from "../types.js";
+import { djotASTToText } from "../util.js";
 
 export class AutoTitlePlugin implements DjockeyPlugin {
   name = "Auto Titler";

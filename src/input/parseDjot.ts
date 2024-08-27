@@ -4,9 +4,9 @@ import { basename } from "path";
 
 import yaml from "js-yaml";
 import { Doc, fromPandoc, parse } from "@djot/djot";
-import { DjockeyDoc } from "../types";
-import { getPandocAST } from "../pandoc";
-import { getInputFormatForFileExtension } from "./fileExtensions";
+import { DjockeyDoc } from "../types.js";
+import { getPandocAST } from "../pandoc.js";
+import { getInputFormatForFileExtension } from "./fileExtensions.js";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -49,7 +49,7 @@ export function parseDjot(
       break;
     case "gfm":
       const ast = getPandocAST(absolutePath);
-      djotDoc = fromPandoc(ast);
+      djotDoc = fromPandoc(ast as any);
       break;
   }
 

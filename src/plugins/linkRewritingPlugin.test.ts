@@ -1,4 +1,4 @@
-import { resolveRelativePath } from "./linkRewritingPlugin";
+import { resolveRelativePath } from "./linkRewritingPlugin.js";
 
 test("Resolves explicit relative links", () => {
   expect(resolveRelativePath("a/b/c.txt", "./d.txt")).toEqual("/a/b/d.txt");

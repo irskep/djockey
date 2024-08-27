@@ -7,9 +7,9 @@ export type {
   DjockeyRenderer,
   DjockeyPlugin,
   DjockeyPluginModule,
-} from "./types";
+} from "./types.js";
 
-export type { DocSet } from "./engine/docset";
-export type { DocTree, DocTreeSection } from "./engine/doctree";
+export type { DocSet } from "./engine/docset.js";
+export type { DocTree, DocTreeSection } from "./engine/doctree.js";
 
-export { applyFilter } from "./engine/djotFiltersPlus";
+export { applyFilter } from "./engine/djotFiltersPlus.js";

@@ -1,27 +1,26 @@
-import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 
 import { Environment, FileSystemLoader } from "nunjucks";
 
-import { DocSet } from "./docset";
-import { parseDjot } from "../input/parseDjot";
-import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin";
+import { DocSet } from "./docset.js";
+import { parseDjot } from "../input/parseDjot.js";
+import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin.js";
 import {
-  ALL_OUTPUT_FORMATS,
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyPlugin,
   DjockeyPluginModule,
   DjockeyRenderer,
-} from "../types";
-import { makeRenderer } from "../renderers/makeRenderer";
-import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin";
-import { AutoTitlePlugin } from "../plugins/autoTitlePlugin";
-import { loadDocTree } from "./doctree";
-import { populateDocTreeDoc } from "./populateDocTreeDoc";
-import { DjotDemoPlugin } from "../plugins/djotDemoPlugin";
-import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting";
+} from "../types.js";
+import { makeRenderer } from "../renderers/makeRenderer.js";
+import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin.js";
+import { AutoTitlePlugin } from "../plugins/autoTitlePlugin.js";
+import { loadDocTree } from "./doctree.js";
+import { populateDocTreeDoc } from "./populateDocTreeDoc.js";
+import { DjotDemoPlugin } from "../plugins/djotDemoPlugin.js";
+import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting.js";
+import { fileURLToPath } from "url";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -95,6 +94,8 @@ export function writeDocSet(
   docSet: DocSet,
   outputFormats: DjockeyOutputFormat[]
 ) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   for (const format of new Set(outputFormats)) {
     const templateDir = path.resolve(
       path.join(__dirname, "..", "..", "templates", format)

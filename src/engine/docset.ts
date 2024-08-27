@@ -3,8 +3,8 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyRenderer,
-} from "../types";
-import { DocTree } from "./doctree";
+} from "../types.js";
+import { DocTree } from "./doctree.js";
 
 export class DocSet {
   public tree: DocTree | null = null;

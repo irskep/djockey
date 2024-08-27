@@ -3,34 +3,29 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyRenderer,
-} from "../types";
-import { applyFilter } from "../engine/djotFiltersPlus";
+} from "../types.js";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { CodeBlock, Doc, RawBlock, RawInline, Verbatim } from "@djot/djot";
-import {
-  BundledLanguage,
-  BundledTheme,
-  codeToHtml,
-  createHighlighter,
-  HighlighterGeneric,
-  LanguageRegistration,
-} from "shiki/index.mjs";
-import * as djotTextmateGrammar from "../djotTextmateGrammar.json";
+import * as djotTextmateGrammar from "../djotTextmateGrammar.json" with { type: "json" };
 
 let nextID = 0;
 
 export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   name = "Syntax Highlighting";
 
+  shiki!: any;
+
   highlightRequests: Record<string, { text: string; lang: string }> = {};
   highlightResults: Record<string, string> = {};
 
-  djotHighlighter!: HighlighterGeneric<BundledLanguage, BundledTheme>;
+  djotHighlighter!: any;
 
   constructor(public config: DjockeyConfigResolved) {}
 
   async setup() {
-    this.djotHighlighter = await createHighlighter({
-      langs: [djotTextmateGrammar as unknown as LanguageRegistration],
+    this.shiki = await import("shiki");
+    this.djotHighlighter = await this.shiki.createHighlighter({
+      langs: [djotTextmateGrammar as unknown],
       themes: ["vitesse-light", "vitesse-dark"],
     });
   }
@@ -44,17 +39,17 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     try {
       if (lang === "djot") {
         return await this.djotHighlighter.codeToHtml(text, {
-          lang: lang as BundledLanguage,
+          lang: lang as unknown,
           themes,
         });
       } else {
-        return await codeToHtml(text, {
-          lang: lang as BundledLanguage,
+        return await this.shiki.codeToHtml(text, {
+          lang: lang as unknown,
           themes,
         });
       }
     } catch {
-      return await codeToHtml(text, {
+      return await this.shiki.codeToHtml(text, {
         lang: "text",
         themes,
       });

@@ -1,7 +1,11 @@
 import { Block, Inline, Link, ListItem } from "@djot/djot";
-import { DjockeyConfigResolved, DjockeyDoc, DjockeyRenderer } from "../types";
-import { DocSet } from "./docset";
-import { DocTreeSection } from "./doctree";
+import {
+  DjockeyConfigResolved,
+  DjockeyDoc,
+  DjockeyRenderer,
+} from "../types.js";
+import { DocSet } from "./docset.js";
+import { DocTreeSection } from "./doctree.js";
 
 export function populateDocTreeDoc(
   docSet: DocSet,

@@ -5,8 +5,8 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyRenderer,
-} from "../types";
-import { applyFilter } from "../engine/djotFiltersPlus";
+} from "../types.js";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
 import path from "path";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {

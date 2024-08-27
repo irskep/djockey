@@ -1,7 +1,7 @@
 import { Div, HasAttributes, HasText, parse } from "@djot/djot";
-import { DjockeyDoc, DjockeyPlugin } from "../types";
-import { applyFilter } from "../engine/djotFiltersPlus";
-import { getHasClass } from "../util";
+import { DjockeyDoc, DjockeyPlugin } from "../types.js";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { getHasClass } from "../util.js";
 
 export class DjotDemoPlugin implements DjockeyPlugin {
   name = "Djot Example";
