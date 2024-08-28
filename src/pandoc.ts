@@ -1,5 +1,6 @@
 import { spawnSync } from "child_process";
 import path from "path";
+import { runCmd } from "./util.js";
 
 export function getIsPandocInstalled(): boolean {
   const result = spawnSync("which", ["pandoc"]);
@@ -18,9 +19,11 @@ export function getPandocAST(path_: string): unknown {
   return JSON.parse(resultOutput);
 }
 
-export function runPandocOnAST(ast: unknown, fmt: string): string {
-  const result = spawnSync("pandoc", ["-f", "json", "-t", fmt], {
-    encoding: "utf-8",
+export async function runPandocOnAST(
+  ast: unknown,
+  fmt: string
+): Promise<string> {
+  const result = await runCmd("pandoc", ["-f", "json", "-t", fmt], {
     input: JSON.stringify(ast),
   });
   const resultOutput = result.stdout.toString();

@@ -6,7 +6,7 @@ import { DocSet } from "../engine/docset.js";
 import { HTMLRenderer } from "../renderers/htmlRenderer.js";
 import { getConfigDefaults } from "../config.js";
 
-test("Generates TOCEntry tree for one doc", () => {
+test("Generates TOCEntry tree for one doc", async () => {
   const doc: DjockeyDoc = {
     docs: {
       content: parse(
@@ -35,7 +35,7 @@ test("Generates TOCEntry tree for one doc", () => {
   plg.onPass_read(doc);
   plg.onPass_write(doc);
 
-  const html = renderHTML(doc.docs.toc);
+  const html = await renderHTML(doc.docs.toc);
 
   expect(html).toEqual(`<ul>
 <li>
@@ -58,16 +58,13 @@ test("Generates TOCEntry tree for one doc", () => {
 `);
 });
 
-test("Works end-to-end with LinkRewritingPlugin", () => {
+test("Works end-to-end with LinkRewritingPlugin", async () => {
   const doc: DjockeyDoc = {
     docs: {
       content: parse(
         `# Heading 1
-
       ## Heading 1.1
-
       # Heading 2
-
       ### Heading 2.2
       `,
         { sourcePositions: true }
@@ -82,7 +79,6 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     frontMatter: {},
     data: {},
   };
-
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
     input_dir: ".",
@@ -97,12 +93,11 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
     [doc]
   );
-  docSet.runPasses();
+  await docSet.runPasses();
   const htmlCopy = docSet.makeRenderableCopy(
     new HTMLRenderer({ relativeLinks: true })
   )[0];
   const html = renderHTML(htmlCopy.docs.toc);
-
   expect(html).toEqual(`<ul>
 <li>
 <a href="Test Doc.dj.html#Heading-1">Heading 1</a>

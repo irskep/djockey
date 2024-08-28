@@ -100,7 +100,7 @@ export class HTMLRenderer implements DjockeyRenderer {
       );
   }
 
-  writeDoc(args: {
+  async writeDoc(args: {
     config: DjockeyConfig;
     nj: Environment;
     doc: DjockeyDoc;
