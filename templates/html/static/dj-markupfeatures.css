@@ -89,6 +89,11 @@ aside.warning {
   margin-bottom: 0.5em;
 }
 
+.version-modified p.primary:last-child {
+  font-size: var(--fs-medium);
+  margin-bottom: 1.25em;
+}
+
 .version-modified p {
   font-size: var(--fs-small);
 }

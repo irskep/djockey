@@ -13,3 +13,7 @@ project_info:
 html:
   ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
   footer_text: "©2024 Steve Landey"
+
+features:
+  syntax_highlighting:
+    default_code_block_language: djot

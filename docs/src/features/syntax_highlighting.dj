@@ -1,3 +1,6 @@
+---
+default_inline_language: djot
+---
 # Syntax highlighting
 
 Djockey supports [all the languages that Shiki supports by default](https://shiki.style/languages), plus Djot.
@@ -10,10 +13,34 @@ To highlight a code block, put the language next to the first set of backticks:
 ```
 ````
 
-To highlight an inline verbatim expression, add `{.language-foo}`{.language-djot} after your backticks:
+To highlight an inline verbatim expression, add `{.language-foo}` after your backticks:
 
 ```djot
 `print("Hello, world")`{.language-python}
 ```
 
 Output: `print("Hello, world")`{.language-python}
+
+## Default languages
+
+{added-in-version="0.0.5"}
+:::
+:::
+
+You can avoid needing to type `{.language-foo}` all the time by specifying a default language for syntax highlighting. You can do this site-wide in `djockey.yaml`:
+
+```yaml
+features:
+  syntax_highlighting:
+    default_code_block_language: typescript
+    default_inline_language: text
+```
+
+Or you can do it on a file-by-file basis in the front matter:
+
+```yaml
+---
+default_inline_language: yaml
+default_code_block_language: yaml
+---
+```

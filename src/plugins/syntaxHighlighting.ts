@@ -39,6 +39,32 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
       config.features?.syntax_highlighting?.theme_dark ?? "vitesse-dark";
   }
 
+  getNodeLang(
+    doc: DjockeyDoc,
+    lang: string | undefined | null,
+    configKey: "default_code_block_language" | "default_inline_language"
+  ): string | null {
+    let defaultLanguage = "text";
+    if (doc.frontMatter[configKey]) {
+      defaultLanguage = doc.frontMatter[configKey] as string;
+    } else if (
+      this.config.features?.syntax_highlighting &&
+      this.config.features.syntax_highlighting[configKey]
+    ) {
+      defaultLanguage = this.config.features.syntax_highlighting[configKey];
+    } else {
+      defaultLanguage = "text";
+    }
+
+    if (!lang) return defaultLanguage;
+    const forbidden = new Set(["mermaid"]);
+    if (forbidden.has(lang)) return null;
+    if (this.languages.has(lang)) return lang;
+    if (lang === "plaintext") return "text";
+
+    return defaultLanguage;
+  }
+
   async setup() {
     this.djotHighlighter = await createHighlighter({
       langs: [djotTextmateGrammar as unknown as LanguageRegistration],
@@ -72,19 +98,17 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
   }
 
-  readDoc(doc: Doc) {
+  readDoc(doc: Doc, djockeyDoc: DjockeyDoc) {
     applyFilter(doc, () => ({
       code_block: (node: CodeBlock) => {
         if (node.attributes?.hlRequestID) return; // Already scheduled
 
-        if (node.lang === "mermaid") {
-          // Special case: Mermaid renders as a diagram
-          return;
-        }
-
-        const lang = this.languages.has(node.lang ?? "<none>")
-          ? node.lang ?? "text"
-          : "text";
+        const lang = this.getNodeLang(
+          djockeyDoc,
+          node.lang,
+          "default_code_block_language"
+        );
+        if (!lang) return;
 
         const hlRequestID = `${nextID++}`;
         this.highlightRequests[hlRequestID] = {
@@ -107,7 +131,13 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           .split(" ")
           .find((cls) => cls.startsWith(CLASS_PREFIX));
 
-        const lang = langAttr ? langAttr.slice(CLASS_PREFIX.length) : "text";
+        const lang = this.getNodeLang(
+          djockeyDoc,
+          langAttr ? langAttr.slice(CLASS_PREFIX.length) : null,
+          "default_inline_language"
+        );
+        if (!lang) return;
+
         const hlRequestID = `${nextID++}`;
         this.highlightRequests[hlRequestID] = {
           text: node.text,
@@ -125,7 +155,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
 
   onPass_read(doc: DjockeyDoc) {
     for (const djotDoc of Object.values(doc.docs)) {
-      this.readDoc(djotDoc);
+      this.readDoc(djotDoc, doc);
     }
   }
 
