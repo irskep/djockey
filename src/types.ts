@@ -24,6 +24,13 @@ export type DjockeyConfig = {
     footer_text: string;
     ignore_css?: string[];
   };
+
+  features?: {
+    syntax_highlighting?: {
+      theme_light: string;
+      theme_dark: string;
+    };
+  };
 };
 
 export type DjockeyConfigResolved = DjockeyConfig & {

@@ -22,26 +22,34 @@ let nextID = 0;
 export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   name = "Syntax Highlighting";
 
-  languages = new Set(["djot"].concat(Object.keys(bundledLanguages)));
+  languages = new Set(["djot", "text"].concat(Object.keys(bundledLanguages)));
 
   highlightRequests: Record<string, { text: string; lang: string }> = {};
   highlightResults: Record<string, string> = {};
 
   djotHighlighter!: HighlighterGeneric<BundledLanguage, BundledTheme>;
 
-  constructor(public config: DjockeyConfigResolved) {}
+  themeLight: string;
+  themeDark: string;
+
+  constructor(public config: DjockeyConfigResolved) {
+    this.themeLight =
+      config.features?.syntax_highlighting?.theme_light ?? "vitesse-light";
+    this.themeDark =
+      config.features?.syntax_highlighting?.theme_dark ?? "vitesse-dark";
+  }
 
   async setup() {
     this.djotHighlighter = await createHighlighter({
       langs: [djotTextmateGrammar as unknown as LanguageRegistration],
-      themes: ["vitesse-light", "vitesse-dark"],
+      themes: [this.themeLight, this.themeDark],
     });
   }
 
   async highlight(text: string, lang: string): Promise<string> {
     const themes = {
-      light: "vitesse-light",
-      dark: "vitesse-dark",
+      light: this.themeLight,
+      dark: this.themeDark,
     };
 
     try {
@@ -69,19 +77,19 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
       code_block: (node: CodeBlock) => {
         if (node.attributes?.hlRequestID) return; // Already scheduled
 
-        if (!this.languages.has(node.lang ?? "<none>")) {
-          return;
-        }
-
         if (node.lang === "mermaid") {
           // Special case: Mermaid renders as a diagram
           return;
         }
 
+        const lang = this.languages.has(node.lang ?? "<none>")
+          ? node.lang ?? "text"
+          : "text";
+
         const hlRequestID = `${nextID++}`;
         this.highlightRequests[hlRequestID] = {
           text: node.text,
-          lang: node.lang ?? "text",
+          lang,
         };
         const result: CodeBlock = {
           ...node,
