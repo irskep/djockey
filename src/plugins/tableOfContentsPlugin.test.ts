@@ -91,7 +91,7 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     urlRoot: "URL_ROOT",
     inputFormats: { djot: true },
     rootPath: ".",
-    html: { footerText: "", linkCSSToInputInsteadOfOutput: false },
+    html: { footerText: "" },
   };
   const docSet = new DocSet(
     config,

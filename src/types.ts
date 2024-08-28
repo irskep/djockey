@@ -23,7 +23,6 @@ export type DjockeyConfig = {
   html: {
     footerText: string;
     cssIgnorePatterns?: string[];
-    linkCSSToInputInsteadOfOutput: boolean;
   };
 };
 

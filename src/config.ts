@@ -32,7 +32,6 @@ export function getConfigDefaults(): DjockeyConfig {
 
     html: {
       footerText: "",
-      linkCSSToInputInsteadOfOutput: false,
     },
   };
 }

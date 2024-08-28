@@ -24,9 +24,7 @@ import {
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
-  cssFilePaths = new Array<string>();
   cssURLsRelativeToBase = new Array<string>();
-  jsFilePaths = new Array<string>();
   jsURLsRelativeToBase = new Array<string>();
 
   constructor(
@@ -89,9 +87,6 @@ export class HTMLRenderer implements DjockeyRenderer {
         (pattern) => `**/${pattern}`
       ),
     });
-    this.cssFilePaths = templateCSSFiles
-      .concat(inputCSSFiles)
-      .map((path_) => url.pathToFileURL(path_).toString());
     this.cssURLsRelativeToBase = templateCSSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
@@ -100,9 +95,6 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
     const inputJSFiles = fastGlob.sync(`${config.inputDir}/**/*.js`);
-    this.jsFilePaths = templateJSFiles
-      .concat(inputJSFiles)
-      .map((path_) => url.pathToFileURL(path_).toString());
     this.jsURLsRelativeToBase = templateJSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
@@ -141,9 +133,7 @@ export class HTMLRenderer implements DjockeyRenderer {
         path: parseGitHubPath(config.projectInfo?.githubURL),
       },
       urls: {
-        css: config.html.linkCSSToInputInsteadOfOutput
-          ? this.cssFilePaths
-          : this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+        css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         home: isFileURL ? baseURL + "index.html" : baseURL,
       },
