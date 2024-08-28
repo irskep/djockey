@@ -1,0 +1,43 @@
+# Version directives
+
+{added-in-version="0.0.5"}
+:::
+:::
+
+You can mark some content as applying to a specific version using the `added-in-version` attribute on an empty div. If you specified a `projectInfo.version`{.language-yaml} in your [configuration](#config-reference), and the specified version is greater, then the message will be future-tense.
+
+```djot
+{added-in-version="0.0.1"}
+:::
+:::
+
+{added-in-version="10.0"}
+:::
+:::
+```
+
+Output:
+
+{added-in-version="0.0.1"}
+:::
+:::
+
+{added-in-version="10.0"}
+:::
+:::
+
+You can also put content inside if you want to add commentary.
+
+```djot
+{added-in-version="10.0"}
+:::
+We're really excited about this feature!
+:::
+```
+
+Output:
+
+{added-in-version="10.0"}
+:::
+We're really excited about this feature!
+:::

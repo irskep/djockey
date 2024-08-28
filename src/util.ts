@@ -73,6 +73,22 @@ export function getHasClass(node: HasAttributes, cls: string): boolean {
   return values.has(cls);
 }
 
+export function getAttribute(node: HasAttributes, k: string): string | null {
+  if (!node.attributes || node.attributes[k] === undefined) return null;
+  return node.attributes[k];
+}
+
+export function getAnyAttribute(
+  node: HasAttributes,
+  keys: string[]
+): [string, string] | null {
+  if (!node.attributes) return null;
+  for (const k of keys) {
+    if (node.attributes[k] !== undefined) return [k, node.attributes[k]];
+  }
+  return null;
+}
+
 export function makeStubDjotDoc(children: Block[]): Doc {
   return {
     tag: "doc",
