@@ -32,7 +32,7 @@ export class DjotDemoPlugin implements DjockeyPlugin {
                 tag: "code_block",
                 lang: "djot",
                 text: node.text,
-                attributes: { class: "language-plaintext" },
+                attributes: { class: "language-text" },
                 pos: structuredClone(node.pos),
               },
               {

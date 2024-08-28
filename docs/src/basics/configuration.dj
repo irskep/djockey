@@ -31,4 +31,9 @@ html:
   # If you use TypeDoc, you'd want to set this to
   # path/to/typedoc/**/*.css
   ignore_css: ['some/css/you/dont/want.css']
+
+features:
+  syntax_highlighting:
+    theme_light: vitesse-light
+    theme_dark: vitesse-dark
 ```
