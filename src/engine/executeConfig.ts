@@ -60,13 +60,11 @@ export async function executeConfig(
 export async function readDocSet(
   config: DjockeyConfigResolved
 ): Promise<DocSet> {
-  const docs = config.fileList
-    .map((path_) => {
-      console.log("Parsing", path_);
-      const result = parseDjot(config.input_dir, path_);
-      return result;
-    })
-    .filter((doc) => !!doc);
+  const docs = (
+    await Promise.all(
+      config.fileList.map((path_) => parseDjot(config.input_dir, path_))
+    )
+  ).filter((doc) => !!doc);
 
   const pluginPaths = config.plugins;
   const userPlugins = new Array<DjockeyPlugin>();

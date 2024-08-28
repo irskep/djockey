@@ -29,10 +29,11 @@ export function parseFrontmatter(text: string): {
   }
 }
 
-export function parseDjot(
+export async function parseDjot(
   inputRoot: string,
   absolutePath: string
-): DjockeyDoc | null {
+): Promise<DjockeyDoc | null> {
+  console.log("Parsing", absolutePath);
   const relativePath = path.relative(inputRoot, absolutePath);
   const { text, frontMatter } = parseFrontmatter(
     fs.readFileSync(absolutePath, "utf8")

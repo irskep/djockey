@@ -1,9 +1,7 @@
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { getHasClass, pushToList } from "../util.js";
-import { Block, Str } from "@djot/djot";
-
-let nextID = 0;
+import { Block } from "@djot/djot";
 
 export class IndextermsPlugin implements DjockeyPlugin {
   name = "Indexterms";
@@ -21,6 +19,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
     const result: Record<string, { docRelativePath: string; id: string }[]> =
       {};
     for (const djotDoc of Object.values(doc.docs)) {
+      let nextID = 0;
       applyFilter(djotDoc, () => ({
         "*": (node) => {
           if (!node.attributes) return;

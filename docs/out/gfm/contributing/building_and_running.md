@@ -17,16 +17,16 @@ id="Building-and-running-Djot-locally">
 
 ## Using [Bun](https://bun.sh) (preferred)
 
-It’s best to iterate on Djockey with <span id="indexterm-2"
-indexterm="Bun" id="indexterm-2">Bun</span> because you don’t need to
+It’s best to iterate on Djockey with <span id="indexterm-1"
+indexterm="Bun" id="indexterm-1">Bun</span> because you don’t need to
 compile the TypeScript and it boots instantly.
 
 Assuming you’ve already installed `bun`, `bun install` and `bun test`
 work as usual.
 
 `Makefile` has a few shortcuts for working this way. Run `make docs` to
-build the documentation for local browsing using <span id="indexterm-7"
-indexterm="Bun" id="indexterm-7">Bun</span>; this is effectively the
+build the documentation for local browsing using <span id="indexterm-6"
+indexterm="Bun" id="indexterm-6">Bun</span>; this is effectively the
 best integration test for Djockey right now.
 
 </div>

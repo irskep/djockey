@@ -11,8 +11,8 @@
 Djockey’s built-in client-side JavaScript is written in Typescript under
 `src/clientjs/index.ts` and compiled with `bun build --target=browser`.
 The built JS is committed to git as `templates/html/static/client.js`,
-in order to avoid <span id="indexterm-8" indexterm="Bun"
-id="indexterm-8">Bun</span> as a hard dependency for using Djockey.
+in order to avoid <span id="indexterm-0" indexterm="Bun"
+id="indexterm-0">Bun</span> as a hard dependency for using Djockey.
 
 </div>
 
