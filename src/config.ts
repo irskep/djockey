@@ -81,13 +81,9 @@ export function resolveConfig(
       html: absify(rootPath, config.outputDir.html),
       gfm: absify(rootPath, config.outputDir.gfm),
     },
-    fileList:
-      config.fileList ||
-      fastGlob.sync(
-        `${absify(rootPath, config.inputDir)}/**/*.(${inputExtensions.join(
-          "|"
-        )})`
-      ),
+    fileList: fastGlob.sync(
+      `${absify(rootPath, config.inputDir)}/**/*.(${inputExtensions.join("|")})`
+    ),
   };
 
   const configURLRoot = config.urlRoot;
@@ -114,34 +110,4 @@ export function resolveConfigFromDirectory(
   } else {
     return null;
   }
-}
-
-export function resolveConfigFromSingleFile(
-  path_: string
-): DjockeyConfigResolved {
-  const absPath = path.resolve(path_);
-  const parentDir = path.resolve(`${path_}/..`);
-  const config: DjockeyConfig = {
-    inputDir: parentDir,
-    outputDir: {
-      html: parentDir,
-      gfm: parentDir,
-    },
-    fileList: [absPath],
-    inputFormats: {
-      djot: true,
-      gfm: getIsPandocInstalled(),
-    },
-    numPasses: 1,
-    siteName: "",
-
-    plugins: [],
-
-    html: {
-      footerText: "",
-      linkCSSToInputInsteadOfOutput: false,
-    },
-  };
-
-  return resolveConfig(parentDir, config, false);
 }

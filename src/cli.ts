@@ -2,10 +2,7 @@
 
 import fs from "fs";
 import { ArgumentParser } from "argparse";
-import {
-  resolveConfigFromDirectory,
-  resolveConfigFromSingleFile,
-} from "./config.js";
+import { resolveConfigFromDirectory } from "./config.js";
 import { executeConfig } from "./engine/executeConfig.js";
 import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types.js";
 
@@ -45,9 +42,7 @@ export async function doBuild(
   if (!fs.existsSync(inputPath)) {
     throw new Error("File does not exist: " + inputPath);
   }
-  const config = fs.statSync(inputPath).isDirectory()
-    ? resolveConfigFromDirectory(inputPath, isLocal)
-    : resolveConfigFromSingleFile(inputPath);
+  const config = resolveConfigFromDirectory(inputPath, isLocal);
   if (config) {
     await executeConfig(
       config,

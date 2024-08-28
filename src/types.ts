@@ -4,7 +4,6 @@ import { Environment } from "nunjucks";
 export type DjockeyConfig = {
   inputDir: string;
   outputDir: Record<DjockeyOutputFormat, string>;
-  fileList?: string[];
   urlRoot?: string;
   inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
   numPasses: number;
