@@ -74,7 +74,7 @@ export class GFMRenderer implements DjockeyRenderer {
     });
   }
 
-  writeDoc(args: {
+  async writeDoc(args: {
     config: DjockeyConfig;
     nj: Environment;
     doc: DjockeyDoc;
@@ -86,10 +86,13 @@ export class GFMRenderer implements DjockeyRenderer {
     ensureParentDirectoriesExist(outputPath);
 
     const renderedDocs: Record<string, string> = {};
-    for (const k of Object.keys(doc.docs)) {
+    const renderOps = Object.keys(doc.docs).map((k) => {
       const outputAST = toPandoc(doc.docs[k], {});
-      renderedDocs[k] = runPandocOnAST(outputAST, "gfm");
-    }
+      return runPandocOnAST(outputAST, "gfm").then(
+        (result) => (renderedDocs[k] = result)
+      );
+    });
+    await Promise.all(renderOps);
 
     const outputPage = nj.render("base.njk", {
       doc,

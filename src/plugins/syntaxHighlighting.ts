@@ -161,10 +161,14 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
 
   async doAsyncWorkBetweenReadAndWrite(doc: DjockeyDoc) {
     console.log(`Highlighting ${doc.relativePath}...`);
-    for (const k of Object.keys(this.highlightRequests)) {
-      const v = this.highlightRequests[k];
-      this.highlightResults[k] = await this.highlight(v.text, v.lang);
-    }
+    await Promise.all(
+      Object.keys(this.highlightRequests).map((k) => {
+        const v = this.highlightRequests[k];
+        return this.highlight(v.text, v.lang).then(
+          (result) => (this.highlightResults[k] = result)
+        );
+      })
+    );
   }
 
   onPrepareForRender(args: {

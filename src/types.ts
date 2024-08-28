@@ -78,7 +78,7 @@ export type DjockeyRenderer = {
     nj: Environment;
     doc: DjockeyDoc;
     context: Record<string, unknown>;
-  }) => void;
+  }) => Promise<void>;
 
   transformLink: (args: {
     config: DjockeyConfigResolved;

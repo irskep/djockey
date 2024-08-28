@@ -30,9 +30,7 @@ export class DocSet {
         }
       }
     }
-    for (const job of jobs) {
-      await job;
-    }
+    await Promise.all(jobs);
 
     this.runPass("onPass_write");
   }
