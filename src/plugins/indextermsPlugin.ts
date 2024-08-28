@@ -6,7 +6,7 @@ import { Block, Str } from "@djot/djot";
 let nextID = 0;
 
 export class IndextermsPlugin implements DjockeyPlugin {
-  name = "Djot Example";
+  name = "Indexterms";
 
   // docRelativePath: term: { docRelativePath, id }
   indextermsByDoc: Record<

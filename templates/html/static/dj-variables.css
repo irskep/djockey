@@ -92,6 +92,10 @@
   --aside-border-radius: 4px;
   --aside-color-border-note: rgb(60, 60, 255);
   --aside-title-color-bg-note: rgb(211, 211, 255);
+  --aside-color-border-tip: rgb(68, 149, 71);
+  --aside-title-color-bg-tip: rgb(203, 231, 205);
+  --aside-color-border-important: rgb(148, 68, 149);
+  --aside-title-color-bg-important: rgb(231, 203, 231);
   --aside-color-border-warning: rgb(155, 159, 31);
   --aside-title-color-bg-warning: rgb(252, 255, 187);
   --aside-color-border-danger: red;

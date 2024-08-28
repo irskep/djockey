@@ -32,24 +32,46 @@ aside.note {
   border-color: var(--aside-color-border-note);
 }
 
+/* Tip */
+
+aside.tip::before {
+  content: "Tip";
+  background-color: var(--aside-title-color-bg-tip);
+}
+
+aside.tip {
+  border-color: var(--aside-color-border-tip);
+}
+
+/* Important */
+
+aside.important::before {
+  content: "Important";
+  background-color: var(--aside-title-color-bg-important);
+}
+
+aside.important {
+  border-color: var(--aside-color-border-important);
+}
+
 /* Warning */
 
-aside.warning::before {
+aside.caution::before {
   content: "Warning";
   background-color: var(--aside-title-color-bg-warning);
 }
 
-aside.warning {
+aside.caution {
   border-color: var(--aside-color-border-warning);
 }
 
 /* Danger */
 
-aside.danger::before {
+aside.warning::before {
   content: "Danger";
   background-color: var(--aside-title-color-bg-danger);
 }
 
-aside.danger {
+aside.warning {
   border-color: var(--aside-color-border-danger);
 }
