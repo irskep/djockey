@@ -79,7 +79,9 @@ export class GFMRenderer implements DjockeyRenderer {
     context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
-    const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
+    const outputPath = path.normalize(
+      `${config.output_dir.gfm}/${doc.relativePath}.md`
+    );
     console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 

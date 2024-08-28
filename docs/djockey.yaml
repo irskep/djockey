@@ -7,7 +7,7 @@ output_dir:
   gfm: out/gfm
 
 additional_files_to_render_in_place_as_markdown:
-  - ../../README.md
+  - ../../README.djot
 
 project_info:
   version: 0.0.2

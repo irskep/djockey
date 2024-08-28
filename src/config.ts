@@ -53,8 +53,8 @@ export function readConfig(path_: string): DjockeyConfig {
 }
 
 function absify(rootPath: string, path_: string): string {
-  if (path.isAbsolute(path_)) return path_;
-  return `${rootPath}/${path_}`;
+  if (path.isAbsolute(path_)) return path.normalize(path_);
+  return path.normalize(`${rootPath}/${path_}`);
 }
 
 export function resolveConfig(
