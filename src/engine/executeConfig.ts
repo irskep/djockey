@@ -24,8 +24,6 @@ import { fileURLToPath } from "url";
 import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
 import { VersionDirectivesPlugin } from "../plugins/versionDirectives.js";
-import { SPECIAL_CASE_REPO_README } from "./specialCases.js";
-import { findGitRoot } from "../util.js";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -66,18 +64,6 @@ export async function readDocSet(
     .map((path_) => {
       console.log("Parsing", path_);
       const result = parseDjot(config.input_dir, path_);
-      if (!result) return null;
-      if (result.relativePath === SPECIAL_CASE_REPO_README) {
-        const gitRoot = findGitRoot(result.absolutePath);
-        if (gitRoot) {
-          result.relativePath = path.relative(
-            config.input_dir,
-            `${gitRoot}${path.sep}README`
-          );
-          result.outputFormatAllowlist = new Set(["gfm"]);
-          return result;
-        }
-      }
       return result;
     })
     .filter((doc) => !!doc);
@@ -126,11 +112,6 @@ export function writeDocSet(
     renderer.handleStaticFiles(templateDir, docSet.config, docSet.docs);
 
     for (const doc of docSet.makeRenderableCopy(renderer)) {
-      if (doc.outputFormatAllowlist && !doc.outputFormatAllowlist.has(format)) {
-        console.log("Skip", doc.relativePath, format);
-        continue;
-      }
-
       populateDocTreeDoc(docSet, doc, renderer);
       renderer.writeDoc({
         config: docSet.config,

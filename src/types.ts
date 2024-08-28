@@ -53,9 +53,6 @@ export type DjockeyDoc = {
 
   // For use by plugins
   data: Record<string, unknown>;
-
-  // For use in special cases
-  outputFormatAllowlist?: Set<DjockeyOutputFormat>;
 };
 
 // These correspond to pandoc formats. Keep these two lines in sync.

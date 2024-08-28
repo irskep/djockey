@@ -107,7 +107,6 @@ export class HTMLRenderer implements DjockeyRenderer {
     context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
-
     const outputPath = `${config.output_dir.html}/${doc.relativePath}.html`;
     console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
