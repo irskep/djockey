@@ -235,6 +235,8 @@ nav h6 {
   height: 100%;
   padding: 0;
   min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width-large);
+  width: 100vw;
   background-color: var(--color-bg-1);
   color: var(--color-fg-1);
 }
