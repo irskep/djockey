@@ -6,15 +6,15 @@ order: 1
 Once you've [installed Djockey](#Installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
 
 ```yaml
-inputDir: path-to-your-docs
-outputDir:
+input_dir: path-to-your-docs
+output_dir:
   html: docs_out/html
   gfm: docs_out/gfm
-siteName: "Your Name Here"
-urlRoot: https://where-docs-will-be-deployed
+site_name: "Your Name Here"
+url_root: https://where-docs-will-be-deployed
 
 html:
-  footerText: "©2024 You"
+  footer_text: "©2024 You"
 ```
 
 Now try running `npx djockey --local`{.language-sh}. Maybe it'll just work! If not, it should tell you what's wrong.

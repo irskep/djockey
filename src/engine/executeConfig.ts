@@ -48,9 +48,9 @@ export async function executeConfig(
 ) {
   const docSet = await readDocSet(config);
   console.log(
-    `Applying transforms (${pluralize(config.numPasses, "pass", "passes")})`
+    `Applying transforms (${pluralize(config.num_passes, "pass", "passes")})`
   );
-  for (let i = 0; i < config.numPasses; i++) {
+  for (let i = 0; i < config.num_passes; i++) {
     await docSet.runPasses();
   }
   docSet.tree = loadDocTree(docSet.docs);
@@ -63,7 +63,7 @@ export async function readDocSet(
   const docs = config.fileList
     .map((path_) => {
       console.log("Parsing", path_);
-      const result = parseDjot(config.inputDir, path_);
+      const result = parseDjot(config.input_dir, path_);
       return result;
     })
     .filter((doc) => !!doc);

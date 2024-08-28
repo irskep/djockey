@@ -2,34 +2,34 @@ import { Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 
 export type DjockeyConfig = {
-  inputDir: string;
-  outputDir: Record<DjockeyOutputFormat, string>;
-  urlRoot?: string;
-  inputFormats: Partial<Record<DjockeyInputFormat, boolean>>;
-  numPasses: number;
-  siteName: string;
+  input_dir: string;
+  output_dir: Record<DjockeyOutputFormat, string>;
+  url_root?: string;
+  site_name: string;
 
-  projectInfo?: {
+  project_info?: {
     version?: string;
-    githubURL?: string;
+    github_url?: string;
   };
 
   static?: {
-    copyIgnorePatterns?: string[];
+    ignore?: string[];
   };
+
+  num_passes: number;
 
   plugins: string[];
 
   html: {
-    footerText: string;
-    cssIgnorePatterns?: string[];
+    footer_text: string;
+    ignore_css?: string[];
   };
 };
 
 export type DjockeyConfigResolved = DjockeyConfig & {
   rootPath: string;
   fileList: string[];
-  urlRoot: string;
+  url_root: string;
 };
 
 export type DjockeyDoc = {

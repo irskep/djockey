@@ -85,13 +85,12 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
 
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
-    inputDir: ".",
-    outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
+    input_dir: ".",
+    output_dir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.dj"],
-    urlRoot: "URL_ROOT",
-    inputFormats: { djot: true },
+    url_root: "URL_ROOT",
     rootPath: ".",
-    html: { footerText: "" },
+    html: { footer_text: "" },
   };
   const docSet = new DocSet(
     config,
