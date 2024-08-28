@@ -52,7 +52,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           if (!node.destination) return;
           const newDestination = this.transformNodeDestination(
             doc.relativePath,
-            config.inputDir,
+            config.input_dir,
             node.destination,
             {
               config: this.config,

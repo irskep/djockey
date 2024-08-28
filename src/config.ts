@@ -5,34 +5,33 @@ import url from "url";
 import fastGlob from "fast-glob";
 import yaml from "js-yaml";
 
-import { getIsPandocInstalled } from "./pandoc.js";
 import {
+  ALL_INPUT_FORMATS,
   DjockeyConfig,
   DjockeyConfigResolved,
   DjockeyInputFormat,
 } from "./types.js";
 import { getExtensionForInputFormat } from "./input/fileExtensions.js";
+import { getIsPandocInstalled } from "./pandoc.js";
+
+export function getNeedsPandoc(fmt: DjockeyInputFormat): boolean {
+  return fmt !== "djot";
+}
 
 export function getConfigDefaults(): DjockeyConfig {
-  const isPandocInstalled = getIsPandocInstalled();
   return {
-    inputDir: "docs",
-    outputDir: {
+    input_dir: "docs",
+    output_dir: {
       html: "out/html",
       gfm: "out/gfm",
     },
-    inputFormats: {
-      djot: true,
-      gfm: isPandocInstalled,
-    },
-    numPasses: 1,
-    siteName: "",
+    num_passes: 1,
+    site_name: "",
 
     plugins: [],
 
     html: {
-      footerText: "",
-      linkCSSToInputInsteadOfOutput: false,
+      footer_text: "",
     },
   };
 }
@@ -43,7 +42,7 @@ export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
     ...defaults,
     ...values,
     html: { ...defaults.html, ...(values.html || {}) },
-    outputDir: { ...defaults.outputDir, ...(values.outputDir || {}) },
+    output_dir: { ...defaults.output_dir, ...(values.output_dir || {}) },
   };
 }
 
@@ -64,10 +63,9 @@ export function resolveConfig(
   useFileURLRoot: boolean
 ): DjockeyConfigResolved {
   let inputExtensions: string[] = [];
-  for (const format of Object.keys(
-    config.inputFormats
-  ) as DjockeyInputFormat[]) {
-    if (!config.inputFormats[format]) continue;
+  const isPandocInstalled = getIsPandocInstalled();
+  for (const format of ALL_INPUT_FORMATS) {
+    if (getNeedsPandoc(format) && !isPandocInstalled) continue;
     inputExtensions = [
       ...inputExtensions,
       ...getExtensionForInputFormat(format),
@@ -76,32 +74,30 @@ export function resolveConfig(
   const result = {
     ...config,
     rootPath,
-    inputDir: absify(rootPath, config.inputDir),
-    outputDir: {
-      html: absify(rootPath, config.outputDir.html),
-      gfm: absify(rootPath, config.outputDir.gfm),
+    input_dir: absify(rootPath, config.input_dir),
+    output_dir: {
+      html: absify(rootPath, config.output_dir.html),
+      gfm: absify(rootPath, config.output_dir.gfm),
     },
-    fileList:
-      config.fileList ||
-      fastGlob.sync(
-        `${absify(rootPath, config.inputDir)}/**/*.(${inputExtensions.join(
-          "|"
-        )})`
-      ),
+    fileList: fastGlob.sync(
+      `${absify(rootPath, config.input_dir)}/**/*.(${inputExtensions.join(
+        "|"
+      )})`
+    ),
   };
 
-  const configURLRoot = config.urlRoot;
-  const fileURLRoot = url.pathToFileURL(result.outputDir.html).toString();
+  const configURLRoot = config.url_root;
+  const fileURLRoot = url.pathToFileURL(result.output_dir.html).toString();
 
   if (useFileURLRoot) {
-    return { ...result, urlRoot: fileURLRoot };
+    return { ...result, url_root: fileURLRoot };
   } else if (!configURLRoot) {
     console.error(
       `urlRoot is mandatory, though you can pass --local to use file URLs for local testing.`
     );
     throw Error();
   }
-  return { ...result, urlRoot: configURLRoot };
+  return { ...result, url_root: configURLRoot };
 }
 
 export function resolveConfigFromDirectory(
@@ -114,34 +110,4 @@ export function resolveConfigFromDirectory(
   } else {
     return null;
   }
-}
-
-export function resolveConfigFromSingleFile(
-  path_: string
-): DjockeyConfigResolved {
-  const absPath = path.resolve(path_);
-  const parentDir = path.resolve(`${path_}/..`);
-  const config: DjockeyConfig = {
-    inputDir: parentDir,
-    outputDir: {
-      html: parentDir,
-      gfm: parentDir,
-    },
-    fileList: [absPath],
-    inputFormats: {
-      djot: true,
-      gfm: getIsPandocInstalled(),
-    },
-    numPasses: 1,
-    siteName: "",
-
-    plugins: [],
-
-    html: {
-      footerText: "",
-      linkCSSToInputInsteadOfOutput: false,
-    },
-  };
-
-  return resolveConfig(parentDir, config, false);
 }

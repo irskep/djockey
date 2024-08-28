@@ -31,12 +31,11 @@ test("Title is set to first heading by default", () => {
 
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
-    inputDir: ".",
+    input_dir: ".",
     rootPath: ".",
-    outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
+    output_dir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.dj"],
-    urlRoot: "URL_ROOT",
-    inputFormats: { djot: true },
+    url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();
@@ -71,11 +70,11 @@ test("Title is set to frontMatter.title if present", () => {
 
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
-    inputDir: ".",
+    input_dir: ".",
     rootPath: ".",
-    outputDir: { html: "./dist/html", gfm: "./dist/gfm" },
+    output_dir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.dj"],
-    urlRoot: "URL_ROOT",
+    url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
   docSet.runPasses();

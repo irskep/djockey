@@ -24,9 +24,7 @@ import {
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
-  cssFilePaths = new Array<string>();
   cssURLsRelativeToBase = new Array<string>();
-  jsFilePaths = new Array<string>();
   jsURLsRelativeToBase = new Array<string>();
 
   constructor(
@@ -51,7 +49,7 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const prefix = this.options.relativeLinks
       ? makePathBackToRoot(sourcePath, { sameDirectoryValue: "" })
-      : `${config.urlRoot}/`;
+      : `${config.url_root}/`;
 
     const ext = isLinkToStaticFile ? "" : ".html";
 
@@ -67,46 +65,38 @@ export class HTMLRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
-    const ignorePatterns = config.static?.copyIgnorePatterns ?? [];
+    const ignorePatterns = config.static?.ignore ?? [];
     copyFilesMatchingPattern({
       base: templateDir,
-      dest: config.outputDir.html,
+      dest: config.output_dir.html,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
     });
     copyFilesMatchingPattern({
-      base: config.inputDir,
-      dest: config.outputDir.html,
+      base: config.input_dir,
+      dest: config.output_dir.html,
       pattern: "**/*",
       excludePaths: docs.map((d) => d.absolutePath),
       excludePatterns: ignorePatterns,
     });
 
     const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
-    const inputCSSFiles = fastGlob.sync(`${config.inputDir}/**/*.css`, {
-      ignore: (config.html.cssIgnorePatterns ?? []).map(
-        (pattern) => `**/${pattern}`
-      ),
+    const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {
+      ignore: (config.html.ignore_css ?? []).map((pattern) => `**/${pattern}`),
     });
-    this.cssFilePaths = templateCSSFiles
-      .concat(inputCSSFiles)
-      .map((path_) => url.pathToFileURL(path_).toString());
     this.cssURLsRelativeToBase = templateCSSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
-        inputCSSFiles.map((path_) => path.relative(config.inputDir, path_))
+        inputCSSFiles.map((path_) => path.relative(config.input_dir, path_))
       );
 
     const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
-    const inputJSFiles = fastGlob.sync(`${config.inputDir}/**/*.js`);
-    this.jsFilePaths = templateJSFiles
-      .concat(inputJSFiles)
-      .map((path_) => url.pathToFileURL(path_).toString());
+    const inputJSFiles = fastGlob.sync(`${config.input_dir}/**/*.js`);
     this.jsURLsRelativeToBase = templateJSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
-        inputJSFiles.map((path_) => path.relative(config.inputDir, path_))
+        inputJSFiles.map((path_) => path.relative(config.input_dir, path_))
       );
   }
 
@@ -117,13 +107,13 @@ export class HTMLRenderer implements DjockeyRenderer {
     context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
-    const outputPath = `${config.outputDir.html}/${doc.relativePath}.html`;
+    const outputPath = `${config.output_dir.html}/${doc.relativePath}.html`;
     console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 
     const baseURL = this.options.relativeLinks
       ? makePathBackToRoot(doc.relativePath, { sameDirectoryValue: "" })
-      : `${config.urlRoot}/`;
+      : `${config.url_root}/`;
     const isFileURL = baseURL.startsWith("file://");
 
     const renderedDocs: Record<string, string> = {};
@@ -138,12 +128,10 @@ export class HTMLRenderer implements DjockeyRenderer {
       docs: renderedDocs,
       baseURL,
       github: {
-        path: parseGitHubPath(config.projectInfo?.githubURL),
+        path: parseGitHubPath(config.project_info?.github_url),
       },
       urls: {
-        css: config.html.linkCSSToInputInsteadOfOutput
-          ? this.cssFilePaths
-          : this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+        css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         home: isFileURL ? baseURL + "index.html" : baseURL,
       },

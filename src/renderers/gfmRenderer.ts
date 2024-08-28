@@ -55,17 +55,17 @@ export class GFMRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
-    const ignorePatterns = config.static?.copyIgnorePatterns ?? [];
+    const ignorePatterns = config.static?.ignore ?? [];
     copyFilesMatchingPattern({
       base: templateDir,
-      dest: config.outputDir.gfm,
+      dest: config.output_dir.gfm,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
     });
     copyFilesMatchingPattern({
-      base: config.inputDir,
-      dest: config.outputDir.gfm,
+      base: config.input_dir,
+      dest: config.output_dir.gfm,
       pattern: "**/*",
       excludePaths: docs.map((d) => d.absolutePath),
       excludePatterns: ignorePatterns,
@@ -79,7 +79,7 @@ export class GFMRenderer implements DjockeyRenderer {
     context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
-    const outputPath = `${config.outputDir.gfm}/${doc.relativePath}.md`;
+    const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
     console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 

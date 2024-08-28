@@ -1,13 +1,15 @@
-inputDir: src
-outputDir:
+site_name: "Djockey"
+url_root: https://steveasleep.com/djockey
+
+input_dir: src
+output_dir:
   html: out/html
   gfm: out/gfm
-siteName: "Djockey"
-urlRoot: https://steveasleep.com/djockey
-projectInfo:
+
+project_info:
   version: 0.0.2
-  githubURL: https://github.com/irskep/djockey
+  github_url: https://github.com/irskep/djockey
 
 html:
-  cssIgnorePatterns: ["api/**/*.css"] # ignore TypeDoc CSS
-  footerText: "©2024 Steve Landey"
+  ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
+  footer_text: "©2024 Steve Landey"
