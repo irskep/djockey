@@ -187,8 +187,21 @@ const applyFilter = function (doc: Doc, filter: Filter): void {
   }
 };
 
+const applyFilterToFragment = function (root: AstNode, filter: Filter): void {
+  const f: FilterPart | FilterPart[] = filter();
+  let filterparts;
+  if (Array.isArray(f)) {
+    filterparts = f;
+  } else {
+    filterparts = [f];
+  }
+  for (const f of filterparts) {
+    traverse(root, f);
+  }
+};
+
 export type { Action, FilterPart, Filter };
-export { applyFilter };
+export { applyFilter, applyFilterToFragment };
 
 // Extra exports
 export type { Walker };

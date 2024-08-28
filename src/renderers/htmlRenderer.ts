@@ -65,7 +65,7 @@ export class HTMLRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
-    const ignorePatterns = config.static?.ignore ?? [];
+    const ignorePatterns = config.html.ignore_static;
     copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.html,

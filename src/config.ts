@@ -30,7 +30,12 @@ export function getConfigDefaults(): DjockeyConfig {
 
     plugins: [],
 
+    gfm: {
+      ignore_static: ["**/*.css", "**/*.js", "**/*.html"],
+    },
+
     html: {
+      ignore_static: [],
       footer_text: "",
     },
   };
@@ -42,6 +47,7 @@ export function populateConfig(values: Partial<DjockeyConfig>): DjockeyConfig {
     ...defaults,
     ...values,
     html: { ...defaults.html, ...(values.html || {}) },
+    gfm: { ...defaults.gfm, ...(values.gfm || {}) },
     output_dir: { ...defaults.output_dir, ...(values.output_dir || {}) },
   };
 }

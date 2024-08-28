@@ -12,17 +12,18 @@ export type DjockeyConfig = {
     github_url?: string;
   };
 
-  static?: {
-    ignore?: string[];
-  };
-
   num_passes: number;
 
   plugins: string[];
 
+  gfm: {
+    ignore_static: string[];
+  };
+
   html: {
     footer_text: string;
     ignore_css?: string[];
+    ignore_static: string[];
   };
 
   features?: {

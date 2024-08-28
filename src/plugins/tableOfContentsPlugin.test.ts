@@ -90,7 +90,7 @@ test("Works end-to-end with LinkRewritingPlugin", () => {
     fileList: ["Test Doc.dj"],
     url_root: "URL_ROOT",
     rootPath: ".",
-    html: { footer_text: "" },
+    html: { footer_text: "", ignore_static: [] },
   };
   const docSet = new DocSet(
     config,

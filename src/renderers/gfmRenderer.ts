@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { toPandoc } from "@djot/djot";
+import { Heading, toPandoc } from "@djot/djot";
 import { Environment } from "nunjucks";
 import {
   DjockeyConfig,
@@ -13,10 +13,12 @@ import {
 import { runPandocOnAST } from "../pandoc.js";
 import {
   copyFilesMatchingPattern,
+  djotASTToText,
   ensureParentDirectoriesExist,
   makePathBackToRoot,
 } from "../util.js";
 import { DocSet } from "../engine/docset.js";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -55,7 +57,7 @@ export class GFMRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
-    const ignorePatterns = config.static?.ignore ?? [];
+    const ignorePatterns = config.gfm.ignore_static;
     copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,
@@ -92,9 +94,24 @@ export class GFMRenderer implements DjockeyRenderer {
     const outputPage = nj.render("base.njk", {
       doc,
       docs: renderedDocs,
+      needsTitle: !getFirstHeadingIsAlreadyDocumentTitle(doc),
       ...args.context,
     });
 
     fs.writeFileSync(outputPath, outputPage);
   }
+}
+
+function getFirstHeadingIsAlreadyDocumentTitle(doc: DjockeyDoc): boolean {
+  let returnValue = false;
+  let didFindNode = false;
+  applyFilter(doc.docs.content, () => ({
+    heading: (node) => {
+      const heading = node as Heading;
+      if (heading.level > 1 || didFindNode) return;
+      didFindNode = true;
+      returnValue = djotASTToText([heading]) === doc.title;
+    },
+  }));
+  return didFindNode;
 }
