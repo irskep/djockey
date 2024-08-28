@@ -1,4 +1,7 @@
-# Markup demo
+---
+order: -5
+---
+# Custom markup
 
 {tag=aside .warning}
 :::
