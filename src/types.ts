@@ -27,6 +27,8 @@ export type DjockeyConfig = {
 
   features?: {
     syntax_highlighting?: {
+      default_code_block_language: string;
+      default_inline_language: string;
       theme_light: string;
       theme_dark: string;
     };

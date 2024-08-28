@@ -6,7 +6,7 @@
 
 You can mark some content as applying to a specific version using the `added-in-version` attribute on an empty div. If you specified a `projectInfo.version`{.language-yaml} in your [configuration](#config-reference), and the specified version is greater, then the message will be future-tense.
 
-```djot
+```
 {added-in-version="0.0.1"}
 :::
 :::

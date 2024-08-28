@@ -1,5 +1,6 @@
 ---
 order: -1
+default_code_block_language: yaml
 ---
 {#config-reference}
 # Configuration reference
@@ -9,7 +10,7 @@ order: -1
 Djockey is pre-alpha and config options _will_ change.
 :::
 
-```yaml
+```
 # djockey.yaml
 site_name: "Your name here"
 url_root: "https://your-docs-site-here"
@@ -36,4 +37,8 @@ features:
   syntax_highlighting:
     theme_light: vitesse-light
     theme_dark: vitesse-dark
+    # Set default languages for syntax highlighting to save
+    # yourself typing
+    default_code_block_language: typescript
+    default_inline_language: text
 ```

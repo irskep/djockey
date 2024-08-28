@@ -39,14 +39,30 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
       config.features?.syntax_highlighting?.theme_dark ?? "vitesse-dark";
   }
 
-  getNodeLang(doc: DjockeyDoc, lang?: string): string | null {
-    if (!lang) return "text";
+  getNodeLang(
+    doc: DjockeyDoc,
+    lang: string | undefined | null,
+    configKey: "default_code_block_language" | "default_inline_language"
+  ): string | null {
+    let defaultLanguage = "text";
+    if (doc.frontMatter[configKey]) {
+      defaultLanguage = doc.frontMatter[configKey] as string;
+    } else if (
+      this.config.features?.syntax_highlighting &&
+      this.config.features.syntax_highlighting[configKey]
+    ) {
+      defaultLanguage = this.config.features.syntax_highlighting[configKey];
+    } else {
+      defaultLanguage = "text";
+    }
+
+    if (!lang) return defaultLanguage;
     const forbidden = new Set(["mermaid"]);
     if (forbidden.has(lang)) return null;
     if (this.languages.has(lang)) return lang;
     if (lang === "plaintext") return "text";
 
-    return "text";
+    return defaultLanguage;
   }
 
   async setup() {
@@ -87,7 +103,11 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
       code_block: (node: CodeBlock) => {
         if (node.attributes?.hlRequestID) return; // Already scheduled
 
-        const lang = this.getNodeLang(djockeyDoc, node.lang);
+        const lang = this.getNodeLang(
+          djockeyDoc,
+          node.lang,
+          "default_code_block_language"
+        );
         if (!lang) return;
 
         const hlRequestID = `${nextID++}`;
@@ -113,7 +133,8 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
 
         const lang = this.getNodeLang(
           djockeyDoc,
-          langAttr ? langAttr.slice(CLASS_PREFIX.length) : "text"
+          langAttr ? langAttr.slice(CLASS_PREFIX.length) : null,
+          "default_inline_language"
         );
         if (!lang) return;
 
