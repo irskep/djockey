@@ -70,4 +70,4 @@ Advises about risks or negative outcomes of certain actions.
 
 | Previous | Next |
 | - | - |
-| [Dependencies](../contributing/dependencies.md) | [Mermaid diagrams](../features/mermaid_diagrams.md) |
+| [Configuration reference](../basics/configuration.md) | [Mermaid diagrams](../features/mermaid_diagrams.md) |

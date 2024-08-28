@@ -56,4 +56,4 @@ Dependencies supporting individual features:
 
 | Previous | Next |
 | - | - |
-| [Client-side JS](../contributing/client_side_js.md) | [GitHub Markdown demos](../features/gfm.md) |
+| [Client-side JS](../contributing/client_side_js.md) | [Using plugins](../plugins/using_plugins.md) |

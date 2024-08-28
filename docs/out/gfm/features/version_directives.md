@@ -69,4 +69,4 @@ We’re really excited about this feature!
 
 | Previous | Next |
 | - | - |
-| [Syntax highlighting](../features/syntax_highlighting.md) | [Using plugins](../plugins/using_plugins.md) |
+| [Syntax highlighting](../features/syntax_highlighting.md) | [Building and running](../contributing/building_and_running.md) |

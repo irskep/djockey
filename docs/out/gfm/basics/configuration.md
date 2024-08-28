@@ -56,4 +56,4 @@ features:
 
 | Previous | Next |
 | - | - |
-| [Deploying](../basics/deploying.md) | [Building and running](../contributing/building_and_running.md) |
+| [Deploying](../basics/deploying.md) | [GitHub Markdown demos](../features/gfm.md) |
