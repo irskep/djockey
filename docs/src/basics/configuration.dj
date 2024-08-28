@@ -3,7 +3,7 @@ order: -1
 ---
 # Configuration reference
 
-{tag=aside .warning}
+{tag=aside .caution}
 :::
 Djockey is pre-alpha and config options _will_ change.
 :::
