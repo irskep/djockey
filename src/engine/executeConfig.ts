@@ -23,6 +23,7 @@ import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting.js";
 import { fileURLToPath } from "url";
 import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
+import { VersionDirectivesPlugin } from "../plugins/versionDirectives.js";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -37,6 +38,7 @@ function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
     new AutoTitlePlugin(),
     new SyntaxHighlightingPlugin(config),
     new GFMAlertsPlugin(),
+    new VersionDirectivesPlugin(config),
   ];
 }
 

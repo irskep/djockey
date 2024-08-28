@@ -1,3 +1,5 @@
+/* ASIDES */
+
 aside {
   border-width: var(--aside-border-width);
   border-radius: var(--aside-border-radius);
@@ -74,4 +76,19 @@ aside.warning::before {
 
 aside.warning {
   border-color: var(--aside-color-border-danger);
+}
+
+/* VERSION MODIFIED */
+
+.version-modified {
+  font-style: italic;
+}
+
+.version-modified p.primary {
+  font-size: var(--fs-medium);
+  margin-bottom: 0.5em;
+}
+
+.version-modified p {
+  font-size: var(--fs-small);
 }
