@@ -55,7 +55,7 @@ export class GFMRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
-    const ignorePatterns = config.static?.ignore ?? [];
+    const ignorePatterns = config.gfm.ignore_static;
     copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,

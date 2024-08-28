@@ -10,6 +10,10 @@ project_info:
   version: 0.0.2
   github_url: https://github.com/irskep/djockey
 
+gfm:
+  ignore_static:
+    ["**/*.css", "**/*.js", "**/*.html", "**/api/assets/**/*", "**/types.json"]
+
 html:
   ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
   footer_text: "©2024 Steve Landey"

@@ -29,9 +29,13 @@ plugins: ["my-plugin.js"]
 # Output-specific options
 html:
   footer_text: "©2024 You"
+  ignore_static: []
   # If you use TypeDoc, you'd want to set this to
   # path/to/typedoc/**/*.css
   ignore_css: ['some/css/you/dont/want.css']
+
+gfm:
+  ignore_static: ["**/*.html", "**/*.css", "**/*.js"]
 
 features:
   syntax_highlighting:
