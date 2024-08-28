@@ -4,7 +4,7 @@
 -->
 - [Building and running Djot
   locally](../contributing/building_and_running.md#Building-and-running-Djot-locally)
-  - [Using [Bun](https://bun.sh)
+  - [Using Bun
     (preferred)](../contributing/building_and_running.md#Using-Bun-preferred)
   - [Using Node](../contributing/building_and_running.md#Using-Node)
 

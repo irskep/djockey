@@ -1,6 +1,10 @@
-import { BulletList, Heading, Link, ListItem, Section } from "@djot/djot";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { BulletList, Doc, Heading, Link, ListItem, Section } from "@djot/djot";
+import {
+  applyFilter,
+  applyFilterToFragment,
+} from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
+import { makeStubDjotDoc } from "../util.js";
 
 export type TOCEntry = {
   id: string;
@@ -94,7 +98,7 @@ function renderTOCArray(relativePath: string, arr: TOCEntry[]): BulletList {
   function tocEntryToListItem(entry: TOCEntry): ListItem {
     const entryLink: Link = {
       tag: "link",
-      children: structuredClone(entry.node.children),
+      children: replaceLinksWithSpans(structuredClone(entry.node.children)),
       destination: `/${relativePath}#${entry.id}`,
     };
     const entryChildren: BulletList[] = entry.children.length
@@ -121,4 +125,19 @@ function renderTOCArray(relativePath: string, arr: TOCEntry[]): BulletList {
     children: arr.map(tocEntryToListItem),
   };
   return result;
+}
+
+function replaceLinksWithSpans(children: Link["children"]): Link["children"] {
+  return children.map((child) => {
+    if (child.tag === "link") {
+      child = { ...child, tag: "span" };
+    }
+    applyFilterToFragment(child, () => ({
+      link: (node) => {
+        console.log("Replacing");
+        return { ...structuredClone(node as Link), tag: "span" };
+      },
+    }));
+    return child;
+  });
 }
