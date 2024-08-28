@@ -15,7 +15,7 @@ import {
   HighlighterGeneric,
   LanguageRegistration,
 } from "shiki/index.mjs";
-import * as djotTextmateGrammar from "../djotTextmateGrammar.json" assert { type: "json" };
+import djotTextmateGrammar from "../djotTextmateGrammar.js";
 
 let nextID = 0;
 
