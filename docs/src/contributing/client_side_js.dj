@@ -1,3 +1,3 @@
 # Client-side JS
 
-Djockey's built-in client-side JavaScript is written in Typescript under `src/clientjs/index.ts`{.language-sh} and compiled with `bun build --target=browser`{.language-sh}. The built JS is committed to git as `templates/html/static/client.js`, in order to avoid Bun as a hard dependency for using Djockey.
+Djockey's built-in client-side JavaScript is written in Typescript under `src/clientjs/index.ts`{.language-sh} and compiled with `bun build --target=browser`{.language-sh}. The built JS is committed to git as `templates/html/static/client.js`, in order to avoid [Bun]{indexterm=Bun} as a hard dependency for using Djockey.

@@ -8,6 +8,7 @@ import {
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import path from "path";
+import { pushToListIfNotPresent } from "../util.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";
@@ -129,19 +130,6 @@ export function resolveRelativePath(sourcePath: string, path_: string): string {
     sourceParts.pop();
   }
   return "/" + sourceParts.concat(pathParts).join("/");
-}
-
-function pushToListIfNotPresent<T>(
-  dict: Record<string, T[]>,
-  k: string,
-  v: T,
-  checkEquality: (a: T, b: T) => boolean
-) {
-  const array = dict[k] ?? [];
-  dict[k] = array;
-  if (array.findIndex((innerValue) => checkEquality(v, innerValue)) >= 0)
-    return;
-  array.push(v);
 }
 
 function isURL(s: string): boolean {

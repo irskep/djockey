@@ -21,6 +21,7 @@ import { populateDocTreeDoc } from "./populateDocTreeDoc.js";
 import { DjotDemoPlugin } from "../plugins/djotDemoPlugin.js";
 import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting.js";
 import { fileURLToPath } from "url";
+import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -29,6 +30,7 @@ function pluralize(n: number, singular: string, plural: string): string {
 function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
   return [
     new TableOfContentsPlugin(),
+    new IndextermsPlugin(),
     new LinkRewritingPlugin(config),
     new DjotDemoPlugin(),
     new AutoTitlePlugin(),

@@ -27,7 +27,6 @@ export function makeArgumentParser() {
 
 export async function main() {
   const args = makeArgumentParser().parse_args();
-  console.log(args);
 
   switch (args.action) {
     case "build":
