@@ -6,6 +6,15 @@ import {
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { CodeBlock, Doc, RawBlock, RawInline, Verbatim } from "@djot/djot";
+import {
+  BundledLanguage,
+  bundledLanguages,
+  BundledTheme,
+  codeToHtml,
+  createHighlighter,
+  HighlighterGeneric,
+  LanguageRegistration,
+} from "shiki/index.mjs";
 import * as djotTextmateGrammar from "../djotTextmateGrammar.json" assert { type: "json" };
 
 let nextID = 0;
@@ -13,19 +22,18 @@ let nextID = 0;
 export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   name = "Syntax Highlighting";
 
-  shiki!: any;
+  languages = new Set(["djot"].concat(Object.keys(bundledLanguages)));
 
   highlightRequests: Record<string, { text: string; lang: string }> = {};
   highlightResults: Record<string, string> = {};
 
-  djotHighlighter!: any;
+  djotHighlighter!: HighlighterGeneric<BundledLanguage, BundledTheme>;
 
   constructor(public config: DjockeyConfigResolved) {}
 
   async setup() {
-    this.shiki = await import("shiki");
-    this.djotHighlighter = await this.shiki.createHighlighter({
-      langs: [djotTextmateGrammar as unknown],
+    this.djotHighlighter = await createHighlighter({
+      langs: [djotTextmateGrammar as unknown as LanguageRegistration],
       themes: ["vitesse-light", "vitesse-dark"],
     });
   }
@@ -39,17 +47,17 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     try {
       if (lang === "djot") {
         return await this.djotHighlighter.codeToHtml(text, {
-          lang: lang as unknown,
+          lang: lang as BundledLanguage,
           themes,
         });
       } else {
-        return await this.shiki.codeToHtml(text, {
-          lang: lang as unknown,
+        return await codeToHtml(text, {
+          lang: lang as BundledLanguage,
           themes,
         });
       }
     } catch {
-      return await this.shiki.codeToHtml(text, {
+      return await codeToHtml(text, {
         lang: "text",
         themes,
       });
@@ -60,6 +68,15 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     applyFilter(doc, () => ({
       code_block: (node: CodeBlock) => {
         if (node.attributes?.hlRequestID) return; // Already scheduled
+
+        if (!this.languages.has(node.lang ?? "<none>")) {
+          return;
+        }
+
+        if (node.lang === "mermaid") {
+          // Special case: Mermaid renders as a diagram
+          return;
+        }
 
         const hlRequestID = `${nextID++}`;
         this.highlightRequests[hlRequestID] = {
