@@ -128,17 +128,3 @@ export function pushToList<T>(dict: Record<string, T[]>, k: string, v: T) {
   dict[k] = array;
   array.push(v);
 }
-
-export function findGitRoot(start: string): string | null {
-  const parts = start.split(path.sep);
-  if (parts[parts.length - 1] === "") parts.pop();
-
-  for (let i = parts.length; i > 0; i--) {
-    const parentPath = parts.slice(0, i).join(path.sep);
-    const gitPath = `${parentPath}${path.sep}.git`;
-    if (fs.existsSync(gitPath) && fs.lstatSync(gitPath).isDirectory()) {
-      return parentPath;
-    }
-  }
-  return null;
-}

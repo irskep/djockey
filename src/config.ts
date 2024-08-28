@@ -86,6 +86,14 @@ export function resolveConfig(
     ),
   };
 
+  if (config.additional_files_to_render_in_place_as_markdown) {
+    const additionalPaths =
+      config.additional_files_to_render_in_place_as_markdown.map(
+        (path_) => `${absify(rootPath, config.input_dir)}${path.sep}${path_}`
+      );
+    result.fileList = result.fileList.concat(additionalPaths);
+  }
+
   const configURLRoot = config.url_root;
   const fileURLRoot = url.pathToFileURL(result.output_dir.html).toString();
 

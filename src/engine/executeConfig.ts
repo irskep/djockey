@@ -24,8 +24,6 @@ import { fileURLToPath } from "url";
 import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
 import { VersionDirectivesPlugin } from "../plugins/versionDirectives.js";
-import { SPECIAL_CASE_REPO_README } from "./specialCases.js";
-import { findGitRoot } from "../util.js";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -67,16 +65,10 @@ export async function readDocSet(
       console.log("Parsing", path_);
       const result = parseDjot(config.input_dir, path_);
       if (!result) return null;
-      if (result.relativePath === SPECIAL_CASE_REPO_README) {
-        const gitRoot = findGitRoot(result.absolutePath);
-        if (gitRoot) {
-          result.relativePath = path.relative(
-            config.input_dir,
-            `${gitRoot}${path.sep}README`
-          );
-          result.outputFormatAllowlist = new Set(["gfm"]);
-          return result;
-        }
+
+      if (!result.absolutePath.startsWith(config.input_dir)) {
+        result.outputFormatAllowlist = new Set(["gfm"]);
+        result.omittedFromLinearNavigation = true;
       }
       return result;
     })

@@ -16,6 +16,7 @@ export type DjockeyConfig = {
     ignore?: string[];
   };
 
+  additional_files_to_render_in_place_as_markdown?: string[];
   num_passes: number;
 
   plugins: string[];
@@ -56,6 +57,7 @@ export type DjockeyDoc = {
 
   // For use in special cases
   outputFormatAllowlist?: Set<DjockeyOutputFormat>;
+  omittedFromLinearNavigation?: boolean;
 };
 
 // These correspond to pandoc formats. Keep these two lines in sync.

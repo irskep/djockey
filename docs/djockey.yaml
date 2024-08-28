@@ -6,6 +6,9 @@ output_dir:
   html: out/html
   gfm: out/gfm
 
+additional_files_to_render_in_place_as_markdown:
+  - ../../README.md
+
 project_info:
   version: 0.0.2
   github_url: https://github.com/irskep/djockey

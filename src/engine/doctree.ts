@@ -3,7 +3,6 @@ import { DjockeyDoc } from "../types.js";
 import { CustomSortValue } from "./customSortValue.js";
 import { Inline } from "@djot/djot";
 import { djotASTToText } from "../util.js";
-import { PATHS_NOT_IN_NORMAL_OUTPUT } from "./specialCases.js";
 
 export type DocTreeSection = {
   title: Inline[];
@@ -61,7 +60,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   }
 
   for (const doc of docs) {
-    if (PATHS_NOT_IN_NORMAL_OUTPUT.has(doc.relativePath)) continue;
+    if (doc.omittedFromLinearNavigation) continue;
 
     const dirs = getDirs(doc.relativePath);
     for (const dir of dirs) {
