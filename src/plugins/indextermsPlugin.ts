@@ -15,6 +15,9 @@ export class IndextermsPlugin implements DjockeyPlugin {
   > = {};
 
   onPass_read(doc: DjockeyDoc) {
+    // During the read pass, find every node with an indexterm* attribute and
+    // store it in indextermsByDoc.
+
     const result: Record<string, { docRelativePath: string; id: string }[]> =
       {};
     for (const djotDoc of Object.values(doc.docs)) {
@@ -50,6 +53,9 @@ export class IndextermsPlugin implements DjockeyPlugin {
   }
 
   onPass_write(doc: DjockeyDoc) {
+    // During the write pass, look for the .index class on a div and replace it
+    // with the actual index.
+
     for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({
         div: (node) => {
