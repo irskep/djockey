@@ -69,4 +69,4 @@ default_code_block_language: yaml
 
 | Previous | Next |
 | - | - |
-| [Mermaid diagrams](../features/mermaid_diagrams.md) | [Version directives](../features/version_directives.md) |
+| [Mermaid diagrams](../features/mermaid_diagrams.md) | [Tab Groups](../features/tab_groups.md) |

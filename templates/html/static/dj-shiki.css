@@ -9,3 +9,13 @@
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 }
+
+pre.shiki {
+  padding: var(--ms);
+  border-radius: 4px;
+}
+
+span.shiki {
+  padding: 2px;
+  border-radius: 4px;
+}

@@ -23,7 +23,8 @@ article p,
 article pre,
 article aside,
 article ol,
-article ul {
+article ul,
+.tab-group {
   margin-bottom: 1.25em;
 }
 
