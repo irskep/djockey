@@ -21,6 +21,7 @@ Dependencies supporting the core functionality of Djockey:
 - [micromatch](https://www.npmjs.com/package/micromatch): Apply config file include/exclude patterns (already a sub-dependency of `fast-glob`{.language-sh})
 - [Nunjucks](https://mozilla.github.io/nunjucks/): String templates
 - [parse5](https://www.npmjs.com/package/parse5): Spec-compliant HTML5 parsing
+- [@poppinss/cliui](https://github.com/poppinss/cliui): Command line output
 
 Dependencies supporting individual features:
 

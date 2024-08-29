@@ -1,14 +1,37 @@
 #!/usr/bin/env node
 
+import { exit } from "process";
 import fs from "fs";
+
 import { ArgumentParser } from "argparse";
 import { resolveConfigFromDirectory } from "./config.js";
 import { executeConfig } from "./engine/executeConfig.js";
-import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types.js";
+import { ALL_OUTPUT_FORMATS } from "./types.js";
+import ui from "./ui.js";
+import path from "path";
 
-export async function main() {
+export async function main(): Promise<number> {
   const args = makeArgumentParser().parse_args();
-  doBuild(args.input, args.local, args.output_format);
+
+  if (!fs.existsSync(args.input)) {
+    ui.logger.error(`File does not exist: ${args.input}`);
+    return 1;
+  }
+
+  const config = resolveConfigFromDirectory(args.input, args.local);
+  if (!config) {
+    ui.logger.error(
+      `Couldn't find a config file in ${path.resolve(args.input)}`
+    );
+    return 2;
+  }
+
+  await executeConfig(
+    config,
+    args.output_format.length ? args.output_format : ["html"]
+  );
+
+  return 0;
 }
 
 export function makeArgumentParser() {
@@ -24,23 +47,4 @@ export function makeArgumentParser() {
   return p;
 }
 
-export async function doBuild(
-  inputPath: string,
-  isLocal: boolean,
-  outputFormats: DjockeyOutputFormat[]
-) {
-  if (!fs.existsSync(inputPath)) {
-    throw new Error("File does not exist: " + inputPath);
-  }
-  const config = resolveConfigFromDirectory(inputPath, isLocal);
-  if (config) {
-    await executeConfig(
-      config,
-      outputFormats.length ? outputFormats : ["html"]
-    );
-  } else {
-    console.error("Couldn't find a config file in", inputPath);
-  }
-}
-
-main();
+exit(await main());
