@@ -14,6 +14,14 @@ Djockey is pre-alpha and config options *will* change.
 
 </div>
 
+<div class="version-modified changed-in-version">
+
+Will be changed in version 0.0.5
+
+Config options are now snake case instead of camel case.
+
+</div>
+
 ```
 # djockey.yaml
 site_name: "Your name here"
@@ -26,7 +34,8 @@ output_dir:
   html: "path to your HTML output"
   gfm: "path to your GitHub Flavored Markdown output"
 
-num_passes: 1 # only touch this if your custom plugin creates new AST nodes
+num_passes: 1 # only touch this if your custom plugin creates
+              # new AST nodes
 
 plugins: ["my-plugin.js"]
 

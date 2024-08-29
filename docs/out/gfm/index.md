@@ -21,6 +21,7 @@ MkDocs](https://squidfunk.github.io/mkdocs-material/).
   interface or on a nice web site
 - Rich cross-references, checked at build time
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
+- Biased toward static site rendering over client-side JS
 
 </div>
 

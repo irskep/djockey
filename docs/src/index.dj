@@ -9,3 +9,4 @@ Djockey is a powerful but experimental static site generator for technical writi
 - Output HTML or Markdown, so your docs are readable in the GitHub interface or on a nice web site
 - Rich cross-references, checked at build time
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
+- Biased toward static site rendering over client-side JS

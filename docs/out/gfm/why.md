@@ -118,4 +118,4 @@ users get the best possible UX.
 
 | Previous | Next |
 | - | - |
-| [Getting Started](./getting_started.md) | [The djockey command](./basics/djockey_command.md) |
+| [Getting Started](./getting_started.md) | [Alternatives to Djockey](./alternatives.md) |

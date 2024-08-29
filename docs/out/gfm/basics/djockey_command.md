@@ -29,4 +29,4 @@ optional arguments:
 
 | Previous | Next |
 | - | - |
-| [Why Djockey? Why Djot?](../why.md) | [Front matter](../basics/frontmatter.md) |
+| [Alternatives to Djockey](../alternatives.md) | [Front matter](../basics/frontmatter.md) |
