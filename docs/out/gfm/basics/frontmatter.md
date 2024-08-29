@@ -62,4 +62,4 @@ at the end, say `order: -1`.
 
 | Previous | Next |
 | - | - |
-| [The djockey command](../basics/djockey_command.md) | [Sections](../basics/sections.md) |
+| [The `djockey` command](../basics/djockey_command.md) | [Sections](../basics/sections.md) |

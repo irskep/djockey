@@ -26,4 +26,4 @@ maintenance and large communities.
 
 | Previous | Next |
 | - | - |
-| [Why Djockey? Why Djot?](./why.md) | [The djockey command](./basics/djockey_command.md) |
+| [Why Djockey? Why Djot?](./why.md) | [Changelog](./changelog.md) |

@@ -1,0 +1,25 @@
+---
+order: -1
+---
+
+# Changelog
+
+## 0.1
+
+- Overhaul logging and error reporting
+- Support `.dj` file extension in addition to `.djot`
+- Configuration
+
+  - Switch from camel case to snake case for config keys
+  - Remove or refactor many config options
+  
+- Markup features
+
+  - Code blocks with multiple tabs
+  - Allow configuring a default syntax highlighting language for code blocks and inline verbatims
+  - Support GitHub Flavored Markdown syntax for alerts
+
+
+## 0.0.1-0.0.5
+
+Initial release and working out the kinks.

@@ -16,7 +16,10 @@ import {
 } from "../types.js";
 import { makeRenderer } from "../renderers/makeRenderer.js";
 import { loadDocTree } from "./doctree.js";
-import { populateDocTreeDoc } from "./populateDocTreeDoc.js";
+import {
+  populateDocTreeDoc,
+  populateNextOrPreviousLinkDoc,
+} from "./populateDocTreeDoc.js";
 import { makeBuiltinPlugins } from "./builtinPlugins.js";
 import { log, LogCollector } from "../utils/logUtils.js";
 
@@ -99,69 +102,27 @@ export async function writeDocSet(
     await Promise.all(
       docSet.makeRenderableCopy(renderer, logCollector).map(async (doc) => {
         populateDocTreeDoc(docSet, doc, renderer, logCollector);
+        populateNextOrPreviousLinkDoc(
+          "previous",
+          docSet,
+          doc,
+          docSet.tree?.prevMap || null
+        );
+        populateNextOrPreviousLinkDoc(
+          "next",
+          docSet,
+          doc,
+          docSet.tree?.nextMap || null
+        );
         await renderer.writeDoc({
           config: docSet.config,
           nj,
           doc,
-          context: getTemplateContext(doc, docSet, renderer, logCollector),
+          context: {},
           logCollector,
         });
       })
     );
     logCollector.succeed("warning");
   }
-}
-
-function getTemplateContext(
-  doc: DjockeyDoc,
-  docSet: DocSet,
-  renderer: DjockeyRenderer,
-  logCollector: LogCollector
-): Record<string, unknown> {
-  return {
-    previous: getNextOrPreviousLink(
-      doc,
-      docSet,
-      renderer,
-      docSet.tree?.prevMap || null,
-      logCollector
-    ),
-    next: getNextOrPreviousLink(
-      doc,
-      docSet,
-      renderer,
-      docSet.tree?.nextMap || null,
-      logCollector
-    ),
-    config: docSet.config,
-  };
-}
-
-function getNextOrPreviousLink(
-  doc: DjockeyDoc,
-  docSet: DocSet,
-  renderer: DjockeyRenderer,
-  map: Record<string, string | null> | null,
-  logCollector: LogCollector
-): { url: string; title: string } | null {
-  if (!map) return null;
-  const relativePath = map[doc.relativePath];
-  if (!relativePath) return null;
-
-  const destDoc = docSet.getDoc(relativePath);
-  if (!destDoc) {
-    throw Error(`Can't find doc for ${relativePath}???`);
-  }
-
-  const url = renderer.transformLink({
-    config: docSet.config,
-    sourcePath: doc.relativePath,
-    anchorWithoutHash: null,
-    docOriginalExtension: destDoc.originalExtension,
-    docRelativePath: relativePath,
-    isLinkToStaticFile: false,
-    logCollector,
-  });
-
-  return { url, title: destDoc.title };
 }

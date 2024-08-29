@@ -32,6 +32,39 @@ export function populateDocTreeDoc(
   };
 }
 
+export function populateNextOrPreviousLinkDoc(
+  docKey: "next" | "previous",
+  docSet: DocSet,
+  doc: DjockeyDoc,
+  map: Record<string, string | null> | null
+) {
+  if (!map) return null;
+  const relativePath = map[doc.relativePath];
+  if (!relativePath) return null;
+
+  const destDoc = docSet.getDoc(relativePath);
+  if (!destDoc) {
+    throw Error(`Can't find doc for ${relativePath}???`);
+  }
+
+  doc.neighbors = doc.neighbors || {};
+  doc.neighbors[docKey] = destDoc;
+
+  doc.docs[docKey + "DocTitle"] = {
+    tag: "doc",
+    references: {},
+    autoReferences: {},
+    footnotes: {},
+    children: [
+      {
+        tag: "para",
+        attributes: { class: "dj-noop" },
+        children: destDoc.titleAST,
+      },
+    ],
+  };
+}
+
 function renderSection(
   config: DjockeyConfigResolved,
   activeDoc: DjockeyDoc,

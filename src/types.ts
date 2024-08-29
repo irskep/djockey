@@ -53,6 +53,12 @@ export type DjockeyDoc = {
   filename: string;
   frontMatter: Record<string, unknown>;
 
+  neighbors?: {
+    next?: DjockeyDoc;
+    previous?: DjockeyDoc;
+    parent?: DjockeyDoc;
+  };
+
   // For use by plugins
   data: Record<string, unknown>;
 };
@@ -75,7 +81,7 @@ export type DjockeyRenderer = {
   ) => Promise<void>;
 
   writeDoc: (args: {
-    config: DjockeyConfig;
+    config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
     context: Record<string, unknown>;

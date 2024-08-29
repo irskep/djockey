@@ -4,6 +4,11 @@ body {
   background-color: var(--color-bg);
 }
 
+.dj-noop {
+  all: unset;
+  display: contents;
+}
+
 tt,
 code,
 kbd,
