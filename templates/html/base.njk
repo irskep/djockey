@@ -25,15 +25,15 @@
 {%- endmacro -%}
 
 {%- macro header_project_info() -%}
-{% if config.projectInfo %}
+{% if config.project_info %}
 <div class="DJProjectInfo">
-  {%- if config.projectInfo.githubURL -%}
+  {%- if config.project_info.github_url -%}
   <div class="DJProjectInfo_Repo">
-    <a href="{{ config.projectInfo.githubURL }}">{{ github.path or "GitHub" }}</a>
+    <a href="{{ config.project_info.github_url }}">{{ github.path or "GitHub" }}</a>
   </div>
   {%- endif %}
-  {%- if config.projectInfo.version %}
-  <div class="DJProjectInfo_Version">Version {{ config.projectInfo.version }}</div>
+  {%- if config.project_info.version %}
+  <div class="DJProjectInfo_Version">Version {{ config.project_info.version }}</div>
   {%- endif -%}
 </div>
 {% endif %}
@@ -53,7 +53,7 @@
       <link rel="stylesheet" href="{{ cssURL }}">
       {%- endif %}
     {% endfor %}
-    <title>{{ config.siteName }} - {{ doc.title }}</title>
+    <title>{{ config.site_name }} - {{ doc.title }}</title>
   </head>
   <body>
     <header class="DJHeader">
@@ -66,7 +66,7 @@
             class="DJHeader_Hamburger">
             {{ hamburger('1.5em', '1em', 18, 16) }}
           </button>
-          <h1 class="DJHeader_SiteName"><a href="{{ urls.home }}">{{ config.siteName }}</a></h1>
+          <h1 class="DJHeader_SiteName"><a href="{{ urls.home }}">{{ config.site_name }}</a></h1>
         </div>
         <div class="DJHeader_Content_Group">
           {{ header_project_info() }}
@@ -92,10 +92,10 @@
       </nav>
     </main>
 
-    {%if config.html.footerText -%}
+    {%if config.html.footer_text -%}
     <footer class="DJFooter">
       <div class="DJFooter_Content u-page-width">
-        {{ config.html.footerText }}
+        {{ config.html.footer_text }}
       </div>
     </footer>
     {% endif %}
