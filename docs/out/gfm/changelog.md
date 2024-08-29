@@ -24,6 +24,7 @@
   - Allow configuring a default syntax highlighting language for code
     blocks and inline verbatims
   - Support GitHub Flavored Markdown syntax for alerts
+  - Markup in headings appears in “next” and “previous” links
 
 </div>
 
