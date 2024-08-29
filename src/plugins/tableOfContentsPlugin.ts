@@ -50,6 +50,10 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
       heading: (node: Heading) => {
         const attrs = { ...node.autoAttributes, ...node.attributes };
 
+        if (attrs.skipTOC) {
+          return;
+        }
+
         const entry: TOCEntry = {
           node,
           id: attrs.id || lastOf(referenceStack)!,

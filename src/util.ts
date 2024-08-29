@@ -74,6 +74,11 @@ export function getHasClass(node: HasAttributes, cls: string): boolean {
   return values.has(cls);
 }
 
+export function addClass(node: HasAttributes, cls: string) {
+  const classString = node.attributes?.class || "";
+  node.attributes = { ...node.attributes, class: classString + " " + cls };
+}
+
 export function getAttribute(node: HasAttributes, k: string): string | null {
   if (!node.attributes || node.attributes[k] === undefined) return null;
   return node.attributes[k];
