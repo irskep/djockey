@@ -4,7 +4,7 @@ import {
   applyFilterToFragment,
 } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
-import { makeStubDjotDoc } from "../util.js";
+import { makeStubDjotDoc } from "../utils/djotUtils.js";
 
 export type TOCEntry = {
   id: string;
@@ -138,7 +138,6 @@ function replaceLinksWithSpans(children: Link["children"]): Link["children"] {
     }
     applyFilterToFragment(child, () => ({
       link: (node) => {
-        console.log("Replacing");
         return { ...structuredClone(node as Link), tag: "span" };
       },
     }));

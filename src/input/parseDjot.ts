@@ -7,6 +7,7 @@ import { Doc, fromPandoc, parse } from "@djot/djot";
 import { DjockeyDoc } from "../types.js";
 import { getPandocAST } from "../pandoc.js";
 import { getInputFormatForFileExtension } from "./fileExtensions.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -31,9 +32,9 @@ export function parseFrontmatter(text: string): {
 
 export async function parseDjot(
   inputRoot: string,
-  absolutePath: string
+  absolutePath: string,
+  logCollector: LogCollector
 ): Promise<DjockeyDoc | null> {
-  console.log("Parsing", absolutePath);
   const relativePath = path.relative(inputRoot, absolutePath);
   const { text, frontMatter } = parseFrontmatter(
     fs.readFileSync(absolutePath, "utf8")
@@ -45,7 +46,7 @@ export async function parseDjot(
     case "djot":
       djotDoc = parse(text, {
         sourcePositions: true,
-        warn: (warning) => console.warn(warning.render()),
+        warn: (warning) => logCollector.warning(warning.render()),
       });
       break;
     case "gfm":
@@ -55,7 +56,7 @@ export async function parseDjot(
   }
 
   if (!djotDoc) {
-    console.error("Couldn't figure out how to parse", absolutePath);
+    logCollector.error(`Couldn't figure out how to parse ${absolutePath}`);
     return null;
   }
 

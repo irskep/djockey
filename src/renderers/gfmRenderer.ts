@@ -1,5 +1,4 @@
 import fs from "fs";
-import path from "path";
 
 import { Heading, toPandoc } from "@djot/djot";
 import { Environment } from "nunjucks";
@@ -11,14 +10,13 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { runPandocOnAST } from "../pandoc.js";
-import {
-  copyFilesMatchingPattern,
-  djotASTToText,
-  ensureParentDirectoriesExist,
-  makePathBackToRoot,
-} from "../util.js";
-import { DocSet } from "../engine/docset.js";
+import { djotASTToText } from "../utils/djotUtils.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
+import {
+  makePathBackToRoot,
+  copyFilesMatchingPattern,
+  ensureParentDirectoriesExist,
+} from "../utils/pathUtils.js";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -52,20 +50,20 @@ export class GFMRenderer implements DjockeyRenderer {
     }
   }
 
-  handleStaticFiles(
+  async handleStaticFiles(
     templateDir: string,
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
     const ignorePatterns = config.gfm.ignore_static;
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
     });
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: config.input_dir,
       dest: config.output_dir.gfm,
       pattern: "**/*",
@@ -82,7 +80,6 @@ export class GFMRenderer implements DjockeyRenderer {
   }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
-    console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 
     const renderedDocs: Record<string, string> = {};

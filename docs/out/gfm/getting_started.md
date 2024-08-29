@@ -41,7 +41,7 @@ To have Djockey use file URLs instead, only valid on your own machine
 and not requiring a web server, pass `--local`.
 
 ``` sh
-djockey build my_docs_dir --local
+djockey my_docs_dir --local
 ```
 
 </div>

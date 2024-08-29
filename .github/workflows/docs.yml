@@ -36,7 +36,7 @@ jobs:
       - run: bun install
       # Build the docs
       - run: bunx typedoc
-      - run: bun src/cli.ts build docs
+      - run: bun src/cli.ts docs
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

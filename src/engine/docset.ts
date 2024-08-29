@@ -4,6 +4,7 @@ import {
   DjockeyPlugin,
   DjockeyRenderer,
 } from "../types.js";
+import { LogCollector } from "../utils/logUtils.js";
 import { DocTree } from "./doctree.js";
 
 export class DocSet {
@@ -45,7 +46,10 @@ export class DocSet {
     }
   }
 
-  public makeRenderableCopy(renderer: DjockeyRenderer): DjockeyDoc[] {
+  public makeRenderableCopy(
+    renderer: DjockeyRenderer,
+    logCollector: LogCollector
+  ): DjockeyDoc[] {
     const docsCopy = structuredClone(this.docs);
     for (const doc of docsCopy) {
       for (const plugin of this.plugins) {
@@ -54,6 +58,7 @@ export class DocSet {
             doc,
             renderer,
             config: this.config,
+            logCollector,
           });
         }
       }

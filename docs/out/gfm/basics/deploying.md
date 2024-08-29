@@ -50,7 +50,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
-      - run: bunx djockey build YOUR_DOCS_FOLDER_HERE
+      - run: bunx djockey YOUR_DOCS_FOLDER_HERE
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

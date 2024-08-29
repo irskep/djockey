@@ -13,6 +13,7 @@ import {
 } from "./types.js";
 import { getExtensionForInputFormat } from "./input/fileExtensions.js";
 import { getIsPandocInstalled } from "./pandoc.js";
+import { log } from "./utils/logUtils.js";
 
 export function getNeedsPandoc(fmt: DjockeyInputFormat): boolean {
   return fmt !== "djot";
@@ -98,7 +99,7 @@ export function resolveConfig(
   if (useFileURLRoot) {
     return { ...result, url_root: fileURLRoot };
   } else if (!configURLRoot) {
-    console.error(
+    log.error(
       `urlRoot is mandatory, though you can pass --local to use file URLs for local testing.`
     );
     throw Error();

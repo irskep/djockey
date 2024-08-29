@@ -16,6 +16,8 @@ import {
   LanguageRegistration,
 } from "shiki/index.mjs";
 import djotTextmateGrammar from "../djotTextmateGrammar.js";
+import { showPromiseListAsProgressBar } from "../utils/asyncUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 let nextID = 0;
 
@@ -160,10 +162,11 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   }
 
   async doAsyncWorkBetweenReadAndWrite(doc: DjockeyDoc) {
-    console.log(`Highlighting ${doc.relativePath}...`);
-    await Promise.all(
+    await showPromiseListAsProgressBar(
+      "Highlighting code blocks",
       Object.keys(this.highlightRequests).map((k) => {
         const v = this.highlightRequests[k];
+        delete this.highlightRequests[k];
         return this.highlight(v.text, v.lang).then(
           (result) => (this.highlightResults[k] = result)
         );
@@ -175,6 +178,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     doc: DjockeyDoc;
     renderer: DjockeyRenderer;
     config: DjockeyConfigResolved;
+    logCollector: LogCollector;
   }) {
     const { doc, renderer } = args;
 
@@ -188,7 +192,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           if (!hlRequestID) return;
           const newText = this.highlightResults[hlRequestID];
           if (!newText) {
-            console.error("Unexpectedly can't find highlighted text");
+            args.logCollector.error("Unexpectedly can't find highlighted text");
             return;
           }
           const result: RawBlock = {
@@ -203,7 +207,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           if (!hlRequestID) return;
           let newText = this.highlightResults[hlRequestID];
           if (!newText) {
-            console.error("Unexpectedly can't find highlighted text");
+            args.logCollector.error("Unexpectedly can't find highlighted text");
             return;
           }
 

@@ -5,6 +5,7 @@ import { LinkRewritingPlugin } from "./linkRewritingPlugin.js";
 import { DocSet } from "../engine/docset.js";
 import { HTMLRenderer } from "../renderers/htmlRenderer.js";
 import { getConfigDefaults } from "../config.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 test("Generates TOCEntry tree for one doc", async () => {
   const doc: DjockeyDoc = {
@@ -95,7 +96,8 @@ test("Works end-to-end with LinkRewritingPlugin", async () => {
   );
   await docSet.runPasses();
   const htmlCopy = docSet.makeRenderableCopy(
-    new HTMLRenderer({ relativeLinks: true })
+    new HTMLRenderer({ relativeLinks: true }),
+    new LogCollector("", false)
   )[0];
   const html = renderHTML(htmlCopy.docs.toc);
   expect(html).toEqual(`<ul>

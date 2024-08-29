@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 
 import {
   DjockeyConfigResolved,
@@ -7,8 +8,8 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import path from "path";
-import { pushToListIfNotPresent } from "../util.js";
+import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";
@@ -44,8 +45,9 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     doc: DjockeyDoc;
     renderer: DjockeyRenderer;
     config: DjockeyConfigResolved;
+    logCollector: LogCollector;
   }) {
-    const { doc, renderer, config } = args;
+    const { doc, renderer, config, logCollector } = args;
     for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({
         "*": (node) => {
@@ -58,6 +60,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
               config: this.config,
               renderer,
               sourcePath: doc.relativePath,
+              logCollector,
             }
           );
           return { ...node, destination: newDestination };
@@ -97,9 +100,10 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           docOriginalExtension: path.parse(nodeDestination).ext,
           docRelativePath: prefixlessNodeDestination,
           isLinkToStaticFile: true,
+          logCollector: renderArgs.logCollector,
         });
       } else {
-        console.log(
+        renderArgs.logCollector.warning(
           `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
         );
       }
@@ -107,7 +111,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }
 
     if (values.length > 1) {
-      console.warn(
+      renderArgs.logCollector.warning(
         `Multiple possible destinations for ${nodeDestination} in ${renderArgs.sourcePath}: ${values}`
       );
     }
@@ -188,6 +192,7 @@ export class LinkTarget {
     config: DjockeyConfigResolved;
     renderer: DjockeyRenderer;
     sourcePath: string;
+    logCollector: LogCollector;
   }): string {
     return args.renderer.transformLink({
       config: args.config,
@@ -196,6 +201,7 @@ export class LinkTarget {
       docOriginalExtension: this.docOriginalExtension,
       docRelativePath: this.docRelativePath,
       isLinkToStaticFile: false,
+      logCollector: args.logCollector,
     });
   }
 }

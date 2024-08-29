@@ -1,56 +1,48 @@
 #!/usr/bin/env node
 
+import { exit } from "process";
 import fs from "fs";
+
 import { ArgumentParser } from "argparse";
 import { resolveConfigFromDirectory } from "./config.js";
 import { executeConfig } from "./engine/executeConfig.js";
-import { ALL_OUTPUT_FORMATS, DjockeyOutputFormat } from "./types.js";
+import { ALL_OUTPUT_FORMATS } from "./types.js";
+import path from "path";
+import { log } from "./utils/logUtils.js";
+
+export async function main(): Promise<number> {
+  const args = makeArgumentParser().parse_args();
+
+  if (!fs.existsSync(args.input)) {
+    log.error(`File does not exist: ${args.input}`);
+    return 1;
+  }
+
+  const config = resolveConfigFromDirectory(args.input, args.local);
+  if (!config) {
+    log.error(`Couldn't find a config file in ${path.resolve(args.input)}`);
+    return 2;
+  }
+
+  await executeConfig(
+    config,
+    args.output_format.length ? args.output_format : ["html"]
+  );
+
+  return 0;
+}
 
 export function makeArgumentParser() {
   const p = new ArgumentParser();
-  const subparsers = p.add_subparsers({ required: true });
-  const buildParser = subparsers.add_parser("build");
-  buildParser.set_defaults({ action: "build" });
-  buildParser.add_argument("--local", { default: false, action: "store_true" });
-  buildParser.add_argument("-f", "--output-format", {
+  p.add_argument("--local", { default: false, action: "store_true" });
+  p.add_argument("-f", "--output-format", {
     default: [],
     choices: ALL_OUTPUT_FORMATS,
     action: "append",
   });
-  buildParser.add_argument("input");
+  p.add_argument("input");
 
   return p;
 }
 
-export async function main() {
-  const args = makeArgumentParser().parse_args();
-
-  switch (args.action) {
-    case "build":
-      doBuild(args.input, args.local, args.output_format);
-      break;
-    default:
-      throw new Error("Invalid action");
-  }
-}
-
-export async function doBuild(
-  inputPath: string,
-  isLocal: boolean,
-  outputFormats: DjockeyOutputFormat[]
-) {
-  if (!fs.existsSync(inputPath)) {
-    throw new Error("File does not exist: " + inputPath);
-  }
-  const config = resolveConfigFromDirectory(inputPath, isLocal);
-  if (config) {
-    await executeConfig(
-      config,
-      outputFormats.length ? outputFormats : ["html"]
-    );
-  } else {
-    console.error("Couldn't find a config file in", inputPath);
-  }
-}
-
-main();
+exit(await main());

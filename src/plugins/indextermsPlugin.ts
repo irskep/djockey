@@ -1,7 +1,9 @@
+import { Block } from "@djot/djot";
+
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { getHasClass, pushToList } from "../util.js";
-import { Block } from "@djot/djot";
+import { getHasClass } from "../utils/djotUtils.js";
+import { pushToList } from "../utils/collectionUtils.js";
 
 export class IndextermsPlugin implements DjockeyPlugin {
   name = "Indexterms";

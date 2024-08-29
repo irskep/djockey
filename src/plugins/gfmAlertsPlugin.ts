@@ -1,6 +1,6 @@
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { djotASTToText, getHasClass } from "../util.js";
+import { djotASTToText, getHasClass } from "../utils/djotUtils.js";
 import { Block } from "@djot/djot";
 
 // These happen to correspond to Djockey's 'aside' classes, so we're just going
