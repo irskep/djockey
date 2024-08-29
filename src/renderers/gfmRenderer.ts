@@ -50,20 +50,20 @@ export class GFMRenderer implements DjockeyRenderer {
     }
   }
 
-  handleStaticFiles(
+  async handleStaticFiles(
     templateDir: string,
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
     const ignorePatterns = config.gfm.ignore_static;
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
     });
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: config.input_dir,
       dest: config.output_dir.gfm,
       pattern: "**/*",
@@ -80,7 +80,6 @@ export class GFMRenderer implements DjockeyRenderer {
   }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
-    console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 
     const renderedDocs: Record<string, string> = {};

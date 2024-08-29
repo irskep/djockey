@@ -1,10 +1,6 @@
 import { Block, Doc, HasAttributes, HasText } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 
-export function pluralize(n: number, singular: string, plural: string): string {
-  return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
-}
-
 export function getHasClass(node: HasAttributes, cls: string): boolean {
   if (!node.attributes || !node.attributes["class"]) return false;
   const values = new Set(node.attributes["class"].split(" "));

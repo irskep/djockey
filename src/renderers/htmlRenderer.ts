@@ -59,20 +59,20 @@ export class HTMLRenderer implements DjockeyRenderer {
     }
   }
 
-  handleStaticFiles(
+  async handleStaticFiles(
     templateDir: string,
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
   ) {
     const ignorePatterns = config.html.ignore_static;
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.html,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
     });
-    copyFilesMatchingPattern({
+    await copyFilesMatchingPattern({
       base: config.input_dir,
       dest: config.output_dir.html,
       pattern: "**/*",
@@ -107,7 +107,6 @@ export class HTMLRenderer implements DjockeyRenderer {
   }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.output_dir.html}/${doc.relativePath}.html`;
-    console.log("Rendering", outputPath);
     ensureParentDirectoriesExist(outputPath);
 
     const baseURL = this.options.relativeLinks

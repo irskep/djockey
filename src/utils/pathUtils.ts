@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 
 import fastGlob from "fast-glob";
+import { LogCollector } from "./logUtils.js";
 
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,
@@ -34,7 +35,7 @@ export function ensureParentDirectoriesExist(filePath: string) {
   });
 }
 
-export function copyFilesMatchingPattern(args: {
+export async function copyFilesMatchingPattern(args: {
   base: string;
   dest: string;
   pattern: string;
@@ -45,6 +46,13 @@ export function copyFilesMatchingPattern(args: {
 
   const excludeSet = new Set(excludePaths);
 
+  const logMessage = `Copying static files from ${path.relative(
+    ".",
+    base
+  )} to ${path.relative(".", dest)}`;
+
+  const log = new LogCollector(logMessage);
+
   function copyPath(path_: string) {
     const relativePath = path.relative(base, path_);
 
@@ -54,13 +62,16 @@ export function copyFilesMatchingPattern(args: {
 
     ensureParentDirectoriesExist(newFullPath);
 
-    console.log("Copying static file", relativePath, "to", newFullPath);
+    log.info(`Copying static file ${relativePath} to ${newFullPath}`);
     fs.copyFileSync(path_, `${dest}/${relativePath}`);
   }
 
-  for (const path_ of fastGlob.sync(`${base}/${pattern}`, {
-    ignore: excludePatterns,
-  })) {
-    copyPath(path_);
-  }
+  const promises = fastGlob
+    .sync(`${base}/${pattern}`, {
+      ignore: excludePatterns,
+    })
+    .map(async (path_) => await copyPath(path_));
+
+  await Promise.all(promises);
+  log.succeed("warning");
 }

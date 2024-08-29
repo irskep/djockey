@@ -138,7 +138,6 @@ function replaceLinksWithSpans(children: Link["children"]): Link["children"] {
     }
     applyFilterToFragment(child, () => ({
       link: (node) => {
-        console.log("Replacing");
         return { ...structuredClone(node as Link), tag: "span" };
       },
     }));

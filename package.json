@@ -27,18 +27,15 @@
   },
   "dependencies": {
     "@djot/djot": "^0.3.1",
-    "@poppinss/cliui": "^6.4.1",
-    "ansi-styles": "^6.2.1",
     "argparse": "^2.0.1",
     "fast-glob": "^3.3.2",
+    "gluegun": "^5.2.0",
     "js-yaml": "^4.1.0",
-    "log-update": "^6.1.0",
     "mermaid": "^10.9.1",
     "micromatch": "^4.0.8",
     "nunjucks": "^3.2.4",
     "parse5": "^7.1.2",
-    "shiki": "^1.14.1",
-    "slice-ansi": "^7.1.0"
+    "shiki": "^1.14.1"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

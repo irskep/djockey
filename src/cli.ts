@@ -7,22 +7,20 @@ import { ArgumentParser } from "argparse";
 import { resolveConfigFromDirectory } from "./config.js";
 import { executeConfig } from "./engine/executeConfig.js";
 import { ALL_OUTPUT_FORMATS } from "./types.js";
-import ui from "./ui.js";
 import path from "path";
+import { log } from "./utils/logUtils.js";
 
 export async function main(): Promise<number> {
   const args = makeArgumentParser().parse_args();
 
   if (!fs.existsSync(args.input)) {
-    ui.logger.error(`File does not exist: ${args.input}`);
+    log.error(`File does not exist: ${args.input}`);
     return 1;
   }
 
   const config = resolveConfigFromDirectory(args.input, args.local);
   if (!config) {
-    ui.logger.error(
-      `Couldn't find a config file in ${path.resolve(args.input)}`
-    );
+    log.error(`Couldn't find a config file in ${path.resolve(args.input)}`);
     return 2;
   }
 

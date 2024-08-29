@@ -1,5 +1,6 @@
 import { Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
+import { LogCollector } from "./utils/logUtils.js";
 
 export type DjockeyConfig = {
   input_dir: string;
@@ -71,13 +72,14 @@ export type DjockeyRenderer = {
     templateDir: string,
     config: DjockeyConfigResolved,
     docs: DjockeyDoc[]
-  ) => void;
+  ) => Promise<void>;
 
   writeDoc: (args: {
     config: DjockeyConfig;
     nj: Environment;
     doc: DjockeyDoc;
     context: Record<string, unknown>;
+    logCollector: LogCollector;
   }) => Promise<void>;
 
   transformLink: (args: {
@@ -87,6 +89,7 @@ export type DjockeyRenderer = {
     docOriginalExtension: string;
     docRelativePath: string;
     isLinkToStaticFile: boolean;
+    logCollector: LogCollector;
   }) => string;
 };
 
@@ -109,6 +112,7 @@ export type DjockeyPlugin = {
     doc: DjockeyDoc;
     renderer: DjockeyRenderer;
     config: DjockeyConfigResolved;
+    logCollector: LogCollector;
   }) => void;
 };
 

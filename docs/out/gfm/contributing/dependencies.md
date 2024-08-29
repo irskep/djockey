@@ -42,6 +42,7 @@ Dependencies supporting the core functionality of Djockey:
 - [Nunjucks](https://mozilla.github.io/nunjucks/): String templates
 - [parse5](https://www.npmjs.com/package/parse5): Spec-compliant HTML5
   parsing
+- [gluegun](https://github.com/infinitered/gluegun): Command line output
 
 Dependencies supporting individual features:
 

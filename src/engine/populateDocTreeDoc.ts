@@ -6,18 +6,21 @@ import {
 } from "../types.js";
 import { DocSet } from "./docset.js";
 import { DocTreeSection } from "./doctree.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 export function populateDocTreeDoc(
   docSet: DocSet,
   doc: DjockeyDoc,
-  renderer: DjockeyRenderer
+  renderer: DjockeyRenderer,
+  logCollector: LogCollector
 ) {
   if (!docSet.tree) return;
   const children = renderSection(
     docSet.config,
     doc,
     docSet.tree?.rootSection,
-    renderer
+    renderer,
+    logCollector
   );
   if (!children.length) return;
   doc.docs.doctree = {
@@ -34,6 +37,7 @@ function renderSection(
   activeDoc: DjockeyDoc,
   section: DocTreeSection,
   renderer: DjockeyRenderer,
+  logCollector: LogCollector,
   level: number = 1
 ): Block[] {
   function getDocLink(doc: DjockeyDoc): Link {
@@ -47,6 +51,7 @@ function renderSection(
         docOriginalExtension: doc.originalExtension,
         docRelativePath: doc.relativePath,
         isLinkToStaticFile: false,
+        logCollector: logCollector,
       }),
     };
   }
@@ -75,7 +80,14 @@ function renderSection(
   }));
   const sectionChildren: ListItem[] = section.children.map((child) => ({
     tag: "list_item",
-    children: renderSection(config, activeDoc, child, renderer, level + 1),
+    children: renderSection(
+      config,
+      activeDoc,
+      child,
+      renderer,
+      logCollector,
+      level + 1
+    ),
   }));
 
   result.push({
