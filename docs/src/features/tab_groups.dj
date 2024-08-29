@@ -1,0 +1,54 @@
+# Tab Groups
+
+You can create a block with tabs to show different content:
+
+{.tab-group}
+::::
+
+#### Tab 1
+
+:::
+```
+Tab 1 content
+```
+
+That was a code sample.
+:::
+
+#### Tab 2
+
+:::
+Tab 2 content
+:::
+
+::::
+
+The way you do this is by creating a div with the class `.tab-group`{.language-css} and then interleaving headings with content.
+
+````
+{.tab-group}
+::::
+
+{% You can use any level of heading as long as you use the
+   same level for all tabs. In this example, we're using
+   level 4. %}
+#### Tab 1
+
+{% The content inside the tab is everything until the next
+   heading. %}
+:::
+```
+Tab 1 content
+```
+:::
+
+That was a code sample.
+
+#### Tab 2
+
+:::
+Tab 2 content
+:::
+
+::::
+````

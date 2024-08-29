@@ -24,6 +24,7 @@ import { fileURLToPath } from "url";
 import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
 import { VersionDirectivesPlugin } from "../plugins/versionDirectives.js";
+import { TabGroupPlugin } from "../plugins/tabGroupPlugin.js";
 
 function pluralize(n: number, singular: string, plural: string): string {
   return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
@@ -31,6 +32,7 @@ function pluralize(n: number, singular: string, plural: string): string {
 
 function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
   return [
+    new TabGroupPlugin(),
     new TableOfContentsPlugin(),
     new IndextermsPlugin(),
     new LinkRewritingPlugin(config),

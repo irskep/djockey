@@ -67,11 +67,6 @@ th {
   text-align: start;
 }
 
-.shiki {
-  padding: 2px;
-  border-radius: 4px;
-}
-
 /* HEADER & FOOTER */
 
 .DJHeader {
@@ -116,10 +111,13 @@ main {
 
 /* NAVIGATION */
 
-.DJContent,
 .DJDocTree_Content,
 .DJTableOfContents_Content {
   padding: 0 var(--ms);
+}
+
+.DJContent {
+  padding: 0 var(--mm);
 }
 
 nav > ul,
