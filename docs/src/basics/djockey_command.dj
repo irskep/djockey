@@ -3,10 +3,10 @@ order: 0
 ---
 # The `djockey` command
 
-`djockey build <path-to-docs>` will output HTML by default. To output GitHub Flavored Markdown instead, pass `--output-format=gfm`.
+`djockey <path-to-docs>` will output HTML by default. To output GitHub Flavored Markdown instead, pass `--output-format=gfm`.
 
 ```text
-usage: djockey build [-h] [--local] [-f {html,gfm}] input
+usage: djockey [-h] [--local] [-f {html,gfm}] input
 
 positional arguments:
   input

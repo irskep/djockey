@@ -12,11 +12,11 @@ typedoc:
 	bunx typedoc 
 
 docs: templates/html/static/client.js
-	bun src/cli.ts build docs --local
+	bun src/cli.ts docs --local
 
 gfm:
 	rm -rf docs/out/gfm
-	bun src/cli.ts build docs --output-format gfm
+	bun src/cli.ts docs --output-format gfm
 
 test:
 	bun test
