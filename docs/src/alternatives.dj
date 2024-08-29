@@ -1,0 +1,13 @@
+---
+order: -1
+---
+# Alternatives to Djockey
+
+There are many wonderful documentation systems out there and Djockey tries to take inspiration from all of them. In the spirit of helping you solve your real problems, here's a list of good options with active maintenance and large communities.
+
+| | Markup | Implementation |
+|-|-|-|
+| [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) | [CommonMark](https://commonmark.org/) with custom extensions | Python |
+| [Sphinx](https://www.sphinx-doc.org/en/master/index.html) | [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html), [MyST](https://mystmd.org) | Python |
+| [Docusaurus](https://docusaurus.io) | [CommonMark](https://commonmark.org/), [MDX](https://mdxjs.com),  | JavaScript |
+| [Starlight](https://starlight.astro.build) | [Markdoc](https://markdoc.dev/docs/syntax), [MDX](https://mdxjs.com),  | JavaScript |
