@@ -1,6 +1,6 @@
 import { spawnSync } from "child_process";
 import path from "path";
-import { runCmd } from "./util.js";
+import { runCmd } from "./utils/runCmd.js";
 
 export function getIsPandocInstalled(): boolean {
   const result = spawnSync("which", ["pandoc"]);

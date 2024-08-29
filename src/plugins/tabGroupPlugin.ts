@@ -5,7 +5,7 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { addClass, getHasClass } from "../util.js";
+import { addClass, getHasClass } from "../utils/djotUtils.js";
 import { Block, Div } from "@djot/djot";
 
 export class TabGroupPlugin implements DjockeyPlugin {

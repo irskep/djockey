@@ -1,6 +1,6 @@
 import { DjockeyConfig, DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { getAnyAttribute } from "../util.js";
+import { getAnyAttribute } from "../utils/djotUtils.js";
 import { Block } from "@djot/djot";
 
 function normalizeSemverString(semverString: string): [number, number, number] {

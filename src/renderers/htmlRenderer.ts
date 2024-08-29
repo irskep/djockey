@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import url from "url";
 
 import fastGlob from "fast-glob";
 import { parseFragment, serialize } from "parse5";
@@ -19,7 +18,7 @@ import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
   makePathBackToRoot,
-} from "../util.js";
+} from "../utils/pathUtils.js";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";

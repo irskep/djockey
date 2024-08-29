@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 
 import {
   DjockeyConfigResolved,
@@ -7,8 +8,7 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import path from "path";
-import { pushToListIfNotPresent } from "../util.js";
+import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";

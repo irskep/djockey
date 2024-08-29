@@ -4,7 +4,7 @@ import {
   applyFilterToFragment,
 } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
-import { makeStubDjotDoc } from "../util.js";
+import { makeStubDjotDoc } from "../utils/djotUtils.js";
 
 export type TOCEntry = {
   id: string;

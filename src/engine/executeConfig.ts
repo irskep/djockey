@@ -1,10 +1,10 @@
 import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 
 import { Environment, FileSystemLoader } from "nunjucks";
 
 import { DocSet } from "./docset.js";
 import { parseDjot } from "../input/parseDjot.js";
-import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin.js";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
@@ -14,35 +14,10 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { makeRenderer } from "../renderers/makeRenderer.js";
-import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin.js";
-import { AutoTitlePlugin } from "../plugins/autoTitlePlugin.js";
 import { loadDocTree } from "./doctree.js";
 import { populateDocTreeDoc } from "./populateDocTreeDoc.js";
-import { DjotDemoPlugin } from "../plugins/djotDemoPlugin.js";
-import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting.js";
-import { fileURLToPath } from "url";
-import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
-import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
-import { VersionDirectivesPlugin } from "../plugins/versionDirectives.js";
-import { TabGroupPlugin } from "../plugins/tabGroupPlugin.js";
-
-function pluralize(n: number, singular: string, plural: string): string {
-  return n === 1 ? `1 ${singular}` : `${n} ${plural}`;
-}
-
-function makeBuiltinPlugins(config: DjockeyConfigResolved): DjockeyPlugin[] {
-  return [
-    new TabGroupPlugin(),
-    new TableOfContentsPlugin(),
-    new IndextermsPlugin(),
-    new LinkRewritingPlugin(config),
-    new DjotDemoPlugin(),
-    new AutoTitlePlugin(),
-    new SyntaxHighlightingPlugin(config),
-    new GFMAlertsPlugin(),
-    new VersionDirectivesPlugin(config),
-  ];
-}
+import { makeBuiltinPlugins } from "./builtinPlugins.js";
+import { pluralize } from "../utils/djotUtils.js";
 
 export async function executeConfig(
   config: DjockeyConfigResolved,
