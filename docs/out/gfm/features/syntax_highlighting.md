@@ -38,7 +38,7 @@ Output: `print("Hello, world")`
 
 <div class="version-modified added-in-version">
 
-Will be added in version 0.0.5
+Added in version 0.0.5
 
 </div>
 

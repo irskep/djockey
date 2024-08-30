@@ -16,7 +16,7 @@ Djockey is pre-alpha and config options *will* change.
 
 <div class="version-modified changed-in-version">
 
-Will be changed in version 0.0.5
+Changed in version 0.0.5
 
 Config options are now snake case instead of camel case.
 

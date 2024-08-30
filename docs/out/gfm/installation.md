@@ -10,23 +10,45 @@
 # Installation
 
 I know I promised you a single-binary distribution, but since I haven’t
-actually released Djockey yet, you’ll need to download it.
+actually released Djockey yet, you’ll need to run it with `npx`:
 
 ``` sh
-git clone git@github.com:irskep/djockey.git
-cd djockey
-yarn install
-npm link
+npx djockey path/to/docs
 ```
 
-In the future, you’ll be able to run it with `npx`:
+or `bunx`:
 
 ``` sh
-npx djockey docs
+bunx djockey path/to/docs
 ```
 
-Or grab a binary from the [GitHub releases
-page](https://github.com/irskep/djockey/releases).
+or install it in your JS project and then run it:
+
+<div class="tab-group">
+
+### Node
+
+<div class="dj-tab tabgroup-0 tabgroup-0-tab-0 m-active">
+
+``` sh
+npm install djockey
+npm run djockey path/to/docs
+```
+
+</div>
+
+### Bun
+
+<div class="dj-tab tabgroup-0 tabgroup-0-tab-1 ">
+
+``` sh
+bun install djockey
+bunx djockey path/to/docs
+```
+
+</div>
+
+</div>
 
 <div id="Pandoc" class="section" id="Pandoc">
 

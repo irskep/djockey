@@ -4,7 +4,10 @@
 -->
 - [Changelog](./changelog.md#Changelog)
   - [0.1](./changelog.md#0-1)
-  - [0.0.1-0.0.5](./changelog.md#0-0-1-0-0-5)
+    - [0.1.1 - 2024-08-30](./changelog.md#0-1-1---2024-08-30)
+    - [0.1.0 - 2024-08-29](./changelog.md#0-1-0---2024-08-29)
+  - [0.0](./changelog.md#0-0)
+    - [0.0.1-0.0.5](./changelog.md#0-0-1-0-0-5)
 
 <div id="Changelog" class="section" id="Changelog">
 
@@ -13,6 +16,19 @@
 <div id="0-1" class="section" id="0-1">
 
 ## 0.1
+
+<div id="0-1-1---2024-08-30" class="section" id="0-1-1---2024-08-30">
+
+### 0.1.1 - 2024-08-30
+
+- Fix tab group font consistency
+- Tweak nested list CSS
+
+</div>
+
+<div id="0-1-0---2024-08-29" class="section" id="0-1-0---2024-08-29">
+
+### 0.1.0 - 2024-08-29
 
 - Overhaul logging and error reporting
 - Support `.dj` file extension in addition to `.djot`
@@ -28,11 +44,19 @@
 
 </div>
 
+</div>
+
+<div id="0-0" class="section" id="0-0">
+
+## 0.0
+
 <div id="0-0-1-0-0-5" class="section" id="0-0-1-0-0-5">
 
-## 0.0.1-0.0.5
+### 0.0.1-0.0.5
 
 Initial release and working out the kinks.
+
+</div>
 
 </div>
 
