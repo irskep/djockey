@@ -4,6 +4,10 @@ order: -1
 
 # Changelog
 
+## 0.1.1 - 2024-08-29
+
+- Fix tab group font consistency
+
 ## 0.1 - 2024-08-29
 
 - Overhaul logging and error reporting

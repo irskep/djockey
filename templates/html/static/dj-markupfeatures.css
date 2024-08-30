@@ -116,6 +116,12 @@ aside.warning {
 }
 
 .dj-tab-heading {
+  margin: unset;
+  padding: unset;
+  color: unset;
+  font-weight: unset;
+  font-size: unset;
+
   cursor: pointer;
   padding: var(--ms) var(--mm);
   border-bottom: 1px solid transparent;

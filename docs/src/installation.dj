@@ -3,22 +3,37 @@ order: 0
 ---
 # Installation
 
-I know I promised you a single-binary distribution, but since I haven't actually released Djockey yet, you'll need to download it.
+I know I promised you a single-binary distribution, but since I haven't actually released Djockey yet, you'll need to run it with `npx`{.language-sh}:
 
 ```sh
-git clone git@github.com:irskep/djockey.git
-cd djockey
-yarn install
-npm link
+npx djockey path/to/docs
 ```
 
-In the future, you'll be able to run it with `npx`:
+or `bunx`{.language-sh}:
 
 ```sh
-npx djockey docs
+bunx djockey path/to/docs
 ```
 
-Or grab a binary from the [GitHub releases page](https://github.com/irskep/djockey/releases).
+or install it in your JS project and then run it:
+
+{.tab-group}
+:::
+
+### Node
+
+```sh
+npm install djockey
+npm run djockey path/to/docs
+```
+
+### Bun
+
+```sh
+bun install djockey
+bunx djockey path/to/docs
+```
+:::
 
 ## Pandoc
 
