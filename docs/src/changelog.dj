@@ -8,8 +8,7 @@ order: -1
 
 ### 0.1.1 - 2024-08-30
 
-- Fix tab group font consistency
-- Tweak nested list CSS
+- Fix assorted small CSS issues
 
 ### 0.1.0 - 2024-08-29
 

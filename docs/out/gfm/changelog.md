@@ -21,8 +21,7 @@
 
 ### 0.1.1 - 2024-08-30
 
-- Fix tab group font consistency
-- Tweak nested list CSS
+- Fix assorted small CSS issues
 
 </div>
 

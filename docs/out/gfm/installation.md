@@ -9,19 +9,31 @@
 
 # Installation
 
-I know I promised you a single-binary distribution, but since I haven’t
-gotten around to writing the scripts to create it, you’ll need to run it
-with `npx`:
+You can invoke `djockey` directly with `npx` or `bunx`.
+
+<div class="tab-group">
+
+### Node
+
+<div class="dj-tab tabgroup-0 tabgroup-0-tab-0 m-active">
 
 ``` sh
 npx djockey path/to/docs
 ```
 
-or `bunx`:
+</div>
+
+### Bun
+
+<div class="dj-tab tabgroup-0 tabgroup-0-tab-1 ">
 
 ``` sh
 bunx djockey path/to/docs
 ```
+
+</div>
+
+</div>
 
 or install it in your JS project and then run it:
 

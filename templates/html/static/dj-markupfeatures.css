@@ -144,3 +144,7 @@ aside.warning {
   padding: var(--mm);
   border: var(--border-weak);
 }
+
+.dj-tab-group-content > div > *:last-child {
+  margin-bottom: 0;
+}
