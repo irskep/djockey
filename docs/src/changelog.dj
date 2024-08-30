@@ -4,11 +4,14 @@ order: -1
 
 # Changelog
 
-## 0.1.1 - 2024-08-29
+## 0.1
+
+### 0.1.1 - 2024-08-30
 
 - Fix tab group font consistency
+- Tweak nested list CSS
 
-## 0.1 - 2024-08-29
+### 0.1.0 - 2024-08-29
 
 - Overhaul logging and error reporting
 - Support `.dj` file extension in addition to `.djot`
@@ -25,6 +28,8 @@ order: -1
   - Markup in headings appears in "next" and "previous" links
 
 
-## 0.0.1-0.0.5
+## 0.0
+
+### 0.0.1-0.0.5
 
 Initial release and working out the kinks.
