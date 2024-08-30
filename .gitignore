@@ -11,4 +11,5 @@
 #.pnp.*
 node_modules/
 dist/
+dist_bin/
 .yarn/cache

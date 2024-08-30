@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""
+This script will call `bun build`, but the resulting binaries DO NOT WORK.
+"""
+
+import glob
+import os
+import subprocess
+
+PLATFORMS = [
+    "bun-darwin-arm64",
+    "bun-linux-x64-modern",
+    "bun-linux-arm64",
+]
+
+
+def main():
+    os.makedirs("dist_bin", exist_ok=True)
+
+    for platform in PLATFORMS:
+        os.makedirs(os.path.join("dist_bin", platform), exist_ok=True)
+        out_path = os.path.join("dist_bin", platform, "djockey")
+        subprocess.run(
+            [
+                "bun",
+                "build",
+                "--compile",
+                "--minify",
+                "--sourcemap",
+                "--asset-naming",
+                "[name].[ext]",
+                "--target",
+                platform,
+                "--outfile",
+                out_path,
+                "./dist/cli.js",
+            ]
+            + glob.glob("dist/templates/**/*.css", recursive=True)
+            + glob.glob("dist/templates/**/*.js", recursive=True)
+            + glob.glob("dist/templates/**/*.njk", recursive=True)
+        )
+
+
+if __name__ == "__main__":
+    main()
