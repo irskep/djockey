@@ -10,7 +10,8 @@
 # Installation
 
 I know I promised you a single-binary distribution, but since I haven’t
-actually released Djockey yet, you’ll need to run it with `npx`:
+gotten around to writing the scripts to create it, you’ll need to run it
+with `npx`:
 
 ``` sh
 npx djockey path/to/docs
