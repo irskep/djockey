@@ -1,16 +1,16 @@
 {%- macro nextPrevious(cls) -%}
 <nav class="DJNextPrevious {{ cls }}">
-  <a class="DJPrevious {% if not previous %}u-invisible{% endif %}" href="{{ previous.url }}">
-    {% if previous -%}
+  <a class="DJPrevious {% if not docs.previousDocTitle %}u-invisible{% endif %}" href="{{ urls.previous }}">
+    {% if docs.previousDocTitle -%}
     <div class="DJNextPrevious_Label">Previous</div>
-    <div class="DJNextPrevious_Link">{{ previous.title }}</div>
+    <div class="DJNextPrevious_Link">{{ docs.previousDocTitle | safe }}</div>
     {%- endif %}
   </a>
 
-  <a class="DJNext {% if not next %}u-invisible{% endif %}" href="{{ next.url }}">
-    {% if next -%}
+  <a class="DJNext {% if not docs.nextDocTitle %}u-invisible{% endif %}" href="{{ urls.next }}">
+    {% if docs.nextDocTitle -%}
     <div class="DJNextPrevious_Label">Next</div>
-    <div class="DJNextPrevious_Link">{{ next.title }}</div>
+    <div class="DJNextPrevious_Link">{{ docs.nextDocTitle | safe }}</div>
     {%- endif %}
   </a>
 </nav>
@@ -44,7 +44,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% for cssURL in urls.css %}
+    {% for cssURL in urlLists.css %}
       {%- if cssURL.endsWith('.light.css') -%}
       <link rel="stylesheet"  media="(prefers-color-scheme: light)" href="{{ cssURL }}">
       {%- elif cssURL.endsWith('.dark.css') -%}
@@ -75,6 +75,7 @@
     </header>
 
     <main class="u-page-width">
+
       <div class="DJContent">
         {{ nextPrevious('m-top') }}
         <article>{{ docs.content | safe }}</article>
@@ -117,7 +118,7 @@
       </nav>
     </div>
 
-    {% for jsURL in urls.js %}
+    {% for jsURL in urlLists.js %}
     <script src="{{ jsURL }}"></script>
     {% endfor %}
   </body>

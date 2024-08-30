@@ -29,4 +29,4 @@ optional arguments:
 
 | Previous | Next |
 | - | - |
-| [Alternatives to Djockey](../alternatives.md) | [Front matter](../basics/frontmatter.md) |
+| [Changelog](../changelog.md) | [Front matter](../basics/frontmatter.md) |

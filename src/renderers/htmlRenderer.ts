@@ -100,7 +100,7 @@ export class HTMLRenderer implements DjockeyRenderer {
   }
 
   async writeDoc(args: {
-    config: DjockeyConfig;
+    config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
     context: Record<string, unknown>;
@@ -117,21 +117,38 @@ export class HTMLRenderer implements DjockeyRenderer {
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
       const rawHTML = renderHTML(doc.docs[k]);
-      const postprocessedHTML = postprocessHTML(rawHTML);
+      let postprocessedHTML = postprocessHTML(rawHTML);
       renderedDocs[k] = postprocessedHTML;
     }
 
+    const urls: Record<string, string> = {
+      home: isFileURL ? baseURL + "index.html" : baseURL,
+    };
+    const neighborKeys: ["previous", "next"] = ["previous", "next"];
+    for (const k of neighborKeys) {
+      if (!doc.neighbors || !doc.neighbors[k]) continue;
+      urls[k] = this.transformLink({
+        config,
+        sourcePath: doc.relativePath,
+        anchorWithoutHash: null,
+        docOriginalExtension: doc.neighbors[k].originalExtension,
+        docRelativePath: doc.neighbors[k].relativePath,
+        isLinkToStaticFile: false,
+      });
+    }
+
     const outputPage = nj.render("base.njk", {
+      config,
       doc,
       docs: renderedDocs,
       baseURL,
       github: {
         path: parseGitHubPath(config.project_info?.github_url),
       },
-      urls: {
+      urls,
+      urlLists: {
         css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
-        home: isFileURL ? baseURL + "index.html" : baseURL,
       },
       ...args.context,
     });
@@ -161,20 +178,19 @@ interface TextNode {
   value: string;
 }
 
+function replaceNode(node: Element, tagName: string) {
+  const newEl: Element = { ...node, tagName: tagName };
+  const parent = node.parentNode!;
+
+  const ix = parent.childNodes.indexOf(node);
+  parent.childNodes[ix] = newEl;
+}
+
 /**
  * For any node that has a class `tag-X`, replace its tag name with `X`.
  */
 export function postprocessHTML(html: string): string {
   const fragment = parseFragment(html);
-  fragment.childNodes;
-
-  function replaceNode(node: Element, tagName: string) {
-    const newEl: Element = { ...node, tagName: tagName };
-    const parent = node.parentNode!;
-
-    const ix = parent.childNodes.indexOf(node);
-    parent.childNodes[ix] = newEl;
-  }
 
   function visit(node: Element | TextNode) {
     if (node.nodeName === "#text") return;

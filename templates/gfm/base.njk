@@ -8,6 +8,6 @@
 {{ docs.toc | safe }}
 {{ docs.content | safe }}
 
-| {% if previous %}Previous{% endif %} | {% if next %}Next{% endif %} |
+| {% if docs.previousDocTitle %}Previous{% endif %} | {% if docs.nextDocTitle %}Next{% endif %} |
 | - | - |
-| {% if previous %}[{{ previous.title }}]({{ previous.url}}){% endif %} | {% if next %}[{{ next.title }}]({{ next.url}}){% endif %} |
+| {% if docs.previousDocTitle %}[{{ docs.previousDocTitle.trim() | safe }}]({{ urls.previous }}){% endif %} | {% if docs.nextDocTitle %}[{{ docs.nextDocTitle.trim() | safe }}]({{ urls.next }}){% endif %} |

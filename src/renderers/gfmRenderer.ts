@@ -73,7 +73,7 @@ export class GFMRenderer implements DjockeyRenderer {
   }
 
   async writeDoc(args: {
-    config: DjockeyConfig;
+    config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
     context: Record<string, unknown>;
@@ -84,16 +84,31 @@ export class GFMRenderer implements DjockeyRenderer {
 
     const renderedDocs: Record<string, string> = {};
     const renderOps = Object.keys(doc.docs).map((k) => {
-      const outputAST = toPandoc(doc.docs[k], {});
+      let outputAST = toPandoc(doc.docs[k], {}) as any;
       return runPandocOnAST(outputAST, "gfm").then(
         (result) => (renderedDocs[k] = result)
       );
     });
     await Promise.all(renderOps);
 
+    const urls: Record<string, string> = {};
+    const neighborKeys: ["previous", "next"] = ["previous", "next"];
+    for (const k of neighborKeys) {
+      if (!doc.neighbors || !doc.neighbors[k]) continue;
+      urls[k] = this.transformLink({
+        config,
+        sourcePath: doc.relativePath,
+        anchorWithoutHash: null,
+        docOriginalExtension: doc.neighbors[k].originalExtension,
+        docRelativePath: doc.neighbors[k].relativePath,
+        isLinkToStaticFile: false,
+      });
+    }
+
     const outputPage = nj.render("base.njk", {
       doc,
       docs: renderedDocs,
+      urls,
       needsTitle: !getFirstHeadingIsAlreadyDocumentTitle(doc),
       ...args.context,
     });
