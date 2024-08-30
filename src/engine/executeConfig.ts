@@ -8,11 +8,9 @@ import { DocSet } from "./docset.js";
 import { parseDjot } from "../input/parseDjot.js";
 import {
   DjockeyConfigResolved,
-  DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyPlugin,
   DjockeyPluginModule,
-  DjockeyRenderer,
 } from "../types.js";
 import { makeRenderer } from "../renderers/makeRenderer.js";
 import { loadDocTree } from "./doctree.js";
@@ -28,18 +26,14 @@ export async function executeConfig(
   outputFormats: DjockeyOutputFormat[]
 ) {
   const docSet = await readDocSet(config);
-  for (let i = 0; i < config.num_passes; i++) {
-    const loader = print.spin(
-      `Transform pass ${i + 1} of ${config.num_passes}`
-    );
-    loader.start();
-    await docSet.runPasses();
-    loader.succeed();
-  }
+
+  await applyPlugins(config, docSet);
+
   const connectSpinner = print.spin("Connecting pages");
   connectSpinner.start();
   docSet.tree = loadDocTree(docSet.docs);
   connectSpinner.succeed();
+
   await writeDocSet(docSet, outputFormats);
 }
 
@@ -70,7 +64,6 @@ export async function readDocSet(
   }
 
   const loader = print.spin("Setting up plugins");
-  loader.start();
   const plugins = [...makeBuiltinPlugins(config), ...userPlugins];
   for (const plugin of plugins) {
     if (plugin.setup) {
@@ -80,6 +73,20 @@ export async function readDocSet(
   loader.succeed();
 
   return new DocSet(config, plugins, docs);
+}
+
+export async function applyPlugins(
+  config: DjockeyConfigResolved,
+  docSet: DocSet
+) {
+  for (let i = 0; i < config.num_passes; i++) {
+    const loader = print.spin(
+      `Transform pass ${i + 1} of ${config.num_passes}`
+    );
+    loader.start();
+    await docSet.runPasses();
+    loader.succeed();
+  }
 }
 
 export async function writeDocSet(
