@@ -43,7 +43,7 @@ def main():
             f'  "version": "{new_version}",',
         )
         replace_line(
-            DJOCKEY_YAML, re.compile(r"  version: 0.0.1"), f"  version: {new_version}"
+            DJOCKEY_YAML, re.compile(r"  version: .*"), f"  version: {new_version}"
         )
 
 
