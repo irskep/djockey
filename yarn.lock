@@ -413,6 +413,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@djockey/linkmapper-typedoc@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "@djockey/linkmapper-typedoc@npm:0.0.3"
+  dependencies:
+    argparse: ^2.0.1
+    typedoc: ^0.26.6
+  peerDependencies:
+    typescript: ^5.0.0
+  bin:
+    linkmapper-typedoc: index.js
+  checksum: 78ff72166def7b91b12e1f8ff4468bc92a98d0aec2d10120083ca3db245f3d3123ec46b9f08bacbd6fb31e977d195a9b3ef9c059eaa2100532bbe1b6457e9d70
+  languageName: node
+  linkType: hard
+
 "@djot/djot@npm:^0.3.1":
   version: 0.3.1
   resolution: "@djot/djot@npm:0.3.1"
@@ -2446,6 +2460,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "djockey@workspace:."
   dependencies:
+    "@djockey/linkmapper-typedoc": ^0.0.3
     "@djot/djot": ^0.3.1
     "@jest/globals": ^29.7.0
     "@types/argparse": ^2.0.16

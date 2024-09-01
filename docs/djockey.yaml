@@ -10,6 +10,9 @@ project_info:
   version: 0.1.1
   github_url: https://github.com/irskep/djockey
 
+link_mappings:
+  - typescript_link_mapping.json
+
 gfm:
   ignore_static:
     ["**/*.css", "**/*.js", "**/*.html", "**/api/assets/**/*", "**/types.json"]

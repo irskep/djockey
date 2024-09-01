@@ -7,6 +7,8 @@ export type {
   DjockeyRenderer,
   DjockeyPlugin,
   DjockeyPluginModule,
+  DjockeyLinkMappingDoc,
+  DjockeyLinkMapping,
 } from "./types.js";
 
 export type { DocSet } from "./engine/docset.js";

@@ -21,6 +21,8 @@ export type DjockeyConfig = {
     ignore_static: string[];
   };
 
+  link_mappings?: string[];
+
   html: {
     footer_text: string;
     ignore_css?: string[];
@@ -124,4 +126,17 @@ export type DjockeyPlugin = {
 
 export type DjockeyPluginModule = {
   makePlugin: (config: DjockeyConfig) => DjockeyPlugin;
+};
+
+/* LINK MAPPINGS */
+
+export type DjockeyLinkMapping = {
+  linkDestination: string;
+  relativeURL: string;
+};
+
+export type DjockeyLinkMappingDoc = {
+  version: number;
+  namespaces: string[];
+  linkMappings: DjockeyLinkMapping[];
 };

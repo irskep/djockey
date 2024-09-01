@@ -11,6 +11,9 @@ client: templates/html/static/client.js
 typedoc:
 	bunx typedoc 
 
+typedoc-linkmap:
+	bunx linkmapper-typedoc docs/src/types.json docs/src/typescript_link_mapping.json
+
 docs: templates/html/static/client.js
 	bun --bun src/cli.ts docs --local
 
