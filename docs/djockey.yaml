@@ -11,7 +11,8 @@ project_info:
   github_url: https://github.com/irskep/djockey
 
 link_mappings:
-  - typescript_link_mapping.json
+  - path: typescript_link_mapping.json
+    url_root: api/
 
 gfm:
   ignore_static:
