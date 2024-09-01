@@ -4,6 +4,7 @@ import path from "path";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
+  DjockeyLinkMappingDoc,
   DjockeyPlugin,
   DjockeyRenderer,
 } from "../types.js";
@@ -16,7 +17,37 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
   private _linkTargets: Record<string, LinkTarget[]> = {};
 
+  private _mappedLinkDestinations: Record<string, string> = {};
+  private _defaultLinkLabels: Record<string, string> = {};
+
   constructor(public config: DjockeyConfigResolved) {}
+
+  async setup(args: { logCollector: LogCollector }) {
+    for (const mappingDoc of this.config.link_mappings) {
+      const data: DjockeyLinkMappingDoc = JSON.parse(
+        fs.readFileSync(mappingDoc.path, "utf8")
+      );
+      const urlRoot = mappingDoc.url_root.endsWith("/")
+        ? mappingDoc.url_root
+        : `${mappingDoc.url_root}/`;
+      for (const mapping of data.linkMappings) {
+        for (const ns of data.namespaces) {
+          const dest = `:${ns}:${mapping.linkDestination}`;
+          const url = `${urlRoot}/${mapping.relativeURL}`;
+          if (
+            this._mappedLinkDestinations[dest] &&
+            // Silently ignore duplicate entries of the same thing
+            this._mappedLinkDestinations[dest] !== url
+          ) {
+            args.logCollector.warning(`Duplicate mapped link: ${dest}`);
+          } else {
+            this._mappedLinkDestinations[dest] = url;
+            this._defaultLinkLabels[dest] = mapping.defaultLabel;
+          }
+        }
+      }
+    }
+  }
 
   onPass_read(doc: DjockeyDoc) {
     const registerLinkTarget = (t: LinkTarget) => {
@@ -52,6 +83,9 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
       applyFilter(djotDoc, () => ({
         "*": (node) => {
           if (!node.destination) return;
+
+          const defaultLabel = this._defaultLinkLabels[node.destination];
+
           const newDestination = this.transformNodeDestination(
             doc.relativePath,
             config.input_dir,
@@ -63,7 +97,12 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
               logCollector,
             }
           );
-          return { ...node, destination: newDestination };
+
+          const children = [...(node.children ?? [])];
+          if (!children.length && defaultLabel)
+            children.push({ tag: "str", text: defaultLabel });
+
+          return { ...node, destination: newDestination, children };
         },
       }));
     }
@@ -80,23 +119,33 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
       return unresolvedNodeDestination;
     }
 
-    const nodeDestination = resolveRelativePath(
-      sourcePath,
+    const nodeDestination = this._mappedLinkDestinations[
       unresolvedNodeDestination
-    );
+    ]
+      ? this._mappedLinkDestinations[unresolvedNodeDestination]
+      : resolveRelativePath(sourcePath, unresolvedNodeDestination);
 
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
-      const prefixlessNodeDestination = nodeDestination.startsWith("/")
+      const prefixlessNodeDestinationWithHash = nodeDestination.startsWith("/")
         ? nodeDestination.slice(1)
         : nodeDestination;
+
+      const prefixlessNodeDestination =
+        prefixlessNodeDestinationWithHash.split("#")[0];
+      const anchorWithoutHash =
+        prefixlessNodeDestination === prefixlessNodeDestinationWithHash
+          ? null
+          : prefixlessNodeDestinationWithHash.slice(
+              prefixlessNodeDestination.length + 1
+            );
 
       const staticFilePath = `${inputRoot}/${prefixlessNodeDestination}`;
       if (fs.existsSync(staticFilePath)) {
         return renderArgs.renderer.transformLink({
           config: renderArgs.config,
           sourcePath: renderArgs.sourcePath,
-          anchorWithoutHash: null,
+          anchorWithoutHash,
           docOriginalExtension: path.parse(nodeDestination).ext,
           docRelativePath: prefixlessNodeDestination,
           isLinkToStaticFile: true,
@@ -105,6 +154,9 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
       } else {
         renderArgs.logCollector.warning(
           `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
+        );
+        renderArgs.logCollector.warning(
+          `  Looked for but did not find a static file at ${staticFilePath}`
         );
       }
       return nodeDestination;

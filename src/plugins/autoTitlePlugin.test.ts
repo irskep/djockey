@@ -31,6 +31,7 @@ test("Title is set to first heading by default", () => {
 
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
+    link_mappings: [],
     input_dir: ".",
     rootPath: ".",
     output_dir: { html: "./dist/html", gfm: "./dist/gfm" },
@@ -70,6 +71,7 @@ test("Title is set to frontMatter.title if present", () => {
 
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
+    link_mappings: [],
     input_dir: ".",
     rootPath: ".",
     output_dir: { html: "./dist/html", gfm: "./dist/gfm" },

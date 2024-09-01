@@ -111,7 +111,7 @@ export type DjockeyRenderer = {
 export type DjockeyPlugin = {
   name: string;
 
-  setup?: () => Promise<void>;
+  setup?: (args: { logCollector: LogCollector }) => Promise<void>;
 
   onPass_read?: (doc: DjockeyDoc) => void;
 
@@ -136,6 +136,7 @@ export type DjockeyPluginModule = {
 export type DjockeyLinkMapping = {
   linkDestination: string;
   relativeURL: string;
+  defaultLabel: string;
 };
 
 export type DjockeyLinkMappingDoc = {
