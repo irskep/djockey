@@ -66,7 +66,6 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
 
     if (!lang) return defaultLanguage;
-    if (lang === "mermaid") throw new Error("MERMAID???");
     if (this.languages.has(lang)) return lang;
     if (lang === "plaintext") return "text";
 
