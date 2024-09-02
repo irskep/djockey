@@ -7,9 +7,12 @@ export type {
   DjockeyRenderer,
   DjockeyPlugin,
   DjockeyPluginModule,
+  DjockeyLinkMappingDoc,
+  DjockeyLinkMapping,
 } from "./types.js";
 
 export type { DocSet } from "./engine/docset.js";
 export type { DocTree, DocTreeSection } from "./engine/doctree.js";
 
 export { applyFilter } from "./engine/djotFiltersPlus.js";
+export { LogCollector } from "./utils/logUtils.js";

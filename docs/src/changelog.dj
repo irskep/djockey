@@ -4,6 +4,10 @@ order: -1
 
 # Changelog
 
+## 0.2 (unreleased)
+
+- [Typedoc integration](#typedoc-integration)
+
 ## 0.1
 
 ### 0.1.1 - 2024-08-30

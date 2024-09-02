@@ -2,6 +2,8 @@ import { Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
 
+export type LinkMappingConfig = { path: string; url_root: string };
+
 export type DjockeyConfig = {
   input_dir: string;
   output_dir: Record<DjockeyOutputFormat, string>;
@@ -20,6 +22,8 @@ export type DjockeyConfig = {
   gfm: {
     ignore_static: string[];
   };
+
+  link_mappings?: LinkMappingConfig[];
 
   html: {
     footer_text: string;
@@ -41,6 +45,7 @@ export type DjockeyConfigResolved = DjockeyConfig & {
   rootPath: string;
   fileList: string[];
   url_root: string;
+  link_mappings: LinkMappingConfig[];
 };
 
 export type DjockeyDoc = {
@@ -106,7 +111,7 @@ export type DjockeyRenderer = {
 export type DjockeyPlugin = {
   name: string;
 
-  setup?: () => Promise<void>;
+  setup?: (args: { logCollector: LogCollector }) => Promise<void>;
 
   onPass_read?: (doc: DjockeyDoc) => void;
 
@@ -124,4 +129,18 @@ export type DjockeyPlugin = {
 
 export type DjockeyPluginModule = {
   makePlugin: (config: DjockeyConfig) => DjockeyPlugin;
+};
+
+/* LINK MAPPINGS */
+
+export type DjockeyLinkMapping = {
+  linkDestination: string;
+  relativeURL: string;
+  defaultLabel: string;
+};
+
+export type DjockeyLinkMappingDoc = {
+  version: number;
+  namespaces: string[];
+  linkMappings: DjockeyLinkMapping[];
 };

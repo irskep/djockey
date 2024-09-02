@@ -30,6 +30,7 @@ export function getConfigDefaults(): DjockeyConfig {
     site_name: "",
 
     plugins: [],
+    link_mappings: [],
 
     gfm: {
       ignore_static: ["**/*.css", "**/*.js", "**/*.html"],
@@ -78,9 +79,16 @@ export function resolveConfig(
       ...getExtensionForInputFormat(format),
     ];
   }
+
+  const resolvedLinkMappings = (config.link_mappings ?? []).map((mapping) => ({
+    path: absify(rootPath, mapping.path),
+    url_root: mapping.url_root,
+  }));
+
   const result = {
     ...config,
     rootPath,
+    link_mappings: resolvedLinkMappings,
     input_dir: absify(rootPath, config.input_dir),
     output_dir: {
       html: absify(rootPath, config.output_dir.html),

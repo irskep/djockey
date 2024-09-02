@@ -82,6 +82,7 @@ test("Works end-to-end with LinkRewritingPlugin", async () => {
   };
   const config: DjockeyConfigResolved = {
     ...getConfigDefaults(),
+    link_mappings: [],
     input_dir: ".",
     output_dir: { html: "./dist/html", gfm: "./dist/gfm" },
     fileList: ["Test Doc.dj"],

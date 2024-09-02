@@ -63,14 +63,14 @@ export async function readDocSet(
     }
   }
 
-  const loader = print.spin("Setting up plugins");
+  const logCollectorPluginSetup = new LogCollector("Setting up plugins");
   const plugins = [...makeBuiltinPlugins(config), ...userPlugins];
   for (const plugin of plugins) {
     if (plugin.setup) {
-      await plugin.setup();
+      await plugin.setup({ logCollector: logCollectorPluginSetup });
     }
   }
-  loader.succeed();
+  logCollectorPluginSetup.succeed("warning");
 
   return new DocSet(config, plugins, docs);
 }

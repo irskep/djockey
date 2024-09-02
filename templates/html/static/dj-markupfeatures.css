@@ -56,10 +56,10 @@ aside.important {
   border-color: var(--aside-color-border-important);
 }
 
-/* Warning */
+/* Caution */
 
 aside.caution::before {
-  content: "Warning";
+  content: "Caution";
   background-color: var(--aside-title-color-bg-warning);
 }
 
@@ -70,7 +70,7 @@ aside.caution {
 /* Danger */
 
 aside.warning::before {
-  content: "Danger";
+  content: "Warning";
   background-color: var(--aside-title-color-bg-danger);
 }
 

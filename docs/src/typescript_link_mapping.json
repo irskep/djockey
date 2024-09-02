@@ -1,0 +1,265 @@
+{
+  "version": 0,
+  "namespaces": [
+    "typescript",
+    "ts",
+    "typedoc"
+  ],
+  "linkMappings": [
+    {
+      "linkDestination": "DocSet",
+      "relativeURL": "classes/DocSet.html",
+      "defaultLabel": "DocSet"
+    },
+    {
+      "linkDestination": "DocSet.constructor",
+      "relativeURL": "classes/DocSet.html#constructor",
+      "defaultLabel": "constructor"
+    },
+    {
+      "linkDestination": "DocSet.config",
+      "relativeURL": "classes/DocSet.html#config",
+      "defaultLabel": "config"
+    },
+    {
+      "linkDestination": "config",
+      "relativeURL": "classes/DocSet.html#config",
+      "defaultLabel": "config"
+    },
+    {
+      "linkDestination": "DocSet.docs",
+      "relativeURL": "classes/DocSet.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "docs",
+      "relativeURL": "classes/DocSet.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "DocSet.plugins",
+      "relativeURL": "classes/DocSet.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "plugins",
+      "relativeURL": "classes/DocSet.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "DocSet.tree",
+      "relativeURL": "classes/DocSet.html#tree",
+      "defaultLabel": "tree"
+    },
+    {
+      "linkDestination": "tree",
+      "relativeURL": "classes/DocSet.html#tree",
+      "defaultLabel": "tree"
+    },
+    {
+      "linkDestination": "DocSet.getDoc",
+      "relativeURL": "classes/DocSet.html#getDoc",
+      "defaultLabel": "getDoc"
+    },
+    {
+      "linkDestination": "getDoc",
+      "relativeURL": "classes/DocSet.html#getDoc",
+      "defaultLabel": "getDoc"
+    },
+    {
+      "linkDestination": "DocSet.makeRenderableCopy",
+      "relativeURL": "classes/DocSet.html#makeRenderableCopy",
+      "defaultLabel": "makeRenderableCopy"
+    },
+    {
+      "linkDestination": "makeRenderableCopy",
+      "relativeURL": "classes/DocSet.html#makeRenderableCopy",
+      "defaultLabel": "makeRenderableCopy"
+    },
+    {
+      "linkDestination": "DocSet.runPasses",
+      "relativeURL": "classes/DocSet.html#runPasses",
+      "defaultLabel": "runPasses"
+    },
+    {
+      "linkDestination": "runPasses",
+      "relativeURL": "classes/DocSet.html#runPasses",
+      "defaultLabel": "runPasses"
+    },
+    {
+      "linkDestination": "LogCollector",
+      "relativeURL": "classes/LogCollector.html",
+      "defaultLabel": "LogCollector"
+    },
+    {
+      "linkDestination": "LogCollector.constructor",
+      "relativeURL": "classes/LogCollector.html#constructor",
+      "defaultLabel": "constructor"
+    },
+    {
+      "linkDestination": "LogCollector.label",
+      "relativeURL": "classes/LogCollector.html#label",
+      "defaultLabel": "label"
+    },
+    {
+      "linkDestination": "label",
+      "relativeURL": "classes/LogCollector.html#label",
+      "defaultLabel": "label"
+    },
+    {
+      "linkDestination": "LogCollector.lines",
+      "relativeURL": "classes/LogCollector.html#lines",
+      "defaultLabel": "lines"
+    },
+    {
+      "linkDestination": "lines",
+      "relativeURL": "classes/LogCollector.html#lines",
+      "defaultLabel": "lines"
+    },
+    {
+      "linkDestination": "LogCollector.loader",
+      "relativeURL": "classes/LogCollector.html#loader",
+      "defaultLabel": "loader"
+    },
+    {
+      "linkDestination": "loader",
+      "relativeURL": "classes/LogCollector.html#loader",
+      "defaultLabel": "loader"
+    },
+    {
+      "linkDestination": "LogCollector.debug",
+      "relativeURL": "classes/LogCollector.html#debug",
+      "defaultLabel": "debug"
+    },
+    {
+      "linkDestination": "debug",
+      "relativeURL": "classes/LogCollector.html#debug",
+      "defaultLabel": "debug"
+    },
+    {
+      "linkDestination": "LogCollector.dump",
+      "relativeURL": "classes/LogCollector.html#dump",
+      "defaultLabel": "dump"
+    },
+    {
+      "linkDestination": "dump",
+      "relativeURL": "classes/LogCollector.html#dump",
+      "defaultLabel": "dump"
+    },
+    {
+      "linkDestination": "LogCollector.error",
+      "relativeURL": "classes/LogCollector.html#error",
+      "defaultLabel": "error"
+    },
+    {
+      "linkDestination": "error",
+      "relativeURL": "classes/LogCollector.html#error",
+      "defaultLabel": "error"
+    },
+    {
+      "linkDestination": "LogCollector.fail",
+      "relativeURL": "classes/LogCollector.html#fail",
+      "defaultLabel": "fail"
+    },
+    {
+      "linkDestination": "fail",
+      "relativeURL": "classes/LogCollector.html#fail",
+      "defaultLabel": "fail"
+    },
+    {
+      "linkDestination": "LogCollector.info",
+      "relativeURL": "classes/LogCollector.html#info",
+      "defaultLabel": "info"
+    },
+    {
+      "linkDestination": "info",
+      "relativeURL": "classes/LogCollector.html#info",
+      "defaultLabel": "info"
+    },
+    {
+      "linkDestination": "LogCollector.succeed",
+      "relativeURL": "classes/LogCollector.html#succeed",
+      "defaultLabel": "succeed"
+    },
+    {
+      "linkDestination": "succeed",
+      "relativeURL": "classes/LogCollector.html#succeed",
+      "defaultLabel": "succeed"
+    },
+    {
+      "linkDestination": "LogCollector.warning",
+      "relativeURL": "classes/LogCollector.html#warning",
+      "defaultLabel": "warning"
+    },
+    {
+      "linkDestination": "warning",
+      "relativeURL": "classes/LogCollector.html#warning",
+      "defaultLabel": "warning"
+    },
+    {
+      "linkDestination": "DjockeyConfig",
+      "relativeURL": "types/DjockeyConfig.html",
+      "defaultLabel": "DjockeyConfig"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved",
+      "relativeURL": "types/DjockeyConfigResolved.html",
+      "defaultLabel": "DjockeyConfigResolved"
+    },
+    {
+      "linkDestination": "DjockeyDoc",
+      "relativeURL": "types/DjockeyDoc.html",
+      "defaultLabel": "DjockeyDoc"
+    },
+    {
+      "linkDestination": "DjockeyInputFormat",
+      "relativeURL": "types/DjockeyInputFormat.html",
+      "defaultLabel": "DjockeyInputFormat"
+    },
+    {
+      "linkDestination": "DjockeyLinkMapping",
+      "relativeURL": "types/DjockeyLinkMapping.html",
+      "defaultLabel": "DjockeyLinkMapping"
+    },
+    {
+      "linkDestination": "DjockeyLinkMappingDoc",
+      "relativeURL": "types/DjockeyLinkMappingDoc.html",
+      "defaultLabel": "DjockeyLinkMappingDoc"
+    },
+    {
+      "linkDestination": "DjockeyOutputFormat",
+      "relativeURL": "types/DjockeyOutputFormat.html",
+      "defaultLabel": "DjockeyOutputFormat"
+    },
+    {
+      "linkDestination": "DjockeyPlugin",
+      "relativeURL": "types/DjockeyPlugin.html",
+      "defaultLabel": "DjockeyPlugin"
+    },
+    {
+      "linkDestination": "DjockeyPluginModule",
+      "relativeURL": "types/DjockeyPluginModule.html",
+      "defaultLabel": "DjockeyPluginModule"
+    },
+    {
+      "linkDestination": "DjockeyRenderer",
+      "relativeURL": "types/DjockeyRenderer.html",
+      "defaultLabel": "DjockeyRenderer"
+    },
+    {
+      "linkDestination": "DocTree",
+      "relativeURL": "types/DocTree.html",
+      "defaultLabel": "DocTree"
+    },
+    {
+      "linkDestination": "DocTreeSection",
+      "relativeURL": "types/DocTreeSection.html",
+      "defaultLabel": "DocTreeSection"
+    },
+    {
+      "linkDestination": "applyFilter",
+      "relativeURL": "functions/applyFilter.html",
+      "defaultLabel": "applyFilter"
+    }
+  ]
+}
