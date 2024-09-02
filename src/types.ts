@@ -13,6 +13,8 @@ export type DjockeyConfig = {
   project_info?: {
     version?: string;
     github_url?: string;
+    description?: string;
+    image?: string;
   };
 
   num_passes: number;

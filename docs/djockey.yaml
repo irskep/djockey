@@ -9,6 +9,8 @@ output_dir:
 project_info:
   version: 0.1.1
   github_url: https://github.com/irskep/djockey
+  description: "A powerful static site generator for technical writing and project documentation"
+  image: static/silly_logo.png
 
 link_mappings:
   - path: src/typescript_link_mapping.json
