@@ -1,0 +1,40 @@
+{#typedoc-integration}
+# Typedoc integration
+
+{added-in-version=0.2}
+:::
+:::
+
+Djockey can integrate with [TypeDoc](https://typedoc.org) to create an integrated documentation experience that combines the authoring power of Djockey with rich API references. For example, here in the Djockey docs, we can type `[](:ts:DjockeyPlugin)` and get [](:ts:DjockeyPlugin).
+
+The core concept is to render TypeDoc normally inside your docs directory, treat its output as static files, and then create convenient link aliases into it.
+
+## 1. Run TypeDoc
+
+First, run TypeDoc on your project with JSON and HTML output. The JSON output can go anywhere, but the HTML must go inside your docs source directory next to your markup.
+
+```sh
+npx typedoc src/index.ts --json docs/src/types.json --out docs/src/api
+```
+
+## 2. Generate a link map
+
+Djockey uses a _link map file_ to figure out where to point links to. You generate a link map using a separate program called `linkmapper-typedoc`.
+
+```sh
+npm install --dev @djockey/linkmapper-typedoc
+npx linkmapper-typedoc docs/src/types.json docs/src/typescript_link_mapping.json
+```
+
+## 3. Configure Djockey
+
+Assuming your `djockey.yaml` is under `docs`...
+
+{filename="docs/djockey.yaml"}
+```yaml
+link_mappings:
+  - path: src/typescript_link_mapping.json
+    url_root: api/
+```
+
+The path is relative to `djockey.yaml`{.language-sh}. `url_root` should be the place you rendered TypeDoc's HTML output to.

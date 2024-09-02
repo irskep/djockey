@@ -41,3 +41,7 @@ Output:
 :::
 We're really excited about this feature!
 :::
+
+## Other options
+
+You can also use `changed-in-version`, `removed-in-version`, and `deprecated-in-version`.
