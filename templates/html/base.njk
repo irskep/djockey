@@ -54,6 +54,16 @@
       {%- endif %}
     {% endfor %}
     <title>{{ config.site_name }} - {{ doc.title }}</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ config.url_root }}">
+    <meta property="og:title" content="{{ config.site_name }} - {{ doc.title }}">
+    {% if config.project_info.description -%}
+    <meta property="og:description" content="{{ config.project_info.description }}">
+    {%- endif %}
+    {% if config.project_info.image -%}
+    <meta property="og:image" content="{{ config.url_root }}/{{ config.project_info.image }}">
+    {%- endif %}
   </head>
   <body>
     <header class="DJHeader">

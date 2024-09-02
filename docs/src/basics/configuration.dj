@@ -22,6 +22,8 @@ url_root: "https://your-docs-site-here"
 project_info:
   version: 0.0.1
   github_url: https://github.com/your/project
+  description: "Site description for social media"
+  image: "Path to image inside your docs directory for social media"
 input_dir: "path to your docs"
 output_dir:
   html: "path to your HTML output"
