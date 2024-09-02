@@ -117,13 +117,18 @@ export type DjockeyPlugin = {
 
   onPass_read?: (args: {
     doc: DjockeyDoc;
+    logCollector: LogCollector;
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
   }) => void;
 
-  doAsyncWorkBetweenReadAndWrite?: (doc: DjockeyDoc) => Promise<void>;
+  doAsyncWorkBetweenReadAndWrite?: (args: {
+    doc: DjockeyDoc;
+    logCollector: LogCollector;
+  }) => Promise<void>;
 
   onPass_write?: (args: {
     doc: DjockeyDoc;
+    logCollector: LogCollector;
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
   }) => void;
 

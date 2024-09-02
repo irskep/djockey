@@ -40,30 +40,36 @@ export class DocSet {
     return this.docs.find((d) => d.relativePath === relativePath) || null;
   }
 
-  public async runPasses() {
-    this.runPass("onPass_read");
+  public async runPasses(logCollector: LogCollector) {
+    this.runPass("onPass_read", logCollector);
 
     const jobs = new Array<Promise<void>>();
     for (const doc of this.docs) {
       for (let i = 0; i < this.plugins.length; i++) {
         const plugin = this.plugins[i];
         if (plugin.doAsyncWorkBetweenReadAndWrite) {
-          jobs.push(plugin.doAsyncWorkBetweenReadAndWrite(doc));
+          jobs.push(
+            plugin.doAsyncWorkBetweenReadAndWrite({ doc, logCollector })
+          );
         }
       }
     }
     await Promise.all(jobs);
 
-    this.runPass("onPass_write");
+    this.runPass("onPass_write", logCollector);
   }
 
-  private runPass(fn: "onPass_read" | "onPass_write") {
+  private runPass(
+    fn: "onPass_read" | "onPass_write",
+    logCollector: LogCollector
+  ) {
     for (const doc of this.docs) {
       for (let i = 0; i < this.plugins.length; i++) {
         const plugin = this.plugins[i];
         if (plugin[fn]) {
           plugin[fn]({
             doc,
+            logCollector,
             getIsNodeReservedByAnotherPlugin: (node) => {
               return this.getRelevantReservations(i).some((res) =>
                 res.match(node)

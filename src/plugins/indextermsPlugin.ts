@@ -4,6 +4,7 @@ import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { getHasClass } from "../utils/djotUtils.js";
 import { pushToList } from "../utils/collectionUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 export class IndextermsPlugin implements DjockeyPlugin {
   name = "Indexterms";
@@ -14,7 +15,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
     Record<string, { docRelativePath: string; id: string }[]>
   > = {};
 
-  onPass_read(args: { doc: DjockeyDoc }) {
+  onPass_read(args: { doc: DjockeyDoc; logCollector: LogCollector }) {
     const { doc } = args;
     // During the read pass, find every node with an indexterm* attribute and
     // store it in indextermsByDoc.
@@ -31,8 +32,8 @@ export class IndextermsPlugin implements DjockeyPlugin {
           let didFindIndexterm = false;
           for (const k of Object.keys(node.attributes)) {
             if (k.startsWith("indexterm")) {
-              const nodeID = node.attributes.id
-                ? node.attributes.id
+              const nodeID = newNode.attributes.id
+                ? newNode.attributes.id
                 : `indexterm-${nextID++}`;
               newNode.attributes.id = nodeID;
               didFindIndexterm = true;
