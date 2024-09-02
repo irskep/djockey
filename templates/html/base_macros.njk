@@ -1,0 +1,32 @@
+{% macro next_previous(cls) -%}
+<nav class="DJNextPrevious {{ cls }}">
+  <a class="DJPrevious {% if not docs.previousDocTitle %}u-invisible{% endif %}" href="{{ urls.previous }}">
+    {% if docs.previousDocTitle -%}
+    <div class="DJNextPrevious_Label">Previous</div>
+    <div class="DJNextPrevious_Link">{{ docs.previousDocTitle | safe }}</div>
+    {%- endif %}
+  </a>
+
+  <a class="DJNext {% if not docs.nextDocTitle %}u-invisible{% endif %}" href="{{ urls.next }}">
+    {% if docs.nextDocTitle -%}
+    <div class="DJNextPrevious_Label">Next</div>
+    <div class="DJNextPrevious_Link">{{ docs.nextDocTitle | safe }}</div>
+    {%- endif %}
+  </a>
+</nav>
+{%- endmacro %}
+
+{% macro header_project_info() -%}
+{% if config.project_info %}
+<div class="DJProjectInfo">
+  {%- if config.project_info.github_url -%}
+  <div class="DJProjectInfo_Repo">
+    <a href="{{ config.project_info.github_url }}">{{ github.path or "GitHub" }}</a>
+  </div>
+  {%- endif %}
+  {%- if config.project_info.version %}
+  <div class="DJProjectInfo_Version">Version {{ config.project_info.version }}</div>
+  {%- endif -%}
+</div>
+{% endif %}
+{%- endmacro %}
