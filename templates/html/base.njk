@@ -1,44 +1,5 @@
-{%- macro nextPrevious(cls) -%}
-<nav class="DJNextPrevious {{ cls }}">
-  <a class="DJPrevious {% if not docs.previousDocTitle %}u-invisible{% endif %}" href="{{ urls.previous }}">
-    {% if docs.previousDocTitle -%}
-    <div class="DJNextPrevious_Label">Previous</div>
-    <div class="DJNextPrevious_Link">{{ docs.previousDocTitle | safe }}</div>
-    {%- endif %}
-  </a>
-
-  <a class="DJNext {% if not docs.nextDocTitle %}u-invisible{% endif %}" href="{{ urls.next }}">
-    {% if docs.nextDocTitle -%}
-    <div class="DJNextPrevious_Label">Next</div>
-    <div class="DJNextPrevious_Link">{{ docs.nextDocTitle | safe }}</div>
-    {%- endif %}
-  </a>
-</nav>
-{%- endmacro -%}
-
-{%- macro hamburger(width, height, row_height, row_space) %}
-<svg viewBox="0 0 100 {{ row_height * 3 + row_space * 2 }}" width="{{ width }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100" height="{{ row_height }}" rx="8"></rect>
-  <rect y="{{ row_height + row_space }}" width="100" height="{{ row_height }}" rx="8"></rect>
-  <rect y="{{ row_height * 2 + row_space * 2}}" width="100" height="{{ row_height }}" rx="8"></rect>
-</svg>
-{%- endmacro -%}
-
-{%- macro header_project_info() -%}
-{% if config.project_info %}
-<div class="DJProjectInfo">
-  {%- if config.project_info.github_url -%}
-  <div class="DJProjectInfo_Repo">
-    <a href="{{ config.project_info.github_url }}">{{ github.path or "GitHub" }}</a>
-  </div>
-  {%- endif %}
-  {%- if config.project_info.version %}
-  <div class="DJProjectInfo_Version">Version {{ config.project_info.version }}</div>
-  {%- endif -%}
-</div>
-{% endif %}
-{%- endmacro -%}
-
+{% from "svgs.njk" import svg_close, svg_hamburger %}
+{% from "base_macros.njk" import next_previous, header_project_info %}
 <!doctype html>
 <html>
   <head>
@@ -80,7 +41,7 @@
             class="DJHeader_Hamburger DJIconButton"
             popovertarget="dj-mobile-menu"
             class="DJHeader_Hamburger">
-            {{ hamburger('1.5em', '1em', 18, 16) }}
+            {{ svg_hamburger('1.5em', '1em', 18, 16) }}
           </button>
           <h1 class="DJHeader_SiteName"><a href="{{ urls.home }}">{{ config.site_name }}</a></h1>
         </div>
@@ -93,9 +54,9 @@
     <main class="u-page-width">
 
       <div class="DJContent">
-        {{ nextPrevious('m-top') }}
+        {{ next_previous('m-top') }}
         <article>{{ docs.content | safe }}</article>
-        {{ nextPrevious('m-bottom') }}
+        {{ next_previous('m-bottom') }}
       </div>
       <nav class="DJTableOfContents m-sidebar">
         <div class="DJTableOfContents_Content">
@@ -109,21 +70,18 @@
       </nav>
     </main>
 
-    {%if config.html.footer_text -%}
+    {% if config.html.footer_text -%}
     <footer class="DJFooter">
       <div class="DJFooter_Content u-page-width">
         {{ config.html.footer_text }}
       </div>
     </footer>
-    {% endif %}
+    {%- endif %}
 
     <div popover id="dj-mobile-menu">
       <header>
         <button class="DJIconButton" popovertarget="dj-mobile-menu" title="Close">
-          <svg viewBox="0 0 25 25" width="1.5em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="2" y1="2" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-            <line x1="2" y1="23" x2="23" y2="2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+          {{ svg_close() }}
           Close
         </button>
       </header>
@@ -134,8 +92,8 @@
       </nav>
     </div>
 
-    {% for jsURL in urlLists.js %}
+    {%- for jsURL in urlLists.js %}
     <script src="{{ jsURL }}"></script>
-    {% endfor %}
+    {%- endfor %}
   </body>
 </html>

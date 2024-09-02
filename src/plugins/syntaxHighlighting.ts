@@ -176,7 +176,8 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
   }
 
-  async doAsyncWorkBetweenReadAndWrite(doc: DjockeyDoc) {
+  async doAsyncWorkBetweenReadAndWrite(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     await showPromiseListAsProgressBar(
       "Highlighting code blocks",
       Object.keys(this.highlightRequests).map((k) => {

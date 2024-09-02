@@ -80,12 +80,11 @@ export async function applyPlugins(
   docSet: DocSet
 ) {
   for (let i = 0; i < config.num_passes; i++) {
-    const loader = print.spin(
+    const logCollector = new LogCollector(
       `Transform pass ${i + 1} of ${config.num_passes}`
     );
-    loader.start();
-    await docSet.runPasses();
-    loader.succeed();
+    await docSet.runPasses(logCollector);
+    logCollector.succeed("warning");
   }
 }
 
