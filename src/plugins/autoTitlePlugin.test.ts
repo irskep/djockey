@@ -3,6 +3,7 @@ import { DjockeyConfigResolved, DjockeyDoc } from "../types.js";
 import { AutoTitlePlugin } from "./autoTitlePlugin.js";
 import { DocSet } from "../engine/docset.js";
 import { getConfigDefaults } from "../config.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 test("Title is set to first heading by default", () => {
   const doc: DjockeyDoc = {
@@ -39,7 +40,7 @@ test("Title is set to first heading by default", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses();
+  docSet.runPasses(new LogCollector("", false));
 
   expect(doc.title).toEqual("Heading 1");
 });
@@ -79,7 +80,7 @@ test("Title is set to frontMatter.title if present", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses();
+  docSet.runPasses(new LogCollector("", false));
 
   expect(doc.title).toEqual("Custom title");
 });

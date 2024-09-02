@@ -95,7 +95,7 @@ test("Works end-to-end with LinkRewritingPlugin", async () => {
     [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
     [doc]
   );
-  await docSet.runPasses();
+  await docSet.runPasses(new LogCollector("", false));
   const htmlCopy = docSet.makeRenderableCopy(
     new HTMLRenderer({ relativeLinks: true }),
     new LogCollector("", false)
