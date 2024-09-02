@@ -21,7 +21,8 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
 
   topLevelTOCEntriesByDoc: Record<string, TOCEntry[]> = {};
 
-  onPass_read(doc: DjockeyDoc) {
+  onPass_read(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     // Always reset this array because this method may be run more than once
     this.topLevelTOCEntriesByDoc[doc.relativePath] = new Array<TOCEntry>();
 
@@ -82,7 +83,8 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
     }));
   }
 
-  onPass_write(doc: DjockeyDoc) {
+  onPass_write(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     doc.docs.toc = {
       tag: "doc",
       references: {},

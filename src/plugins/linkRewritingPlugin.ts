@@ -49,7 +49,8 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }
   }
 
-  onPass_read(doc: DjockeyDoc) {
+  onPass_read(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     const registerLinkTarget = (t: LinkTarget) => {
       t.aliases.forEach((alias) =>
         pushToListIfNotPresent(this._linkTargets, alias, t, (a, b) =>

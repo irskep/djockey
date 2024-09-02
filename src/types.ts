@@ -1,4 +1,4 @@
-import { Doc, Inline } from "@djot/djot";
+import { AstNode, Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
 
@@ -106,20 +106,26 @@ export type DjockeyRenderer = {
   }) => string;
 };
 
-/**
- * Notes:
- * - Passes should be idempotent so they can be run multiple times
- */
 export type DjockeyPlugin = {
   name: string;
 
+  getNodeReservations?: (
+    config: DjockeyConfigResolved
+  ) => DjockeyPluginNodeReservation[];
+
   setup?: (args: { logCollector: LogCollector }) => Promise<void>;
 
-  onPass_read?: (doc: DjockeyDoc) => void;
+  onPass_read?: (args: {
+    doc: DjockeyDoc;
+    getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
+  }) => void;
 
   doAsyncWorkBetweenReadAndWrite?: (doc: DjockeyDoc) => Promise<void>;
 
-  onPass_write?: (doc: DjockeyDoc) => void;
+  onPass_write?: (args: {
+    doc: DjockeyDoc;
+    getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
+  }) => void;
 
   onPrepareForRender?: (args: {
     doc: DjockeyDoc;
@@ -127,6 +133,10 @@ export type DjockeyPlugin = {
     config: DjockeyConfigResolved;
     logCollector: LogCollector;
   }) => void;
+};
+
+export type DjockeyPluginNodeReservation = {
+  match: (node: AstNode) => Boolean;
 };
 
 export type DjockeyPluginModule = {
