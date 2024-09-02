@@ -15,7 +15,7 @@ export class GFMAlertsPlugin implements DjockeyPlugin {
     applyFilter(doc.docs.content, () => ({
       div: (node) => {
         for (const cls of GITHUB_ALERT_CLASSES) {
-          if (!getHasClass(node, cls) && !node.attributes?.tag) continue;
+          if (!getHasClass(node, cls) || !node.attributes?.tag) continue;
           const newNode = structuredClone(node);
           newNode.attributes.tag = "aside";
 
@@ -34,19 +34,15 @@ export class GFMAlertsPlugin implements DjockeyPlugin {
 }
 
 function getIsDivWithTitleInside(node: AstNode, expectedText: string): boolean {
-  console.log("Check", node);
   if (node.tag !== "div") return false;
-  console.log(1);
   if (node.children.length !== 1) return false;
-  console.log(2);
   if (node.children[0].tag !== "para") return false;
-  console.log(3);
   if (node.children[0].children.length !== 1) return false;
-  console.log(4);
   if (node.children[0].children[0].tag !== "str") return false;
-  console.log(5);
-  if (node.children[0].children[0].text.toLowerCase() !== expectedText)
+  if (
+    node.children[0].children[0].text.toLowerCase() !==
+    expectedText.toLowerCase()
+  )
     return false;
-  console.log(6);
   return true;
 }
