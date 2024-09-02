@@ -1,4 +1,4 @@
-export type {
+export {
   DjockeyDoc,
   DjockeyInputFormat,
   DjockeyOutputFormat,
@@ -13,8 +13,8 @@ export type {
   LinkMappingConfig,
 } from "./types.js";
 
-export type { DocSet } from "./engine/docset.js";
-export type { DocTree, DocTreeSection } from "./engine/doctree.js";
+export { DocSet } from "./engine/docset.js";
+export { DocTree, DocTreeSection } from "./engine/doctree.js";
 
 export {
   applyFilter,
