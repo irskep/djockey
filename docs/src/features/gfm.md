@@ -6,8 +6,6 @@ md_flavor: gfm
 
 ## Alerts
 
-### H3
-
 ```md
 > [!NOTE]
 > Useful information that users should know, even when skimming content.

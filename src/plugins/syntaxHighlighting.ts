@@ -5,7 +5,14 @@ import {
   DjockeyRenderer,
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { CodeBlock, Doc, RawBlock, RawInline, Verbatim } from "@djot/djot";
+import {
+  AstNode,
+  CodeBlock,
+  Doc,
+  RawBlock,
+  RawInline,
+  Verbatim,
+} from "@djot/djot";
 import {
   BundledLanguage,
   bundledLanguages,
@@ -59,8 +66,6 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
 
     if (!lang) return defaultLanguage;
-    const forbidden = new Set(["mermaid"]);
-    if (forbidden.has(lang)) return null;
     if (this.languages.has(lang)) return lang;
     if (lang === "plaintext") return "text";
 
@@ -100,9 +105,14 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
   }
 
-  readDoc(doc: Doc, djockeyDoc: DjockeyDoc) {
+  readDoc(
+    doc: Doc,
+    djockeyDoc: DjockeyDoc,
+    getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean
+  ) {
     applyFilter(doc, () => ({
       code_block: (node: CodeBlock) => {
+        if (getIsNodeReservedByAnotherPlugin(node)) return;
         if (node.attributes?.hlRequestID) return; // Already scheduled
 
         const lang = this.getNodeLang(
@@ -124,6 +134,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
         return result;
       },
       verbatim: (node: Verbatim) => {
+        if (getIsNodeReservedByAnotherPlugin(node)) return;
         if (node.attributes?.hlRequestID) return; // Already scheduled
 
         const nodeClass = node.attributes?.class ?? "";
@@ -155,9 +166,13 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }));
   }
 
-  onPass_read(doc: DjockeyDoc) {
+  onPass_read(args: {
+    doc: DjockeyDoc;
+    getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
+  }) {
+    const { doc } = args;
     for (const djotDoc of Object.values(doc.docs)) {
-      this.readDoc(djotDoc, doc);
+      this.readDoc(djotDoc, doc, args.getIsNodeReservedByAnotherPlugin);
     }
   }
 
@@ -192,7 +207,6 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           if (!hlRequestID) return;
           const newText = this.highlightResults[hlRequestID];
           if (!newText) {
-            args.logCollector.error("Unexpectedly can't find highlighted text");
             return;
           }
           const result: RawBlock = {
@@ -207,7 +221,6 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           if (!hlRequestID) return;
           let newText = this.highlightResults[hlRequestID];
           if (!newText) {
-            args.logCollector.error("Unexpectedly can't find highlighted text");
             return;
           }
 

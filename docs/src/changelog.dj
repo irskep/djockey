@@ -7,6 +7,8 @@ order: -1
 ## 0.2 (unreleased)
 
 - [Typedoc integration](#typedoc-integration)
+- Plugin API improvements
+- OpenGraph and Twitter Card metadata
 
 ## 0.1
 

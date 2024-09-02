@@ -33,8 +33,8 @@ test("Generates TOCEntry tree for one doc", async () => {
   };
 
   const plg = new TableOfContentsPlugin();
-  plg.onPass_read(doc);
-  plg.onPass_write(doc);
+  plg.onPass_read({ doc });
+  plg.onPass_write({ doc });
 
   const html = await renderHTML(doc.docs.toc);
 

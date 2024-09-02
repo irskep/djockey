@@ -46,7 +46,8 @@ export class VersionDirectivesPlugin implements DjockeyPlugin {
 
   constructor(public config: DjockeyConfig) {}
 
-  onPass_write(doc: DjockeyDoc) {
+  onPass_write(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     const projectVersion = this.config.project_info?.version;
     applyFilter(doc.docs.content, () => ({
       div: (node) => {

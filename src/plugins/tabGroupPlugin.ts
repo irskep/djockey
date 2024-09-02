@@ -11,7 +11,8 @@ import { Block, Div } from "@djot/djot";
 export class TabGroupPlugin implements DjockeyPlugin {
   name = "Tab Group";
 
-  onPass_read(doc: DjockeyDoc) {
+  onPass_read(args: { doc: DjockeyDoc }) {
+    const { doc } = args;
     let nextID = 0;
 
     applyFilter(doc.docs.content, () => ({

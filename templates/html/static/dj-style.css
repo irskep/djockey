@@ -259,8 +259,11 @@ nav h6 {
 
 #dj-mobile-menu::backdrop {
   background-color: rgba(0, 0, 0, 0.15);
+  /* blur has awful perf in Chrome */
+  /*
   backdrop-filter: blur(1px);
   -webkit-backdrop-filter: blur(1px);
+  */
 }
 
 /* COMPONENTS */
