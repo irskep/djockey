@@ -1,11 +1,16 @@
 {#typedoc-integration}
 # Typedoc integration
 
-{added-in-version=0.2}
+{added-in-version="0.2"}
 :::
 :::
 
-Djockey can integrate with [TypeDoc](https://typedoc.org) to create an integrated documentation experience that combines the authoring power of Djockey with rich API references. For example, here in the Djockey docs, we can type `[](:ts:DjockeyPlugin)` and get [](:ts:DjockeyPlugin).
+{tag=aside .caution}
+:::
+TypeDoc integration hasn't been tested broadly. Please [create an issue on GitHub](https://github.com/irskep/djockey/issues/new) if you run into any trouble.
+:::
+
+Djockey can integrate with [TypeDoc](https://typedoc.org) to create an integrated documentation experience that combines the authoring power of Djockey with rich API references. For example, here in the Djockey docs, we can type `[](:ts:DjockeyPlugin)`{.language-djot} and get [](:ts:DjockeyPlugin).
 
 The core concept is to render TypeDoc normally inside your docs directory, treat its output as static files, and then create convenient link aliases into it.
 
@@ -14,7 +19,9 @@ The core concept is to render TypeDoc normally inside your docs directory, treat
 First, run TypeDoc on your project with JSON and HTML output. The JSON output can go anywhere, but the HTML must go inside your docs source directory next to your markup.
 
 ```sh
-npx typedoc src/index.ts --json docs/src/types.json --out docs/src/api
+npx typedoc src/index.ts \
+  --json docs/src/types.json \
+  --out docs/src/api
 ```
 
 ## 2. Generate a link map
@@ -23,7 +30,9 @@ Djockey uses a _link map file_ to figure out where to point links to. You genera
 
 ```sh
 npm install --dev @djockey/linkmapper-typedoc
-npx linkmapper-typedoc docs/src/types.json docs/src/typescript_link_mapping.json
+npx linkmapper-typedoc \
+  docs/src/types.json \
+  docs/src/typescript_link_map.json
 ```
 
 ## 3. Configure Djockey
@@ -33,8 +42,14 @@ Assuming your `djockey.yaml` is under `docs`...
 {filename="docs/djockey.yaml"}
 ```yaml
 link_mappings:
-  - path: src/typescript_link_mapping.json
+  - path: src/typescript_link_map.json
     url_root: api/
 ```
 
 The path is relative to `djockey.yaml`{.language-sh}. `url_root` should be the place you rendered TypeDoc's HTML output to.
+
+## 4. Link to your API docs
+
+From here, you can write `:ts:symbolName` as a link destination to get a link into your TypeDoc API reference. If you need to disambiguate, for example to refer to a method on a specific class, you can add parent types like `:ts:SomeClass.someMethod` or `:ts:namespace.SomeClass.someMethod`.
+
+If your link doesn't have any text, the text will be populated automatically. So you can say `[API reference for DjockeyPlugin](:ts:DjockeyPlugin)`{.language-djot} to customize the link text, or just `[](:ts:DjockeyPlugin)`{.language-djot} to use the symbol name.
