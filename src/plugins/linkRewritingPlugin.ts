@@ -39,7 +39,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
             // Silently ignore duplicate entries of the same thing
             this._mappedLinkDestinations[dest] !== url
           ) {
-            args.logCollector.warning(`Duplicate mapped link: ${dest}`);
+            args.logCollector.info(`Duplicate mapped link: ${dest}`);
           } else {
             this._mappedLinkDestinations[dest] = url;
             this._defaultLinkLabels[dest] = mapping.defaultLabel;

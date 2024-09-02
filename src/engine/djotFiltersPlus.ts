@@ -200,7 +200,7 @@ const applyFilterToFragment = function (root: AstNode, filter: Filter): void {
   }
 };
 
-export type { Action, FilterPart, Filter };
+export type { Action, FilterPart, Filter, Transform };
 export { applyFilter, applyFilterToFragment };
 
 // Extra exports

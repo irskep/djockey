@@ -2,9 +2,12 @@ import { AstNode, Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
 
-export type LinkMappingConfig = { path: string; url_root: string };
+export interface LinkMappingConfig {
+  path: string;
+  url_root: string;
+}
 
-export type DjockeyConfig = {
+export interface DjockeyConfig {
   input_dir: string;
   output_dir: Record<DjockeyOutputFormat, string>;
   url_root?: string;
@@ -41,16 +44,16 @@ export type DjockeyConfig = {
       theme_dark: string;
     };
   };
-};
+}
 
-export type DjockeyConfigResolved = DjockeyConfig & {
+export interface DjockeyConfigResolved extends DjockeyConfig {
   rootPath: string;
   fileList: string[];
   url_root: string;
   link_mappings: LinkMappingConfig[];
-};
+}
 
-export type DjockeyDoc = {
+export interface DjockeyDoc {
   docs: { content: Doc } & Record<string, Doc>;
   title: string;
   titleAST: Inline[];
@@ -68,7 +71,7 @@ export type DjockeyDoc = {
 
   // For use by plugins
   data: Record<string, unknown>;
-};
+}
 
 // These correspond to pandoc formats. Keep these two lines in sync.
 export type DjockeyInputFormat = "djot" | "gfm";
@@ -106,7 +109,7 @@ export type DjockeyRenderer = {
   }) => string;
 };
 
-export type DjockeyPlugin = {
+export interface DjockeyPlugin {
   name: string;
 
   getNodeReservations?: (
@@ -138,26 +141,26 @@ export type DjockeyPlugin = {
     config: DjockeyConfigResolved;
     logCollector: LogCollector;
   }) => void;
-};
+}
 
-export type DjockeyPluginNodeReservation = {
+export interface DjockeyPluginNodeReservation {
   match: (node: AstNode) => Boolean;
-};
+}
 
-export type DjockeyPluginModule = {
+export interface DjockeyPluginModule {
   makePlugin: (config: DjockeyConfig) => DjockeyPlugin;
-};
+}
 
 /* LINK MAPPINGS */
 
-export type DjockeyLinkMapping = {
+export interface DjockeyLinkMapping {
   linkDestination: string;
   relativeURL: string;
   defaultLabel: string;
-};
+}
 
-export type DjockeyLinkMappingDoc = {
+export interface DjockeyLinkMappingDoc {
   version: number;
   namespaces: string[];
   linkMappings: DjockeyLinkMapping[];
-};
+}

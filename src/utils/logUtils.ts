@@ -21,9 +21,9 @@ function severityToLevel(severity: LogLine["severity"]): number {
 }
 
 export class LogCollector {
-  public lines = new Array<LogLine>();
+  private lines = new Array<LogLine>();
 
-  public loader: ReturnType<typeof print.spin>;
+  private loader: ReturnType<typeof print.spin>;
 
   constructor(public label: string, shouldStart = true) {
     this.loader = print.spin(label);
@@ -32,17 +32,17 @@ export class LogCollector {
     }
   }
 
-  succeed(severity: LogLine["severity"]) {
+  public succeed(severity: LogLine["severity"]) {
     this.loader.succeed();
     this.dump(severity);
   }
 
-  fail(severity: LogLine["severity"]) {
+  public fail(severity: LogLine["severity"]) {
     this.loader.fail();
     this.dump(severity);
   }
 
-  dump(severity: LogLine["severity"]) {
+  public dump(severity: LogLine["severity"]) {
     for (const line of this.lines) {
       if (severityToLevel(line.severity) <= severityToLevel(severity)) {
         switch (line.severity) {
@@ -64,19 +64,19 @@ export class LogCollector {
     this.lines = [];
   }
 
-  debug(text: string) {
+  public debug(text: string) {
     this.lines.push({ severity: "debug", text });
   }
 
-  info(text: string) {
+  public info(text: string) {
     this.lines.push({ severity: "info", text });
   }
 
-  warning(text: string) {
+  public warning(text: string) {
     this.lines.push({ severity: "warning", text });
   }
 
-  error(text: string) {
+  public error(text: string) {
     this.lines.push({ severity: "error", text });
   }
 }

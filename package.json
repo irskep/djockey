@@ -38,7 +38,7 @@
     "shiki": "^1.14.1"
   },
   "devDependencies": {
-    "@djockey/linkmapper-typedoc": "^0.0.5",
+    "@djockey/linkmapper-typedoc": "^0.0.7",
     "@jest/globals": "^29.7.0",
     "@types/argparse": "^2.0.16",
     "@types/d3": "^7.4.3",
