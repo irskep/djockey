@@ -37,8 +37,8 @@
   --c-gray1: #333;
 
   /* Accents */
-  --c-linkblue: blue;
-  --c-linkpurple: purple;
+  --c-linkblue: rgb(12, 34, 161);
+  --c-linkpurple: rgb(109, 4, 109);
 
   /* Distances */
 

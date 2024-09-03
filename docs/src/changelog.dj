@@ -9,6 +9,7 @@ order: -1
 - [Typedoc integration](#typedoc-integration)
 - Plugin API improvements
 - OpenGraph and Twitter Card metadata
+- Allow putting custom links in the header
 
 ## 0.1
 
