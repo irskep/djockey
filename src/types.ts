@@ -17,7 +17,7 @@ export interface DjockeyConfig {
     version?: string;
     github_url?: string;
     description?: string;
-    image?: string;
+    social_image?: string;
   };
 
   num_passes: number;

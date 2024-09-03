@@ -19,6 +19,11 @@ header h1 {
   font-size: var(--fs-large);
 }
 
+header h2 {
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-large);
+}
+
 article p,
 article pre,
 article aside,

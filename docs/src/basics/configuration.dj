@@ -41,6 +41,9 @@ html:
   # If you use TypeDoc, you'd want to set this to
   # path/to/typedoc/**/*.css
   ignore_css: ['some/css/you/dont/want.css']
+  header_links:
+    - text: "Some text"
+      url: "https://a/full/url"
 
 gfm:
   ignore_static: ["**/*.html", "**/*.css", "**/*.js"]

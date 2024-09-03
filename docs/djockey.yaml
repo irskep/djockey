@@ -10,7 +10,7 @@ project_info:
   version: 0.1.1
   github_url: https://github.com/irskep/djockey
   description: "A powerful static site generator for technical writing and project documentation"
-  image: static/type_logo.png
+  social_image: static/type_logo.png
 
 link_mappings:
   - path: src/typescript_link_mapping.json
@@ -23,6 +23,9 @@ gfm:
 html:
   ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
   footer_text: "©2024 Steve Landey"
+  header_links:
+    - text: "API docs"
+      url: "https://steveasleep.com/djockey/api/"
 
 features:
   syntax_highlighting:

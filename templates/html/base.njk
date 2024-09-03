@@ -27,9 +27,9 @@
     <meta property="og:description" content="{{ config.project_info.description }}">
     <meta name="twitter:description" content="{{ config.project_info.description }}">
     {%- endif %}
-    {% if config.project_info.image -%}
-    <meta property="og:image" content="{{ config.url_root }}/{{ config.project_info.image }}">
-    <meta name="twitter:image" content="{{ config.url_root }}/{{ config.project_info.image }}">
+    {% if config.project_info.social_image -%}
+    <meta property="og:image" content="{{ config.url_root }}/{{ config.project_info.social_image }}">
+    <meta name="twitter:image" content="{{ config.url_root }}/{{ config.project_info.social_image }}">
     {%- endif %}
   </head>
   <body>
@@ -46,6 +46,11 @@
           <h1 class="DJHeader_SiteName"><a href="{{ urls.home }}">{{ config.site_name }}</a></h1>
         </div>
         <div class="DJHeader_Content_Group">
+          {%- if config.html.header_links %}
+          {%- for link in config.html.header_links %}
+          <h2 class="DJHeader_Link"><a href="{{ link.url }}">{{ link.text }}</a></h2>
+          {% endfor %}
+          {% endif -%}
           {{ header_project_info() }}
         </div>
       </div>

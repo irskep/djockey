@@ -79,12 +79,14 @@ th {
   background-color: var(--color-bg);
 }
 
-.DJHeader_SiteName a {
+.DJHeader_SiteName a,
+.DJHeader_Link a {
   color: var(--color-fg-1);
   text-decoration: none;
 }
 
-.DJHeader_SiteName a:hover {
+.DJHeader_SiteName a:hover,
+.DJHeader_Link a:hover {
   text-decoration: underline;
 }
 
