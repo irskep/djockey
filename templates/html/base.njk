@@ -51,6 +51,7 @@
           <h2 class="DJHeader_Link"><a href="{{ link.url }}">{{ link.text }}</a></h2>
           {% endfor %}
           {% endif -%}
+          <button class="DJOpenSearchButton" popovertarget="dj-search-menu">🔍</button>
           {{ header_project_info() }}
         </div>
       </div>
@@ -103,6 +104,16 @@
           {{ docs.doctree | safe }}
         </div>
       </nav>
+    </div>
+
+    <div popover id="dj-search-menu" class="DJSearchMenu">
+      <div>
+        <div class="DJSearchMenu_InputContainer">
+          <input type="text" id="dj-search-input" placeholder="Type to search">
+        </div>
+        <div id="dj-search-menu-results" class="DJSearchMenu_Results">
+        </div>
+      </div>
     </div>
 
     {%- for jsURL in urlLists.js %}

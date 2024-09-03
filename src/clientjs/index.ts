@@ -26,4 +26,6 @@ window.onload = () => {
   });
 
   mermaid.run({ querySelector: ".language-mermaid" });
+
+  window.dispatchEvent(new Event("dj-onload"));
 };

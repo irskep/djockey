@@ -5,6 +5,7 @@ client-nocache:
 
 templates/html/static/client.js: src/clientjs/*
 	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify
+	bun build src/clientjs/search.ts --target=browser --outfile=templates/html/static/search.js --minify
 
 client: templates/html/static/client.js
 
