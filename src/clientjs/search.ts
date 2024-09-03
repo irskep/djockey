@@ -1,16 +1,20 @@
 import lunr from "lunr";
 
 interface MatchData {
-  metadata: Record<
-    string,
-    {
-      text: Record<string, string>;
-    }
-  >;
+  metadata: Record<string, unknown>;
 }
 
 function doSearch(l: lunr.Index, query: string, resultEl: HTMLDivElement) {
-  const results = l.search(query);
+  const results = l.query(function (q) {
+    q.term(query, { boost: 100, usePipeline: true });
+    q.term(query, {
+      boost: 10,
+      usePipeline: false,
+      wildcard: lunr.Query.wildcard.TRAILING,
+    });
+    q.term(query, { boost: 1, editDistance: 1 });
+  });
+  console.log(results);
 
   resultEl.innerHTML = results.map((r) => buildResultHTML(r, query)).join("\n");
 }
@@ -20,9 +24,7 @@ function buildResultHTML(result: lunr.Index.Result, query: string): string {
   return `
   <div class="DJSearchResult">
     <h1>${result.ref}</h1>
-    <div>${JSON.stringify(
-      (result.matchData as MatchData).metadata[query]
-    )}</div>
+    <div>${JSON.stringify((result.matchData as MatchData).metadata)}</div>
   </div>`;
 }
 
