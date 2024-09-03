@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 
 import fastGlob from "fast-glob";
@@ -8,17 +7,21 @@ import { renderHTML } from "@djot/djot";
 import { Environment } from "nunjucks";
 
 import {
-  DjockeyConfig,
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyRenderer,
+  DjockeyStaticFileFromPlugin,
 } from "../types.js";
 import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
+  joinPath,
   makePathBackToRoot,
+  writeFile,
 } from "../utils/pathUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
+import { match } from "micromatch";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -59,51 +62,77 @@ export class HTMLRenderer implements DjockeyRenderer {
     }
   }
 
-  async handleStaticFiles(
-    templateDir: string,
-    config: DjockeyConfigResolved,
-    docs: DjockeyDoc[]
-  ) {
+  async handleStaticFiles(args: {
+    templateDir: string;
+    config: DjockeyConfigResolved;
+    docs: DjockeyDoc[];
+    staticFilesFromPlugins: DjockeyStaticFileFromPlugin[];
+    logCollector: LogCollector;
+  }) {
+    const { templateDir, config, docs, staticFilesFromPlugins, logCollector } =
+      args;
     const ignorePatterns = config.html.ignore_static;
-    await copyFilesMatchingPattern({
+
+    const p1 = copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.html,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
+      logCollector,
     });
-    await copyFilesMatchingPattern({
+    const p2 = copyFilesMatchingPattern({
       base: config.input_dir,
       dest: config.output_dir.html,
       pattern: "**/*",
       excludePaths: docs.map((d) => d.absolutePath),
       excludePatterns: ignorePatterns,
+      logCollector,
     });
+    const p3 = Promise.all(
+      staticFilesFromPlugins.map((f) => {
+        return writeFile(
+          joinPath([config.output_dir.html, f.path]),
+          f.contents
+        );
+      })
+    );
+
+    await Promise.all([p1, p2, p3]);
 
     const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
     const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {
       ignore: (config.html.ignore_css ?? []).map((pattern) => `**/${pattern}`),
     });
+    const pluginCSSFiles = match(
+      staticFilesFromPlugins.map((f) => f.path),
+      "**/*.css"
+    );
     this.cssURLsRelativeToBase = templateCSSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
         inputCSSFiles.map((path_) => path.relative(config.input_dir, path_))
-      );
+      )
+      .concat(pluginCSSFiles);
 
     const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
     const inputJSFiles = fastGlob.sync(`${config.input_dir}/**/*.js`);
+    const pluginJSFiles = match(
+      staticFilesFromPlugins.map((f) => f.path),
+      "**/*.js"
+    );
     this.jsURLsRelativeToBase = templateJSFiles
       .map((path_) => path.relative(templateDir, path_))
       .concat(
         inputJSFiles.map((path_) => path.relative(config.input_dir, path_))
-      );
+      )
+      .concat(pluginJSFiles);
   }
 
   async writeDoc(args: {
     config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
-    context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.output_dir.html}/${doc.relativePath}.html`;
@@ -150,10 +179,9 @@ export class HTMLRenderer implements DjockeyRenderer {
         css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
       },
-      ...args.context,
     });
 
-    fs.writeFileSync(outputPath, outputPage);
+    await writeFile(outputPath, outputPage);
   }
 }
 

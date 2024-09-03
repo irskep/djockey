@@ -8,6 +8,7 @@ export {
   DjockeyPlugin,
   DjockeyPluginModule,
   DjockeyPluginNodeReservation,
+  DjockeyStaticFileFromPlugin,
   DjockeyLinkMappingDoc,
   DjockeyLinkMapping,
   LinkMappingConfig,

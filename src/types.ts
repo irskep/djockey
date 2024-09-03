@@ -84,17 +84,18 @@ export const ALL_OUTPUT_FORMATS: DjockeyOutputFormat[] = ["html", "gfm"];
 export type DjockeyRenderer = {
   identifier: DjockeyOutputFormat;
 
-  handleStaticFiles: (
-    templateDir: string,
-    config: DjockeyConfigResolved,
-    docs: DjockeyDoc[]
-  ) => Promise<void>;
+  handleStaticFiles: (args: {
+    templateDir: string;
+    config: DjockeyConfigResolved;
+    docs: DjockeyDoc[];
+    staticFilesFromPlugins: DjockeyStaticFileFromPlugin[];
+    logCollector: LogCollector;
+  }) => Promise<void>;
 
   writeDoc: (args: {
     config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
-    context: Record<string, unknown>;
     logCollector: LogCollector;
   }) => Promise<void>;
 
@@ -141,6 +142,13 @@ export interface DjockeyPlugin {
     config: DjockeyConfigResolved;
     logCollector: LogCollector;
   }) => void;
+
+  getStaticFiles?: (args: {
+    docs: DjockeyDoc[];
+    renderer: DjockeyRenderer;
+    config: DjockeyConfigResolved;
+    logCollector: LogCollector;
+  }) => DjockeyStaticFileFromPlugin[];
 }
 
 export interface DjockeyPluginNodeReservation {
@@ -149,6 +157,11 @@ export interface DjockeyPluginNodeReservation {
 
 export interface DjockeyPluginModule {
   makePlugin: (config: DjockeyConfig) => DjockeyPlugin;
+}
+
+export interface DjockeyStaticFileFromPlugin {
+  path: string;
+  contents: string;
 }
 
 /* LINK MAPPINGS */

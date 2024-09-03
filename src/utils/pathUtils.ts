@@ -1,8 +1,13 @@
 import fs from "fs";
+import fsPromises from "fs/promises";
 import path from "path";
 
 import fastGlob from "fast-glob";
 import { LogCollector } from "./logUtils.js";
+
+export function joinPath(items: string[]): string {
+  return items.join(path.sep);
+}
 
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,
@@ -35,12 +40,21 @@ export function ensureParentDirectoriesExist(filePath: string) {
   });
 }
 
+export async function writeFile(
+  path_: string,
+  contents: string
+): Promise<void> {
+  ensureParentDirectoriesExist(path_);
+  await fsPromises.writeFile(path_, contents, { encoding: "utf8" });
+}
+
 export async function copyFilesMatchingPattern(args: {
   base: string;
   dest: string;
   pattern: string;
   excludePaths: string[]; // Absolute paths!
   excludePatterns: string[];
+  logCollector: LogCollector;
 }) {
   const { base, dest, pattern, excludePaths, excludePatterns } = args;
 
@@ -50,8 +64,7 @@ export async function copyFilesMatchingPattern(args: {
     ".",
     base
   )} to ${path.relative(".", dest)}`;
-
-  const log = new LogCollector(logMessage);
+  args.logCollector.info(logMessage);
 
   function copyPath(path_: string) {
     const relativePath = path.relative(base, path_);
@@ -62,7 +75,9 @@ export async function copyFilesMatchingPattern(args: {
 
     ensureParentDirectoriesExist(newFullPath);
 
-    log.info(`Copying static file ${relativePath} to ${newFullPath}`);
+    args.logCollector.info(
+      `Copying static file ${relativePath} to ${newFullPath}`
+    );
     fs.copyFileSync(path_, `${dest}/${relativePath}`);
   }
 
@@ -73,5 +88,4 @@ export async function copyFilesMatchingPattern(args: {
     .map(async (path_) => await copyPath(path_));
 
   await Promise.all(promises);
-  log.succeed("warning");
 }
