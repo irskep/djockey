@@ -91,8 +91,9 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--mm);
-  height: var(--header-height);
+  min-height: var(--header-height);
 }
 
 .DJHeader_Content_Group {
