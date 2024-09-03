@@ -54,6 +54,14 @@
           {{ header_project_info() }}
         </div>
       </div>
+
+      <details class="DJTableOfContents m-header">
+        <summary>On this page</summary>
+        <nav class="DJTableOfContents_Content">
+          {{ docs.toc | safe }}
+        </nav>
+      </details>
+
     </header>
 
     <main class="u-page-width">
