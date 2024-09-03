@@ -1,4 +1,11 @@
-import { Block, Doc, HasAttributes, HasText } from "@djot/djot";
+import {
+  AstNode,
+  Block,
+  Doc,
+  HasAttributes,
+  HasText,
+  isBlock,
+} from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 
 export function getHasClass(node: HasAttributes, cls: string): boolean {
@@ -47,4 +54,19 @@ export function djotASTToText(children: Block[]) {
     },
   }));
   return result.join("");
+}
+
+export function djotASTToTextWithLineBreaks(children: Block[]) {
+  const result = new Array<string>();
+
+  applyFilter(makeStubDjotDoc(children), () => ({
+    "*": (node: AstNode) => {
+      const text = (node as HasText).text;
+      result.push(text ?? "");
+      if (isBlock(node)) {
+        result.push("\n\n");
+      }
+    },
+  }));
+  return result.join("").replace(/\n\n+/g, "\n\n");
 }

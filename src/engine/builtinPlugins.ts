@@ -4,6 +4,7 @@ import { GFMAlertsPlugin } from "../plugins/gfmAlertsPlugin.js";
 import { IndextermsPlugin } from "../plugins/indextermsPlugin.js";
 import { LinkRewritingPlugin } from "../plugins/linkRewritingPlugin.js";
 import { MermaidPlugin } from "../plugins/mermaidPlugin.js";
+import { SearchPlugin } from "../plugins/searchPlugin.js";
 import { SyntaxHighlightingPlugin } from "../plugins/syntaxHighlighting.js";
 import { TabGroupPlugin } from "../plugins/tabGroupPlugin.js";
 import { TableOfContentsPlugin } from "../plugins/tableOfContentsPlugin.js";
@@ -24,5 +25,6 @@ export function makeBuiltinPlugins(
     new SyntaxHighlightingPlugin(config),
     new GFMAlertsPlugin(),
     new VersionDirectivesPlugin(config),
+    new SearchPlugin(),
   ];
 }
