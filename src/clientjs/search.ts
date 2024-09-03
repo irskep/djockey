@@ -38,7 +38,7 @@ function doSearch(
 function buildResultHTML(result: lunr.Index.Result, doc: SearchDoc): string {
   const metadata = (result.matchData as MatchData).metadata;
   return `
-  <a class="DJSearchResult" href="${doc.url}">
+  <a class="DJSearchResult" tabindex="1" href="${doc.url}">
     <h1>${buildHighlightedTermsHTML(doc.name, "name", metadata, false)}</h1>
     <div class="DJSearchResult_Text">${buildHighlightedTermsHTML(
       doc.text,
@@ -154,6 +154,11 @@ window.addEventListener("dj-onload", () => {
   )! as HTMLDivElement;
   if (!resultEl) return;
 
+  const popoverEl = document.querySelector(
+    "#dj-search-menu"
+  )! as HTMLDivElement;
+  if (!popoverEl) return;
+
   const win = window as {
     djSearchIndex?: { name: string; text: string; url: string }[];
   };
@@ -190,10 +195,22 @@ window.addEventListener("dj-onload", () => {
     document.querySelector(".DJOpenSearchButton")! as HTMLButtonElement
   ).addEventListener("click", (e) => {
     e.preventDefault();
-    (
-      document.querySelector("#dj-search-menu")! as HTMLDivElement
-    ).showPopover();
+    popoverEl.showPopover();
     inputEl.focus();
     return true;
+  });
+
+  window.addEventListener("keypress", (e) => {
+    // TODO: abort if already open
+    if (e.key === "/") {
+      popoverEl.showPopover();
+      inputEl.focus();
+      e.preventDefault();
+    }
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      popoverEl.hidePopover();
+    }
   });
 });
