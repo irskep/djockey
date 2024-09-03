@@ -25,6 +25,15 @@ export class SearchPlugin implements DjockeyPlugin {
     const searchIndex = args.docs.map((doc) => ({
       name: doc.title,
       text: djotASTToTextWithLineBreaks(doc.docs.content.children),
+      url: args.renderer.transformLink({
+        config: args.config,
+        sourcePath: "index",
+        anchorWithoutHash: null,
+        logCollector: args.logCollector,
+        docOriginalExtension: doc.originalExtension,
+        docRelativePath: doc.relativePath,
+        isLinkToStaticFile: false,
+      }),
     }));
     return [
       {
