@@ -24,7 +24,7 @@ html:
   ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
   footer_text: "©2024 Steve Landey"
   header_links:
-    - text: "API docs"
+    - text: "Plugin API docs"
       url: "https://steveasleep.com/djockey/api/"
 
 features:
