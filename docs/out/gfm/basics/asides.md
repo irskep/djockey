@@ -17,7 +17,7 @@
 
 ## Note
 
-<div class="dj-djot-demo" hlRequestID="30">
+<div class="dj-djot-demo">
 
 Input:
 
@@ -44,7 +44,7 @@ Objects in mirror may be closer than they appear
 
 ## Tip
 
-<div class="dj-djot-demo" hlRequestID="31">
+<div class="dj-djot-demo">
 
 Input:
 
@@ -71,7 +71,7 @@ Objects in mirror may be closer than they appear
 
 ## Important
 
-<div class="dj-djot-demo" hlRequestID="32">
+<div class="dj-djot-demo">
 
 Input:
 
@@ -98,7 +98,7 @@ Objects in mirror may be closer than they appear
 
 ## Caution
 
-<div class="dj-djot-demo" hlRequestID="33">
+<div class="dj-djot-demo">
 
 Input:
 
@@ -125,7 +125,7 @@ Objects in mirror may be closer than they appear
 
 ## Warning
 
-<div class="dj-djot-demo" hlRequestID="34">
+<div class="dj-djot-demo">
 
 Input:
 

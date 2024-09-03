@@ -78,4 +78,4 @@ Tab 2 content
 
 | Previous | Next |
 | - | - |
-| [Syntax highlighting](../features/syntax_highlighting.md) | [Version directives](../features/version_directives.md) |
+| [Syntax highlighting](../features/syntax_highlighting.md) | [Typedoc integration](../features/typedoc.md) |

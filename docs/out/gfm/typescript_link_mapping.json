@@ -1,0 +1,785 @@
+{
+  "version": 0,
+  "namespaces": [
+    "typescript",
+    "ts",
+    "typedoc"
+  ],
+  "linkMappings": [
+    {
+      "linkDestination": "DocSet",
+      "relativeURL": "classes/DocSet.html",
+      "defaultLabel": "DocSet"
+    },
+    {
+      "linkDestination": "DocSet.constructor",
+      "relativeURL": "classes/DocSet.html#constructor",
+      "defaultLabel": "constructor"
+    },
+    {
+      "linkDestination": "DocSet.config",
+      "relativeURL": "classes/DocSet.html#config",
+      "defaultLabel": "config"
+    },
+    {
+      "linkDestination": "config",
+      "relativeURL": "classes/DocSet.html#config",
+      "defaultLabel": "config"
+    },
+    {
+      "linkDestination": "DocSet.docs",
+      "relativeURL": "classes/DocSet.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "docs",
+      "relativeURL": "classes/DocSet.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "DocSet.plugins",
+      "relativeURL": "classes/DocSet.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "plugins",
+      "relativeURL": "classes/DocSet.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "DocSet.tree",
+      "relativeURL": "classes/DocSet.html#tree",
+      "defaultLabel": "tree"
+    },
+    {
+      "linkDestination": "tree",
+      "relativeURL": "classes/DocSet.html#tree",
+      "defaultLabel": "tree"
+    },
+    {
+      "linkDestination": "DocSet.getDoc",
+      "relativeURL": "classes/DocSet.html#getDoc",
+      "defaultLabel": "getDoc"
+    },
+    {
+      "linkDestination": "getDoc",
+      "relativeURL": "classes/DocSet.html#getDoc",
+      "defaultLabel": "getDoc"
+    },
+    {
+      "linkDestination": "DocSet.makeRenderableCopy",
+      "relativeURL": "classes/DocSet.html#makeRenderableCopy",
+      "defaultLabel": "makeRenderableCopy"
+    },
+    {
+      "linkDestination": "makeRenderableCopy",
+      "relativeURL": "classes/DocSet.html#makeRenderableCopy",
+      "defaultLabel": "makeRenderableCopy"
+    },
+    {
+      "linkDestination": "DocSet.runPasses",
+      "relativeURL": "classes/DocSet.html#runPasses",
+      "defaultLabel": "runPasses"
+    },
+    {
+      "linkDestination": "runPasses",
+      "relativeURL": "classes/DocSet.html#runPasses",
+      "defaultLabel": "runPasses"
+    },
+    {
+      "linkDestination": "LogCollector",
+      "relativeURL": "classes/LogCollector.html",
+      "defaultLabel": "LogCollector"
+    },
+    {
+      "linkDestination": "LogCollector.constructor",
+      "relativeURL": "classes/LogCollector.html#constructor",
+      "defaultLabel": "constructor"
+    },
+    {
+      "linkDestination": "LogCollector.label",
+      "relativeURL": "classes/LogCollector.html#label",
+      "defaultLabel": "label"
+    },
+    {
+      "linkDestination": "label",
+      "relativeURL": "classes/LogCollector.html#label",
+      "defaultLabel": "label"
+    },
+    {
+      "linkDestination": "LogCollector.debug",
+      "relativeURL": "classes/LogCollector.html#debug",
+      "defaultLabel": "debug"
+    },
+    {
+      "linkDestination": "debug",
+      "relativeURL": "classes/LogCollector.html#debug",
+      "defaultLabel": "debug"
+    },
+    {
+      "linkDestination": "LogCollector.dump",
+      "relativeURL": "classes/LogCollector.html#dump",
+      "defaultLabel": "dump"
+    },
+    {
+      "linkDestination": "dump",
+      "relativeURL": "classes/LogCollector.html#dump",
+      "defaultLabel": "dump"
+    },
+    {
+      "linkDestination": "LogCollector.error",
+      "relativeURL": "classes/LogCollector.html#error",
+      "defaultLabel": "error"
+    },
+    {
+      "linkDestination": "error",
+      "relativeURL": "classes/LogCollector.html#error",
+      "defaultLabel": "error"
+    },
+    {
+      "linkDestination": "LogCollector.fail",
+      "relativeURL": "classes/LogCollector.html#fail",
+      "defaultLabel": "fail"
+    },
+    {
+      "linkDestination": "fail",
+      "relativeURL": "classes/LogCollector.html#fail",
+      "defaultLabel": "fail"
+    },
+    {
+      "linkDestination": "LogCollector.info",
+      "relativeURL": "classes/LogCollector.html#info",
+      "defaultLabel": "info"
+    },
+    {
+      "linkDestination": "info",
+      "relativeURL": "classes/LogCollector.html#info",
+      "defaultLabel": "info"
+    },
+    {
+      "linkDestination": "LogCollector.succeed",
+      "relativeURL": "classes/LogCollector.html#succeed",
+      "defaultLabel": "succeed"
+    },
+    {
+      "linkDestination": "succeed",
+      "relativeURL": "classes/LogCollector.html#succeed",
+      "defaultLabel": "succeed"
+    },
+    {
+      "linkDestination": "LogCollector.warning",
+      "relativeURL": "classes/LogCollector.html#warning",
+      "defaultLabel": "warning"
+    },
+    {
+      "linkDestination": "warning",
+      "relativeURL": "classes/LogCollector.html#warning",
+      "defaultLabel": "warning"
+    },
+    {
+      "linkDestination": "DjockeyConfig",
+      "relativeURL": "interfaces/DjockeyConfig.html",
+      "defaultLabel": "DjockeyConfig"
+    },
+    {
+      "linkDestination": "DjockeyConfig.features",
+      "relativeURL": "interfaces/DjockeyConfig.html#features",
+      "defaultLabel": "features"
+    },
+    {
+      "linkDestination": "features",
+      "relativeURL": "interfaces/DjockeyConfig.html#features",
+      "defaultLabel": "features"
+    },
+    {
+      "linkDestination": "DjockeyConfig.gfm",
+      "relativeURL": "interfaces/DjockeyConfig.html#gfm",
+      "defaultLabel": "gfm"
+    },
+    {
+      "linkDestination": "gfm",
+      "relativeURL": "interfaces/DjockeyConfig.html#gfm",
+      "defaultLabel": "gfm"
+    },
+    {
+      "linkDestination": "DjockeyConfig.html",
+      "relativeURL": "interfaces/DjockeyConfig.html#html",
+      "defaultLabel": "html"
+    },
+    {
+      "linkDestination": "html",
+      "relativeURL": "interfaces/DjockeyConfig.html#html",
+      "defaultLabel": "html"
+    },
+    {
+      "linkDestination": "DjockeyConfig.input_dir",
+      "relativeURL": "interfaces/DjockeyConfig.html#input_dir",
+      "defaultLabel": "input_dir"
+    },
+    {
+      "linkDestination": "input_dir",
+      "relativeURL": "interfaces/DjockeyConfig.html#input_dir",
+      "defaultLabel": "input_dir"
+    },
+    {
+      "linkDestination": "DjockeyConfig.link_mappings",
+      "relativeURL": "interfaces/DjockeyConfig.html#link_mappings",
+      "defaultLabel": "link_mappings"
+    },
+    {
+      "linkDestination": "link_mappings",
+      "relativeURL": "interfaces/DjockeyConfig.html#link_mappings",
+      "defaultLabel": "link_mappings"
+    },
+    {
+      "linkDestination": "DjockeyConfig.num_passes",
+      "relativeURL": "interfaces/DjockeyConfig.html#num_passes",
+      "defaultLabel": "num_passes"
+    },
+    {
+      "linkDestination": "num_passes",
+      "relativeURL": "interfaces/DjockeyConfig.html#num_passes",
+      "defaultLabel": "num_passes"
+    },
+    {
+      "linkDestination": "DjockeyConfig.output_dir",
+      "relativeURL": "interfaces/DjockeyConfig.html#output_dir",
+      "defaultLabel": "output_dir"
+    },
+    {
+      "linkDestination": "output_dir",
+      "relativeURL": "interfaces/DjockeyConfig.html#output_dir",
+      "defaultLabel": "output_dir"
+    },
+    {
+      "linkDestination": "DjockeyConfig.plugins",
+      "relativeURL": "interfaces/DjockeyConfig.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "plugins",
+      "relativeURL": "interfaces/DjockeyConfig.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "DjockeyConfig.project_info",
+      "relativeURL": "interfaces/DjockeyConfig.html#project_info",
+      "defaultLabel": "project_info"
+    },
+    {
+      "linkDestination": "project_info",
+      "relativeURL": "interfaces/DjockeyConfig.html#project_info",
+      "defaultLabel": "project_info"
+    },
+    {
+      "linkDestination": "DjockeyConfig.site_name",
+      "relativeURL": "interfaces/DjockeyConfig.html#site_name",
+      "defaultLabel": "site_name"
+    },
+    {
+      "linkDestination": "site_name",
+      "relativeURL": "interfaces/DjockeyConfig.html#site_name",
+      "defaultLabel": "site_name"
+    },
+    {
+      "linkDestination": "DjockeyConfig.url_root",
+      "relativeURL": "interfaces/DjockeyConfig.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "url_root",
+      "relativeURL": "interfaces/DjockeyConfig.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html",
+      "defaultLabel": "DjockeyConfigResolved"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.features",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#features",
+      "defaultLabel": "features"
+    },
+    {
+      "linkDestination": "features",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#features",
+      "defaultLabel": "features"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.fileList",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#fileList",
+      "defaultLabel": "fileList"
+    },
+    {
+      "linkDestination": "fileList",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#fileList",
+      "defaultLabel": "fileList"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.gfm",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#gfm",
+      "defaultLabel": "gfm"
+    },
+    {
+      "linkDestination": "gfm",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#gfm",
+      "defaultLabel": "gfm"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.html",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#html",
+      "defaultLabel": "html"
+    },
+    {
+      "linkDestination": "html",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#html",
+      "defaultLabel": "html"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.input_dir",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#input_dir",
+      "defaultLabel": "input_dir"
+    },
+    {
+      "linkDestination": "input_dir",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#input_dir",
+      "defaultLabel": "input_dir"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.link_mappings",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#link_mappings",
+      "defaultLabel": "link_mappings"
+    },
+    {
+      "linkDestination": "link_mappings",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#link_mappings",
+      "defaultLabel": "link_mappings"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.num_passes",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#num_passes",
+      "defaultLabel": "num_passes"
+    },
+    {
+      "linkDestination": "num_passes",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#num_passes",
+      "defaultLabel": "num_passes"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.output_dir",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#output_dir",
+      "defaultLabel": "output_dir"
+    },
+    {
+      "linkDestination": "output_dir",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#output_dir",
+      "defaultLabel": "output_dir"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.plugins",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "plugins",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#plugins",
+      "defaultLabel": "plugins"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.project_info",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#project_info",
+      "defaultLabel": "project_info"
+    },
+    {
+      "linkDestination": "project_info",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#project_info",
+      "defaultLabel": "project_info"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.rootPath",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#rootPath",
+      "defaultLabel": "rootPath"
+    },
+    {
+      "linkDestination": "rootPath",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#rootPath",
+      "defaultLabel": "rootPath"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.site_name",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#site_name",
+      "defaultLabel": "site_name"
+    },
+    {
+      "linkDestination": "site_name",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#site_name",
+      "defaultLabel": "site_name"
+    },
+    {
+      "linkDestination": "DjockeyConfigResolved.url_root",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "url_root",
+      "relativeURL": "interfaces/DjockeyConfigResolved.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "DjockeyDoc",
+      "relativeURL": "interfaces/DjockeyDoc.html",
+      "defaultLabel": "DjockeyDoc"
+    },
+    {
+      "linkDestination": "DjockeyDoc.absolutePath",
+      "relativeURL": "interfaces/DjockeyDoc.html#absolutePath",
+      "defaultLabel": "absolutePath"
+    },
+    {
+      "linkDestination": "absolutePath",
+      "relativeURL": "interfaces/DjockeyDoc.html#absolutePath",
+      "defaultLabel": "absolutePath"
+    },
+    {
+      "linkDestination": "DjockeyDoc.data",
+      "relativeURL": "interfaces/DjockeyDoc.html#data",
+      "defaultLabel": "data"
+    },
+    {
+      "linkDestination": "data",
+      "relativeURL": "interfaces/DjockeyDoc.html#data",
+      "defaultLabel": "data"
+    },
+    {
+      "linkDestination": "DjockeyDoc.docs",
+      "relativeURL": "interfaces/DjockeyDoc.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "docs",
+      "relativeURL": "interfaces/DjockeyDoc.html#docs",
+      "defaultLabel": "docs"
+    },
+    {
+      "linkDestination": "DjockeyDoc.filename",
+      "relativeURL": "interfaces/DjockeyDoc.html#filename",
+      "defaultLabel": "filename"
+    },
+    {
+      "linkDestination": "filename",
+      "relativeURL": "interfaces/DjockeyDoc.html#filename",
+      "defaultLabel": "filename"
+    },
+    {
+      "linkDestination": "DjockeyDoc.frontMatter",
+      "relativeURL": "interfaces/DjockeyDoc.html#frontMatter",
+      "defaultLabel": "frontMatter"
+    },
+    {
+      "linkDestination": "frontMatter",
+      "relativeURL": "interfaces/DjockeyDoc.html#frontMatter",
+      "defaultLabel": "frontMatter"
+    },
+    {
+      "linkDestination": "DjockeyDoc.neighbors",
+      "relativeURL": "interfaces/DjockeyDoc.html#neighbors",
+      "defaultLabel": "neighbors"
+    },
+    {
+      "linkDestination": "neighbors",
+      "relativeURL": "interfaces/DjockeyDoc.html#neighbors",
+      "defaultLabel": "neighbors"
+    },
+    {
+      "linkDestination": "DjockeyDoc.originalExtension",
+      "relativeURL": "interfaces/DjockeyDoc.html#originalExtension",
+      "defaultLabel": "originalExtension"
+    },
+    {
+      "linkDestination": "originalExtension",
+      "relativeURL": "interfaces/DjockeyDoc.html#originalExtension",
+      "defaultLabel": "originalExtension"
+    },
+    {
+      "linkDestination": "DjockeyDoc.relativePath",
+      "relativeURL": "interfaces/DjockeyDoc.html#relativePath",
+      "defaultLabel": "relativePath"
+    },
+    {
+      "linkDestination": "relativePath",
+      "relativeURL": "interfaces/DjockeyDoc.html#relativePath",
+      "defaultLabel": "relativePath"
+    },
+    {
+      "linkDestination": "DjockeyDoc.title",
+      "relativeURL": "interfaces/DjockeyDoc.html#title",
+      "defaultLabel": "title"
+    },
+    {
+      "linkDestination": "title",
+      "relativeURL": "interfaces/DjockeyDoc.html#title",
+      "defaultLabel": "title"
+    },
+    {
+      "linkDestination": "DjockeyDoc.titleAST",
+      "relativeURL": "interfaces/DjockeyDoc.html#titleAST",
+      "defaultLabel": "titleAST"
+    },
+    {
+      "linkDestination": "titleAST",
+      "relativeURL": "interfaces/DjockeyDoc.html#titleAST",
+      "defaultLabel": "titleAST"
+    },
+    {
+      "linkDestination": "DjockeyLinkMapping",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html",
+      "defaultLabel": "DjockeyLinkMapping"
+    },
+    {
+      "linkDestination": "DjockeyLinkMapping.defaultLabel",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#defaultLabel",
+      "defaultLabel": "defaultLabel"
+    },
+    {
+      "linkDestination": "defaultLabel",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#defaultLabel",
+      "defaultLabel": "defaultLabel"
+    },
+    {
+      "linkDestination": "DjockeyLinkMapping.linkDestination",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#linkDestination",
+      "defaultLabel": "linkDestination"
+    },
+    {
+      "linkDestination": "linkDestination",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#linkDestination",
+      "defaultLabel": "linkDestination"
+    },
+    {
+      "linkDestination": "DjockeyLinkMapping.relativeURL",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#relativeURL",
+      "defaultLabel": "relativeURL"
+    },
+    {
+      "linkDestination": "relativeURL",
+      "relativeURL": "interfaces/DjockeyLinkMapping.html#relativeURL",
+      "defaultLabel": "relativeURL"
+    },
+    {
+      "linkDestination": "DjockeyLinkMappingDoc",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html",
+      "defaultLabel": "DjockeyLinkMappingDoc"
+    },
+    {
+      "linkDestination": "DjockeyLinkMappingDoc.linkMappings",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#linkMappings",
+      "defaultLabel": "linkMappings"
+    },
+    {
+      "linkDestination": "linkMappings",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#linkMappings",
+      "defaultLabel": "linkMappings"
+    },
+    {
+      "linkDestination": "DjockeyLinkMappingDoc.namespaces",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#namespaces",
+      "defaultLabel": "namespaces"
+    },
+    {
+      "linkDestination": "namespaces",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#namespaces",
+      "defaultLabel": "namespaces"
+    },
+    {
+      "linkDestination": "DjockeyLinkMappingDoc.version",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#version",
+      "defaultLabel": "version"
+    },
+    {
+      "linkDestination": "version",
+      "relativeURL": "interfaces/DjockeyLinkMappingDoc.html#version",
+      "defaultLabel": "version"
+    },
+    {
+      "linkDestination": "DjockeyPlugin",
+      "relativeURL": "interfaces/DjockeyPlugin.html",
+      "defaultLabel": "DjockeyPlugin"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.doAsyncWorkBetweenReadAndWrite",
+      "relativeURL": "interfaces/DjockeyPlugin.html#doAsyncWorkBetweenReadAndWrite",
+      "defaultLabel": "doAsyncWorkBetweenReadAndWrite"
+    },
+    {
+      "linkDestination": "doAsyncWorkBetweenReadAndWrite",
+      "relativeURL": "interfaces/DjockeyPlugin.html#doAsyncWorkBetweenReadAndWrite",
+      "defaultLabel": "doAsyncWorkBetweenReadAndWrite"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.getNodeReservations",
+      "relativeURL": "interfaces/DjockeyPlugin.html#getNodeReservations",
+      "defaultLabel": "getNodeReservations"
+    },
+    {
+      "linkDestination": "getNodeReservations",
+      "relativeURL": "interfaces/DjockeyPlugin.html#getNodeReservations",
+      "defaultLabel": "getNodeReservations"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.name",
+      "relativeURL": "interfaces/DjockeyPlugin.html#name",
+      "defaultLabel": "name"
+    },
+    {
+      "linkDestination": "name",
+      "relativeURL": "interfaces/DjockeyPlugin.html#name",
+      "defaultLabel": "name"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.onPass_read",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPass_read",
+      "defaultLabel": "onPass_read"
+    },
+    {
+      "linkDestination": "onPass_read",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPass_read",
+      "defaultLabel": "onPass_read"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.onPass_write",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPass_write",
+      "defaultLabel": "onPass_write"
+    },
+    {
+      "linkDestination": "onPass_write",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPass_write",
+      "defaultLabel": "onPass_write"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.onPrepareForRender",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPrepareForRender",
+      "defaultLabel": "onPrepareForRender"
+    },
+    {
+      "linkDestination": "onPrepareForRender",
+      "relativeURL": "interfaces/DjockeyPlugin.html#onPrepareForRender",
+      "defaultLabel": "onPrepareForRender"
+    },
+    {
+      "linkDestination": "DjockeyPlugin.setup",
+      "relativeURL": "interfaces/DjockeyPlugin.html#setup",
+      "defaultLabel": "setup"
+    },
+    {
+      "linkDestination": "setup",
+      "relativeURL": "interfaces/DjockeyPlugin.html#setup",
+      "defaultLabel": "setup"
+    },
+    {
+      "linkDestination": "DjockeyPluginModule",
+      "relativeURL": "interfaces/DjockeyPluginModule.html",
+      "defaultLabel": "DjockeyPluginModule"
+    },
+    {
+      "linkDestination": "DjockeyPluginModule.makePlugin",
+      "relativeURL": "interfaces/DjockeyPluginModule.html#makePlugin",
+      "defaultLabel": "makePlugin"
+    },
+    {
+      "linkDestination": "makePlugin",
+      "relativeURL": "interfaces/DjockeyPluginModule.html#makePlugin",
+      "defaultLabel": "makePlugin"
+    },
+    {
+      "linkDestination": "DjockeyPluginNodeReservation",
+      "relativeURL": "interfaces/DjockeyPluginNodeReservation.html",
+      "defaultLabel": "DjockeyPluginNodeReservation"
+    },
+    {
+      "linkDestination": "DjockeyPluginNodeReservation.match",
+      "relativeURL": "interfaces/DjockeyPluginNodeReservation.html#match",
+      "defaultLabel": "match"
+    },
+    {
+      "linkDestination": "match",
+      "relativeURL": "interfaces/DjockeyPluginNodeReservation.html#match",
+      "defaultLabel": "match"
+    },
+    {
+      "linkDestination": "LinkMappingConfig",
+      "relativeURL": "interfaces/LinkMappingConfig.html",
+      "defaultLabel": "LinkMappingConfig"
+    },
+    {
+      "linkDestination": "LinkMappingConfig.path",
+      "relativeURL": "interfaces/LinkMappingConfig.html#path",
+      "defaultLabel": "path"
+    },
+    {
+      "linkDestination": "path",
+      "relativeURL": "interfaces/LinkMappingConfig.html#path",
+      "defaultLabel": "path"
+    },
+    {
+      "linkDestination": "LinkMappingConfig.url_root",
+      "relativeURL": "interfaces/LinkMappingConfig.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "url_root",
+      "relativeURL": "interfaces/LinkMappingConfig.html#url_root",
+      "defaultLabel": "url_root"
+    },
+    {
+      "linkDestination": "Action",
+      "relativeURL": "types/Action.html",
+      "defaultLabel": "Action"
+    },
+    {
+      "linkDestination": "DjockeyInputFormat",
+      "relativeURL": "types/DjockeyInputFormat.html",
+      "defaultLabel": "DjockeyInputFormat"
+    },
+    {
+      "linkDestination": "DjockeyOutputFormat",
+      "relativeURL": "types/DjockeyOutputFormat.html",
+      "defaultLabel": "DjockeyOutputFormat"
+    },
+    {
+      "linkDestination": "DjockeyRenderer",
+      "relativeURL": "types/DjockeyRenderer.html",
+      "defaultLabel": "DjockeyRenderer"
+    },
+    {
+      "linkDestination": "DocTree",
+      "relativeURL": "types/DocTree.html",
+      "defaultLabel": "DocTree"
+    },
+    {
+      "linkDestination": "DocTreeSection",
+      "relativeURL": "types/DocTreeSection.html",
+      "defaultLabel": "DocTreeSection"
+    },
+    {
+      "linkDestination": "Filter",
+      "relativeURL": "types/Filter.html",
+      "defaultLabel": "Filter"
+    },
+    {
+      "linkDestination": "FilterPart",
+      "relativeURL": "types/FilterPart.html",
+      "defaultLabel": "FilterPart"
+    },
+    {
+      "linkDestination": "Transform",
+      "relativeURL": "types/Transform.html",
+      "defaultLabel": "Transform"
+    },
+    {
+      "linkDestination": "applyFilter",
+      "relativeURL": "functions/applyFilter.html",
+      "defaultLabel": "applyFilter"
+    }
+  ]
+}
