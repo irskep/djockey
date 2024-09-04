@@ -4,7 +4,7 @@
 -->
 - [Changelog](./changelog.md#Changelog)
   - [0.2](./changelog.md#0-2)
-    - [0.3.3 - 2024-09-03](./changelog.md#0-3-3---2024-09-03)
+    - [0.2.3 - 2024-09-03](./changelog.md#0-2-3---2024-09-03)
     - [0.2.2 - 2024-09-03](./changelog.md#0-2-2---2024-09-03)
     - [0.2.1 - 2024-09-03](./changelog.md#0-2-1---2024-09-03)
     - [0.2.0 - 2024-09-03](./changelog.md#0-2-0---2024-09-03)
@@ -22,9 +22,9 @@
 
 ## 0.2
 
-<div id="0-3-3---2024-09-03" class="section" id="0-3-3---2024-09-03">
+<div id="0-2-3---2024-09-03" class="section" id="0-2-3---2024-09-03">
 
-### 0.3.3 - 2024-09-03
+### 0.2.3 - 2024-09-03
 
 - Search box can be dismissed by clicking anywhere in the backdrop and
   not just by pressing Esc
