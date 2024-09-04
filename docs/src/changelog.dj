@@ -6,6 +6,11 @@ order: -1
 
 ## 0.2
 
+### 0.2.4 - 2024-09-04
+
+- Djockey can now run on Windows
+- Improvements to link resolution behavior
+
 ### 0.2.3 - 2024-09-03
 
 - Search box can be dismissed by clicking anywhere in the backdrop and not just by pressing Esc
