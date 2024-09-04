@@ -6,6 +6,10 @@ order: -1
 
 ## 0.2
 
+### 0.2.2 - 2024-09-03
+
+- Stop publishing Bun lockfiles, docs, and other unnecessary things
+
 ### 0.2.1 - 2024-09-03
 
 - Stop publishing Yarn cache files

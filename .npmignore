@@ -1,1 +1,6 @@
 .yarn/
+.github/
+bun.lockb
+.editorconfig
+docs/
+typedoc.json
