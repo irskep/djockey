@@ -1,5 +1,10 @@
 import lunr from "lunr";
 
+/**
+ * This is a lot of hacky bullshit. The main thing is there's a popover element, a debounced input
+ * field, a search function, and a function that builds an HTML string to plop into the results.
+ */
+
 interface MatchData {
   metadata: Record<
     string,
@@ -19,6 +24,10 @@ function doSearch(
   query: string,
   resultEl: HTMLDivElement
 ) {
+  if (!query.trim().length) {
+    resultEl.innerHTML = `<div class="DJSearchResults_Empty m-noquery">Type a search into the box.</div>`;
+    return;
+  }
   const results = l.query(function (q) {
     q.term(query, { boost: 100, usePipeline: true });
     q.term(query, {
@@ -28,7 +37,11 @@ function doSearch(
     });
     q.term(query, { boost: 1, editDistance: 1 });
   });
-  console.log(results);
+
+  if (!results.length) {
+    resultEl.innerHTML = `<div class="DJSearchResults_Empty m-noresults">No results found.</div>`;
+    return;
+  }
 
   resultEl.innerHTML = results
     .map((r) => buildResultHTML(r, docsByRef[r.ref]))
@@ -38,7 +51,7 @@ function doSearch(
 function buildResultHTML(result: lunr.Index.Result, doc: SearchDoc): string {
   const metadata = (result.matchData as MatchData).metadata;
   return `
-  <a class="DJSearchResult" tabindex="1" href="${doc.url}">
+  <a class="DJSearchResult" tabindex="0" href="${doc.url}">
     <h1>${buildHighlightedTermsHTML(doc.name, "name", metadata, false)}</h1>
     <div class="DJSearchResult_Text">${buildHighlightedTermsHTML(
       doc.text,
@@ -184,11 +197,35 @@ window.addEventListener("dj-onload", () => {
     }
   });
 
-  // use 'input' for keystrokes, 'change' for enter or unfocus
-  inputEl.addEventListener("change", (e) => {
-    console.log(e);
+  function debounce(
+    func: Function,
+    wait: number,
+    immediate: boolean = false,
+    alwaysImmediateCallback?: () => void
+  ): typeof func {
+    let timeout: any | null = null;
+    return function (this: unknown) {
+      let context = this;
+      let args = arguments;
+      let later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      let callNow = immediate && !timeout;
+      clearTimeout(timeout!);
+      timeout = setTimeout(later, wait);
+      if (alwaysImmediateCallback) alwaysImmediateCallback();
+      if (callNow) func.apply(context, args);
+    };
+  }
 
-    doSearch(docsByRef, l, (e.target! as HTMLInputElement).value, resultEl);
+  const debouncedSearcher = debounce((query: string) => {
+    doSearch(docsByRef, l, query, resultEl);
+  }, 500);
+
+  // use 'input' for keystrokes, 'change' for enter or unfocus
+  inputEl.addEventListener("input", (e) => {
+    debouncedSearcher((e.target! as HTMLInputElement).value);
   });
 
   (
@@ -200,8 +237,8 @@ window.addEventListener("dj-onload", () => {
     return true;
   });
 
-  window.addEventListener("keypress", (e) => {
-    // TODO: abort if already open
+  window.addEventListener("keydown", (e) => {
+    if (popoverEl.matches(":popover-open")) return;
     if (e.key === "/") {
       popoverEl.showPopover();
       inputEl.focus();

@@ -1,14 +1,21 @@
 {% macro svg_hamburger(width, height, row_height, row_space) -%}
 <svg viewBox="0 0 100 {{ row_height * 3 + row_space * 2 }}" width="{{ width }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100" height="{{ row_height }}" rx="8"></rect>
-  <rect y="{{ row_height + row_space }}" width="100" height="{{ row_height }}" rx="8"></rect>
-  <rect y="{{ row_height * 2 + row_space * 2}}" width="100" height="{{ row_height }}" rx="8"></rect>
+  <rect width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
+  <rect y="{{ row_height + row_space }}" width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
+  <rect y="{{ row_height * 2 + row_space * 2}}" width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
 </svg>
 {%- endmacro %}
 
 {% macro svg_close() -%}
 <svg viewBox="0 0 25 25" width="1.5em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="2" y1="2" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-  <line x1="2" y1="23" x2="23" y2="2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="2" y1="2" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
+  <line x1="2" y1="23" x2="23" y2="2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
+</svg>
+{%- endmacro %}
+
+{% macro svg_search() -%}
+<svg viewBox="0 0 25 25" width="1.5em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="9" cy="9" r="7" stroke-width="4" stroke="var(--color-fg-1)" fill="none" />
+  <line x1="15" y1="15" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
 </svg>
 {%- endmacro %}

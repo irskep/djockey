@@ -4,11 +4,14 @@
   color: var(--color-fg-1);
   background: unset;
   overflow: visible;
+
+  --search-width: 40rem;
 }
 
 #dj-search-menu > div {
   width: 100vw;
   height: calc(100vh - 10rem);
+  margin-top: 2rem;
 
   display: flex;
   flex-direction: column;
@@ -20,25 +23,50 @@
   background-color: rgba(0, 0, 0, 0.15);
 }
 
+.DJSearchMenu_Content {
+  box-shadow: 2px 2px 8px 2px rgba(138, 138, 138, 0.39);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: var(--search-width);
+  max-height: calc(100vh - 10rem);
+}
+
 .DJSearchMenu_InputContainer {
   z-index: 1;
   flex-shrink: 0;
   flex-grow: 0;
   width: 100%;
   background-color: var(--color-bg-1);
-  height: var(--header-height);
   border-bottom: var(--border-weak);
 
+  width: 100%;
+  max-width: var(--search-width);
+  padding: var(--ms);
+
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  gap: 0;
+}
+
+.DJSearchMenu_InputContainer input {
+  width: 100%;
+}
+
+.DJSearchMenu_InputContainer_Caption {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-normal);
 }
 
 #dj-search-menu h1 {
   font-size: var(--fs-normal);
   font-weight: var(--fw-bold);
   text-decoration: underline;
+  margin-bottom: var(--mm);
 }
 
 .DJSearchMenu_Results {
@@ -48,12 +76,10 @@
 
   overflow-y: auto;
   width: 100%;
-  max-width: 40rem;
+  max-width: var(--search-width);
   padding: var(--ms);
 
   background: var(--color-bg-1);
-
-  box-shadow: 2px 2px 8px 2px rgba(138, 138, 138, 0.39);
 }
 
 .DJSearchResult {
