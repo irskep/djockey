@@ -1,0 +1,7 @@
+site_name: "E2E"
+url_root: https://example.com
+
+input_dir: src
+output_dir:
+  html: out/html
+  gfm: out/gfm

@@ -1,0 +1,9 @@
+# The Subdirectory
+
+Three images:
+
+![four](image.png)
+
+![five](./image.png)
+
+![six](../subdirectory/image.png)
