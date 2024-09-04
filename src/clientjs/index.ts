@@ -3,15 +3,17 @@ import mermaid from "mermaid";
 window.onload = () => {
   /* TAB GROUPS */
 
-  document.querySelectorAll(".dj-tab-heading").forEach((el) => {
-    const contentCls = (el as HTMLElement).dataset.tabId;
-    const groupCls = (el as HTMLElement).dataset.tabGroup;
-    el.addEventListener("click", (e) => {
-      document.querySelectorAll("." + groupCls).forEach((contentEl) => {
-        contentEl.classList.remove("m-active");
-      });
-      document.querySelectorAll("." + contentCls).forEach((contentEl) => {
-        contentEl.classList.add("m-active");
+  document.querySelectorAll(".tab-group").forEach((tabsEl) => {
+    tabsEl.querySelectorAll(".dj-tab-heading").forEach((el) => {
+      const contentCls = (el as HTMLElement).dataset.tabId;
+      const groupCls = (el as HTMLElement).dataset.tabGroup;
+      el.addEventListener("click", (e) => {
+        tabsEl.querySelectorAll("." + groupCls).forEach((contentEl) => {
+          contentEl.classList.remove("m-active");
+        });
+        tabsEl.querySelectorAll("." + contentCls).forEach((contentEl) => {
+          contentEl.classList.add("m-active");
+        });
       });
     });
   });
