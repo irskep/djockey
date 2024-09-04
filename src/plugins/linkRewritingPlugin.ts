@@ -11,7 +11,12 @@ import {
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { fsjoin, urlsplit, URL_SEPARATOR } from "../utils/pathUtils.js";
+import {
+  fsjoin,
+  urlsplit,
+  URL_SEPARATOR,
+  CANONICAL_SEPARATOR,
+} from "../utils/pathUtils.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";
@@ -88,17 +93,17 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
           const defaultLabel = this._defaultLinkLabels[node.destination];
 
-          const newDestination = this.transformNodeDestination(
-            doc.refPath,
-            config.input_dir,
-            node.destination,
-            {
+          const newDestination = this.transformNodeDestination({
+            sourcePath: doc.refPath,
+            inputRoot: config.input_dir,
+            unresolvedNodeDestination: node.destination,
+            renderArgs: {
               config: this.config,
               renderer,
               sourcePath: doc.refPath,
               logCollector,
-            }
-          );
+            },
+          });
 
           const children = [...(node.children ?? [])];
           if (!children.length && defaultLabel)
@@ -110,12 +115,20 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     }
   }
 
-  private transformNodeDestination(
-    sourcePath: string,
-    inputRoot: string,
-    unresolvedNodeDestination: string,
-    renderArgs: Parameters<LinkTarget["renderDestination"]>[0]
-  ): string {
+  private transformNodeDestination(args: {
+    sourcePath: string;
+    inputRoot: string;
+    unresolvedNodeDestination: string;
+    renderArgs: Parameters<LinkTarget["renderDestination"]>[0];
+    preventRecursion?: boolean;
+  }): string {
+    const {
+      sourcePath,
+      inputRoot,
+      unresolvedNodeDestination,
+      renderArgs,
+      preventRecursion,
+    } = args;
     // Don't transform ordinary URLs
     if (isURL(unresolvedNodeDestination)) {
       return unresolvedNodeDestination;
@@ -160,12 +173,25 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           logCollector: renderArgs.logCollector,
         });
       } else {
-        renderArgs.logCollector.warning(
-          `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
-        );
-        renderArgs.logCollector.warning(
-          `  Looked for but did not find a static file at ${possibleStaticFileFSPath}`
-        );
+        if (
+          !preventRecursion &&
+          !unresolvedNodeDestination.startsWith(`.${CANONICAL_SEPARATOR}`)
+        ) {
+          return this.transformNodeDestination({
+            sourcePath,
+            inputRoot,
+            unresolvedNodeDestination: `.${CANONICAL_SEPARATOR}${unresolvedNodeDestination}`,
+            renderArgs,
+            preventRecursion: true,
+          });
+        } else {
+          renderArgs.logCollector.warning(
+            `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
+          );
+          renderArgs.logCollector.warning(
+            `  Looked for but did not find a static file at ${possibleStaticFileFSPath}`
+          );
+        }
       }
       return nodeDestination;
     }
@@ -193,7 +219,10 @@ export function resolveRelativePath(sourcePath: string, path_: string): string {
     pathParts = pathParts.slice(1);
     sourceParts.pop();
   }
-  return "/" + sourceParts.concat(pathParts).join("/");
+  return (
+    CANONICAL_SEPARATOR +
+    sourceParts.concat(pathParts).join(CANONICAL_SEPARATOR)
+  );
 }
 
 function isURL(s: string): boolean {
@@ -203,6 +232,39 @@ function isURL(s: string): boolean {
   } catch (err) {
     return false;
   }
+}
+
+function getStaticFileLink(args: {
+  inputRoot: string;
+  nodeDestination: string;
+  prefixlessNodeDestination: string;
+  anchorWithoutHash: string;
+  renderArgs: Parameters<LinkTarget["renderDestination"]>[0];
+}): null | string {
+  const {
+    inputRoot,
+    nodeDestination,
+    prefixlessNodeDestination,
+    anchorWithoutHash,
+    renderArgs,
+  } = args;
+  const possibleStaticFileFSPath = fsjoin([
+    inputRoot,
+    ...urlsplit(prefixlessNodeDestination),
+  ]);
+  if (!fs.existsSync(possibleStaticFileFSPath)) {
+    return null;
+  }
+  return renderArgs.renderer.transformLink({
+    config: renderArgs.config,
+    sourcePath: renderArgs.sourcePath,
+    anchorWithoutHash,
+    docOriginalExtension: path.parse(nodeDestination).ext,
+    // We can use the destination as-is without modification
+    docRefPath: prefixlessNodeDestination,
+    isLinkToStaticFile: true,
+    logCollector: renderArgs.logCollector,
+  });
 }
 
 export class LinkTarget {
