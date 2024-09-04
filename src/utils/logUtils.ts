@@ -25,6 +25,7 @@ export class LogCollector {
   private loader?: ReturnType<typeof print.spin>;
   private silent = false;
   private parent?: LogCollector;
+  private children = new Array<LogCollector>();
 
   constructor(
     public label: string,

@@ -3,9 +3,9 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
 import fastGlob from "fast-glob";
-import { executeConfig } from "../engine/executeConfig.js";
-import { resolveConfigFromDirectory } from "../config.js";
-import { LogCollector } from "../utils/logUtils.js";
+import { executeConfig } from "./engine/executeConfig.js";
+import { resolveConfigFromDirectory } from "./config.js";
+import { LogCollector } from "./utils/logUtils.js";
 
 function rmrf(parentDir: string) {
   console.log("rm -rf", parentDir);
@@ -21,16 +21,24 @@ function rmrf(parentDir: string) {
 }
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const inputRoot = path.join(__dirname, "docs");
-const outputRoot = path.join(__dirname, "out");
+const e2eDataRoot = path.resolve(
+  path.join(dirname(__filename), "..", "examples", "e2e")
+);
+const inputRoot = path.join(e2eDataRoot);
+const outputRoot = path.join(inputRoot, "out");
 
 beforeEach(() => {
   rmrf(outputRoot);
 });
+
 test("HTML rendering", async () => {
+  console.log("Tests are looking in", inputRoot);
   const config = resolveConfigFromDirectory(inputRoot, true)!;
-  const logCollector = new LogCollector("E2E", { silent: true });
+  expect(config).toBeTruthy();
+  const logCollector = new LogCollector("E2E", {
+    silent: true,
+    shouldStart: false,
+  });
   await executeConfig(config, ["html"], logCollector);
   expect(logCollector.hasWarningsOrErrors).toBeFalsy();
 });

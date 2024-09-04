@@ -5,7 +5,7 @@ import { DocSet } from "../engine/docset.js";
 import { getConfigDefaults } from "../config.js";
 import { LogCollector } from "../utils/logUtils.js";
 
-test("Title is set to first heading by default", () => {
+test("Title is set to first heading by default", async () => {
   const doc: DjockeyDoc = {
     docs: {
       content: parse(
@@ -40,12 +40,14 @@ test("Title is set to first heading by default", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses(new LogCollector("", { shouldStart: false }));
+  await docSet.runPasses(
+    new LogCollector("", { shouldStart: false, silent: true })
+  );
 
   expect(doc.title).toEqual("Heading 1");
 });
 
-test("Title is set to frontMatter.title if present", () => {
+test("Title is set to frontMatter.title if present", async () => {
   const doc: DjockeyDoc = {
     docs: {
       content: parse(
@@ -80,7 +82,9 @@ test("Title is set to frontMatter.title if present", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses(new LogCollector("", { shouldStart: false }));
+  await docSet.runPasses(
+    new LogCollector("", { shouldStart: false, silent: true })
+  );
 
   expect(doc.title).toEqual("Custom title");
 });
