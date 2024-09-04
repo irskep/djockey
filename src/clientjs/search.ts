@@ -172,6 +172,15 @@ window.addEventListener("dj-onload", () => {
   )! as HTMLDivElement;
   if (!popoverEl) return;
 
+  // The flex container seems to prevent the backdrop from getting click events. :-(
+  // So just close the damn thing on click.
+  document.querySelectorAll(".DJSearchMenu_FlexContainer").forEach((flexEl) => {
+    flexEl.addEventListener("click", (e) => {
+      if (e.target !== flexEl) return;
+      popoverEl.hidePopover();
+    });
+  });
+
   const win = window as {
     djSearchIndex?: { name: string; text: string; url: string }[];
   };

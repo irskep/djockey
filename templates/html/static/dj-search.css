@@ -8,7 +8,7 @@
   --search-width: 40rem;
 }
 
-#dj-search-menu > div {
+.DJSearchMenu_FlexContainer {
   width: 100vw;
   height: calc(100vh - 10rem);
   margin-top: 2rem;

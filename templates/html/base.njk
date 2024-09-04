@@ -39,8 +39,7 @@
           <button
             title="Show navigation"
             class="DJHeader_Hamburger DJIconButton"
-            popovertarget="dj-mobile-menu"
-            class="DJHeader_Hamburger">
+            popovertarget="dj-mobile-menu">
             {{ svg_hamburger('1.5em', '1em', 18, 16) }}
           </button>
           <h1 class="DJHeader_SiteName"><a href="{{ urls.home }}">{{ config.site_name }}</a></h1>
@@ -107,7 +106,7 @@
     </div>
 
     <div popover id="dj-search-menu" class="DJSearchMenu">
-      <div>
+      <div class="DJSearchMenu_FlexContainer">
         <div class="DJSearchMenu_Content">
           <div class="DJSearchMenu_InputContainer">
             <input type="text" id="dj-search-input" placeholder="Type to search">

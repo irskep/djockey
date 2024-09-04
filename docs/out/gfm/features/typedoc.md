@@ -16,7 +16,7 @@
 
 <div class="version-modified added-in-version">
 
-Will be added in version 0.2
+Added in version 0.2
 
 </div>
 
