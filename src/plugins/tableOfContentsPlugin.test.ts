@@ -95,10 +95,10 @@ test("Works end-to-end with LinkRewritingPlugin", async () => {
     [new TableOfContentsPlugin(), new LinkRewritingPlugin(config)],
     [doc]
   );
-  await docSet.runPasses(new LogCollector("", false));
+  await docSet.runPasses(new LogCollector("", { shouldStart: false }));
   const htmlCopy = docSet.makeRenderableCopy(
     new HTMLRenderer({ relativeLinks: true }),
-    new LogCollector("", false)
+    new LogCollector("", { shouldStart: false })
   )[0];
   const html = renderHTML(htmlCopy.docs.toc);
   expect(html).toEqual(`<ul>

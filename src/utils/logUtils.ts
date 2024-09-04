@@ -28,13 +28,13 @@ export class LogCollector {
 
   constructor(
     public label: string,
-    opts: { shouldStart?: boolean; parent?: LogCollector; silent: boolean } = {
+    opts: { shouldStart?: boolean; parent?: LogCollector; silent?: boolean } = {
       shouldStart: true,
       silent: false,
     }
   ) {
     this.parent = opts.parent;
-    this.silent = opts.silent;
+    this.silent = opts.silent ?? false;
     if (!this.silent) {
       this.loader = print.spin(label);
       if (opts.shouldStart ?? true) {

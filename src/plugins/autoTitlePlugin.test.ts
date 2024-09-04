@@ -40,7 +40,7 @@ test("Title is set to first heading by default", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses(new LogCollector("", false));
+  docSet.runPasses(new LogCollector("", { shouldStart: false }));
 
   expect(doc.title).toEqual("Heading 1");
 });
@@ -80,7 +80,7 @@ test("Title is set to frontMatter.title if present", () => {
     url_root: "URL_ROOT",
   };
   const docSet = new DocSet(config, [new AutoTitlePlugin()], [doc]);
-  docSet.runPasses(new LogCollector("", false));
+  docSet.runPasses(new LogCollector("", { shouldStart: false }));
 
   expect(doc.title).toEqual("Custom title");
 });
