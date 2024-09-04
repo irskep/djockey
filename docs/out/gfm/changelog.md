@@ -18,10 +18,18 @@
 
 ## 0.2 (unreleased)
 
-- [Typedoc integration](./features/typedoc.md#typedoc-integration)
-- Plugin API improvements
-- OpenGraph and Twitter Card metadata
-- Allow putting custom links in the header
+- Markup features
+
+  - [Typedoc integration](./features/typedoc.md#typedoc-integration)
+  - Allow putting custom links in the header
+
+- HTML improvements - OpenGraph and Twitter Card metadata - Site-wide
+  search using [lunr](https://lunrjs.com)
+
+- Plugin API improvements - Plugins can provide static files, perhaps
+  based on site content (this powers search) - More methods can be
+  async - Plugins can mark nodes as “special” and not to be touched by
+  other plugins
 
 </div>
 

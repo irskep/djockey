@@ -49,6 +49,7 @@ Dependencies supporting individual features:
 - [Shiki](https://shiki.style): Syntax highlighting
 - [Mermaid](https://mermaid.js.org): Diagram rendering (pinned \<11 due
   to broken TypeScript definitions)
+- [Lunr](https://lunrjs.com): Site-wide search
 
 </div>
 
