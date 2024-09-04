@@ -1,13 +1,12 @@
-import fs from "fs";
-
 import { Heading, toPandoc } from "@djot/djot";
 import { Environment } from "nunjucks";
+
 import {
-  DjockeyConfig,
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
   DjockeyRenderer,
+  DjockeyStaticFileFromPlugin,
 } from "../types.js";
 import { runPandocOnAST } from "../pandoc.js";
 import { djotASTToText } from "../utils/djotUtils.js";
@@ -16,7 +15,10 @@ import {
   makePathBackToRoot,
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
+  joinPath,
+  writeFile,
 } from "../utils/pathUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -50,33 +52,48 @@ export class GFMRenderer implements DjockeyRenderer {
     }
   }
 
-  async handleStaticFiles(
-    templateDir: string,
-    config: DjockeyConfigResolved,
-    docs: DjockeyDoc[]
-  ) {
+  async handleStaticFiles(args: {
+    templateDir: string;
+    config: DjockeyConfigResolved;
+    docs: DjockeyDoc[];
+    staticFilesFromPlugins: DjockeyStaticFileFromPlugin[];
+    logCollector: LogCollector;
+  }) {
+    const { templateDir, config, docs, staticFilesFromPlugins, logCollector } =
+      args;
     const ignorePatterns = config.gfm.ignore_static;
-    await copyFilesMatchingPattern({
+    const p1 = copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
+      logCollector,
     });
-    await copyFilesMatchingPattern({
+    const p2 = copyFilesMatchingPattern({
       base: config.input_dir,
       dest: config.output_dir.gfm,
       pattern: "**/*",
       excludePaths: docs.map((d) => d.absolutePath),
       excludePatterns: ignorePatterns,
+      logCollector,
     });
+    const p3 = Promise.all(
+      staticFilesFromPlugins.map((f) => {
+        return writeFile(
+          joinPath([config.output_dir.html, f.path]),
+          f.contents
+        );
+      })
+    );
+
+    await Promise.all([p1, p2, p3]);
   }
 
   async writeDoc(args: {
     config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
-    context: Record<string, unknown>;
   }) {
     const { config, nj, doc } = args;
     const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
@@ -110,10 +127,9 @@ export class GFMRenderer implements DjockeyRenderer {
       docs: renderedDocs,
       urls,
       needsTitle: !getFirstHeadingIsAlreadyDocumentTitle(doc),
-      ...args.context,
     });
 
-    fs.writeFileSync(outputPath, outputPage);
+    await writeFile(outputPath, outputPage);
   }
 }
 

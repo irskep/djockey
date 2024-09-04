@@ -1,12 +1,8 @@
-import { AstNode, Heading } from "@djot/djot";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
 import {
   DjockeyConfigResolved,
-  DjockeyDoc,
   DjockeyPlugin,
   DjockeyPluginNodeReservation,
 } from "../types.js";
-import { djotASTToText } from "../utils/djotUtils.js";
 
 /**
  * This is a stub plugin to preven SyntaxHighlightingPlugin from

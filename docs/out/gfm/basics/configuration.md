@@ -29,6 +29,8 @@ url_root: "https://your-docs-site-here"
 project_info:
   version: 0.0.1
   github_url: https://github.com/your/project
+  description: "Site description for social media"
+  image: "Path to image inside your docs directory for social media"
 input_dir: "path to your docs"
 output_dir:
   html: "path to your HTML output"
@@ -46,6 +48,9 @@ html:
   # If you use TypeDoc, you'd want to set this to
   # path/to/typedoc/**/*.css
   ignore_css: ['some/css/you/dont/want.css']
+  header_links:
+    - text: "Some text"
+      url: "https://a/full/url"
 
 gfm:
   ignore_static: ["**/*.html", "**/*.css", "**/*.js"]

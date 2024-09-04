@@ -32,6 +32,10 @@ a:visited {
   color: var(--color-fg-link-visited);
 }
 
+details > summary {
+  cursor: pointer;
+}
+
 li.checked,
 li.unchecked {
   list-style-type: none;
@@ -77,6 +81,8 @@ th {
 .DJHeader {
   z-index: 1;
   background-color: var(--color-bg);
+
+  --header-padding: var(--ms);
 }
 
 .DJHeader_SiteName a,
@@ -92,7 +98,12 @@ th {
 
 .DJHeader_Content {
   border-bottom: var(--border-weak);
-  padding: var(--ms);
+  padding: var(--header-padding);
+}
+
+.DJTableOfContents.m-header {
+  border-bottom: var(--border-weak);
+  padding: var(--header-padding);
 }
 
 .DJProjectInfo {
@@ -144,7 +155,7 @@ nav > div > ul ul ul {
   margin-left: 0.5em;
 }
 
-.DJTableOfContents_Content::before {
+.DJTableOfContents.m-sidebar .DJTableOfContents_Content::before {
   content: "On this page";
 }
 

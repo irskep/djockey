@@ -4,68 +4,50 @@
 -->
 - [GitHub Markdown demos](../features/gfm.md#github-markdown-demos)
   - [Alerts](../features/gfm.md#alerts)
-    - [H3](../features/gfm.md#h3)
 
 # GitHub Markdown demos
 
 ## Alerts
-
-### H3
 
 ``` md
 > [!NOTE]
 > Useful information that users should know, even when skimming content.
 ```
 
-<div class="note" tag="aside">
-
-Useful information that users should know, even when skimming content.
-
-</div>
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
 
 ``` md
 > [!TIP]
 > Helpful advice for doing things better or more easily.
 ```
 
-<div class="tip" tag="aside">
-
-Helpful advice for doing things better or more easily.
-
-</div>
+> [!TIP]
+> Helpful advice for doing things better or more easily.
 
 ``` md
 > [!IMPORTANT]
 > Key information users need to know to achieve their goal.
 ```
 
-<div class="important" tag="aside">
-
-Key information users need to know to achieve their goal.
-
-</div>
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
 
 ``` md
 > [!WARNING]
 > Urgent info that needs immediate user attention to avoid problems.
 ```
 
-<div class="warning" tag="aside">
-
-Urgent info that needs immediate user attention to avoid problems.
-
-</div>
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
 
 ``` md
 > [!CAUTION]
 > Advises about risks or negative outcomes of certain actions.
 ```
 
-<div class="caution" tag="aside">
-
-Advises about risks or negative outcomes of certain actions.
-
-</div>
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
 
 
 | Previous | Next |

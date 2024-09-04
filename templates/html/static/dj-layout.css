@@ -73,15 +73,27 @@ main {
   order: 2;
 }
 
+.DJTableOfContents.m-header {
+  display: none;
+}
+
 /* HEADER/FOOTER */
+
+.DJHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
 
 .DJHeader_Content {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--mm);
-  height: var(--header-height);
+  min-height: var(--header-height);
 }
 
 .DJHeader_Content_Group {
@@ -90,6 +102,16 @@ main {
   align-items: center;
   justify-content: flex-start;
   gap: var(--mm);
+}
+
+.DJTableOfContents.m-header {
+  position: relative;
+  width: 100%;
+}
+
+.DJTableOfContents.m-header .DJTableOfContents_Content {
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
 }
 
 /* NEXT/PREVIOUS */
@@ -135,9 +157,11 @@ main {
     display: block;
     cursor: pointer;
   }
-}
 
-@media (max-width: 820px) {
+  .DJTableOfContents.m-header {
+    display: block;
+  }
+
   .DJTableOfContents.m-sidebar {
     display: none;
   }

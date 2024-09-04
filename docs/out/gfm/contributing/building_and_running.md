@@ -25,8 +25,8 @@ Assuming you’ve already installed `bun`, `bun install` and `bun test`
 work as usual.
 
 `Makefile` has a few shortcuts for working this way. Run `make docs` to
-build the documentation for local browsing using <span id="indexterm-6"
-indexterm="Bun" id="indexterm-6">Bun</span>; this is effectively the
+build the documentation for local browsing using <span id="indexterm-5"
+indexterm="Bun" id="indexterm-5">Bun</span>; this is effectively the
 best integration test for Djockey right now.
 
 </div>

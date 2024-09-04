@@ -4,6 +4,7 @@
 -->
 - [Version
   directives](../features/version_directives.md#Version-directives)
+  - [Other options](../features/version_directives.md#Other-options)
 
 <div id="Version-directives" class="section" id="Version-directives">
 
@@ -64,9 +65,18 @@ We’re really excited about this feature!
 
 </div>
 
+<div id="Other-options" class="section" id="Other-options">
+
+## Other options
+
+You can also use `changed-in-version`, `removed-in-version`, and
+`deprecated-in-version`.
+
+</div>
+
 </div>
 
 
 | Previous | Next |
 | - | - |
-| [Tab Groups](../features/tab_groups.md) | [Building and running](../contributing/building_and_running.md) |
+| [Typedoc integration](../features/typedoc.md) | [Building and running](../contributing/building_and_running.md) |

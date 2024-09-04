@@ -102,12 +102,34 @@ export async function writeDocSet(
     const nj = new Environment(new FileSystemLoader(templateDir));
     const renderer = makeRenderer(format);
 
-    await renderer.handleStaticFiles(templateDir, docSet.config, docSet.docs);
+    const logCollector1 = new LogCollector("Copying static files");
 
-    const logCollector = new LogCollector(`Rendering ${format}`);
+    const staticFilesFromPlugins = docSet.plugins
+      .filter((plg) => plg.getStaticFiles)
+      .flatMap((plg) =>
+        plg.getStaticFiles!({
+          docs: docSet.docs,
+          config: docSet.config,
+          logCollector: logCollector1,
+          renderer,
+        })
+      );
+
+    await renderer.handleStaticFiles({
+      templateDir,
+      config: docSet.config,
+      docs: docSet.docs,
+      staticFilesFromPlugins,
+      logCollector: logCollector1,
+    });
+
+    logCollector1.succeed("warning");
+
+    const logCollector2 = new LogCollector(`Rendering ${format}`);
+
     await Promise.all(
-      docSet.makeRenderableCopy(renderer, logCollector).map(async (doc) => {
-        populateDocTreeDoc(docSet, doc, renderer, logCollector);
+      docSet.makeRenderableCopy(renderer, logCollector2).map(async (doc) => {
+        populateDocTreeDoc(docSet, doc, renderer, logCollector2);
         populateNextOrPreviousLinkDoc(
           "previous",
           docSet,
@@ -124,11 +146,10 @@ export async function writeDocSet(
           config: docSet.config,
           nj,
           doc,
-          context: {},
-          logCollector,
+          logCollector: logCollector2,
         });
       })
     );
-    logCollector.succeed("warning");
+    logCollector2.succeed("warning");
   }
 }

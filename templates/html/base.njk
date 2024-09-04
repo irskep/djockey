@@ -1,4 +1,4 @@
-{% from "svgs.njk" import svg_close, svg_hamburger with context %}
+{% from "svgs.njk" import svg_close, svg_hamburger, svg_search with context %}
 {% from "base_macros.njk" import next_previous, header_project_info with context %}
 <!doctype html>
 <html>
@@ -51,9 +51,18 @@
           <h2 class="DJHeader_Link"><a href="{{ link.url }}">{{ link.text }}</a></h2>
           {% endfor %}
           {% endif -%}
+          <button class="DJOpenSearchButton DJIconButton" popovertarget="dj-search-menu">{{ svg_search() }}</button>
           {{ header_project_info() }}
         </div>
       </div>
+
+      <details class="DJTableOfContents m-header">
+        <summary>On this page</summary>
+        <nav class="DJTableOfContents_Content">
+          {{ docs.toc | safe }}
+        </nav>
+      </details>
+
     </header>
 
     <main class="u-page-width">
@@ -95,6 +104,22 @@
           {{ docs.doctree | safe }}
         </div>
       </nav>
+    </div>
+
+    <div popover id="dj-search-menu" class="DJSearchMenu">
+      <div>
+        <div class="DJSearchMenu_Content">
+          <div class="DJSearchMenu_InputContainer">
+            <input type="text" id="dj-search-input" placeholder="Type to search">
+            <div class="DJSearchMenu_InputContainer_Caption">
+              You can use Tab and Shift+Tab to select a result, then Enter to navigate.
+            </div>
+          </div>
+          <div id="dj-search-menu-results" class="DJSearchMenu_Results">
+             <div class="DJSearchResults_Empty m-noquery">Type a search into the box.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     {%- for jsURL in urlLists.js %}

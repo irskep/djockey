@@ -6,10 +6,20 @@ order: -1
 
 ## 0.2 (unreleased)
 
-- [Typedoc integration](#typedoc-integration)
+- Markup features
+
+  - [Typedoc integration](#typedoc-integration)
+  - Allow putting custom links in the header
+
+- HTML improvements
+  - OpenGraph and Twitter Card metadata
+  - Site-wide search using [lunr](https://lunrjs.com)
+  - Move "On this page" to a header bar on mobile instead of just disappearing
+
 - Plugin API improvements
-- OpenGraph and Twitter Card metadata
-- Allow putting custom links in the header
+  - Plugins can provide static files, perhaps based on site content (this powers search)
+  - More methods can be async
+  - Plugins can mark nodes as "special" and not to be touched by other plugins
 
 ## 0.1
 
