@@ -31,4 +31,4 @@ jobs:
         run: npm x tsc
 
       - name: Run tests
-        run: npm test
+        run: npm run test:windows

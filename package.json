@@ -23,6 +23,7 @@
   "scripts": {
     "build": "npx tsc",
     "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest",
+    "test:windows": "set NODE_OPTIONS=\"--experimental-vm-modules\" && jest",
     "djockey": "npx tsc && node dist/cli.js"
   },
   "dependencies": {
