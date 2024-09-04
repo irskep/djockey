@@ -1,0 +1,9 @@
+# Home
+
+Three images:
+
+![one](subdirectory/image.png)
+
+![two](/subdirectory/image.png)
+
+![three](./subdirectory/image.png)

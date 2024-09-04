@@ -4,6 +4,7 @@
 -->
 - [Changelog](./changelog.md#Changelog)
   - [0.2](./changelog.md#0-2)
+    - [0.2.4 - 2024-09-04](./changelog.md#0-2-4---2024-09-04)
     - [0.2.3 - 2024-09-03](./changelog.md#0-2-3---2024-09-03)
     - [0.2.2 - 2024-09-03](./changelog.md#0-2-2---2024-09-03)
     - [0.2.1 - 2024-09-03](./changelog.md#0-2-1---2024-09-03)
@@ -21,6 +22,15 @@
 <div id="0-2" class="section" id="0-2">
 
 ## 0.2
+
+<div id="0-2-4---2024-09-04" class="section" id="0-2-4---2024-09-04">
+
+### 0.2.4 - 2024-09-04
+
+- Djockey can now run on Windows
+- Improvements to link resolution behavior
+
+</div>
 
 <div id="0-2-3---2024-09-03" class="section" id="0-2-3---2024-09-03">
 

@@ -23,24 +23,30 @@ import { log, LogCollector } from "../utils/logUtils.js";
 
 export async function executeConfig(
   config: DjockeyConfigResolved,
-  outputFormats: DjockeyOutputFormat[]
+  outputFormats: DjockeyOutputFormat[],
+  logCollectorParent?: LogCollector
 ) {
-  const docSet = await readDocSet(config);
+  logCollectorParent =
+    logCollectorParent ??
+    new LogCollector("stub", { silent: true, shouldStart: false });
 
-  await applyPlugins(config, docSet);
+  const docSet = await readDocSet(config, logCollectorParent);
+
+  await applyPlugins(config, docSet, logCollectorParent);
 
   const connectSpinner = print.spin("Connecting pages");
   connectSpinner.start();
   docSet.tree = loadDocTree(docSet.docs);
   connectSpinner.succeed();
 
-  await writeDocSet(docSet, outputFormats);
+  await writeDocSet(docSet, outputFormats, logCollectorParent);
 }
 
 export async function readDocSet(
-  config: DjockeyConfigResolved
+  config: DjockeyConfigResolved,
+  logCollectorParent: LogCollector
 ): Promise<DocSet> {
-  const logCollector = new LogCollector("Parsing documents");
+  const logCollector = logCollectorParent.getChild("Parsing documents");
 
   const parsePromises = config.fileList.map((path_) =>
     parseDjot(config.input_dir, path_, logCollector)
@@ -63,7 +69,8 @@ export async function readDocSet(
     }
   }
 
-  const logCollectorPluginSetup = new LogCollector("Setting up plugins");
+  const logCollectorPluginSetup =
+    logCollectorParent.getChild("Setting up plugins");
   const plugins = [...makeBuiltinPlugins(config), ...userPlugins];
   for (const plugin of plugins) {
     if (plugin.setup) {
@@ -77,10 +84,11 @@ export async function readDocSet(
 
 export async function applyPlugins(
   config: DjockeyConfigResolved,
-  docSet: DocSet
+  docSet: DocSet,
+  logCollectorParent: LogCollector
 ) {
   for (let i = 0; i < config.num_passes; i++) {
-    const logCollector = new LogCollector(
+    const logCollector = logCollectorParent.getChild(
       `Transform pass ${i + 1} of ${config.num_passes}`
     );
     await docSet.runPasses(logCollector);
@@ -90,7 +98,8 @@ export async function applyPlugins(
 
 export async function writeDocSet(
   docSet: DocSet,
-  outputFormats: DjockeyOutputFormat[]
+  outputFormats: DjockeyOutputFormat[],
+  logCollectorParent: LogCollector
 ) {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
@@ -102,7 +111,7 @@ export async function writeDocSet(
     const nj = new Environment(new FileSystemLoader(templateDir));
     const renderer = makeRenderer(format);
 
-    const logCollector1 = new LogCollector("Copying static files");
+    const logCollector1 = logCollectorParent.getChild("Copying static files");
 
     const staticFilesFromPlugins = docSet.plugins
       .filter((plg) => plg.getStaticFiles)
@@ -125,7 +134,7 @@ export async function writeDocSet(
 
     logCollector1.succeed("warning");
 
-    const logCollector2 = new LogCollector(`Rendering ${format}`);
+    const logCollector2 = logCollectorParent.getChild(`Rendering ${format}`);
 
     await Promise.all(
       docSet.makeRenderableCopy(renderer, logCollector2).map(async (doc) => {
