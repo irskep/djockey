@@ -1,5 +1,5 @@
 import { Heading, toPandoc } from "@djot/djot";
-import { convertPathToPattern } from "fast-glob";
+import fastGlob from "fast-glob";
 import { Environment } from "nunjucks";
 
 import {
@@ -73,7 +73,7 @@ export class GFMRenderer implements DjockeyRenderer {
       base: config.input_dir,
       dest: config.output_dir.gfm,
       pattern: "**/*",
-      excludePaths: docs.map((d) => convertPathToPattern(d.fsPath)),
+      excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
       excludePatterns: ignorePatterns,
       logCollector,
     });

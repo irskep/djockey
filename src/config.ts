@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import url from "url";
 
-import fastGlob, { convertPathToPattern } from "fast-glob";
+import fastGlob from "fast-glob";
 import yaml from "js-yaml";
 
 import {
@@ -96,7 +96,7 @@ export function resolveConfig(
       gfm: absify(rootPath, config.output_dir.gfm),
     },
     fileList: fastGlob.sync(
-      `${convertPathToPattern(
+      `${fastGlob.convertPathToPattern(
         absify(rootPath, config.input_dir)
       )}/**/*.(${inputExtensions.join("|")})`
     ),
