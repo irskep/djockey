@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import fastGlob from "fast-glob";
 import { executeConfig } from "../engine/executeConfig.js";
 import { resolveConfigFromDirectory } from "../config.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 function rmrf(parentDir: string) {
   console.log("rm -rf", parentDir);
@@ -29,5 +30,7 @@ beforeEach(() => {
 });
 test("HTML rendering", async () => {
   const config = resolveConfigFromDirectory(inputRoot, true)!;
-  await executeConfig(config, ["html"]);
+  const logCollector = new LogCollector("E2E", { silent: true });
+  await executeConfig(config, ["html"], logCollector);
+  expect(logCollector.hasWarningsOrErrors).toBeFalsy();
 });
