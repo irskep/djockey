@@ -17,8 +17,10 @@ import {
 import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
+  fsjoin,
   joinPath,
   makePathBackToRoot,
+  URL_SEPARATOR,
   writeFile,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
@@ -38,13 +40,13 @@ export class HTMLRenderer implements DjockeyRenderer {
     sourcePath: string;
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
-    docRelativePath: string;
+    docRefPath: string;
     isLinkToStaticFile: boolean;
   }) {
     const {
       anchorWithoutHash,
       config,
-      docRelativePath,
+      docRefPath,
       sourcePath,
       isLinkToStaticFile,
     } = args;
@@ -56,9 +58,9 @@ export class HTMLRenderer implements DjockeyRenderer {
     const ext = isLinkToStaticFile ? "" : ".html";
 
     if (anchorWithoutHash) {
-      return `${prefix}${docRelativePath}${ext}#${anchorWithoutHash}`;
+      return `${prefix}${docRefPath}${ext}#${anchorWithoutHash}`;
     } else {
-      return `${prefix}${docRelativePath}${ext}`;
+      return `${prefix}${docRefPath}${ext}`;
     }
   }
 
@@ -85,7 +87,7 @@ export class HTMLRenderer implements DjockeyRenderer {
       base: config.input_dir,
       dest: config.output_dir.html,
       pattern: "**/*",
-      excludePaths: docs.map((d) => d.absolutePath),
+      excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
       excludePatterns: ignorePatterns,
       logCollector,
     });
@@ -135,12 +137,15 @@ export class HTMLRenderer implements DjockeyRenderer {
     doc: DjockeyDoc;
   }) {
     const { config, nj, doc } = args;
-    const outputPath = `${config.output_dir.html}/${doc.relativePath}.html`;
-    ensureParentDirectoriesExist(outputPath);
+    const outputFSPath = fsjoin([
+      config.output_dir.html,
+      doc.refPath + ".html",
+    ]);
+    ensureParentDirectoriesExist(outputFSPath);
 
     const baseURL = this.options.relativeLinks
-      ? makePathBackToRoot(doc.relativePath, { sameDirectoryValue: "" })
-      : `${config.url_root}/`;
+      ? makePathBackToRoot(doc.refPath, { sameDirectoryValue: "" })
+      : `${config.url_root}${URL_SEPARATOR}`;
     const isFileURL = baseURL.startsWith("file://");
 
     const renderedDocs: Record<string, string> = {};
@@ -158,10 +163,10 @@ export class HTMLRenderer implements DjockeyRenderer {
       if (!doc.neighbors || !doc.neighbors[k]) continue;
       urls[k] = this.transformLink({
         config,
-        sourcePath: doc.relativePath,
+        sourcePath: doc.refPath,
         anchorWithoutHash: null,
         docOriginalExtension: doc.neighbors[k].originalExtension,
-        docRelativePath: doc.neighbors[k].relativePath,
+        docRefPath: doc.neighbors[k].refPath,
         isLinkToStaticFile: false,
       });
     }
@@ -181,7 +186,7 @@ export class HTMLRenderer implements DjockeyRenderer {
       },
     });
 
-    await writeFile(outputPath, outputPage);
+    await writeFile(outputFSPath, outputPage);
   }
 }
 

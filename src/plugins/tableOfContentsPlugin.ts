@@ -24,7 +24,7 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
   onPass_read(args: { doc: DjockeyDoc }) {
     const { doc } = args;
     // Always reset this array because this method may be run more than once
-    this.topLevelTOCEntriesByDoc[doc.relativePath] = new Array<TOCEntry>();
+    this.topLevelTOCEntriesByDoc[doc.refPath] = new Array<TOCEntry>();
 
     const tocStack = new Array<TOCEntry>();
     const referenceStack = new Array<string>();
@@ -74,7 +74,7 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
         if (lastNode) {
           lastNode.children.push(entry);
         } else {
-          this.topLevelTOCEntriesByDoc[doc.relativePath].push(entry);
+          this.topLevelTOCEntriesByDoc[doc.refPath].push(entry);
         }
 
         // Prepare for next heading to be processed
@@ -91,10 +91,7 @@ export class TableOfContentsPlugin implements DjockeyPlugin {
       autoReferences: {},
       footnotes: {},
       children: [
-        renderTOCArray(
-          doc.relativePath,
-          this.topLevelTOCEntriesByDoc[doc.relativePath]
-        ),
+        renderTOCArray(doc.refPath, this.topLevelTOCEntriesByDoc[doc.refPath]),
       ],
     };
   }

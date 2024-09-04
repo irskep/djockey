@@ -58,8 +58,8 @@ export interface DjockeyDoc {
   title: string;
   titleAST: Inline[];
   originalExtension: string;
-  absolutePath: string;
-  relativePath: string;
+  fsPath: string;
+  refPath: string;
   filename: string;
   frontMatter: Record<string, unknown>;
 
@@ -104,7 +104,7 @@ export type DjockeyRenderer = {
     sourcePath: string;
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
-    docRelativePath: string;
+    docRefPath: string;
     isLinkToStaticFile: boolean;
     logCollector: LogCollector;
   }) => string;

@@ -1,4 +1,5 @@
 import { Heading, toPandoc } from "@djot/djot";
+import fastGlob from "fast-glob";
 import { Environment } from "nunjucks";
 
 import {
@@ -17,6 +18,8 @@ import {
   ensureParentDirectoriesExist,
   joinPath,
   writeFile,
+  fsjoin,
+  refpath2fspath,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
 
@@ -28,15 +31,11 @@ export class GFMRenderer implements DjockeyRenderer {
     sourcePath: string;
     anchorWithoutHash: string | null;
     docOriginalExtension: string;
-    docRelativePath: string;
+    docRefPath: string;
     isLinkToStaticFile: boolean;
   }) {
-    const {
-      anchorWithoutHash,
-      docRelativePath,
-      sourcePath,
-      isLinkToStaticFile,
-    } = args;
+    const { anchorWithoutHash, docRefPath, sourcePath, isLinkToStaticFile } =
+      args;
     // All links first use `../` to go back to the root, followed by the
     // full relative path of the destination doc. When rendering Markdown
     // we always use relative paths because you can't assume any given
@@ -46,9 +45,9 @@ export class GFMRenderer implements DjockeyRenderer {
     const ext = isLinkToStaticFile ? "" : ".md";
 
     if (anchorWithoutHash) {
-      return `${pathBackToRoot}${docRelativePath}${ext}#${anchorWithoutHash}`;
+      return `${pathBackToRoot}${docRefPath}${ext}#${anchorWithoutHash}`;
     } else {
-      return `${pathBackToRoot}${docRelativePath}${ext}`;
+      return `${pathBackToRoot}${docRefPath}${ext}`;
     }
   }
 
@@ -74,7 +73,7 @@ export class GFMRenderer implements DjockeyRenderer {
       base: config.input_dir,
       dest: config.output_dir.gfm,
       pattern: "**/*",
-      excludePaths: docs.map((d) => d.absolutePath),
+      excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
       excludePatterns: ignorePatterns,
       logCollector,
     });
@@ -96,8 +95,11 @@ export class GFMRenderer implements DjockeyRenderer {
     doc: DjockeyDoc;
   }) {
     const { config, nj, doc } = args;
-    const outputPath = `${config.output_dir.gfm}/${doc.relativePath}.md`;
-    ensureParentDirectoriesExist(outputPath);
+    const outputFSPath = fsjoin([
+      config.output_dir.gfm,
+      refpath2fspath(doc.refPath + ".md"),
+    ]);
+    ensureParentDirectoriesExist(outputFSPath);
 
     const renderedDocs: Record<string, string> = {};
     const renderOps = Object.keys(doc.docs).map((k) => {
@@ -114,10 +116,10 @@ export class GFMRenderer implements DjockeyRenderer {
       if (!doc.neighbors || !doc.neighbors[k]) continue;
       urls[k] = this.transformLink({
         config,
-        sourcePath: doc.relativePath,
+        sourcePath: doc.refPath,
         anchorWithoutHash: null,
         docOriginalExtension: doc.neighbors[k].originalExtension,
-        docRelativePath: doc.neighbors[k].relativePath,
+        docRefPath: doc.neighbors[k].refPath,
         isLinkToStaticFile: false,
       });
     }
@@ -129,7 +131,7 @@ export class GFMRenderer implements DjockeyRenderer {
       needsTitle: !getFirstHeadingIsAlreadyDocumentTitle(doc),
     });
 
-    await writeFile(outputPath, outputPage);
+    await writeFile(outputFSPath, outputPage);
   }
 }
 

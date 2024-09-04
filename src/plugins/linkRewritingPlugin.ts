@@ -11,6 +11,7 @@ import {
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
+import { fsjoin, urlsplit, URL_SEPARATOR } from "../utils/pathUtils.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";
@@ -88,13 +89,13 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           const defaultLabel = this._defaultLinkLabels[node.destination];
 
           const newDestination = this.transformNodeDestination(
-            doc.relativePath,
+            doc.refPath,
             config.input_dir,
             node.destination,
             {
               config: this.config,
               renderer,
-              sourcePath: doc.relativePath,
+              sourcePath: doc.refPath,
               logCollector,
             }
           );
@@ -128,7 +129,9 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
     const values = this._linkTargets[nodeDestination];
     if (!values || !values.length) {
-      const prefixlessNodeDestinationWithHash = nodeDestination.startsWith("/")
+      const prefixlessNodeDestinationWithHash = nodeDestination.startsWith(
+        URL_SEPARATOR
+      )
         ? nodeDestination.slice(1)
         : nodeDestination;
 
@@ -141,14 +144,18 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
               prefixlessNodeDestination.length + 1
             );
 
-      const staticFilePath = `${inputRoot}/${prefixlessNodeDestination}`;
-      if (fs.existsSync(staticFilePath)) {
+      const possibleStaticFileFSPath = fsjoin([
+        inputRoot,
+        ...urlsplit(prefixlessNodeDestination),
+      ]);
+      if (fs.existsSync(possibleStaticFileFSPath)) {
         return renderArgs.renderer.transformLink({
           config: renderArgs.config,
           sourcePath: renderArgs.sourcePath,
           anchorWithoutHash,
           docOriginalExtension: path.parse(nodeDestination).ext,
-          docRelativePath: prefixlessNodeDestination,
+          // We can use the destination as-is without modification
+          docRefPath: prefixlessNodeDestination,
           isLinkToStaticFile: true,
           logCollector: renderArgs.logCollector,
         });
@@ -157,7 +164,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
         );
         renderArgs.logCollector.warning(
-          `  Looked for but did not find a static file at ${staticFilePath}`
+          `  Looked for but did not find a static file at ${possibleStaticFileFSPath}`
         );
       }
       return nodeDestination;
@@ -200,17 +207,17 @@ function isURL(s: string): boolean {
 
 export class LinkTarget {
   public docOriginalExtension: string;
-  public docRelativePath: string;
+  public docRefPath: string;
 
   constructor(doc: DjockeyDoc, public anchorWithoutHash: string | null) {
     this.docOriginalExtension = doc.originalExtension;
-    this.docRelativePath = doc.relativePath;
+    this.docRefPath = doc.refPath;
   }
 
   equals(other: LinkTarget) {
     return (
       this.docOriginalExtension === other.docOriginalExtension &&
-      this.docRelativePath == other.docRelativePath &&
+      this.docRefPath == other.docRefPath &&
       this.anchorWithoutHash == other.anchorWithoutHash
     );
   }
@@ -218,7 +225,7 @@ export class LinkTarget {
   toString(): string {
     const hash = this.anchorWithoutHash ? `#${this.anchorWithoutHash}` : "";
     const aliases = this.aliases.join("\n  ");
-    return `LinkTarget(${this.docRelativePath}${this.docOriginalExtension}${hash}) [\n  ${aliases}\n]`;
+    return `LinkTarget(${this.docRefPath}${this.docOriginalExtension}${hash}) [\n  ${aliases}\n]`;
   }
 
   /**
@@ -228,7 +235,7 @@ export class LinkTarget {
   get aliases(): string[] {
     const hash = this.anchorWithoutHash ? `#${this.anchorWithoutHash}` : "";
     const result: string[] = this.anchorWithoutHash ? [hash] : [];
-    const pathParts = this.docRelativePath.split("/");
+    const pathParts = this.docRefPath.split("/");
     for (let i = pathParts.length - 1; i >= 0; i--) {
       result.push(`${pathParts.slice(i).join("/")}${hash}`);
       result.push(
@@ -236,8 +243,8 @@ export class LinkTarget {
       );
     }
     // This is the 100% totally unambiguous link
-    result.push(`/${this.docRelativePath}${hash}`);
-    result.push(`/${this.docRelativePath}${this.docOriginalExtension}${hash}`);
+    result.push(`/${this.docRefPath}${hash}`);
+    result.push(`/${this.docRefPath}${this.docOriginalExtension}${hash}`);
     return result;
   }
 
@@ -252,7 +259,7 @@ export class LinkTarget {
       sourcePath: args.sourcePath,
       anchorWithoutHash: this.anchorWithoutHash,
       docOriginalExtension: this.docOriginalExtension,
-      docRelativePath: this.docRelativePath,
+      docRefPath: this.docRefPath,
       isLinkToStaticFile: false,
       logCollector: args.logCollector,
     });

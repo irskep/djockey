@@ -1,7 +1,7 @@
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
-import { djotASTToText, getHasClass } from "../utils/djotUtils.js";
-import { AstNode, Block } from "@djot/djot";
+import { getHasClass } from "../utils/djotUtils.js";
+import { AstNode } from "@djot/djot";
 
 // These happen to correspond to Djockey's 'aside' classes, so we're just going
 // to replace the 'div' tag with the 'aside' tag and remove the starting paragraph.

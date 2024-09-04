@@ -1,3 +1,7 @@
+/**
+ * In practice, this file is where we list every type that shows up in TypeDoc.
+ */
+
 export {
   DjockeyDoc,
   DjockeyInputFormat,

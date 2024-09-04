@@ -3,10 +3,16 @@ import { DjockeyDoc } from "../types.js";
 import { CustomSortValue } from "./customSortValue.js";
 import { Inline } from "@djot/djot";
 import { djotASTToText } from "../utils/djotUtils.js";
+import {
+  CANONICAL_SEPARATOR,
+  refjoin,
+  refname,
+  refsplit,
+} from "../utils/pathUtils.js";
 
 export type DocTreeSection = {
   title: Inline[];
-  relativePath: string;
+  refPath: string;
   selfDoc: DjockeyDoc | null;
   selfDocHasContent: boolean;
   children: DocTreeSection[];
@@ -24,33 +30,33 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
 
   const root: DocTreeSection = {
     title: [],
-    relativePath: "",
+    refPath: "",
     selfDoc: null,
     selfDocHasContent: false,
     children: [],
     docs: [],
   };
-  const sectionsByRelativePath: Record<string, DocTreeSection> = {};
+  const sectionsByRefPath: Record<string, DocTreeSection> = {};
 
-  function ensureDirCreated(relativePath: string): DocTreeSection {
-    if (sectionsByRelativePath[relativePath]) {
-      return sectionsByRelativePath[relativePath];
+  function ensureSectionCreated(refPath: string): DocTreeSection {
+    if (sectionsByRefPath[refPath]) {
+      return sectionsByRefPath[refPath];
     }
 
     const newSection: DocTreeSection = {
-      title: [{ tag: "str", text: path.parse(relativePath).name }],
-      relativePath,
+      title: [{ tag: "str", text: refname(refPath) }],
+      refPath,
       selfDoc: null,
       selfDocHasContent: false,
       children: [],
       docs: [],
     };
-    sectionsByRelativePath[relativePath] = newSection;
+    sectionsByRefPath[refPath] = newSection;
 
-    const parts = relativePath.split("/");
+    const parts = refsplit(refPath);
     if (parts.length > 1) {
-      const parent = parts.slice(0, parts.length - 1).join("/");
-      const parentSection = sectionsByRelativePath[parent];
+      const parent = refjoin(parts.slice(0, parts.length - 1));
+      const parentSection = sectionsByRefPath[parent];
       parentSection.children.push(newSection);
     } else {
       root.children.push(newSection);
@@ -60,13 +66,13 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
   }
 
   for (const doc of docs) {
-    const dirs = getDirs(doc.relativePath);
-    for (const dir of dirs) {
-      ensureDirCreated(dir);
+    const refDirs = getRefDirs(doc.refPath);
+    for (const dir of refDirs) {
+      ensureSectionCreated(dir);
     }
 
-    const docSection = dirs.length
-      ? sectionsByRelativePath[dirs[dirs.length - 1]]
+    const docSection = refDirs.length
+      ? sectionsByRefPath[refDirs[refDirs.length - 1]]
       : root;
 
     if (path.parse(doc.filename).name === "index") {
@@ -138,9 +144,9 @@ export function connectNextAndPrevious(
   let lastDoc = lastDoc_;
 
   function processDoc(doc: DjockeyDoc) {
-    prevMap[doc.relativePath] = lastDoc?.relativePath || null;
-    nextMap[doc.relativePath] = null; // will be overwritten shortly
-    if (lastDoc) nextMap[lastDoc.relativePath] = doc.relativePath;
+    prevMap[doc.refPath] = lastDoc?.refPath || null;
+    nextMap[doc.refPath] = null; // will be overwritten shortly
+    if (lastDoc) nextMap[lastDoc.refPath] = doc.refPath;
     lastDoc = doc;
   }
 
@@ -165,11 +171,11 @@ export function connectNextAndPrevious(
  * @param path_
  * @returns
  */
-function getDirs(path_: string): string[] {
-  const parts = path_.split("/");
+function getRefDirs(refPath: string): string[] {
+  const parts = refsplit(refPath);
   const result = new Array<string>();
   for (let i = 1; i < parts.length; i++) {
-    result.push(parts.slice(0, i).join("/"));
+    result.push(refjoin(parts.slice(0, i)));
   }
   return result;
 }
@@ -187,13 +193,13 @@ function sortDocsByPathWithFilesBeforeDirectories(
       if (result !== 0) return result; // otherwise break the tie
     }
 
-    const a = docA.relativePath;
-    const b = docB.relativePath;
-    const partsA = a.split("/");
-    const partsB = b.split("/");
+    const a = docA.refPath;
+    const b = docB.refPath;
+    const partsA = a.split(CANONICAL_SEPARATOR);
+    const partsB = b.split(CANONICAL_SEPARATOR);
 
-    const aDir = partsA.slice(0, partsA.length - 1).join("/");
-    const bDir = partsB.slice(0, partsB.length - 1).join("/");
+    const aDir = partsA.slice(0, partsA.length - 1).join(CANONICAL_SEPARATOR);
+    const bDir = partsB.slice(0, partsB.length - 1).join(CANONICAL_SEPARATOR);
 
     if (aDir === bDir) {
       const aName = path.parse(a).name;
