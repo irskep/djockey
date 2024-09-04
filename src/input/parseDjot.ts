@@ -8,6 +8,7 @@ import { DjockeyDoc } from "../types.js";
 import { getPandocAST } from "../pandoc.js";
 import { getInputFormatForFileExtension } from "./fileExtensions.js";
 import { LogCollector } from "../utils/logUtils.js";
+import { fsext, fsname, fssplit, refjoin } from "../utils/pathUtils.js";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -32,17 +33,16 @@ export function parseFrontmatter(text: string): {
 
 export async function parseDjot(
   inputRoot: string,
-  absolutePath: string,
+  fsPath: string,
   logCollector: LogCollector
 ): Promise<DjockeyDoc | null> {
-  const relativePath = path.relative(inputRoot, absolutePath);
   const { text, frontMatter } = parseFrontmatter(
-    fs.readFileSync(absolutePath, "utf8")
+    fs.readFileSync(fsPath, "utf8")
   );
 
   let djotDoc: Doc | undefined;
 
-  switch (getInputFormatForFileExtension(path.parse(absolutePath).ext)) {
+  switch (getInputFormatForFileExtension(fsext(fsPath))) {
     case "djot":
       djotDoc = parse(text, {
         sourcePositions: true,
@@ -50,24 +50,26 @@ export async function parseDjot(
       });
       break;
     case "gfm":
-      const ast = getPandocAST(absolutePath);
+      const ast = getPandocAST(fsPath);
       djotDoc = fromPandoc(ast as any);
       break;
   }
 
   if (!djotDoc) {
-    logCollector.error(`Couldn't figure out how to parse ${absolutePath}`);
+    logCollector.error(`Couldn't figure out how to parse ${fsPath}`);
     return null;
   }
 
   return {
     docs: { content: djotDoc },
-    title: path.parse(relativePath).name,
-    titleAST: [{ tag: "str", text: path.parse(relativePath).name }],
-    originalExtension: path.parse(relativePath).ext,
-    absolutePath,
-    relativePath: removeExtensionFromPath(relativePath),
-    filename: basename(absolutePath),
+    title: path.parse(fsPath).name,
+    titleAST: [{ tag: "str", text: fsname(fsPath) }],
+    originalExtension: fsext(fsPath),
+    fsPath,
+    refPath: refjoin(
+      fssplit(removeExtensionFromPath(path.relative(inputRoot, fsPath)))
+    ),
+    filename: basename(fsPath),
     frontMatter,
     data: {},
   };

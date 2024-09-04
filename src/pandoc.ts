@@ -7,10 +7,10 @@ export function getIsPandocInstalled(): boolean {
   return result.status === 0;
 }
 
-export function getPandocAST(path_: string): unknown {
+export function getPandocAST(fsPath: string): unknown {
   const result = spawnSync(
     "pandoc",
-    [path.resolve(path_), "-f", "gfm", "-t", "json"],
+    [path.resolve(fsPath), "-f", "gfm", "-t", "json"],
     {
       encoding: "utf-8",
     }

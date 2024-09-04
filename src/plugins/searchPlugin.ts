@@ -31,7 +31,7 @@ export class SearchPlugin implements DjockeyPlugin {
         anchorWithoutHash: null,
         logCollector: args.logCollector,
         docOriginalExtension: doc.originalExtension,
-        docRelativePath: doc.relativePath,
+        docRefPath: doc.refPath,
         isLinkToStaticFile: false,
       }),
     }));

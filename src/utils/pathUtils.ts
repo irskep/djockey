@@ -32,10 +32,10 @@ export function makePathBackToRoot(
   return result.join("/") + "/";
 }
 
-export function ensureParentDirectoriesExist(filePath: string) {
-  if (fs.existsSync(path.resolve(path.join(filePath, "..")))) return;
+export function ensureParentDirectoriesExist(fsPath: string) {
+  if (fs.existsSync(path.resolve(path.join(fsPath, "..")))) return;
 
-  fs.mkdirSync(path.resolve(path.join(filePath, "..")), {
+  fs.mkdirSync(path.resolve(path.join(fsPath, "..")), {
     recursive: true,
   });
 }
@@ -88,4 +88,53 @@ export async function copyFilesMatchingPattern(args: {
     .map(async (path_) => await copyPath(path_));
 
   await Promise.all(promises);
+}
+
+// for config files and internal non-filesystem representations
+export const CANONICAL_SEPARATOR = "/";
+
+export const URL_SEPARATOR = "/";
+
+export const FILESYSTEM_SEPARATOR = path.sep;
+
+export function fsjoin(items: string[]): string {
+  return path.join(...items);
+}
+
+export function urljoin(items: string[]): string {
+  return items.join(URL_SEPARATOR);
+}
+
+export function refjoin(items: string[]): string {
+  return items.join(CANONICAL_SEPARATOR);
+}
+
+export function fssplit(s: string): string[] {
+  return s.split(FILESYSTEM_SEPARATOR);
+}
+
+export function urlsplit(s: string): string[] {
+  return s.split(URL_SEPARATOR);
+}
+
+export function refsplit(s: string): string[] {
+  return s.split(CANONICAL_SEPARATOR);
+}
+
+export function fsname(s: string): string {
+  return path.parse(s).name;
+}
+
+export function fsext(s: string): string {
+  return path.parse(s).ext;
+}
+
+export function refname(s: string): string {
+  if (!s.length) return "";
+  const parts = refsplit(s);
+  return parts[parts.length - 1];
+}
+
+export function refpath2fspath(s: string): string {
+  return fsjoin(refsplit(s));
 }

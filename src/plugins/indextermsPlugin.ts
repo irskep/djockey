@@ -9,10 +9,10 @@ import { LogCollector } from "../utils/logUtils.js";
 export class IndextermsPlugin implements DjockeyPlugin {
   name = "Indexterms";
 
-  // docRelativePath: term: { docRelativePath, id }
+  // docRefPath: term: { docRefPath, id }
   indextermsByDoc: Record<
     string,
-    Record<string, { docRelativePath: string; id: string }[]>
+    Record<string, { docRefPath: string; id: string }[]>
   > = {};
 
   onPass_read(args: { doc: DjockeyDoc; logCollector: LogCollector }) {
@@ -20,8 +20,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
     // During the read pass, find every node with an indexterm* attribute and
     // store it in indextermsByDoc.
 
-    const result: Record<string, { docRelativePath: string; id: string }[]> =
-      {};
+    const result: Record<string, { docRefPath: string; id: string }[]> = {};
     for (const djotDoc of Object.values(doc.docs)) {
       let nextID = 0;
       applyFilter(djotDoc, () => ({
@@ -38,7 +37,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
               newNode.attributes.id = nodeID;
               didFindIndexterm = true;
               pushToList(result, node.attributes[k], {
-                docRelativePath: doc.relativePath,
+                docRefPath: doc.refPath,
                 id: nodeID,
               });
             }
@@ -52,7 +51,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
       }));
     }
     // Reset this dict each time for idempotency in case we have multiple passes
-    this.indextermsByDoc[doc.relativePath] = result;
+    this.indextermsByDoc[doc.refPath] = result;
   }
 
   onPass_write(args: { doc: DjockeyDoc }) {
@@ -73,7 +72,7 @@ export class IndextermsPlugin implements DjockeyPlugin {
   }
 
   buildIndexAST(): Block[] {
-    const terms: Record<string, { docRelativePath: string; id: string }[]> = {};
+    const terms: Record<string, { docRefPath: string; id: string }[]> = {};
 
     for (const dict of Object.values(this.indextermsByDoc)) {
       for (const k of Object.keys(dict)) {
@@ -114,9 +113,9 @@ export class IndextermsPlugin implements DjockeyPlugin {
                 children: [
                   {
                     tag: "link",
-                    destination: `${val.docRelativePath}#${val.id}`,
+                    destination: `${val.docRefPath}#${val.id}`,
                     children: [
-                      { tag: "str", text: getDocLinkText(val.docRelativePath) },
+                      { tag: "str", text: getDocLinkText(val.docRefPath) },
                     ],
                   },
                 ],

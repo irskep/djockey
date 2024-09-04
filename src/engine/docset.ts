@@ -1,4 +1,3 @@
-import { AstNode, HasAttributes } from "@djot/djot";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
@@ -8,7 +7,6 @@ import {
 } from "../types.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { DocTree } from "./doctree.js";
-import { getHasClass } from "../utils/djotUtils.js";
 
 export class DocSet {
   public tree: DocTree | null = null;
@@ -36,8 +34,8 @@ export class DocSet {
       .flatMap((list) => list);
   }
 
-  public getDoc(relativePath: string): DjockeyDoc | null {
-    return this.docs.find((d) => d.relativePath === relativePath) || null;
+  public getDoc(refPath: string): DjockeyDoc | null {
+    return this.docs.find((d) => d.refPath === refPath) || null;
   }
 
   public async runPasses(logCollector: LogCollector) {

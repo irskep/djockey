@@ -39,7 +39,7 @@ export function populateNextOrPreviousLinkDoc(
   map: Record<string, string | null> | null
 ) {
   if (!map) return null;
-  const relativePath = map[doc.relativePath];
+  const relativePath = map[doc.refPath];
   if (!relativePath) return null;
 
   const destDoc = docSet.getDoc(relativePath);
@@ -79,10 +79,10 @@ function renderSection(
       children: structuredClone(doc.titleAST),
       destination: renderer.transformLink({
         config,
-        sourcePath: activeDoc.relativePath,
+        sourcePath: activeDoc.refPath,
         anchorWithoutHash: null,
         docOriginalExtension: doc.originalExtension,
-        docRelativePath: doc.relativePath,
+        docRefPath: doc.refPath,
         isLinkToStaticFile: false,
         logCollector: logCollector,
       }),

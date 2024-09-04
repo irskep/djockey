@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import url from "url";
 
-import fastGlob from "fast-glob";
+import fastGlob, { convertPathToPattern } from "fast-glob";
 import yaml from "js-yaml";
 
 import {
@@ -14,6 +14,7 @@ import {
 import { getExtensionForInputFormat } from "./input/fileExtensions.js";
 import { getIsPandocInstalled } from "./pandoc.js";
 import { log } from "./utils/logUtils.js";
+import { fsjoin } from "./utils/pathUtils.js";
 
 export function getNeedsPandoc(fmt: DjockeyInputFormat): boolean {
   return fmt !== "djot";
@@ -62,7 +63,7 @@ export function readConfig(path_: string): DjockeyConfig {
 
 function absify(rootPath: string, path_: string): string {
   if (path.isAbsolute(path_)) return path_;
-  return `${rootPath}/${path_}`;
+  return fsjoin([rootPath, path_]);
 }
 
 export function resolveConfig(
@@ -95,9 +96,9 @@ export function resolveConfig(
       gfm: absify(rootPath, config.output_dir.gfm),
     },
     fileList: fastGlob.sync(
-      `${absify(rootPath, config.input_dir)}/**/*.(${inputExtensions.join(
-        "|"
-      )})`
+      `${convertPathToPattern(
+        absify(rootPath, config.input_dir)
+      )}/**/*.(${inputExtensions.join("|")})`
     ),
   };
 
@@ -119,7 +120,7 @@ export function resolveConfigFromDirectory(
   path_: string,
   isLocal: boolean
 ): DjockeyConfigResolved | null {
-  const configPath = `${path_}/djockey.yaml`;
+  const configPath = fsjoin([path_, "djockey.yaml"]);
   if (fs.existsSync(configPath)) {
     return resolveConfig(path.resolve(path_), readConfig(configPath), isLocal);
   } else {
