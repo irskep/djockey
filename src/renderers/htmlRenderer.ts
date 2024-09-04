@@ -1,6 +1,7 @@
 import path from "path";
 
 import fastGlob from "fast-glob";
+import micromatch from "micromatch";
 import { parseFragment, serialize } from "parse5";
 
 import { renderHTML } from "@djot/djot";
@@ -21,7 +22,6 @@ import {
   writeFile,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { match } from "micromatch";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -104,7 +104,7 @@ export class HTMLRenderer implements DjockeyRenderer {
     const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {
       ignore: (config.html.ignore_css ?? []).map((pattern) => `**/${pattern}`),
     });
-    const pluginCSSFiles = match(
+    const pluginCSSFiles = micromatch.match(
       staticFilesFromPlugins.map((f) => f.path),
       "**/*.css"
     );
@@ -117,7 +117,7 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
     const inputJSFiles = fastGlob.sync(`${config.input_dir}/**/*.js`);
-    const pluginJSFiles = match(
+    const pluginJSFiles = micromatch.match(
       staticFilesFromPlugins.map((f) => f.path),
       "**/*.js"
     );

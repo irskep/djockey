@@ -35,7 +35,6 @@ hard to use indexterms but does have a few:
 
 ## Bun
 
-- [contributing/dependencies](../contributing/dependencies.md#indexterm-0)
 - [contributing/building_and_running](../contributing/building_and_running.md#indexterm-0)
 - [contributing/building_and_running
   (2)](../contributing/building_and_running.md#indexterm-1)
@@ -48,6 +47,7 @@ hard to use indexterms but does have a few:
 - [contributing/building_and_running
   (6)](../contributing/building_and_running.md#indexterm-5)
 - [contributing/client_side_js](../contributing/client_side_js.md#indexterm-0)
+- [contributing/dependencies](../contributing/dependencies.md#indexterm-0)
 
 ## testing
 
