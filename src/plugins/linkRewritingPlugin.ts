@@ -34,7 +34,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
       for (const mapping of data.linkMappings) {
         for (const ns of data.namespaces) {
           const dest = `:${ns}:${mapping.linkDestination}`;
-          const url = `${urlRoot}/${mapping.relativeURL}`;
+          const url = `/${urlRoot}${mapping.relativeURL}`;
           if (
             this._mappedLinkDestinations[dest] &&
             // Silently ignore duplicate entries of the same thing
@@ -162,8 +162,29 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
         if (maybeDirectLink2) {
           return maybeDirectLink2;
         } else if (maybeMappedLinkDestination) {
-          // Easy case: a link map contains this string
-          return maybeAddHash(maybeMappedLinkDestination, parsedLink.hash);
+          // Easy case: a link map contains this string.
+          // Interpret it as a static file.
+          const parsedMappedLink = parseLink(maybeMappedLinkDestination);
+          if (parsedMappedLink.kind !== "direct") {
+            renderArgs.logCollector.warning(
+              "Mapped links should only point to static files"
+            );
+            return unresolvedNodeDestination;
+          }
+          const resolvedMappedLink = resolveDirectLink(
+            parsedMappedLink,
+            sourcePath,
+            inputRoot,
+            this._linkTargets,
+            renderArgs
+          );
+          if (!resolvedMappedLink) {
+            renderArgs.logCollector.warning(
+              `Couldn't find a static file mapped to ${unresolvedNodeDestination} on ${sourcePath}`
+            );
+            return unresolvedNodeDestination;
+          }
+          return resolvedMappedLink;
         } else if (maybeLinkTargets && maybeLinkTargets.length) {
           if (maybeLinkTargets.length > 1) {
             renderArgs.logCollector.warning(

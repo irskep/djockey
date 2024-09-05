@@ -32,7 +32,7 @@ Djockey can integrate with [TypeDoc](https://typedoc.org) to create an
 integrated documentation experience that combines the authoring power of
 Djockey with rich API references. For example, here in the Djockey docs,
 we can type `[](:ts:DjockeyPlugin)` and get
-[DjockeyPlugin](../api//interfaces/DjockeyPlugin.html).
+[DjockeyPlugin](../api/interfaces/DjockeyPlugin.html).
 
 The core concept is to render TypeDoc normally inside your docs
 directory, treat its output as static files, and then create convenient
