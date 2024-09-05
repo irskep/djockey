@@ -100,10 +100,6 @@
   text-decoration: none !important;
 }
 
-.DJHighlight {
-  background-color: yellow;
-}
-
 .DJSearchResult p {
   margin-bottom: var(--ms);
 }
