@@ -18,6 +18,19 @@ window.onload = () => {
     });
   });
 
+  /* CLOSE ON-THIS-PAGE POPOVER WHEN CLICKING LINKS INSIDE IT */
+
+  document
+    .querySelectorAll("details.DJTableOfContents")
+    .forEach((popoverEl) => {
+      popoverEl.querySelectorAll("a").forEach((linkEl) => {
+        (linkEl as HTMLAnchorElement).addEventListener("click", (e) => {
+          (popoverEl as HTMLDetailsElement).open = false;
+          return true;
+        });
+      });
+    });
+
   /* MERMAID */
 
   // Replace all <pre><code class="language-mermaid">...</code></pre> with just <pre class="mermaid"></pre>
