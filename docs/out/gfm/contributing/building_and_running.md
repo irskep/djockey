@@ -49,4 +49,4 @@ using Node. `yarn test` and `yarn test:watch` will run the tests using
 
 | Previous | Next |
 | - | - |
-| [Version directives](../features/version_directives.md) | [Client-side JS](../contributing/client_side_js.md) |
+| [Indexterms](../features/indexterms.md) | [Client-side JS](../contributing/client_side_js.md) |

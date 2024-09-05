@@ -34,7 +34,7 @@ If you have a doc at `life.dj`, you can link to it with either
 ## Static files
 
 You can link to static files using relative paths, or absolute paths
-where the root is `inputDir`.
+where the root is `input_dir`.
 
 </div>
 

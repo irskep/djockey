@@ -38,4 +38,4 @@ flowchart LR
 
 | Previous | Next |
 | - | - |
-| [Indexterms](../features/indexterms.md) | [Syntax highlighting](../features/syntax_highlighting.md) |
+| [GitHub Markdown demos](../features/gfm.md) | [Syntax highlighting](../features/syntax_highlighting.md) |

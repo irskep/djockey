@@ -8,7 +8,7 @@ If you have a doc at `life.dj`, you can link to it with either `[link text](life
 
 ## Static files
 
-You can link to static files using relative paths, or absolute paths where the root is `inputDir`{.language-sh}.
+You can link to static files using relative paths, or absolute paths where the root is `input_dir`{.language-sh}.
 
 ## Shorthand link resolution
 

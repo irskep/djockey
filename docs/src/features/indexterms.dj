@@ -1,3 +1,6 @@
+---
+order: -1
+---
 # Indexterms
 
 You can generate a "reference" section. This is an unusual thing to want to do for an HTML site, but in theory, Djockey will eventually support some form of PDF output via LaTeX or Typst or SILE or something, so why not?

@@ -79,4 +79,4 @@ You can also use `changed-in-version`, `removed-in-version`, and
 
 | Previous | Next |
 | - | - |
-| [Typedoc integration](../features/typedoc.md) | [Building and running](../contributing/building_and_running.md) |
+| [Typedoc integration](../features/typedoc.md) | [Indexterms](../features/indexterms.md) |

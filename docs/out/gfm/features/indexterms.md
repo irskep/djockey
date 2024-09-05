@@ -58,4 +58,4 @@ hard to use indexterms but does have a few:
 
 | Previous | Next |
 | - | - |
-| [GitHub Markdown demos](../features/gfm.md) | [Mermaid diagrams](../features/mermaid_diagrams.md) |
+| [Version directives](../features/version_directives.md) | [Building and running](../contributing/building_and_running.md) |
