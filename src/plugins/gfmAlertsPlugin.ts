@@ -15,7 +15,7 @@ export class GFMAlertsPlugin implements DjockeyPlugin {
     applyFilter(doc.docs.content, () => ({
       div: (node) => {
         for (const cls of GITHUB_ALERT_CLASSES) {
-          if (!getHasClass(node, cls) || !node.attributes?.tag) continue;
+          if (!getHasClass(node, cls) || node.attributes?.tag) continue;
           const newNode = structuredClone(node);
           newNode.attributes.tag = "aside";
 
