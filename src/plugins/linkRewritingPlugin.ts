@@ -11,17 +11,12 @@ import {
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import {
-  fsjoin,
-  urlsplit,
-  URL_SEPARATOR,
-  CANONICAL_SEPARATOR,
-} from "../utils/pathUtils.js";
+import { fsjoin, CANONICAL_SEPARATOR, refsplit } from "../utils/pathUtils.js";
 
 export class LinkRewritingPlugin implements DjockeyPlugin {
   name = "Link Rewriter";
 
-  private _linkTargets: Record<string, LinkTarget[]> = {};
+  private _linkTargets: Record<string, MappableLinkTarget[]> = {};
 
   private _mappedLinkDestinations: Record<string, string> = {};
   private _defaultLinkLabels: Record<string, string> = {};
@@ -57,7 +52,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
 
   onPass_read(args: { doc: DjockeyDoc }) {
     const { doc } = args;
-    const registerLinkTarget = (t: LinkTarget) => {
+    const registerLinkTarget = (t: MappableLinkTarget) => {
       t.aliases.forEach((alias) =>
         pushToListIfNotPresent(this._linkTargets, alias, t, (a, b) =>
           a.equals(b)
@@ -65,7 +60,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
       );
     };
 
-    registerLinkTarget(new LinkTarget(doc, null));
+    registerLinkTarget(new MappableLinkTarget(doc, null));
 
     for (const djotDoc of Object.values(doc.docs)) {
       applyFilter(djotDoc, () => ({
@@ -73,7 +68,7 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
           const attrs = { ...node.autoAttributes, ...node.attributes };
           if (!attrs.id) return;
 
-          registerLinkTarget(new LinkTarget(doc, attrs.id));
+          registerLinkTarget(new MappableLinkTarget(doc, attrs.id));
         },
       }));
     }
@@ -119,93 +114,124 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     sourcePath: string;
     inputRoot: string;
     unresolvedNodeDestination: string;
-    renderArgs: Parameters<LinkTarget["renderDestination"]>[0];
-    preventRecursion?: boolean;
+    renderArgs: Parameters<MappableLinkTarget["renderDestination"]>[0];
   }): string {
-    const {
-      sourcePath,
-      inputRoot,
-      unresolvedNodeDestination,
-      renderArgs,
-      preventRecursion,
-    } = args;
-    // Don't transform ordinary URLs
-    if (isURL(unresolvedNodeDestination)) {
-      return unresolvedNodeDestination;
-    }
+    const { sourcePath, inputRoot, unresolvedNodeDestination, renderArgs } =
+      args;
 
-    const nodeDestination = this._mappedLinkDestinations[
-      unresolvedNodeDestination
-    ]
-      ? this._mappedLinkDestinations[unresolvedNodeDestination]
-      : resolveRelativePath(sourcePath, unresolvedNodeDestination);
+    const parsedLink = parseLink(unresolvedNodeDestination);
 
-    const values = this._linkTargets[nodeDestination];
-    if (!values || !values.length) {
-      const prefixlessNodeDestinationWithHash = nodeDestination.startsWith(
-        URL_SEPARATOR
-      )
-        ? nodeDestination.slice(1)
-        : nodeDestination;
-
-      const prefixlessNodeDestination =
-        prefixlessNodeDestinationWithHash.split("#")[0];
-      const anchorWithoutHash =
-        prefixlessNodeDestination === prefixlessNodeDestinationWithHash
-          ? null
-          : prefixlessNodeDestinationWithHash.slice(
-              prefixlessNodeDestination.length + 1
-            );
-
-      const possibleStaticFileFSPath = fsjoin([
-        inputRoot,
-        ...urlsplit(prefixlessNodeDestination),
-      ]);
-      if (fs.existsSync(possibleStaticFileFSPath)) {
-        return renderArgs.renderer.transformLink({
-          config: renderArgs.config,
-          sourcePath: renderArgs.sourcePath,
-          anchorWithoutHash,
-          docOriginalExtension: path.parse(nodeDestination).ext,
-          // We can use the destination as-is without modification
-          docRefPath: prefixlessNodeDestination,
-          isLinkToStaticFile: true,
-          logCollector: renderArgs.logCollector,
-        });
-      } else {
-        if (
-          !preventRecursion &&
-          !unresolvedNodeDestination.startsWith(`.${CANONICAL_SEPARATOR}`)
-        ) {
-          return this.transformNodeDestination({
-            sourcePath,
-            inputRoot,
-            unresolvedNodeDestination: `.${CANONICAL_SEPARATOR}${unresolvedNodeDestination}`,
-            renderArgs,
-            preventRecursion: true,
-          });
+    switch (parsedLink.kind) {
+      case "url":
+        return parsedLink.original;
+      case "direct":
+        const maybeDirectLink = resolveDirectLink(
+          parsedLink,
+          sourcePath,
+          inputRoot,
+          this._linkTargets,
+          renderArgs
+        );
+        if (maybeDirectLink) {
+          return maybeDirectLink;
         } else {
           renderArgs.logCollector.warning(
-            `Not sure what to do with link ${nodeDestination} in ${renderArgs.sourcePath}`
+            `Unable to resolve direct link ${unresolvedNodeDestination} in ${renderArgs.sourcePath}`
           );
-          renderArgs.logCollector.warning(
-            `  Looked for but did not find a static file at ${possibleStaticFileFSPath}`
-          );
+          return unresolvedNodeDestination;
         }
-      }
-      return nodeDestination;
-    }
+      case "unknown":
+        const maybeMappedLinkDestination =
+          this._mappedLinkDestinations[parsedLink.path];
+        const maybeLinkTargets =
+          this._linkTargets[maybeAddHash(parsedLink.path, parsedLink.hash)];
 
-    if (values.length > 1) {
-      renderArgs.logCollector.warning(
-        `Multiple possible destinations for ${nodeDestination} in ${renderArgs.sourcePath}: ${values}`
-      );
+        const maybeDirectLink2 = resolveDirectLink(
+          {
+            kind: "direct",
+            path: `./${parsedLink.path}`,
+            hash: parsedLink.hash,
+            original: `./${parsedLink.original}`,
+          },
+          sourcePath,
+          inputRoot,
+          this._linkTargets,
+          renderArgs
+        );
+
+        if (maybeDirectLink2) {
+          return maybeDirectLink2;
+        } else if (maybeMappedLinkDestination) {
+          // Easy case: a link map contains this string
+          return maybeAddHash(maybeMappedLinkDestination, parsedLink.hash);
+        } else if (maybeLinkTargets && maybeLinkTargets.length) {
+          if (maybeLinkTargets.length > 1) {
+            renderArgs.logCollector.warning(
+              `Multiple possible destinations for ${parsedLink.original} in ${renderArgs.sourcePath}: ${maybeLinkTargets}`
+            );
+          }
+          return maybeLinkTargets[0].renderDestination(renderArgs);
+        } else {
+          renderArgs.logCollector.warning(
+            `Not sure what to do with link ${unresolvedNodeDestination} in ${renderArgs.sourcePath}`
+          );
+          return unresolvedNodeDestination;
+        }
     }
-    return values[0].renderDestination(renderArgs);
   }
 }
 
-export function resolveRelativePath(sourcePath: string, path_: string): string {
+export function maybeAddHash(path_: string, hash: string | null): string {
+  if (hash) {
+    return `${path_}#${hash}`;
+  } else {
+    return path_;
+  }
+}
+
+export function resolveDirectLink(
+  link: DirectLink,
+  sourceRefPath: string,
+  inputRoot: string,
+  linkTargets: Record<string, MappableLinkTarget[]>,
+  renderArgs: Parameters<MappableLinkTarget["renderDestination"]>[0]
+): string | null {
+  const resolvedRelativePath = resolveRelativeRefPath(sourceRefPath, link.path);
+  const maybeLinkTargets = linkTargets[resolvedRelativePath];
+  if (maybeLinkTargets) {
+    return maybeLinkTargets[0].renderDestination(renderArgs);
+  }
+
+  // Look for a static file
+  const staticFileRefPath = resolvedRelativePath.slice(1);
+  const staticFilePathParts = refsplit(staticFileRefPath);
+  const staticFileFSPath = fsjoin([inputRoot, ...staticFilePathParts]);
+  renderArgs.logCollector.info(
+    `Looking for a static file at ${staticFileFSPath} based on ${link.original}`
+  );
+  if (
+    fs.existsSync(staticFileFSPath) &&
+    !fs.statSync(staticFileFSPath).isDirectory()
+  ) {
+    return renderArgs.renderer.transformLink({
+      config: renderArgs.config,
+      sourcePath: renderArgs.sourcePath,
+      anchorWithoutHash: link.hash,
+      docOriginalExtension: path.parse(link.original).ext,
+      // We can use the destination as-is without modification
+      docRefPath: staticFileRefPath,
+      isLinkToStaticFile: true,
+      logCollector: renderArgs.logCollector,
+    });
+  } else {
+    return null;
+  }
+}
+
+export function resolveRelativeRefPath(
+  sourcePath: string,
+  path_: string
+): string {
   if (!path_.startsWith("./") && !path_.startsWith("../")) return path_;
   let pathParts = path_.split("/");
   const sourceParts = sourcePath.split("/");
@@ -234,40 +260,43 @@ function isURL(s: string): boolean {
   }
 }
 
-function getStaticFileLink(args: {
-  inputRoot: string;
-  nodeDestination: string;
-  prefixlessNodeDestination: string;
-  anchorWithoutHash: string;
-  renderArgs: Parameters<LinkTarget["renderDestination"]>[0];
-}): null | string {
-  const {
-    inputRoot,
-    nodeDestination,
-    prefixlessNodeDestination,
-    anchorWithoutHash,
-    renderArgs,
-  } = args;
-  const possibleStaticFileFSPath = fsjoin([
-    inputRoot,
-    ...urlsplit(prefixlessNodeDestination),
-  ]);
-  if (!fs.existsSync(possibleStaticFileFSPath)) {
-    return null;
-  }
-  return renderArgs.renderer.transformLink({
-    config: renderArgs.config,
-    sourcePath: renderArgs.sourcePath,
-    anchorWithoutHash,
-    docOriginalExtension: path.parse(nodeDestination).ext,
-    // We can use the destination as-is without modification
-    docRefPath: prefixlessNodeDestination,
-    isLinkToStaticFile: true,
-    logCollector: renderArgs.logCollector,
-  });
+interface URLLink {
+  kind: "url";
+  original: string;
 }
 
-export class LinkTarget {
+interface DirectLink {
+  kind: "direct";
+  original: string;
+  path: string;
+  hash: string | null;
+}
+
+interface UnknownLink_MappedOrRelative {
+  kind: "unknown";
+  original: string;
+  path: string;
+  hash: string | null;
+}
+
+type ParsedLink = URLLink | DirectLink | UnknownLink_MappedOrRelative;
+
+function parseLink(original: string): ParsedLink {
+  if (isURL(original)) {
+    return { kind: "url", original };
+  }
+
+  const path = original.split("#")[0];
+  const hash = original.slice(path.length + 1);
+
+  if (path.startsWith(".") || path.startsWith("/")) {
+    return { kind: "direct", original, path, hash };
+  } else {
+    return { kind: "unknown", original, path, hash };
+  }
+}
+
+export class MappableLinkTarget {
   public docOriginalExtension: string;
   public docRefPath: string;
 
@@ -276,7 +305,7 @@ export class LinkTarget {
     this.docRefPath = doc.refPath;
   }
 
-  equals(other: LinkTarget) {
+  equals(other: MappableLinkTarget) {
     return (
       this.docOriginalExtension === other.docOriginalExtension &&
       this.docRefPath == other.docRefPath &&
@@ -287,7 +316,7 @@ export class LinkTarget {
   toString(): string {
     const hash = this.anchorWithoutHash ? `#${this.anchorWithoutHash}` : "";
     const aliases = this.aliases.join("\n  ");
-    return `LinkTarget(${this.docRefPath}${this.docOriginalExtension}${hash}) [\n  ${aliases}\n]`;
+    return `MappableLinkTarget(${this.docRefPath}${this.docOriginalExtension}${hash}) [\n  ${aliases}\n]`;
   }
 
   /**

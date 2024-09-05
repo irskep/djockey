@@ -107,6 +107,16 @@
       "defaultLabel": "label"
     },
     {
+      "linkDestination": "LogCollector.hasWarningsOrErrors",
+      "relativeURL": "classes/LogCollector.html#hasWarningsOrErrors",
+      "defaultLabel": "hasWarningsOrErrors"
+    },
+    {
+      "linkDestination": "hasWarningsOrErrors",
+      "relativeURL": "classes/LogCollector.html#hasWarningsOrErrors",
+      "defaultLabel": "hasWarningsOrErrors"
+    },
+    {
       "linkDestination": "LogCollector.debug",
       "relativeURL": "classes/LogCollector.html#debug",
       "defaultLabel": "debug"
@@ -145,6 +155,16 @@
       "linkDestination": "fail",
       "relativeURL": "classes/LogCollector.html#fail",
       "defaultLabel": "fail"
+    },
+    {
+      "linkDestination": "LogCollector.getChild",
+      "relativeURL": "classes/LogCollector.html#getChild",
+      "defaultLabel": "getChild"
+    },
+    {
+      "linkDestination": "getChild",
+      "relativeURL": "classes/LogCollector.html#getChild",
+      "defaultLabel": "getChild"
     },
     {
       "linkDestination": "LogCollector.info",
@@ -432,16 +452,6 @@
       "defaultLabel": "DjockeyDoc"
     },
     {
-      "linkDestination": "DjockeyDoc.absolutePath",
-      "relativeURL": "interfaces/DjockeyDoc.html#absolutePath",
-      "defaultLabel": "absolutePath"
-    },
-    {
-      "linkDestination": "absolutePath",
-      "relativeURL": "interfaces/DjockeyDoc.html#absolutePath",
-      "defaultLabel": "absolutePath"
-    },
-    {
       "linkDestination": "DjockeyDoc.data",
       "relativeURL": "interfaces/DjockeyDoc.html#data",
       "defaultLabel": "data"
@@ -482,6 +492,16 @@
       "defaultLabel": "frontMatter"
     },
     {
+      "linkDestination": "DjockeyDoc.fsPath",
+      "relativeURL": "interfaces/DjockeyDoc.html#fsPath",
+      "defaultLabel": "fsPath"
+    },
+    {
+      "linkDestination": "fsPath",
+      "relativeURL": "interfaces/DjockeyDoc.html#fsPath",
+      "defaultLabel": "fsPath"
+    },
+    {
       "linkDestination": "DjockeyDoc.neighbors",
       "relativeURL": "interfaces/DjockeyDoc.html#neighbors",
       "defaultLabel": "neighbors"
@@ -502,14 +522,14 @@
       "defaultLabel": "originalExtension"
     },
     {
-      "linkDestination": "DjockeyDoc.relativePath",
-      "relativeURL": "interfaces/DjockeyDoc.html#relativePath",
-      "defaultLabel": "relativePath"
+      "linkDestination": "DjockeyDoc.refPath",
+      "relativeURL": "interfaces/DjockeyDoc.html#refPath",
+      "defaultLabel": "refPath"
     },
     {
-      "linkDestination": "relativePath",
-      "relativeURL": "interfaces/DjockeyDoc.html#relativePath",
-      "defaultLabel": "relativePath"
+      "linkDestination": "refPath",
+      "relativeURL": "interfaces/DjockeyDoc.html#refPath",
+      "defaultLabel": "refPath"
     },
     {
       "linkDestination": "DjockeyDoc.title",
@@ -627,6 +647,16 @@
       "defaultLabel": "getNodeReservations"
     },
     {
+      "linkDestination": "DjockeyPlugin.getStaticFiles",
+      "relativeURL": "interfaces/DjockeyPlugin.html#getStaticFiles",
+      "defaultLabel": "getStaticFiles"
+    },
+    {
+      "linkDestination": "getStaticFiles",
+      "relativeURL": "interfaces/DjockeyPlugin.html#getStaticFiles",
+      "defaultLabel": "getStaticFiles"
+    },
+    {
       "linkDestination": "DjockeyPlugin.name",
       "relativeURL": "interfaces/DjockeyPlugin.html#name",
       "defaultLabel": "name"
@@ -705,6 +735,31 @@
       "linkDestination": "match",
       "relativeURL": "interfaces/DjockeyPluginNodeReservation.html#match",
       "defaultLabel": "match"
+    },
+    {
+      "linkDestination": "DjockeyStaticFileFromPlugin",
+      "relativeURL": "interfaces/DjockeyStaticFileFromPlugin.html",
+      "defaultLabel": "DjockeyStaticFileFromPlugin"
+    },
+    {
+      "linkDestination": "DjockeyStaticFileFromPlugin.contents",
+      "relativeURL": "interfaces/DjockeyStaticFileFromPlugin.html#contents",
+      "defaultLabel": "contents"
+    },
+    {
+      "linkDestination": "contents",
+      "relativeURL": "interfaces/DjockeyStaticFileFromPlugin.html#contents",
+      "defaultLabel": "contents"
+    },
+    {
+      "linkDestination": "DjockeyStaticFileFromPlugin.path",
+      "relativeURL": "interfaces/DjockeyStaticFileFromPlugin.html#path",
+      "defaultLabel": "path"
+    },
+    {
+      "linkDestination": "path",
+      "relativeURL": "interfaces/DjockeyStaticFileFromPlugin.html#path",
+      "defaultLabel": "path"
     },
     {
       "linkDestination": "LinkMappingConfig",
