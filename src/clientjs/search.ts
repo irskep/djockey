@@ -142,9 +142,9 @@ function lineToHTML(
       result.push(line.text.slice(lastPlainIndex, localStart));
       lastPlainIndex = localStart + len;
     }
-    result.push('<span class="DJHighlight">');
+    result.push("<mark>");
     result.push(line.text.slice(localStart, localStart + len));
-    result.push("</span>");
+    result.push("</mark>");
   }
 
   if (lastPlainIndex < line.text.length) {
