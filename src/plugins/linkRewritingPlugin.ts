@@ -197,9 +197,14 @@ export function resolveDirectLink(
   renderArgs: Parameters<MappableLinkTarget["renderDestination"]>[0]
 ): string | null {
   const resolvedRelativePath = resolveRelativeRefPath(sourceRefPath, link.path);
-  const maybeLinkTargets = linkTargets[resolvedRelativePath];
-  if (maybeLinkTargets) {
-    return maybeLinkTargets[0].renderDestination(renderArgs);
+  for (const k of [
+    maybeAddHash(resolvedRelativePath, link.hash),
+    resolvedRelativePath,
+  ]) {
+    const maybeLinkTargets = linkTargets[k];
+    if (maybeLinkTargets) {
+      return maybeLinkTargets[0].renderDestination(renderArgs);
+    }
   }
 
   // Look for a static file
