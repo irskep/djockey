@@ -52,4 +52,4 @@
 
 | Previous | Next |
 | - | - |
-| [Configuration reference](../basics/configuration.md) | [Mermaid diagrams](../features/mermaid_diagrams.md) |
+| [Configuration reference](../basics/configuration.md) | [Indexterms](../features/indexterms.md) |

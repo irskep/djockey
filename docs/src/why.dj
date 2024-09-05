@@ -45,7 +45,7 @@ With all this in mind, Djockey:
 
 1. Has the cross-referencing power and extensibility of Sphinx
 2. Renders Markdown specifically for viewing on GitHub
-3. Is written in TypeScript, and in the future will integrate with TypeDoc
+3. Is written in TypeScript, and integrates with TypeDoc
 4. Hopes to evangelize Djot, but lets you write Markdown
 
 The outcome is that you have an easy time writing your docs, and your users get the best possible UX.

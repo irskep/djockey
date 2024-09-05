@@ -43,4 +43,4 @@ flowchart LR
 
 | Previous | Next |
 | - | - |
-| [Dependencies](../contributing/dependencies.md) | [Indexterms](../plugins/indexterms.md) |
+| [Dependencies](../contributing/dependencies.md) | [Plugin API](../plugins/plugin_api.md) |

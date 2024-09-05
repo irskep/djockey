@@ -15,4 +15,4 @@ The plugin API is documented using TypeDoc [here](../api/index.html).
 
 | Previous |  |
 | - | - |
-| [Indexterms](../plugins/indexterms.md) |  |
+| [Using plugins](../plugins/using_plugins.md) |  |
