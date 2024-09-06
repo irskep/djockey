@@ -3,5 +3,5 @@
 }
 
 body {
-  font-family: "IBM Plex Sans";
+  font-family: "IBM Plex Sans", var(--f-system);
 }

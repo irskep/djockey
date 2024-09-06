@@ -38,8 +38,8 @@
   --c-gray1: #333;
 
   /* Accents */
-  --c-linkblue: rgb(12, 34, 161);
-  --c-linkpurple: rgb(109, 4, 109);
+  --c-control-active: rgb(12, 34, 161);
+  --c-control-used: rgb(109, 4, 109);
 
   /* Distances */
 
@@ -53,10 +53,11 @@
 
   --color-bg: var(--c-white);
 
-  --color-fg-link: var(--c-linkblue);
-  --color-fg-link-visited: var(--c-linkpurple);
+  --color-fg-link: var(--c-control-active);
+  --color-fg-link-visited: var(--c-control-used);
 
   --color-fg-1: var(--c-black);
+  --color-fg-1-invert: var(--c-white);
   --color-fg-2: var(--c-gray2);
   --color-fg-3: var(--c-gray4);
   --color-bg-1: var(--c-white);
@@ -86,7 +87,7 @@
   /* LAYOUT SIZES */
 
   --header-height: 4rem;
-  --page-max-width: 80rem;
+  --content-max-width: 40rem;
   --sidebar-width: 18rem;
   --sidebar-width-large: 20rem;
   --approx-height-of-top-bar-during-scroll: calc(
@@ -97,6 +98,7 @@
 
   --aside-border-width: 1px;
   --aside-border-radius: var(--border-radius-small);
+  --aside-title-color-fg: var(--color-fg-1);
   --aside-color-border-note: rgb(60, 60, 255);
   --aside-title-color-bg-note: rgb(211, 211, 255);
   --aside-color-border-tip: rgb(68, 149, 71);
@@ -121,7 +123,9 @@
     --c-gray6: #333;
 
     /* Accents */
-    --c-linkblue: lightblue;
-    --c-linkpurple: rgb(232, 120, 232);
+    --c-control-active: lightblue;
+    --c-control-used: rgb(232, 120, 232);
+
+    --aside-title-color-fg: var(--color-fg-1-invert);
   }
 }

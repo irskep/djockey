@@ -1,3 +1,7 @@
+.DJDocTree.m-sidebar {
+  padding: 0 calc(var(--mm) - var(--ms));
+}
+
 .DJTableOfContents_Content {
   font-size: var(--fs-small);
   padding: 0 var(--ms);

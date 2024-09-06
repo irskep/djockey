@@ -3,10 +3,10 @@ title: Overview
 ---
 # Overview
 
-Djockey is a powerful but experimental static site generator for technical writing and project documentation. The goal is to have the depth and extensibility of [Sphinx](https://www.sphinx-doc.org/en/master/) with the ease-of-use and built-in power of [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+Djockey is an experimental but powerful static site generator for technical writing and project documentation. The goal is to have the depth and extensibility of [Sphinx](https://www.sphinx-doc.org/en/master/) with the ease-of-use and built-in power of [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 - Write [Djot](https://djot.net) or [GitHub Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - Output HTML or Markdown, so your docs are readable in the GitHub interface or on a nice web site
 - Rich cross-references, checked at build time
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
-- Biased toward static site rendering over client-side JS
+- De-emphasizes client-side JS, has a small core and a few small dependencies
