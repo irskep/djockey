@@ -1,6 +1,6 @@
 import path from "path";
 
-import fastGlob, { convertPathToPattern } from "fast-glob";
+import fastGlob from "fast-glob";
 import micromatch from "micromatch";
 import { parseFragment, serialize } from "parse5";
 
@@ -19,8 +19,8 @@ import {
   ensureParentDirectoriesExist,
   fsjoin,
   fspath2refpath,
-  joinPath,
   makePathBackToRoot,
+  refpath2fspath,
   refsplit,
   URL_SEPARATOR,
   writeFile,
@@ -116,10 +116,12 @@ export class HTMLRenderer implements DjockeyRenderer {
       }),
 
       ...staticFilesFromPlugins.map((f) => {
-        return writeFile(
-          joinPath([config.output_dir.html, f.path]),
-          f.contents
-        );
+        const fsPath = fsjoin([
+          config.output_dir.html,
+          refpath2fspath(f.refPath),
+        ]);
+        allStaticFileAbsoluteFSPaths.push(fsPath);
+        return writeFile(fsPath, f.contents);
       }),
     ]);
 

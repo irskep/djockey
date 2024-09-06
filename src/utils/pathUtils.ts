@@ -5,10 +5,6 @@ import path from "path";
 import fastGlob from "fast-glob";
 import { LogCollector } from "./logUtils.js";
 
-export function joinPath(items: string[]): string {
-  return items.join(path.sep);
-}
-
 export function makePathBackToRoot(
   pathRelativeToInputDir: string,
   options: { sameDirectoryValue: string } = { sameDirectoryValue: "./" }

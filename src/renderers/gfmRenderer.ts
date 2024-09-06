@@ -16,7 +16,6 @@ import {
   makePathBackToRoot,
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
-  joinPath,
   writeFile,
   fsjoin,
   refpath2fspath,
@@ -83,7 +82,7 @@ export class GFMRenderer implements DjockeyRenderer {
     const p3 = Promise.all(
       staticFilesFromPlugins.map((f) => {
         return writeFile(
-          joinPath([config.output_dir.html, f.path]),
+          fsjoin([config.output_dir.html, refpath2fspath(f.refPath)]),
           f.contents
         );
       })

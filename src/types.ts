@@ -165,7 +165,7 @@ export interface DjockeyPluginModule {
 }
 
 export interface DjockeyStaticFileFromPlugin {
-  path: string;
+  refPath: string;
   contents: string;
 }
 
