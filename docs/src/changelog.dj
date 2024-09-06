@@ -13,6 +13,8 @@ order: -1
   - Static files can be added from outside the doc source directory
   - Probably fixed more Windows bugs
 
+- Many changes to the default theme
+
 ### 0.2.4 - 2024-09-04
 
 - Djockey can now run on Windows
