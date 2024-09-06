@@ -2,7 +2,7 @@
   padding: 0 calc(var(--mm) - var(--ms));
 }
 
-.DJTableOfContents_Content {
+.DJTableOfContents {
   font-size: var(--fs-small);
   padding: 0 var(--ms);
 }

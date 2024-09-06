@@ -97,12 +97,12 @@ export class HTMLRenderer implements DjockeyRenderer {
         results: allStaticFileAbsoluteFSPaths,
         logCollector,
       }),
-      ...config.html.extra_static_dirs.flatMap((extraStaticDir) => {
+      ...(config.html.extra_static_dirs || []).flatMap((extraStaticDir) => {
         const fsBase = fsjoin([
           config.rootPath,
           ...refsplit(extraStaticDir.path),
         ]);
-        return extraStaticDir.patterns.map(async (pattern) => {
+        return (extraStaticDir.patterns || ["**/*"]).map(async (pattern) => {
           copyFilesMatchingPattern({
             base: fsBase,
             dest: config.output_dir.html,

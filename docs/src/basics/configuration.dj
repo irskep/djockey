@@ -44,6 +44,11 @@ html:
   header_links:
     - text: "Some text"
       url: "https://a/full/url"
+  extra_static_dirs:
+    - path: "../node_modules/some_library"
+      exclude_patterns: ['**/*.ts'] # optional
+      patterns: # optional; default is '**/*'
+        - '**/*.css'
 
 gfm:
   ignore_static: ["**/*.html", "**/*.css", "**/*.js"]
