@@ -23,6 +23,14 @@ gfm:
 html:
   ignore_css: ["api/**/*.css"] # ignore TypeDoc CSS
   footer_text: "©2024 Steve Landey"
+  extra_static_dirs:
+    - path: ../node_modules/@fontsource/ibm-plex-sans
+      exclude_patterns: []
+      patterns:
+        - "400.css"
+        - "400-italic.css"
+        - "files/ibm-plex-sans-latin-400-normal.woff2"
+        - "files/ibm-plex-sans-latin-400-italic.woff2"
   header_links:
     - text: "Plugin API docs"
       url: "https://steveasleep.com/djockey/api/"

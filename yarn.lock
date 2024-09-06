@@ -436,6 +436,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/ibm-plex-sans@npm:^5.0.21":
+  version: 5.0.21
+  resolution: "@fontsource/ibm-plex-sans@npm:5.0.21"
+  checksum: cbe0b0f7e77b44a09ab465706f688cd56e745735b73c6d80b0c7c1a56c98ca3b591dfcafd89bc42213bf4a7137fa36f46e72a6ada75d56b71f38640bebc98229
+  languageName: node
+  linkType: hard
+
 "@isaacs/cliui@npm:^8.0.2":
   version: 8.0.2
   resolution: "@isaacs/cliui@npm:8.0.2"
@@ -2476,6 +2483,7 @@ __metadata:
   dependencies:
     "@djockey/linkmapper-typedoc": ^0.0.7
     "@djot/djot": ^0.3.1
+    "@fontsource/ibm-plex-sans": ^5.0.21
     "@jest/globals": ^29.7.0
     "@types/argparse": ^2.0.16
     "@types/d3": ^7.4.3
