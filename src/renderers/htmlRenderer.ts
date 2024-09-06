@@ -1,6 +1,6 @@
 import path from "path";
 
-import fastGlob from "fast-glob";
+import fastGlob, { convertPathToPattern } from "fast-glob";
 import micromatch from "micromatch";
 import { parseFragment, serialize } from "parse5";
 
@@ -18,6 +18,7 @@ import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
   fsjoin,
+  fspath2refpath,
   joinPath,
   makePathBackToRoot,
   refsplit,
@@ -75,14 +76,16 @@ export class HTMLRenderer implements DjockeyRenderer {
     const { templateDir, config, docs, staticFilesFromPlugins, logCollector } =
       args;
     const ignorePatterns = config.html.ignore_static;
+    const allStaticFileAbsoluteFSPaths = new Array<string>();
 
-    const staticFilePromises: Promise<void>[] = [
+    await Promise.all([
       copyFilesMatchingPattern({
         base: templateDir,
         dest: config.output_dir.html,
         pattern: "static/**/*",
         excludePaths: [],
         excludePatterns: ignorePatterns,
+        results: allStaticFileAbsoluteFSPaths,
         logCollector,
       }),
       copyFilesMatchingPattern({
@@ -91,6 +94,7 @@ export class HTMLRenderer implements DjockeyRenderer {
         pattern: "**/*",
         excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
         excludePatterns: ignorePatterns,
+        results: allStaticFileAbsoluteFSPaths,
         logCollector,
       }),
       ...config.html.extra_static_dirs.flatMap((extraStaticDir) => {
@@ -105,6 +109,7 @@ export class HTMLRenderer implements DjockeyRenderer {
             pattern,
             excludePaths: [],
             excludePatterns: extraStaticDir.exclude_patterns ?? [],
+            results: allStaticFileAbsoluteFSPaths,
             logCollector,
           });
         });
@@ -116,37 +121,22 @@ export class HTMLRenderer implements DjockeyRenderer {
           f.contents
         );
       }),
-    ];
+    ]);
 
-    await Promise.all(staticFilePromises);
-
-    const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
-    const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {
-      ignore: (config.html.ignore_css ?? []).map((pattern) => `**/${pattern}`),
-    });
-    const pluginCSSFiles = micromatch.match(
-      staticFilesFromPlugins.map((f) => f.path),
-      "**/*.css"
+    const allStaticFileRelativeRefPaths = allStaticFileAbsoluteFSPaths.map(
+      (fsPath) => fspath2refpath(path.relative(config.output_dir.html, fsPath))
     );
-    this.cssURLsRelativeToBase = templateCSSFiles
-      .map((path_) => path.relative(templateDir, path_))
-      .concat(
-        inputCSSFiles.map((path_) => path.relative(config.input_dir, path_))
-      )
-      .concat(pluginCSSFiles);
 
-    const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
-    const inputJSFiles = fastGlob.sync(`${config.input_dir}/**/*.js`);
-    const pluginJSFiles = micromatch.match(
-      staticFilesFromPlugins.map((f) => f.path),
+    this.cssURLsRelativeToBase = micromatch.match(
+      allStaticFileRelativeRefPaths,
+      "**/*.css",
+      { ignore: config.html.ignore_css }
+    );
+
+    this.jsURLsRelativeToBase = micromatch.match(
+      allStaticFileRelativeRefPaths,
       "**/*.js"
     );
-    this.jsURLsRelativeToBase = templateJSFiles
-      .map((path_) => path.relative(templateDir, path_))
-      .concat(
-        inputJSFiles.map((path_) => path.relative(config.input_dir, path_))
-      )
-      .concat(pluginJSFiles);
   }
 
   async writeDoc(args: {

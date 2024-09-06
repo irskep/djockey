@@ -6,6 +6,13 @@ order: -1
 
 ## 0.2
 
+### 0.2.5 - 2024-09-06
+
+- Static file improvements
+
+  - Static files can be added from outside the doc source directory
+  - Probably fixed more Windows bugs
+
 ### 0.2.4 - 2024-09-04
 
 - Djockey can now run on Windows

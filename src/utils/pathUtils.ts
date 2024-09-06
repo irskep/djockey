@@ -49,11 +49,12 @@ export async function writeFile(
 }
 
 export async function copyFilesMatchingPattern(args: {
-  base: string;
-  dest: string;
+  base: string; // absolute fspath
+  dest: string; // absolute fspath
   pattern: string;
   excludePaths: string[]; // Absolute paths!
   excludePatterns: string[];
+  results: string[]; // I will append to this
   logCollector: LogCollector;
 }) {
   const { base, dest, pattern, excludePaths, excludePatterns, logCollector } =
@@ -79,6 +80,7 @@ export async function copyFilesMatchingPattern(args: {
       `Copying static file ${fsRelativePath} to ${fsFullPathDest}`
     );
     await fsPromises.copyFile(fsFullPathSrc, fsFullPathDest);
+    args.results.push(fsFullPathDest);
   }
 
   const globResults = await fastGlob.async(pattern, {
