@@ -1,27 +1,30 @@
-.DJDocTree_Content,
 .DJTableOfContents_Content {
   font-size: var(--fs-small);
   padding: 0 var(--ms);
 }
 
-nav > ul,
-nav > div > ul,
-nav > ul > li > ul,
-nav > div > ul,
-nav > div > ul > li > ul {
-  list-style-type: none;
-  padding-left: 0;
+.DJDocTree_Content {
+  font-size: var(--fs-small);
+  padding: 0;
 }
 
 nav ul {
   padding-left: 0;
   list-style-type: none;
-  margin-left: 0.5em;
+  margin-left: var(--ms);
 }
 
-nav > ul,
-nav > div > ul {
+.DJTableOfContents_Content > ul {
   margin-left: 0;
+}
+
+.DJDocTree_Content > ul {
+  margin-left: var(--ms);
+}
+
+nav li {
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .DJTableOfContents.m-sidebar .DJTableOfContents_Content::before {
@@ -38,6 +41,10 @@ nav.DJDocTree h5,
 nav.DJDocTree h6 {
   text-decoration: none;
   color: var(--color-fg-2);
+}
+
+nav.DJDocTree a.m-active {
+  font-weight: var(--fw-semibold);
 }
 
 /* Add underlines to sections with self-docs */
@@ -60,6 +67,14 @@ nav h6 {
   font-size: var(--fs-normal);
   font-weight: var(--fw-semibold);
   margin-bottom: 0.5em;
+
+  padding: var(--ms);
+  margin-left: calc(-1 * var(--ms));
+  border-radius: var(--border-radius-small);
+}
+
+nav h1 {
+  margin-left: 0;
 }
 
 nav h2,

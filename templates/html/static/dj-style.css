@@ -225,3 +225,31 @@ main {
   justify-content: flex-start;
   gap: var(--ms);
 }
+
+.DJCollapse_Collapser {
+  position: relative;
+  cursor: pointer;
+}
+
+.DJCollapse_Collapser::after {
+  font-size: var(--fs-tiny);
+  float: right;
+  color: var(--color-fg-3);
+}
+
+.DJCollapse_Collapser.m-uncollapsed::after {
+  transform: rotate(90deg);
+  content: "▶";
+}
+
+.DJCollapse_Collapser.m-collapsed::after {
+  content: "▶";
+}
+
+.DJCollapse_Collapser:hover {
+  background-color: var(--color-control-hover-bg);
+}
+
+.DJCollapse_Collapsee.m-collapsed {
+  display: none;
+}

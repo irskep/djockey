@@ -42,5 +42,27 @@ window.onload = () => {
 
   mermaid.run({ querySelector: ".language-mermaid" });
 
+  /* DJCOLLAPSE */
+
+  document.querySelectorAll(".DJCollapse_Collapser").forEach((el) => {
+    const targetID = (el as HTMLElement).dataset.collapseTarget;
+    el.addEventListener("click", (e) => {
+      const target = document.querySelector(`#${targetID}`);
+      if (!target) {
+        console.error("Can't find", `#${targetID}`);
+        return;
+      }
+      target.classList.toggle("m-collapsed");
+      el.classList.remove("m-uncollapsed");
+      el.classList.remove("m-collapsed");
+      el.classList.add(
+        target.classList.contains("m-collapsed")
+          ? "m-collapsed"
+          : "m-uncollapsed"
+      );
+      return true;
+    });
+  });
+
   window.dispatchEvent(new Event("dj-onload"));
 };

@@ -20,6 +20,7 @@ export function populateDocTreeDoc(
     doc,
     docSet.tree?.rootSection,
     renderer,
+    [],
     logCollector
   );
   if (!children.length) return;
@@ -70,6 +71,7 @@ function renderSection(
   activeDoc: DjockeyDoc,
   section: DocTreeSection,
   renderer: DjockeyRenderer,
+  idPath: string[],
   logCollector: LogCollector,
   level: number = 1
 ): Block[] {
@@ -77,6 +79,9 @@ function renderSection(
     return {
       tag: "link",
       children: structuredClone(doc.titleAST),
+      attributes: {
+        class: doc.refPath === activeDoc.refPath ? "m-active" : "",
+      },
       destination: renderer.transformLink({
         config,
         sourcePath: activeDoc.refPath,
@@ -91,10 +96,20 @@ function renderSection(
 
   const result = new Array<Block>();
 
+  const isOpen = activeDoc.refPath.startsWith(section.refPath);
+
   if (level > 1 || section.selfDocHasContent) {
     result.push({
       tag: "heading",
       level,
+      attributes: {
+        "data-collapse-target": idPath.join("-"),
+        class: idPath.length
+          ? isOpen
+            ? "DJCollapse_Collapser m-uncollapsed"
+            : "DJCollapse_Collapser m-collapsed"
+          : "",
+      },
       children:
         section.selfDoc && section.selfDocHasContent
           ? [getDocLink(section.selfDoc)]
@@ -111,13 +126,14 @@ function renderSection(
       },
     ],
   }));
-  const sectionChildren: ListItem[] = section.children.map((child) => ({
+  const sectionChildren: ListItem[] = section.children.map((child, i) => ({
     tag: "list_item",
     children: renderSection(
       config,
       activeDoc,
       child,
       renderer,
+      idPath.concat([`doctree${i}`]),
       logCollector,
       level + 1
     ),
@@ -127,6 +143,14 @@ function renderSection(
     tag: "bullet_list",
     style: "-",
     tight: true,
+    attributes: idPath.length
+      ? {
+          id: idPath.join("-"),
+          class: isOpen
+            ? "DJCollapse_Collapsee"
+            : "DJCollapse_Collapsee m-collapsed",
+        }
+      : {},
     children: [...docChildren, ...sectionChildren],
   });
 

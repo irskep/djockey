@@ -16,6 +16,7 @@
     sans-serif;
   --f-monospace: Menlo, monospace;
 
+  --fs-tiny: 12px;
   --fs-small: 14px;
   --fs-normal: 16px;
   --fs-large: 20px;
@@ -29,7 +30,7 @@
   /* Grays */
   --c-white: rgb(249, 250, 251);
   --c-black: rgb(49, 49, 56);
-  --c-gray6: #f7f7f7;
+  --c-gray6: #ededed;
   --c-gray5: #ddd;
   --c-gray4: #aaa;
   --c-gray3: #777;
@@ -57,11 +58,16 @@
 
   --color-fg-1: var(--c-black);
   --color-fg-2: var(--c-gray2);
+  --color-fg-3: var(--c-gray4);
   --color-bg-1: var(--c-white);
   --color-bg-1-hover: var(--c-gray6);
 
+  --color-control-hover-bg: var(--c-gray6);
+
   --border-strong: 1px solid var(--c-gray3);
   --border-weak: 1px solid var(--c-gray5);
+  --border-radius-small: 4px;
+  --border-radius-large: 8px;
 
   --line-height-short: 1.2em;
   --line-height-tall: 1.5em;
@@ -90,7 +96,7 @@
   /* COMPONENT VALUES */
 
   --aside-border-width: 1px;
-  --aside-border-radius: 4px;
+  --aside-border-radius: var(--border-radius-small);
   --aside-color-border-note: rgb(60, 60, 255);
   --aside-title-color-bg-note: rgb(211, 211, 255);
   --aside-color-border-tip: rgb(68, 149, 71);

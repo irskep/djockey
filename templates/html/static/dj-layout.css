@@ -145,7 +145,7 @@ main {
 /* RESPONSIVENESS */
 
 .DJHeader_Hamburger {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 970px) {
@@ -154,7 +154,7 @@ main {
   }
 
   .DJHeader_Hamburger {
-    display: block;
+    display: block !important;
     cursor: pointer;
   }
 
