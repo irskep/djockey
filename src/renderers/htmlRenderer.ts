@@ -222,11 +222,14 @@ interface TextNode {
 }
 
 function replaceNode(node: Element, tagName: string) {
-  const newEl: Element = { ...node, tagName: tagName };
+  const newEl = structuredClone(node);
+  newEl.tagName = tagName;
+  newEl.attrs = newEl.attrs.filter((attr) => attr.name !== "tag");
   const parent = node.parentNode!;
 
   const ix = parent.childNodes.indexOf(node);
   parent.childNodes[ix] = newEl;
+  return newEl;
 }
 
 /**
@@ -241,7 +244,8 @@ export function postprocessHTML(html: string): string {
 
     for (const attr of node.attrs) {
       if (attr.name === "tag") {
-        replaceNode(node, attr.value);
+        node = replaceNode(node, attr.value);
+        continue;
       }
     }
 
