@@ -1,7 +1,7 @@
 ---
-title: Home
+title: Overview
 ---
-# Djockey
+# Overview
 
 Djockey is a powerful but experimental static site generator for technical writing and project documentation. The goal is to have the depth and extensibility of [Sphinx](https://www.sphinx-doc.org/en/master/) with the ease-of-use and built-in power of [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
