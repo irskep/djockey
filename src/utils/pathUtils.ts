@@ -56,7 +56,8 @@ export async function copyFilesMatchingPattern(args: {
   excludePatterns: string[];
   logCollector: LogCollector;
 }) {
-  const { base, dest, pattern, excludePaths, excludePatterns } = args;
+  const { base, dest, pattern, excludePaths, excludePatterns, logCollector } =
+    args;
 
   const excludeSet = new Set(excludePaths);
 
@@ -66,28 +67,31 @@ export async function copyFilesMatchingPattern(args: {
   )} to ${path.relative(".", dest)}`;
   args.logCollector.info(logMessage);
 
-  function copyPath(path_: string) {
-    const relativePath = path.relative(base, path_);
+  async function copyPath(fsRelativePath: string) {
+    const fsFullPathSrc = fsjoin([base, fsRelativePath]);
+    const fsFullPathDest = fsjoin([dest, fsRelativePath]);
 
-    if (excludeSet.has(`${base}/${relativePath}`)) return;
+    if (excludeSet.has(fsFullPathSrc)) return;
 
-    const newFullPath = `${dest}/${relativePath}`;
+    ensureParentDirectoriesExist(fsFullPathDest);
 
-    ensureParentDirectoriesExist(newFullPath);
-
-    args.logCollector.info(
-      `Copying static file ${relativePath} to ${newFullPath}`
+    logCollector.info(
+      `Copying static file ${fsRelativePath} to ${fsFullPathDest}`
     );
-    fs.copyFileSync(path_, `${dest}/${relativePath}`);
+    await fsPromises.copyFile(fsFullPathSrc, fsFullPathDest);
   }
 
-  const promises = fastGlob
-    .sync(`${base}/${pattern}`, {
-      ignore: excludePatterns,
-    })
-    .map(async (path_) => await copyPath(path_));
+  const globResults = await fastGlob.async(pattern, {
+    cwd: base,
+    ignore: excludePatterns,
+  });
+  if (!globResults.length) {
+    logCollector.warning(
+      `No static files found in ${base} matching ${pattern}`
+    );
+  }
 
-  await Promise.all(promises);
+  await Promise.all(globResults.map(copyPath));
 }
 
 // for config files and internal non-filesystem representations
@@ -137,4 +141,8 @@ export function refname(s: string): string {
 
 export function refpath2fspath(s: string): string {
   return fsjoin(refsplit(s));
+}
+
+export function fspath2refpath(s: string): string {
+  return refjoin(fssplit(s));
 }

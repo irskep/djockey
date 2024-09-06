@@ -20,6 +20,7 @@ import {
   fsjoin,
   joinPath,
   makePathBackToRoot,
+  refsplit,
   URL_SEPARATOR,
   writeFile,
 } from "../utils/pathUtils.js";
@@ -75,32 +76,49 @@ export class HTMLRenderer implements DjockeyRenderer {
       args;
     const ignorePatterns = config.html.ignore_static;
 
-    const p1 = copyFilesMatchingPattern({
-      base: templateDir,
-      dest: config.output_dir.html,
-      pattern: "static/**/*",
-      excludePaths: [],
-      excludePatterns: ignorePatterns,
-      logCollector,
-    });
-    const p2 = copyFilesMatchingPattern({
-      base: config.input_dir,
-      dest: config.output_dir.html,
-      pattern: "**/*",
-      excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
-      excludePatterns: ignorePatterns,
-      logCollector,
-    });
-    const p3 = Promise.all(
-      staticFilesFromPlugins.map((f) => {
+    const staticFilePromises: Promise<void>[] = [
+      copyFilesMatchingPattern({
+        base: templateDir,
+        dest: config.output_dir.html,
+        pattern: "static/**/*",
+        excludePaths: [],
+        excludePatterns: ignorePatterns,
+        logCollector,
+      }),
+      copyFilesMatchingPattern({
+        base: config.input_dir,
+        dest: config.output_dir.html,
+        pattern: "**/*",
+        excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
+        excludePatterns: ignorePatterns,
+        logCollector,
+      }),
+      ...config.html.extra_static_dirs.flatMap((extraStaticDir) => {
+        const fsBase = fsjoin([
+          config.rootPath,
+          ...refsplit(extraStaticDir.path),
+        ]);
+        return extraStaticDir.patterns.map(async (pattern) => {
+          copyFilesMatchingPattern({
+            base: fsBase,
+            dest: config.output_dir.html,
+            pattern,
+            excludePaths: [],
+            excludePatterns: extraStaticDir.exclude_patterns ?? [],
+            logCollector,
+          });
+        });
+      }),
+
+      ...staticFilesFromPlugins.map((f) => {
         return writeFile(
           joinPath([config.output_dir.html, f.path]),
           f.contents
         );
-      })
-    );
+      }),
+    ];
 
-    await Promise.all([p1, p2, p3]);
+    await Promise.all(staticFilePromises);
 
     const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
     const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {

@@ -40,6 +40,7 @@ export function getConfigDefaults(): DjockeyConfig {
     html: {
       ignore_static: [],
       footer_text: "",
+      extra_static_dirs: [],
     },
   };
 }
