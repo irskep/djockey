@@ -11,3 +11,4 @@ There are many wonderful documentation systems out there and Djockey tries to ta
 | [Sphinx](https://www.sphinx-doc.org/en/master/index.html) | [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html), [MyST](https://mystmd.org) | Python |
 | [Docusaurus](https://docusaurus.io) | [CommonMark](https://commonmark.org/), [MDX](https://mdxjs.com),  | JavaScript |
 | [Starlight](https://starlight.astro.build) | [Markdoc](https://markdoc.dev/docs/syntax), [MDX](https://mdxjs.com),  | JavaScript |
+| [Quartz](https://quartz.jzhao.xyz/) | Markdown | JavaScript |
