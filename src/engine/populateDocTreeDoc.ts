@@ -98,7 +98,9 @@ function renderSection(
 
   const isOpen = activeDoc.refPath.startsWith(section.refPath);
 
-  if (level > 1 || section.selfDocHasContent) {
+  const docChildren = new Array<ListItem>();
+
+  if (level > 1) {
     result.push({
       tag: "heading",
       level,
@@ -115,17 +117,24 @@ function renderSection(
           ? [getDocLink(section.selfDoc)]
           : section.title,
     });
+  } else if (section.selfDoc && section.selfDocHasContent) {
+    docChildren.push({
+      tag: "list_item",
+      children: [{ tag: "para", children: [getDocLink(section.selfDoc)] }],
+    });
   }
 
-  const docChildren: ListItem[] = section.docs.map((doc) => ({
-    tag: "list_item",
-    children: [
-      {
-        tag: "para",
-        children: [getDocLink(doc)],
-      },
-    ],
-  }));
+  for (const doc of section.docs) {
+    docChildren.push({
+      tag: "list_item",
+      children: [
+        {
+          tag: "para",
+          children: [getDocLink(doc)],
+        },
+      ],
+    });
+  }
   const sectionChildren: ListItem[] = section.children.map((child, i) => ({
     tag: "list_item",
     children: renderSection(
