@@ -29,3 +29,9 @@ With Djockey, you can link to it anywhere with just `#the-answer`{.language-css}
 The goal of this feature is to make it easier to reorganize your docs on the fly. If there's any ambiguity, Djockey will warn you at build time.
 
 Shorthand link resolution doesn't work for static files, but in theory it could be made to.
+
+## Explicit links always point to specific places
+
+If you prefix your link with `./` or `/`, Djockey will always try to resolve it directly without looking up any shorthands.
+
+If you don't use a slash prefix, Djockey will still _first_ check for a document or static file at that location relative to the source document before trying to use a shorthand.
