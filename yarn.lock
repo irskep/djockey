@@ -1177,6 +1177,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/flexsearch@npm:^0.7.6":
+  version: 0.7.6
+  resolution: "@types/flexsearch@npm:0.7.6"
+  checksum: 77a728e13b770cd2a0efc7f6334374ee0525018c95397700e351f5ac1c0ab6392b16c39abd11f7e6168449bff2d19c00f99951eb6bdac692dbd9380fc61d8aef
+  languageName: node
+  linkType: hard
+
 "@types/geojson@npm:*":
   version: 7946.0.14
   resolution: "@types/geojson@npm:7946.0.14"
@@ -2473,6 +2480,7 @@ __metadata:
     "@types/argparse": ^2.0.16
     "@types/d3": ^7.4.3
     "@types/dompurify": ^3.0.5
+    "@types/flexsearch": ^0.7.6
     "@types/jest": ^29.5.12
     "@types/js-yaml": ^4.0.9
     "@types/log-update": ^3.1.0
@@ -2483,6 +2491,7 @@ __metadata:
     "@types/parse5": ^7.0.0
     argparse: ^2.0.1
     fast-glob: ^3.3.2
+    flexsearch: ^0.7.43
     gluegun: ^5.2.0
     jest: ^29.7.0
     js-yaml: ^4.1.0
@@ -2771,6 +2780,13 @@ __metadata:
     locate-path: ^5.0.0
     path-exists: ^4.0.0
   checksum: 4c172680e8f8c1f78839486e14a43ef82e9decd0e74145f40707cc42e7420506d5ec92d9a11c22bd2c48fb0c384ea05dd30e10dd152fefeec6f2f75282a8b844
+  languageName: node
+  linkType: hard
+
+"flexsearch@npm:^0.7.43":
+  version: 0.7.43
+  resolution: "flexsearch@npm:0.7.43"
+  checksum: 6ed78060ab530de52bda02ba736cb93f37fdf8ad33d1cc88c2b15cdf575eec33873485dc81ca693d1dee31160d3d1bf33fe2c7656db56a579bb3f33ea8664d29
   languageName: node
   linkType: hard
 
