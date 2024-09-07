@@ -4,8 +4,7 @@
   --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, avenir next,
     avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto,
     arial, sans-serif;
-  --f-monospace: "JetBrains Mono Variable", "SF Mono", SFMono-Regular,
-    ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  --f-monospace: "IBM Plex Mono", monospace;
 }
 
 pre.shiki,

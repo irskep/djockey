@@ -27,6 +27,8 @@ For example, in `your_docs/fonts.css`:
   font-family: 'IBM Plex Sans';
   --fw-bold: 700; /* Plex doesn't go up to 800, and Djockey's default bold is 800 */
   --f-body: "IBM Plex Sans", sans-serif;
+
+  /* the other font CSS property you can override is --f-monospace. */
 }
 ```
 
@@ -82,6 +84,8 @@ html:
   font-family: 'IBM Plex Sans';
   --fw-bold: 700; /* Plex doesn't go up to 800, and Djockey's default bold is 800 */
   --f-body: "IBM Plex Sans", sans-serif;
+
+  /* the other font CSS property you can override is --f-monospace. */
 }
 ```
 

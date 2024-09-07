@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@djockey/linkmapper-typedoc": "^0.0.7",
-    "@fontsource-variable/jetbrains-mono": "^5.0.22",
+    "@fontsource/ibm-plex-mono": "^5.0.14",
     "@fontsource/ibm-plex-sans": "^5.0.21",
     "@jest/globals": "^29.7.0",
     "@types/argparse": "^2.0.16",
