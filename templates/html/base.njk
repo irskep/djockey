@@ -5,6 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% for fontURL in urlLists.font %}
+    <link rel="preload" href="{{ fontURL }}" as="font" type="font/woff2">
+    {% endfor %}
+
     {% for cssURL in urlLists.css %}
       {%- if cssURL.endsWith('.light.css') -%}
       <link rel="stylesheet"  media="(prefers-color-scheme: light)" href="{{ cssURL }}">
@@ -14,6 +19,7 @@
       <link rel="stylesheet" href="{{ cssURL }}">
       {%- endif %}
     {% endfor %}
+
     <title>{{ config.site_name }} - {{ doc.title }}</title>
 
     <meta property="og:type" content="website">

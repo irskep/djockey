@@ -2,9 +2,25 @@
 
 One design goal of Djockey is to minimize the need to edit a config file. In this spirit, all files that are not markup (i.e. not Markdown or Djot) are copied to the output directory.
 
-Any CSS and JavaScript files will be included in the HTML output. If your CSS file ends in `.light.css`{.lang-sh} or `.dark.css`{.lang-sh}, it will only be enabled for light or dark mode, respectively.
-
 If you name any files the same as any files in Djockey's template, your files will overwrite Djockey's files. Djockey uses a `dj-` prefix for all its static files, so you're unlikely to have a problem with this.
+
+## Automatic handling of CSS, JavaScript, and WOFF2
+
+### CSS
+
+All static files ending in `.css`{.language-sh} are included as `<link rel="stylesheet">`{.language-html} tags.
+
+If your CSS file ends in `.light.css`{.lang-sh} or `.dark.css`{.lang-sh}, it will only be enabled for light or dark mode, respectively.
+
+If you would like to prevent Djockey from doing this, you can add glob patterns to the `html.ignore_css` key in `djockey.yaml`{.language-sh}. For example, you would do this if you're [embedding TypeDoc's HTML output](#typedoc-integration) inside your Djockey docs.
+
+### JavaScript
+
+Any CSS and JavaScript files will be included in the HTML output. 
+
+### WOFF2
+
+All files ending in `.woff2`{.language-sh} will be preloaded in the HTML, to prevent any flashes of unstyled text before custom CSS loads.
 
 ## Links to static files
 

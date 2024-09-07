@@ -1,0 +1,75 @@
+# Custom fonts
+
+You need two things in order to use a custom font: static files and custom CSS. Djockey makes it easy to add both.
+
+## By copying files into your docs
+
+### Download a WOFF2 file
+
+If you [download IBM Plex Sans from Fontsource](https://fontsource.org/fonts/ibm-plex-sans), you could copy `webfonts/ibm-plex-sans-latin-400-normal.woff2`{.language-sh} into `your_docs/ibm-plex-sans-latin-400-normal.woff2`{.language-sh}.
+
+### Write the CSS
+
+For example, in `your_docs/fonts.css`:
+
+```css
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(./ibm-plex-sans-latin-400-normal.woff2) format('woff2');
+}
+
+body {
+  font-family: 'IBM Plex Sans';
+}
+```
+
+Boom, fancy font!
+
+## By using Fontsource from npm
+
+Rather than copying files into your repo and writing custom CSS, you can install Fontsource fonts from NPM and use them. (This is what the Djockey docs already do.)
+
+### Install the library
+
+```sh
+npm install --dev @fontsource/ibm-plex-sans
+```
+
+### Configure Djockey to include the necessary files
+
+In `djockey.yaml`{.language-sh}:
+
+```yaml
+# ... rest of your config ...
+
+html:
+  extra_static_dirs:
+    # Tell Djockey to look outside your docs directory for static files
+    - path: ../node_modules/@fontsource/ibm-plex-sans
+      patterns:
+        # List all the files you need. Djockey's docs use four different
+        # font weights, so there are a lot.
+        - "300.css"
+        - "300-italic.css"
+        - "400.css"
+        - "400-italic.css"
+        - "600.css"
+        - "600-italic.css"
+        - "700.css"
+        - "700-italic.css"
+        - "files/ibm-plex-sans-latin-300-normal.woff2"
+        - "files/ibm-plex-sans-latin-300-italic.woff2"
+        - "files/ibm-plex-sans-latin-400-normal.woff2"
+        - "files/ibm-plex-sans-latin-400-italic.woff2"
+        - "files/ibm-plex-sans-latin-600-normal.woff2"
+        - "files/ibm-plex-sans-latin-600-italic.woff2"
+        - "files/ibm-plex-sans-latin-700-normal.woff2"
+        - "files/ibm-plex-sans-latin-700-italic.woff2"
+```
+
+That's it, you're done!
+
+## Some nice fonts to use

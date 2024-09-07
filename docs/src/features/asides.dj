@@ -7,7 +7,7 @@ order: -6
 ## Note
 
 {.dj-djot-demo}
-```
+```djot
 {tag=aside .note}
 :::
 Objects in mirror may be closer than they appear
@@ -17,7 +17,7 @@ Objects in mirror may be closer than they appear
 ## Tip
 
 {.dj-djot-demo}
-```
+```djot
 {tag=aside .tip}
 :::
 Objects in mirror may be closer than they appear
@@ -27,7 +27,7 @@ Objects in mirror may be closer than they appear
 ## Important
 
 {.dj-djot-demo}
-```
+```djot
 {tag=aside .important}
 :::
 Objects in mirror may be closer than they appear
@@ -37,7 +37,7 @@ Objects in mirror may be closer than they appear
 ## Caution
 
 {.dj-djot-demo}
-```
+```djot
 {tag=aside .caution}
 :::
 Objects in mirror may be closer than they appear
@@ -47,7 +47,7 @@ Objects in mirror may be closer than they appear
 ## Warning
 
 {.dj-djot-demo}
-```
+```djot
 {tag=aside .warning}
 :::
 Objects in mirror may be closer than they appear

@@ -32,6 +32,7 @@ export class HTMLRenderer implements DjockeyRenderer {
 
   cssURLsRelativeToBase = new Array<string>();
   jsURLsRelativeToBase = new Array<string>();
+  fontURLsRelativeToBase = new Array<string>();
 
   constructor(
     public options: { relativeLinks: boolean } = { relativeLinks: false }
@@ -139,6 +140,11 @@ export class HTMLRenderer implements DjockeyRenderer {
       allStaticFileRelativeRefPaths,
       "**/*.js"
     );
+
+    this.fontURLsRelativeToBase = micromatch.match(
+      allStaticFileRelativeRefPaths,
+      "**/*.woff2"
+    );
   }
 
   async writeDoc(args: {
@@ -193,6 +199,7 @@ export class HTMLRenderer implements DjockeyRenderer {
       urlLists: {
         css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
         js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
+        font: this.fontURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
       },
     });
 
