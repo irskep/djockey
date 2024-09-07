@@ -11,10 +11,11 @@
   -c: colors
   -d: distance
   */
-  --f-system: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
+  --f-body: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
     helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial,
     sans-serif;
-  --f-monospace: Menlo, monospace;
+  --f-monospace: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono",
+    Menlo, Consolas, monospace;
 
   --fs-tiny: 12px;
   --fs-small: 14px;

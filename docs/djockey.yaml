@@ -43,6 +43,12 @@ html:
         - "files/ibm-plex-sans-latin-600-italic.woff2"
         - "files/ibm-plex-sans-latin-700-normal.woff2"
         - "files/ibm-plex-sans-latin-700-italic.woff2"
+    - path: ../node_modules/@fontsource-variable/jetbrains-mono
+      exclude_patterns: []
+      patterns:
+        - "index.css"
+        - "files/jetbrains-mono-latin-wght-normal.woff2"
+        - "files/jetbrains-mono-latin-wght-italic.woff2"
   header_links:
     - text: "Plugin API docs"
       url: "https://steveasleep.com/djockey/api/"

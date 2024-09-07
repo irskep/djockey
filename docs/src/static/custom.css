@@ -1,7 +1,14 @@
 :root {
   --fw-bold: 700; /* Plex doesn't go up to 800 */
+
+  --f-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, avenir next,
+    avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto,
+    arial, sans-serif;
+  --f-monospace: "JetBrains Mono Variable", "SF Mono", SFMono-Regular,
+    ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
 }
 
-body {
-  font-family: "IBM Plex Sans", var(--f-system);
+pre.shiki,
+span.shiki {
+  font-size: 93%;
 }

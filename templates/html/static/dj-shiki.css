@@ -13,9 +13,11 @@
 pre.shiki {
   padding: var(--ms);
   border-radius: 4px;
+  border: var(--border-weak);
 }
 
 span.shiki {
   padding: 2px;
   border-radius: 4px;
+  border: var(--border-weak);
 }

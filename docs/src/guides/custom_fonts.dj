@@ -1,4 +1,6 @@
-# Custom fonts
+# Custom fonts in HTML output
+
+Djockey's default theme uses OS sans-serif fonts so pages load as quickly as possible. But branding and aesthetics matter too, so Djockey makes it relatively straightforward to use a custom font in HTML output.
 
 You need two things in order to use a custom font: static files and custom CSS. Djockey makes it easy to add both.
 
@@ -21,8 +23,10 @@ For example, in `your_docs/fonts.css`:
   src: url(./ibm-plex-sans-latin-400-normal.woff2) format('woff2');
 }
 
-body {
+:root {
   font-family: 'IBM Plex Sans';
+  --fw-bold: 700; /* Plex doesn't go up to 800, and Djockey's default bold is 800 */
+  --f-body: "IBM Plex Sans", sans-serif;
 }
 ```
 
@@ -52,6 +56,7 @@ html:
       patterns:
         # List all the files you need. Djockey's docs use four different
         # font weights, so there are a lot.
+        # The paths/globs are relative to the path given above.
         - "300.css"
         - "300-italic.css"
         - "400.css"
@@ -70,6 +75,25 @@ html:
         - "files/ibm-plex-sans-latin-700-italic.woff2"
 ```
 
-That's it, you're done!
+### Override Djockey's CSS properties so the font gets used
+
+```css
+:root {
+  font-family: 'IBM Plex Sans';
+  --fw-bold: 700; /* Plex doesn't go up to 800, and Djockey's default bold is 800 */
+  --f-body: "IBM Plex Sans", sans-serif;
+}
+```
 
 ## Some nice fonts to use
+
+Here are some readable sans-serif fonts with support for lots of Unicode glyphs:
+
+- [Source Sans](https://fontsource.org/fonts/source-sans-3) from [Adobe](https://fonts.adobe.com/fonts/source-sans)
+- [Fira Sans](https://fontsource.org/fonts/fira-sans) from [Mozilla](https://mozilla.github.io/Fira/)
+- [Plex Sans](https://fontsource.org/fonts/ibm-plex-sans) from [IBM](https://www.ibm.com/plex/)
+- [Inter](https://fontsource.org/fonts/inter) by [Rasmus Andersson](https://rsms.me)
+- [Cooper Hewitt](https://fontsource.org/fonts/cooper-hewitt) by [Chester Jenkins for the Smithsonian](https://www.cooperhewitt.org/open-source-at-cooper-hewitt/cooper-hewitt-the-typeface-by-chester-jenkins/)
+- [B612](https://fontsource.org/fonts/b612) by [Airbus](https://projects.eclipse.org/projects/polarsys.b612)
+
+For monospace fonts, I won't make any recommendations, because chances are good that if you're a programmer then you have your own strong opinion. Djockey's default monospace font stack tries to use the best font on each system.
