@@ -34,7 +34,7 @@ window.onload = () => {
   document.querySelectorAll(".DJCollapse_Collapser").forEach((el) => {
     const targetID = (el as HTMLElement).dataset.collapseTarget;
     el.addEventListener("click", (e) => {
-      const target = document.querySelector(`#${targetID}`);
+      const target = el.parentElement?.querySelector(`#${targetID}`);
       if (!target) {
         console.error("Can't find", `#${targetID}`);
         return;
