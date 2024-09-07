@@ -11,6 +11,7 @@ import {
   DjockeyConfigResolved,
   DjockeyDoc,
   DjockeyOutputFormat,
+  DjockeyPlugin,
   DjockeyRenderer,
   DjockeyStaticFileFromPlugin,
 } from "../types.js";
@@ -30,9 +31,11 @@ import { LogCollector } from "../utils/logUtils.js";
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
 
-  cssURLsRelativeToBase = new Array<string>();
-  jsURLsRelativeToBase = new Array<string>();
-  fontURLsRelativeToBase = new Array<string>();
+  urlLists: { css: string[]; js: string[]; font: string[] } = {
+    css: new Array<string>(),
+    js: new Array<string>(),
+    font: new Array<string>(),
+  };
 
   constructor(
     public options: { relativeLinks: boolean } = { relativeLinks: false }
@@ -130,18 +133,18 @@ export class HTMLRenderer implements DjockeyRenderer {
       (fsPath) => fspath2refpath(path.relative(config.output_dir.html, fsPath))
     );
 
-    this.cssURLsRelativeToBase = micromatch.match(
+    this.urlLists.css = micromatch.match(
       allStaticFileRelativeRefPaths,
       "**/*.css",
       { ignore: config.html.ignore_css }
     );
 
-    this.jsURLsRelativeToBase = micromatch.match(
+    this.urlLists.js = micromatch.match(
       allStaticFileRelativeRefPaths,
       "**/*.js"
     );
 
-    this.fontURLsRelativeToBase = micromatch.match(
+    this.urlLists.font = micromatch.match(
       allStaticFileRelativeRefPaths,
       "**/*.woff2"
     );
@@ -151,6 +154,7 @@ export class HTMLRenderer implements DjockeyRenderer {
     config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
+    staticFileFilterFunctions: DjockeyPlugin["getShouldIncludeStaticFileInDoc"][];
   }) {
     const { config, nj, doc } = args;
     const outputFSPath = fsjoin([
@@ -187,6 +191,22 @@ export class HTMLRenderer implements DjockeyRenderer {
       });
     }
 
+    function doesStaticFileRefPathPassFilters(
+      staticFileRefPath: string
+    ): boolean {
+      return !args.staticFileFilterFunctions.some(
+        (fn) => fn && !fn({ doc, staticFileRefPath })
+      );
+    }
+
+    const filteredURLListsAsURLs = structuredClone(this.urlLists);
+    for (const k of Object.keys(this.urlLists)) {
+      const typedKey = k as keyof typeof this.urlLists;
+      filteredURLListsAsURLs[typedKey] = filteredURLListsAsURLs[typedKey]
+        .filter(doesStaticFileRefPathPassFilters)
+        .map((path_) => `${baseURL}${path_}`);
+    }
+
     const outputPage = nj.render("base.njk", {
       config,
       doc,
@@ -196,11 +216,7 @@ export class HTMLRenderer implements DjockeyRenderer {
         path: parseGitHubPath(config.project_info?.github_url),
       },
       urls,
-      urlLists: {
-        css: this.cssURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
-        js: this.jsURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
-        font: this.fontURLsRelativeToBase.map((path_) => `${baseURL}${path_}`),
-      },
+      urlLists: filteredURLListsAsURLs,
     });
 
     await writeFile(outputFSPath, outputPage);

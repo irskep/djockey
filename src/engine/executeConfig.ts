@@ -124,6 +124,10 @@ export async function writeDocSet(
         })
       );
 
+    const staticFileFilterFunctions = docSet.plugins
+      .map((plg) => plg.getShouldIncludeStaticFileInDoc)
+      .filter((fn) => !!fn);
+
     await renderer.handleStaticFiles({
       templateDir,
       config: docSet.config,
@@ -155,6 +159,7 @@ export async function writeDocSet(
           config: docSet.config,
           nj,
           doc,
+          staticFileFilterFunctions,
           logCollector: logCollector2,
         });
       })

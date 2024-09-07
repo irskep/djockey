@@ -101,6 +101,7 @@ export type DjockeyRenderer = {
     config: DjockeyConfigResolved;
     nj: Environment;
     doc: DjockeyDoc;
+    staticFileFilterFunctions: DjockeyPlugin["getShouldIncludeStaticFileInDoc"][];
     logCollector: LogCollector;
   }) => Promise<void>;
 
@@ -154,6 +155,11 @@ export interface DjockeyPlugin {
     config: DjockeyConfigResolved;
     logCollector: LogCollector;
   }) => DjockeyStaticFileFromPlugin[];
+
+  getShouldIncludeStaticFileInDoc?: (args: {
+    doc: DjockeyDoc;
+    staticFileRefPath: string;
+  }) => boolean;
 }
 
 export interface DjockeyPluginNodeReservation {

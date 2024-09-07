@@ -70,3 +70,18 @@ export function djotASTToTextWithLineBreaks(children: Block[]) {
   }));
   return result.join("").replace(/\n\n+/g, "\n\n");
 }
+
+export function djotASTContainsNode(
+  doc: Doc,
+  predicate: (node: AstNode) => boolean
+): boolean {
+  let result = false;
+
+  applyFilter(doc, () => ({
+    "*": (node: AstNode) => {
+      result = result || predicate(node);
+    },
+  }));
+
+  return result;
+}
