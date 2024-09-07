@@ -140,11 +140,11 @@ function lineToHTML(
     const localStart = start - line.startInclusive;
     if (localStart > lastPlainIndex) {
       result.push(line.text.slice(lastPlainIndex, localStart));
-      lastPlainIndex = localStart + len;
     }
     result.push("<mark>");
     result.push(line.text.slice(localStart, localStart + len));
     result.push("</mark>");
+    lastPlainIndex = localStart + len;
   }
 
   if (lastPlainIndex < line.text.length) {

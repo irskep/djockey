@@ -23,7 +23,6 @@ body > footer {
 
 .u-page-width {
   width: 100%;
-  max-width: var(--page-max-width);
 }
 
 main {
@@ -31,6 +30,7 @@ main {
 
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .DJDocTree {
@@ -59,6 +59,8 @@ main {
   align-items: stretch;
   justify-content: stretch;
   min-height: 100%;
+
+  max-width: var(--content-max-width);
 }
 .DJContent > article {
   flex-grow: 1;
@@ -145,7 +147,7 @@ main {
 /* RESPONSIVENESS */
 
 .DJHeader_Hamburger {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 970px) {
@@ -154,7 +156,7 @@ main {
   }
 
   .DJHeader_Hamburger {
-    display: block;
+    display: block !important;
     cursor: pointer;
   }
 

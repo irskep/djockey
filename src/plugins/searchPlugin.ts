@@ -37,7 +37,7 @@ export class SearchPlugin implements DjockeyPlugin {
     }));
     return [
       {
-        path: "static/js/search-index.js",
+        refPath: "static/js/search-index.js",
         contents: `window.djSearchIndex = ${JSON.stringify(searchIndex)}`,
       },
     ];

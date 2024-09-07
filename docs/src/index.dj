@@ -1,12 +1,85 @@
 ---
-title: Home
+title: Overview
 ---
-# Djockey
+# Overview
 
-Djockey is a powerful but experimental static site generator for technical writing and project documentation. The goal is to have the depth and extensibility of [Sphinx](https://www.sphinx-doc.org/en/master/) with the ease-of-use and built-in power of [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+Djockey is an experimental but powerful static site generator for technical writing and project documentation. The goal is to have the depth and extensibility of [Sphinx](https://www.sphinx-doc.org/en/master/) with the ease-of-use and built-in power of [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
 - Write [Djot](https://djot.net) or [GitHub Flavored Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 - Output HTML or Markdown, so your docs are readable in the GitHub interface or on a nice web site
 - Rich cross-references, checked at build time
 - Tree-based plugins—stop writing Markdown tokenizer hacks!
-- Biased toward static site rendering over client-side JS
+- De-emphasizes client-side JS, has a small core and a few small dependencies
+
+## Installation
+
+You can invoke `djockey`{.language-sh} directly with `npx`{.language-sh} or `bunx`{.language-sh}.
+
+{.tab-group}
+:::
+
+### Node
+
+```sh
+npx djockey path/to/docs
+```
+
+### Bun
+
+```sh
+bunx djockey path/to/docs
+```
+
+:::
+
+or install it in your JS project and then run it:
+
+{.tab-group}
+:::
+
+### Node
+
+```sh
+npm install djockey
+npm run djockey path/to/docs
+```
+
+### Bun
+
+```sh
+bun install djockey
+bunx djockey path/to/docs
+```
+:::
+
+### Pandoc
+
+In order to use Markdown, you must also [install Pandoc](https://pandoc.org/installing.html).
+
+## Write a bare-bones config file
+
+Once you've [installed Djockey](#Installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
+
+```yaml
+input_dir: path-to-your-docs
+output_dir:
+  html: docs_out/html
+  gfm: docs_out/gfm
+site_name: "Your Name Here"
+url_root: https://where-docs-will-be-deployed
+
+html:
+  footer_text: "©2024 You"
+```
+
+Now try running `npx djockey --local`{.language-sh}. Maybe it'll just work! If not, it should tell you what's wrong.
+
+## Building for local viewing vs deployment
+
+When your site is generated, all internal URLs are prefixed with the value of `urlRoot`, which is counterproductive if you want to view your site without a web server and some edits to `/etc/hosts`.
+
+To have Djockey use file URLs instead, only valid on your own machine and not requiring a web server, pass `--local`.
+
+```sh
+djockey my_docs_dir --local
+```

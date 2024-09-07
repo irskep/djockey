@@ -1,0 +1,7 @@
+:root {
+  --fw-bold: 700; /* Plex doesn't go up to 800 */
+}
+
+body {
+  font-family: "IBM Plex Sans", var(--f-system);
+}

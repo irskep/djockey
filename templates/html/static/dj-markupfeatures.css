@@ -21,6 +21,7 @@ aside::before {
   margin: 0 0 var(--ms) 0;
   padding: var(--mss) var(--ms);
   display: block;
+  color: var(--aside-title-color-fg);
 }
 
 /* Note */
@@ -130,8 +131,8 @@ aside.warning {
 }
 
 .dj-tab-heading.m-active {
-  color: var(--c-linkblue);
-  border-bottom: 3px solid var(--c-linkblue);
+  color: var(--c-control-active);
+  border-bottom: 3px solid var(--c-control-active);
 }
 
 .dj-tab-group-content > * {

@@ -18,8 +18,10 @@ import {
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
   fsjoin,
-  joinPath,
+  fspath2refpath,
   makePathBackToRoot,
+  refpath2fspath,
+  refsplit,
   URL_SEPARATOR,
   writeFile,
 } from "../utils/pathUtils.js";
@@ -74,61 +76,69 @@ export class HTMLRenderer implements DjockeyRenderer {
     const { templateDir, config, docs, staticFilesFromPlugins, logCollector } =
       args;
     const ignorePatterns = config.html.ignore_static;
+    const allStaticFileAbsoluteFSPaths = new Array<string>();
 
-    const p1 = copyFilesMatchingPattern({
-      base: templateDir,
-      dest: config.output_dir.html,
-      pattern: "static/**/*",
-      excludePaths: [],
-      excludePatterns: ignorePatterns,
-      logCollector,
-    });
-    const p2 = copyFilesMatchingPattern({
-      base: config.input_dir,
-      dest: config.output_dir.html,
-      pattern: "**/*",
-      excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
-      excludePatterns: ignorePatterns,
-      logCollector,
-    });
-    const p3 = Promise.all(
-      staticFilesFromPlugins.map((f) => {
-        return writeFile(
-          joinPath([config.output_dir.html, f.path]),
-          f.contents
-        );
-      })
+    await Promise.all([
+      copyFilesMatchingPattern({
+        base: templateDir,
+        dest: config.output_dir.html,
+        pattern: "static/**/*",
+        excludePaths: [],
+        excludePatterns: ignorePatterns,
+        results: allStaticFileAbsoluteFSPaths,
+        logCollector,
+      }),
+      copyFilesMatchingPattern({
+        base: config.input_dir,
+        dest: config.output_dir.html,
+        pattern: "**/*",
+        excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
+        excludePatterns: ignorePatterns,
+        results: allStaticFileAbsoluteFSPaths,
+        logCollector,
+      }),
+      ...(config.html.extra_static_dirs || []).flatMap((extraStaticDir) => {
+        const fsBase = fsjoin([
+          config.rootPath,
+          ...refsplit(extraStaticDir.path),
+        ]);
+        return (extraStaticDir.patterns || ["**/*"]).map(async (pattern) => {
+          copyFilesMatchingPattern({
+            base: fsBase,
+            dest: config.output_dir.html,
+            pattern,
+            excludePaths: [],
+            excludePatterns: extraStaticDir.exclude_patterns ?? [],
+            results: allStaticFileAbsoluteFSPaths,
+            logCollector,
+          });
+        });
+      }),
+
+      ...staticFilesFromPlugins.map((f) => {
+        const fsPath = fsjoin([
+          config.output_dir.html,
+          refpath2fspath(f.refPath),
+        ]);
+        allStaticFileAbsoluteFSPaths.push(fsPath);
+        return writeFile(fsPath, f.contents);
+      }),
+    ]);
+
+    const allStaticFileRelativeRefPaths = allStaticFileAbsoluteFSPaths.map(
+      (fsPath) => fspath2refpath(path.relative(config.output_dir.html, fsPath))
     );
 
-    await Promise.all([p1, p2, p3]);
-
-    const templateCSSFiles = fastGlob.sync(`${templateDir}/**/*.css`);
-    const inputCSSFiles = fastGlob.sync(`${config.input_dir}/**/*.css`, {
-      ignore: (config.html.ignore_css ?? []).map((pattern) => `**/${pattern}`),
-    });
-    const pluginCSSFiles = micromatch.match(
-      staticFilesFromPlugins.map((f) => f.path),
-      "**/*.css"
+    this.cssURLsRelativeToBase = micromatch.match(
+      allStaticFileRelativeRefPaths,
+      "**/*.css",
+      { ignore: config.html.ignore_css }
     );
-    this.cssURLsRelativeToBase = templateCSSFiles
-      .map((path_) => path.relative(templateDir, path_))
-      .concat(
-        inputCSSFiles.map((path_) => path.relative(config.input_dir, path_))
-      )
-      .concat(pluginCSSFiles);
 
-    const templateJSFiles = fastGlob.sync(`${templateDir}/**/*.js`);
-    const inputJSFiles = fastGlob.sync(`${config.input_dir}/**/*.js`);
-    const pluginJSFiles = micromatch.match(
-      staticFilesFromPlugins.map((f) => f.path),
+    this.jsURLsRelativeToBase = micromatch.match(
+      allStaticFileRelativeRefPaths,
       "**/*.js"
     );
-    this.jsURLsRelativeToBase = templateJSFiles
-      .map((path_) => path.relative(templateDir, path_))
-      .concat(
-        inputJSFiles.map((path_) => path.relative(config.input_dir, path_))
-      )
-      .concat(pluginJSFiles);
   }
 
   async writeDoc(args: {
@@ -212,11 +222,14 @@ interface TextNode {
 }
 
 function replaceNode(node: Element, tagName: string) {
-  const newEl: Element = { ...node, tagName: tagName };
+  const newEl = structuredClone(node);
+  newEl.tagName = tagName;
+  newEl.attrs = newEl.attrs.filter((attr) => attr.name !== "tag");
   const parent = node.parentNode!;
 
   const ix = parent.childNodes.indexOf(node);
   parent.childNodes[ix] = newEl;
+  return newEl;
 }
 
 /**
@@ -231,7 +244,8 @@ export function postprocessHTML(html: string): string {
 
     for (const attr of node.attrs) {
       if (attr.name === "tag") {
-        replaceNode(node, attr.value);
+        node = replaceNode(node, attr.value);
+        continue;
       }
     }
 

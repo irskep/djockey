@@ -25,15 +25,13 @@ def main():
                 "bun",
                 "build",
                 "--compile",
-                "--minify",
-                "--sourcemap",
                 "--asset-naming",
                 "[name].[ext]",
                 "--target",
                 platform,
                 "--outfile",
                 out_path,
-                "./dist/cli.js",
+                "./src/cli.ts",
             ]
             + glob.glob("dist/templates/**/*.css", recursive=True)
             + glob.glob("dist/templates/**/*.js", recursive=True)

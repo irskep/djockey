@@ -98,7 +98,7 @@ th {
 
 .DJHeader_Content {
   border-bottom: var(--border-weak);
-  padding: var(--header-padding);
+  padding: var(--header-padding) var(--mm);
 }
 
 .DJTableOfContents.m-header {
@@ -129,79 +129,12 @@ main {
 
 /* NAVIGATION */
 
-.DJDocTree_Content,
-.DJTableOfContents_Content {
-  padding: 0 var(--ms);
-}
-
 .DJContent {
   padding: 0 var(--mm);
 }
 
-nav > ul,
-nav > div > ul,
-nav > ul > li > ul,
-nav > div > ul,
-nav > div > ul > li > ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-/* Only indent third-level lists */
-nav > ul ul ul,
-nav > div > ul ul ul {
-  padding-left: 0;
-  list-style-type: none;
-  margin-left: 0.5em;
-}
-
-.DJTableOfContents.m-sidebar .DJTableOfContents_Content::before {
-  content: "On this page";
-}
-
 .DJNextPrevious.m-top {
   display: none; /* hidden by default */
-}
-
-nav.DJDocTree a,
-nav.DJDocTree a:visited,
-nav.DJDocTree h1,
-nav.DJDocTree h2,
-nav.DJDocTree h3,
-nav.DJDocTree h4,
-nav.DJDocTree h5,
-nav.DJDocTree h6 {
-  text-decoration: none;
-  color: var(--color-fg-2);
-}
-
-/* Add underlines to sections with self-docs */
-nav.DJDocTree a:hover,
-nav.DJDocTree h1 > a,
-nav.DJDocTree h2 > a,
-nav.DJDocTree h3 > a,
-nav.DJDocTree h4 > a,
-nav.DJDocTree h5 > a,
-nav.DJDocTree h6 > a {
-  text-decoration: underline;
-}
-
-nav h1,
-nav h2,
-nav h3,
-nav h4,
-nav h5,
-nav h6 {
-  font-size: var(--fs-normal);
-  margin-bottom: 0.5em;
-}
-
-nav h2,
-nav h3,
-nav h4,
-nav h5,
-nav h6 {
-  margin-top: 1em;
 }
 
 .DJNextPrevious > a {
@@ -291,4 +224,32 @@ nav h6 {
   align-items: center;
   justify-content: flex-start;
   gap: var(--ms);
+}
+
+.DJCollapse_Collapser {
+  position: relative;
+  cursor: pointer;
+}
+
+.DJCollapse_Collapser::after {
+  font-size: var(--fs-tiny);
+  float: right;
+  color: var(--color-fg-3);
+}
+
+.DJCollapse_Collapser.m-uncollapsed::after {
+  transform: rotate(90deg);
+  content: "▶";
+}
+
+.DJCollapse_Collapser.m-collapsed::after {
+  content: "▶";
+}
+
+.DJCollapse_Collapser:hover {
+  background-color: var(--color-control-hover-bg);
+}
+
+.DJCollapse_Collapsee.m-collapsed {
+  display: none;
 }

@@ -1,0 +1,37 @@
+# Linking
+
+Everything you can do in Markdown, you can also do in Djockey. If you find that you can't, it's a bug and [you should report it](https://github.com/irskep/djockey/issues/new). But Djockey tries to make your life easier by letting you be less specific with your links, as long as they are unambiguous.
+
+## Extension or no extension, up to you
+
+If you have a doc at `life.dj`, you can link to it with either `[link text](life.dj)` or just `[link text](life)`.
+
+## Static files
+
+You can link to static files using relative paths, or absolute paths where the root is `input_dir`{.language-sh}.
+
+## Shorthand link resolution
+
+Let's say you wrote some text you need to refer to in many places across your docs, and gave it a custom identifier:
+
+```djot
+{% in /reference/answers/big-questions/life.dj %}
+{#the-answer}
+# The answer to life, the universe, and everything
+
+It's 42.
+```
+
+In any other documentation system, you'd need to link to `/reference/answers/big-questions/life#the-answer`{.language-sh}, or use a relative URL like `../../answers/big-questions/life#the-answer`{.language-sh}. But if you move `life.dj`{.language-sh} to another directory, you need to find all those links and update them.
+
+With Djockey, you can link to it anywhere with just `#the-answer`{.language-css}, and Djockey will figure out which doc it lives in. If there are two files containing a heading `#the-answer`{.language-css}, you can use just enough of the path to disambiguate the two, like `life#the-answer`{.language-sh} or `answers/big-questions/life.dj#the-answer`{.language-sh}.
+
+The goal of this feature is to make it easier to reorganize your docs on the fly. If there's any ambiguity, Djockey will warn you at build time.
+
+Shorthand link resolution doesn't work for static files, but in theory it could be made to.
+
+## Explicit links always point to specific places
+
+If you prefix your link with `./` or `/`, Djockey will always try to resolve it directly without looking up any shorthands.
+
+If you don't use a slash prefix, Djockey will still _first_ check for a document or static file at that location relative to the source document before trying to use a shorthand.

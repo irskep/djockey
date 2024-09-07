@@ -31,6 +31,11 @@ export interface DjockeyConfig {
   link_mappings?: LinkMappingConfig[];
 
   html: {
+    extra_static_dirs?: {
+      path: string;
+      patterns?: string[];
+      exclude_patterns?: string[];
+    }[];
     footer_text: string;
     ignore_css?: string[];
     ignore_static: string[];
@@ -160,7 +165,7 @@ export interface DjockeyPluginModule {
 }
 
 export interface DjockeyStaticFileFromPlugin {
-  path: string;
+  refPath: string;
   contents: string;
 }
 

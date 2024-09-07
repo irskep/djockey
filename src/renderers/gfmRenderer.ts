@@ -16,7 +16,6 @@ import {
   makePathBackToRoot,
   copyFilesMatchingPattern,
   ensureParentDirectoriesExist,
-  joinPath,
   writeFile,
   fsjoin,
   refpath2fspath,
@@ -61,12 +60,14 @@ export class GFMRenderer implements DjockeyRenderer {
     const { templateDir, config, docs, staticFilesFromPlugins, logCollector } =
       args;
     const ignorePatterns = config.gfm.ignore_static;
+    const allStaticFileAbsoluteFSPaths = new Array<string>();
     const p1 = copyFilesMatchingPattern({
       base: templateDir,
       dest: config.output_dir.gfm,
       pattern: "static/**/*",
       excludePaths: [],
       excludePatterns: ignorePatterns,
+      results: allStaticFileAbsoluteFSPaths,
       logCollector,
     });
     const p2 = copyFilesMatchingPattern({
@@ -75,12 +76,13 @@ export class GFMRenderer implements DjockeyRenderer {
       pattern: "**/*",
       excludePaths: docs.map((d) => fastGlob.convertPathToPattern(d.fsPath)),
       excludePatterns: ignorePatterns,
+      results: allStaticFileAbsoluteFSPaths,
       logCollector,
     });
     const p3 = Promise.all(
       staticFilesFromPlugins.map((f) => {
         return writeFile(
-          joinPath([config.output_dir.html, f.path]),
+          fsjoin([config.output_dir.html, refpath2fspath(f.refPath)]),
           f.contents
         );
       })
