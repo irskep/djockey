@@ -317,6 +317,11 @@
   resolved "https://registry.npmjs.org/@fontsource/ibm-plex-sans/-/ibm-plex-sans-5.0.21.tgz"
   integrity sha512-YmQJgR5rbynZPrbnfU2UojSduA8K5FV0jEq8CzTB6AU0C65ZZYrD1BX96rz/IBQx+uDeDfi4w9vP5Zb+TB5Uqw==
 
+"@fontsource/saira-condensed@^5.0.14":
+  version "5.0.14"
+  resolved "https://registry.npmjs.org/@fontsource/saira-condensed/-/saira-condensed-5.0.14.tgz"
+  integrity sha512-z9XQItGHqY83L5PKbPaS1rFcW6g9IHTukmpI3OLseJSwmXNrXNmLOqgECAOOx2XkF0K599BjMq53Q3UYtrZr6A==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz"

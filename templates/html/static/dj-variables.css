@@ -17,11 +17,11 @@
   --f-monospace: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono",
     Menlo, Consolas, monospace;
 
-  --fs-tiny: 12px;
-  --fs-small: 14px;
-  --fs-normal: 16px;
-  --fs-large: 20px;
-  --fs-xlarge: 32px;
+  --fs-tiny: 0.75rem;
+  --fs-small: 0.875rem;
+  --fs-normal: 1rem;
+  --fs-large: 1.25rem;
+  --fs-xlarge: 2rem;
 
   --fw-bold: 800;
   --fw-semibold: 600;

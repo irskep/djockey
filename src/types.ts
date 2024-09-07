@@ -33,6 +33,7 @@ export interface DjockeyConfig {
   html: {
     extra_static_dirs?: {
       path: string;
+      prefix?: string;
       patterns?: string[];
       exclude_patterns?: string[];
     }[];

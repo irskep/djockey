@@ -109,7 +109,9 @@ export class HTMLRenderer implements DjockeyRenderer {
         return (extraStaticDir.patterns || ["**/*"]).map(async (pattern) => {
           copyFilesMatchingPattern({
             base: fsBase,
-            dest: config.output_dir.html,
+            dest: extraStaticDir.prefix
+              ? fsjoin([config.output_dir.html, extraStaticDir.prefix])
+              : config.output_dir.html,
             pattern,
             excludePaths: [],
             excludePatterns: extraStaticDir.exclude_patterns ?? [],

@@ -25,6 +25,7 @@ html:
   footer_text: "©2024 Steve Landey"
   extra_static_dirs:
     - path: ../node_modules/@fontsource/ibm-plex-sans
+      prefix: "plex-sans"
       exclude_patterns: []
       patterns:
         - "300.css"
@@ -44,6 +45,7 @@ html:
         - "files/ibm-plex-sans-latin-700-normal.woff2"
         - "files/ibm-plex-sans-latin-700-italic.woff2"
     - path: ../node_modules/@fontsource/ibm-plex-mono
+      prefix: "plex-mono"
       exclude_patterns: []
       patterns:
         - "400.css"
@@ -54,6 +56,28 @@ html:
         # - "files/ibm-plex-mono-latin-400-italic.woff2"
         # - "files/ibm-plex-mono-latin-700-normal.woff2"
         # - "files/ibm-plex-mono-latin-700-italic.woff2"
+    - path: ../node_modules/@fontsource/saira-condensed
+      prefix: "saira-condensed"
+      exclude_patterns: []
+      patterns:
+        - "100.css"
+        - "200.css"
+        - "300.css"
+        - "400.css"
+        - "500.css"
+        - "600.css"
+        - "700.css"
+        - "800.css"
+        - "900.css"
+        - "files/saira-condensed-latin-100-normal.woff2"
+        - "files/saira-condensed-latin-200-normal.woff2"
+        - "files/saira-condensed-latin-300-normal.woff2"
+        - "files/saira-condensed-latin-400-normal.woff2"
+        - "files/saira-condensed-latin-500-normal.woff2"
+        - "files/saira-condensed-latin-600-normal.woff2"
+        - "files/saira-condensed-latin-700-normal.woff2"
+        - "files/saira-condensed-latin-800-normal.woff2"
+        - "files/saira-condensed-latin-900-normal.woff2"
   header_links:
     - text: "Plugin API docs"
       url: "https://steveasleep.com/djockey/api/"

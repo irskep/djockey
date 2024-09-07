@@ -11,3 +11,23 @@ pre.shiki,
 span.shiki {
   font-size: 93%;
 }
+
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6,
+header h1 {
+  --fs-tiny: 0.8rem;
+  --fs-small: 0.9rem;
+  --fs-normal: 1.1rem;
+  --fs-large: 1.5rem;
+  --fs-xlarge: 2.2rem;
+
+  font-family: "Saira Condensed", var(--f-body);
+}
+
+article h1 code {
+  font-size: 100%;
+}

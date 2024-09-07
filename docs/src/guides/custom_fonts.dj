@@ -55,6 +55,7 @@ html:
   extra_static_dirs:
     # Tell Djockey to look outside your docs directory for static files
     - path: ../node_modules/@fontsource/ibm-plex-sans
+      prefix: "plex-sans" # make sure same-name CSS files don't overwrite each other
       patterns:
         # List all the files you need. Djockey's docs use four different
         # font weights, so there are a lot.
