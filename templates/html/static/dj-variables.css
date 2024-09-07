@@ -87,7 +87,7 @@
   /* LAYOUT SIZES */
 
   --header-height: 4rem;
-  --content-max-width: 40rem;
+  --content-max-width: 50rem;
   --sidebar-width: 18rem;
   --sidebar-width-large: 20rem;
   --approx-height-of-top-bar-during-scroll: calc(
