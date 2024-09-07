@@ -307,6 +307,11 @@
 "@djot/djot@^0.3.1":
   version "0.3.1"
 
+"@fontsource-variable/jetbrains-mono@^5.0.22":
+  version "5.0.22"
+  resolved "https://registry.npmjs.org/@fontsource-variable/jetbrains-mono/-/jetbrains-mono-5.0.22.tgz"
+  integrity sha512-2LZQFb37H9iUY92qrhqjvrrkBPROdmBy5MMDgQX+FGeHdVE2WwvGt4lOpxOAy0L/bwE2Y0UCe/eb/tOs1kaTYQ==
+
 "@fontsource/ibm-plex-sans@^5.0.21":
   version "5.0.21"
   resolved "https://registry.npmjs.org/@fontsource/ibm-plex-sans/-/ibm-plex-sans-5.0.21.tgz"

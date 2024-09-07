@@ -1,11 +1,12 @@
 .PHONY: docs gfm client-nocache typedoc clean
 
 client-nocache:
-	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify
-
-templates/html/static/client.js: src/clientjs/*
 	bun build src/clientjs/index.ts --target=browser --outfile=templates/html/static/client.js --minify --sourcemap
 	bun build src/clientjs/search.ts --target=browser --outfile=templates/html/static/search.js --minify --sourcemap
+	bun build src/clientjs/mermaid.ts --target=browser --outfile=templates/html/static/mermaid.js --minify --sourcemap
+
+templates/html/static/client.js: src/clientjs/*
+	make client-nocache
 
 client: templates/html/static/client.js
 
