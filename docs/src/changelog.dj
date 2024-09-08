@@ -4,9 +4,9 @@ order: -1
 
 # Changelog
 
-## 0.2
+## 0.2.x
 
-### 0.2.5 - 2024-09-06
+### 0.2.5 - 2024-09-08
 
 - Static file improvements
 
@@ -57,7 +57,7 @@ order: -1
   - More methods can be async
   - Plugins can mark nodes as "special" and not to be touched by other plugins
 
-## 0.1
+## 0.1.x
 
 ### 0.1.1 - 2024-08-30
 
@@ -80,7 +80,7 @@ order: -1
   - Markup in headings appears in "next" and "previous" links
 
 
-## 0.0
+## 0.0.x
 
 ### 0.0.1-0.0.5
 
