@@ -86,7 +86,7 @@ th {
 }
 
 .DJIconButton.DJHeader_Hamburger {
-  margin: 0 0 0 calc(-1 * var(--ms));
+  margin: 0 0 0 calc(-1 * var(--ms) - 4px);
 }
 
 .DJHeader_SiteName a,

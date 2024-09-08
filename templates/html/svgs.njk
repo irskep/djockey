@@ -1,21 +1,13 @@
-{% macro svg_hamburger(width, height, row_height, row_space) -%}
-<svg viewBox="0 0 100 {{ row_height * 3 + row_space * 2 }}" width="{{ width }}" height="{{ height }}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
-  <rect y="{{ row_height + row_space }}" width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
-  <rect y="{{ row_height * 2 + row_space * 2}}" width="100" height="{{ row_height }}" rx="8" stroke="var(--color-fg-1)" />
-</svg>
+{# icons are from https://remixicon.com/ #}
+
+{% macro svg_hamburger(width, height) -%}
+<svg width="1.2em" height="1.2em" xmlns="http://www.w3.org/2000/svg" viewBox="2 0 20 24" fill="currentColor"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"></path></svg>
 {%- endmacro %}
 
 {% macro svg_close() -%}
-<svg viewBox="0 0 25 25" width="1.5em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="2" y1="2" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
-  <line x1="2" y1="23" x2="23" y2="2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
-</svg>
+<svg width="1.2em" height="1.2em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path></svg>
 {%- endmacro %}
 
 {% macro svg_search() -%}
-<svg viewBox="0 0 25 25" width="1.5em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="9" cy="9" r="7" stroke-width="4" stroke="var(--color-fg-1)" fill="none" />
-  <line x1="15" y1="15" x2="23" y2="23" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-fg-1)" />
-</svg>
+<svg width="1.5em" height="1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path></svg>
 {%- endmacro %}
