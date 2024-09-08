@@ -239,21 +239,14 @@ main {
 .DJCollapse_Collapser {
   position: relative;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.DJCollapse_Collapser::after {
-  font-size: var(--fs-tiny);
-  float: right;
+.DJCollapse_Collapser_Marker {
   color: var(--color-fg-3);
-}
-
-.DJCollapse_Collapser.m-uncollapsed::after {
-  transform: rotate(90deg);
-  content: "▶";
-}
-
-.DJCollapse_Collapser.m-collapsed::after {
-  content: "▶";
 }
 
 .DJCollapse_Collapser:hover {
