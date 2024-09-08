@@ -97,7 +97,7 @@ id="4-Link-to-your-API-docs">
 From here, you can write `:ts:symbolName` as a link destination to get a
 link into your TypeDoc API reference. If you need to disambiguate, for
 example to refer to a method on a specific class, you can add parent
-types like `:ts:SomeClass.someMethod` or
+types as a prefix, like `:ts:SomeClass.someMethod` or
 `:ts:namespace.SomeClass.someMethod`.
 
 If your link doesn’t have any text, the text will be populated

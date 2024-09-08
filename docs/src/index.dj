@@ -41,7 +41,7 @@ or install it in your JS project and then run it:
 
 ```sh
 npm install djockey
-npm run djockey path/to/docs
+npm exec -- djockey path/to/docs
 ```
 
 ### Bun
@@ -49,6 +49,16 @@ npm run djockey path/to/docs
 ```sh
 bun install djockey
 bunx djockey path/to/docs
+```
+
+### `package.json`{.language-sh}
+
+```json
+{
+  "scripts": {
+    "docs": "djockey path/to/docs"
+  }
+}
 ```
 :::
 

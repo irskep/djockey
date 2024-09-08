@@ -73,6 +73,9 @@ Tab 2 content
 ::::
 ````
 
+In Markdown output, your content looks essentially the same as in your
+source markup.
+
 </div>
 
 

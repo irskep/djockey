@@ -50,6 +50,6 @@ The path is relative to `djockey.yaml`{.language-sh}. `url_root` should be the p
 
 ## 4. Link to your API docs
 
-From here, you can write `:ts:symbolName` as a link destination to get a link into your TypeDoc API reference. If you need to disambiguate, for example to refer to a method on a specific class, you can add parent types like `:ts:SomeClass.someMethod` or `:ts:namespace.SomeClass.someMethod`.
+From here, you can write `:ts:symbolName` as a link destination to get a link into your TypeDoc API reference. If you need to disambiguate, for example to refer to a method on a specific class, you can add parent types as a prefix, like `:ts:SomeClass.someMethod` or `:ts:namespace.SomeClass.someMethod`.
 
 If your link doesn't have any text, the text will be populated automatically. So you can say `[API reference for DjockeyPlugin](:ts:DjockeyPlugin)`{.language-djot} to customize the link text, or just `[](:ts:DjockeyPlugin)`{.language-djot} to use the symbol name.

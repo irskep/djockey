@@ -69,7 +69,7 @@ or install it in your JS project and then run it:
 
 ``` sh
 npm install djockey
-npm run djockey path/to/docs
+npm exec -- djockey path/to/docs
 ```
 
 </div>
@@ -81,6 +81,20 @@ npm run djockey path/to/docs
 ``` sh
 bun install djockey
 bunx djockey path/to/docs
+```
+
+</div>
+
+### `package.json`
+
+<div class="dj-tab tabgroup-0 tabgroup-0-tab-2 ">
+
+``` json
+{
+  "scripts": {
+    "docs": "djockey path/to/docs"
+  }
+}
 ```
 
 </div>

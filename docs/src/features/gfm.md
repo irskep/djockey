@@ -3,7 +3,7 @@ md_flavor: gfm
 order: -1
 ---
 
-# GitHub Markdown demos
+# GitHub Flavored Markdown alerts
 
 ## Alerts
 

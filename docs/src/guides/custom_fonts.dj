@@ -1,6 +1,6 @@
 # Custom fonts in HTML output
 
-Djockey's default theme uses OS sans-serif fonts so pages load as quickly as possible. But branding and aesthetics matter too, so Djockey makes it relatively straightforward to use a custom font in HTML output.
+Djockey's default theme uses system-default fonts so pages load as quickly as possible. But branding and aesthetics matter too, so Djockey makes it relatively straightforward to use a custom font in HTML output.
 
 You need two things in order to use a custom font: static files and custom CSS. Djockey makes it easy to add both.
 

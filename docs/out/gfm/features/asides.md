@@ -153,4 +153,4 @@ Objects in mirror may be closer than they appear
 
 | Previous | Next |
 | - | - |
-| [Version directives](../features/version_directives.md) | [GitHub Markdown demos](../features/gfm.md) |
+| [Version directives](../features/version_directives.md) | [GitHub Flavored Markdown alerts](../features/gfm.md) |

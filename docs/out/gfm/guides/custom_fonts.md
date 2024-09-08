@@ -25,7 +25,7 @@ id="Custom-fonts-in-HTML-output">
 
 # Custom fonts in HTML output
 
-Djockey’s default theme uses OS sans-serif fonts so pages load as
+Djockey’s default theme uses system-default fonts so pages load as
 quickly as possible. But branding and aesthetics matter too, so Djockey
 makes it relatively straightforward to use a custom font in HTML output.
 
@@ -191,4 +191,4 @@ font on each system.
 
 | Previous | Next |
 | - | - |
-| [Indexterms](../features/indexterms.md) | [Deploying](../guides/deploying.md) |
+| [Index](../features/indexterms.md) | [Deploying](../guides/deploying.md) |

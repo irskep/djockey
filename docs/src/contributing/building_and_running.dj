@@ -16,4 +16,4 @@ Assuming you've already installed `bun`{.language-sh indexterm=Bun}, `bun instal
 
 Djockey supports Node because most potential users already have Node installed.
 
-You can use `yarn djockey`{.language-sh} to build Djockey with `tsc`{.language-sh} and run Djockey using Node. `yarn test`{.language-sh} and `yarn test:watch`{.language-sh} will run the tests using [Jest](https://jestjs.io).
+You can use `yarn djockey`{.language-sh} to build Djockey with `tsc`{.language-sh} and run Djockey using Node. `yarn test`{.language-sh} will run the tests using [Jest](https://jestjs.io).

@@ -39,7 +39,7 @@ Djockey supports Node because most potential users already have Node
 installed.
 
 You can use `yarn djockey` to build Djockey with `tsc` and run Djockey
-using Node. `yarn test` and `yarn test:watch` will run the tests using
+using Node. `yarn test` will run the tests using
 [Jest](https://jestjs.io).
 
 </div>
