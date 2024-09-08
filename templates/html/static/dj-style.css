@@ -117,6 +117,7 @@ th {
 .DJFooter_Content {
   border-top: var(--border-weak);
   padding: var(--ms);
+  font-size: var(--fs-small);
 }
 
 main {
