@@ -67,6 +67,11 @@ nav.DJDocTree h6 > a {
   text-decoration: underline;
 }
 
+nav li > a {
+  display: block;
+  width: 100%;
+}
+
 nav h1,
 nav h2,
 nav h3,
@@ -80,6 +85,13 @@ nav h6 {
   padding: var(--ms);
   margin-left: calc(-1 * var(--ms));
   border-radius: var(--border-radius-small);
+}
+
+nav h3,
+nav h4,
+nav h5,
+nav h6 {
+  font-size: var(--fs-small);
 }
 
 nav h1 {

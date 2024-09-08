@@ -1,14 +1,12 @@
 ---
 order: -5
 ---
-# Custom markup
+# Customizing HTML tags
 
 {tag=aside .caution}
 :::
 The details of this markup are likely to change, since Djockey is experimental.
 :::
-
-## Overriding HTML tags
 
 Djot does not ([yet](https://github.com/jgm/djot/issues/240)) support arbitrary HTML tags in its input or output. Djockey works around this by postprocessing Djot's HTML output. Whenever you add a `tag=foo`{.language-text} attribute, Djockey will replace the element's tag with the attribute's value.
 
