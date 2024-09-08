@@ -28,6 +28,10 @@ header h1 {
   font-family: "Saira Condensed", var(--f-body);
 }
 
+header h1 {
+  font-size: var(--fs-xlarge);
+}
+
 article h1 code {
   font-size: 100%;
 }
