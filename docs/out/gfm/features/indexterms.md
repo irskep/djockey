@@ -58,4 +58,4 @@ hard to use indexterms but does have a few:
 
 | Previous | Next |
 | - | - |
-| [Version directives](../features/version_directives.md) | [Building and running](../contributing/building_and_running.md) |
+| [GitHub Markdown demos](../features/gfm.md) | [Custom fonts in HTML output](../guides/custom_fonts.md) |

@@ -38,4 +38,4 @@ flowchart LR
 
 | Previous | Next |
 | - | - |
-| [GitHub Markdown demos](../features/gfm.md) | [Syntax highlighting](../features/syntax_highlighting.md) |
+| [Using Markdown](../foundations/markup_languages/markdown.md) | [Syntax highlighting](../features/syntax_highlighting.md) |

@@ -31,8 +31,9 @@ configure Djockey to run more than one set of passes.
 ``` mermaid
 flowchart LR
     Parse(Read documents) --> Read(Read pass)
-    Read --> Write(Write pass)
-    Write -->|If configured| Read
+    Read --> async(Do async work)
+    async --> Write(Write pass)
+    Write -->|Go again if num_passes > 1| Read
     Write --> Output
 ```
 

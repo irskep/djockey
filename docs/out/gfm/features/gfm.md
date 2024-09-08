@@ -14,42 +14,57 @@
 > Useful information that users should know, even when skimming content.
 ```
 
-> [!NOTE]
-> Useful information that users should know, even when skimming content.
+<div class="note" tag="aside">
+
+Useful information that users should know, even when skimming content.
+
+</div>
 
 ``` md
 > [!TIP]
 > Helpful advice for doing things better or more easily.
 ```
 
-> [!TIP]
-> Helpful advice for doing things better or more easily.
+<div class="tip" tag="aside">
+
+Helpful advice for doing things better or more easily.
+
+</div>
 
 ``` md
 > [!IMPORTANT]
 > Key information users need to know to achieve their goal.
 ```
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
+<div class="important" tag="aside">
+
+Key information users need to know to achieve their goal.
+
+</div>
 
 ``` md
 > [!WARNING]
 > Urgent info that needs immediate user attention to avoid problems.
 ```
 
-> [!WARNING]
-> Urgent info that needs immediate user attention to avoid problems.
+<div class="warning" tag="aside">
+
+Urgent info that needs immediate user attention to avoid problems.
+
+</div>
 
 ``` md
 > [!CAUTION]
 > Advises about risks or negative outcomes of certain actions.
 ```
 
-> [!CAUTION]
-> Advises about risks or negative outcomes of certain actions.
+<div class="caution" tag="aside">
+
+Advises about risks or negative outcomes of certain actions.
+
+</div>
 
 
 | Previous | Next |
 | - | - |
-| [Configuration reference](../basics/configuration.md) | [Mermaid diagrams](../features/mermaid_diagrams.md) |
+| [Asides](../features/asides.md) | [Indexterms](../features/indexterms.md) |

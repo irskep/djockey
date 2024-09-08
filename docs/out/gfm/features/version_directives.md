@@ -19,8 +19,8 @@ Added in version 0.0.5
 You can mark some content as applying to a specific version using the
 `added-in-version` attribute on an empty div. If you specified a
 `projectInfo.version` in your
-[configuration](../basics/configuration.md#config-reference), and the
-specified version is greater, then the message will be future-tense.
+[configuration](../foundations/configuration.md#config-reference), and
+the specified version is greater, then the message will be future-tense.
 
 ```
 {added-in-version="0.0.1"}
@@ -79,4 +79,4 @@ You can also use `changed-in-version`, `removed-in-version`, and
 
 | Previous | Next |
 | - | - |
-| [Typedoc integration](../features/typedoc.md) | [Indexterms](../features/indexterms.md) |
+| [Typedoc integration](../features/typedoc.md) | [Asides](../features/asides.md) |

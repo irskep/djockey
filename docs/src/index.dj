@@ -56,30 +56,51 @@ bunx djockey path/to/docs
 
 In order to use Markdown, you must also [install Pandoc](https://pandoc.org/installing.html).
 
-## Write a bare-bones config file
+## Simple config file
 
-Once you've [installed Djockey](#Installation), create a file called `djockey.yaml`{.language-sh} that looks like this:
+Suppose your project layout looks something like this:
+
+```plaintext
+docs/
+  index.djot
+html_output/
+```
+
+To render `docs/`{.language-plaintext} into `html_output/`{.language-sh}, you would put a file in your repo root called `djockey.yaml` with these contents:
 
 ```yaml
-input_dir: path-to-your-docs
+input_dir: docs
 output_dir:
-  html: docs_out/html
-  gfm: docs_out/gfm
+  html: html_output
 site_name: "Your Name Here"
 url_root: https://where-docs-will-be-deployed
-
-html:
-  footer_text: "©2024 You"
 ```
 
-Now try running `npx djockey --local`{.language-sh}. Maybe it'll just work! If not, it should tell you what's wrong.
+## Run Djockey
 
-## Building for local viewing vs deployment
-
-When your site is generated, all internal URLs are prefixed with the value of `urlRoot`, which is counterproductive if you want to view your site without a web server and some edits to `/etc/hosts`.
-
-To have Djockey use file URLs instead, only valid on your own machine and not requiring a web server, pass `--local`.
+You can build your site for local-only viewing without a web server using file URLs like this:
 
 ```sh
-djockey my_docs_dir --local
+npx djockey path-to-docs-directory --local
 ```
+
+Or build for deployment on the web:
+
+```sh
+npx djockey path-to-docs-directory
+```
+
+## Markdown output
+
+If you add an `output_dir.gfm`{.language-yaml} value to your `djockey.yaml`{.language-sh}, you can run Djockey with `-f gfm`{.language-sh} to get Markdown output.
+
+```yaml
+input_dir: docs
+output_dir:
+  html: html_output
+  gfm: markdown_output
+site_name: "Your Name Here"
+url_root: https://where-docs-will-be-deployed
+```
+
+`npx djockey docs-input-dir -f gfm`{.language-sh}

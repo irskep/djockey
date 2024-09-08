@@ -6,6 +6,7 @@
   - [Djot](./why.md#Djot)
     - [Other options](./why.md#Other-options)
   - [Djockey](./why.md#Djockey)
+  - [Alternatives to Djockey](./why.md#Alternatives-to-Djockey)
 
 <div id="Why-Djockey-Why-Djot" class="section"
 id="Why-Djockey-Why-Djot">
@@ -53,10 +54,7 @@ The [MyST](https://myst-parser.readthedocs.io/en/latest/) flavor of
 Markdown uses a very effective approach to bringing the deep
 extensibility of
 [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html)
-to Markdown. Unfortunately, the only existing parser is written in
-Python, and Djockey is not written in Python. It would be possible to
-try supporting MyST down the line by porting MyST’s markdown-it
-extensions to JavaScript.
+to Markdown. I am looking into adding MyST support to Djockey.
 
 </div>
 
@@ -112,9 +110,29 @@ users get the best possible UX.
 
 </div>
 
+<div id="Alternatives-to-Djockey" class="section"
+id="Alternatives-to-Djockey">
+
+## Alternatives to Djockey
+
+There are many wonderful documentation systems out there and Djockey
+tries to take inspiration from all of them. In the spirit of helping you
+solve your real problems, here’s a list of good options with active
+maintenance and large communities.
+
+|  | Markup | Implementation |
+|----|----|----|
+| [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) | [CommonMark](https://commonmark.org/) with custom extensions | Python |
+| [Sphinx](https://www.sphinx-doc.org/en/master/index.html) | [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html), [MyST](https://mystmd.org) | Python |
+| [Docusaurus](https://docusaurus.io) | [CommonMark](https://commonmark.org/), [MDX](https://mdxjs.com), | JavaScript |
+| [Starlight](https://starlight.astro.build) | [Markdoc](https://markdoc.dev/docs/syntax), [MDX](https://mdxjs.com), | JavaScript |
+| [Quartz](https://quartz.jzhao.xyz/) | Markdown | JavaScript |
+
+</div>
+
 </div>
 
 
 | Previous | Next |
 | - | - |
-| [Getting Started](./getting_started.md) | [Alternatives to Djockey](./alternatives.md) |
+| [Overview](./index.md) | [Changelog](./changelog.md) |

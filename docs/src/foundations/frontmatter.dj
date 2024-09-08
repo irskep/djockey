@@ -1,6 +1,7 @@
 ---
 order: 1
 ---
+{#frontmatter}
 # Front matter
 
 You can customize the title of your doc by adding YAML between `---` lines at the top, like this:

@@ -10,11 +10,6 @@ default_code_block_language: yaml
 Djockey is pre-alpha and config options _will_ change.
 :::
 
-{changed-in-version="0.0.5"}
-:::
-Config options are now snake case instead of camel case.
-:::
-
 ```
 # djockey.yaml
 site_name: "Your name here"
