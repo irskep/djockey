@@ -1,5 +1,5 @@
 .yarn/
-aux/
+aux
 .github/
 bun.lockb
 .editorconfig
