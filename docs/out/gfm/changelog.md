@@ -4,6 +4,7 @@
 -->
 - [Changelog](./changelog.md#Changelog)
   - [0.2.x](./changelog.md#0-2-x)
+    - [0.2.6 - 2024-09-09](./changelog.md#0-2-6---2024-09-09)
     - [0.2.5 - 2024-09-08](./changelog.md#0-2-5---2024-09-08)
     - [0.2.4 - 2024-09-04](./changelog.md#0-2-4---2024-09-04)
     - [0.2.3 - 2024-09-03](./changelog.md#0-2-3---2024-09-03)
@@ -23,6 +24,14 @@
 <div id="0-2-x" class="section" id="0-2-x">
 
 ## 0.2.x
+
+<div id="0-2-6---2024-09-09" class="section" id="0-2-6---2024-09-09">
+
+### 0.2.6 - 2024-09-09
+
+- Minor bug fixes in the default theme
+
+</div>
 
 <div id="0-2-5---2024-09-08" class="section" id="0-2-5---2024-09-08">
 
