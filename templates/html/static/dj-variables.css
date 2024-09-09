@@ -37,6 +37,7 @@
   --c-gray3: #777;
   --c-gray2: #555;
   --c-gray1: #333;
+  --c-shadow: rgba(138, 138, 138, 0.39);
 
   /* Accents */
   --c-control-active: rgb(12, 34, 161);
@@ -122,6 +123,7 @@
     --c-gray4: #777;
     --c-gray5: #555;
     --c-gray6: #333;
+    --c-shadow: rgba(26, 26, 26, 0.39);
 
     /* Accents */
     --c-control-active: lightblue;

@@ -24,7 +24,7 @@
 }
 
 .DJSearchMenu_Content {
-  box-shadow: 2px 2px 8px 2px rgba(138, 138, 138, 0.39);
+  box-shadow: 2px 2px 8px 2px var(--c-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
