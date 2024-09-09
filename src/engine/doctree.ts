@@ -9,6 +9,7 @@ import {
   refname,
   refsplit,
 } from "../utils/pathUtils.js";
+import { getDoesDocHaveContent } from "../utils/astUtils.js";
 
 export type DocTreeSection = {
   title: Inline[];
@@ -79,7 +80,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
       docSection.selfDoc = doc;
       docSection.title = doc.titleAST;
 
-      docSection.selfDocHasContent = !!doc.docs.content.children.length;
+      docSection.selfDocHasContent = getDoesDocHaveContent(doc.docs.content);
     } else {
       docSection.docs.push(doc);
     }

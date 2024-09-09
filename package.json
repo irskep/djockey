@@ -35,7 +35,7 @@
     "gluegun": "^5.2.0",
     "js-yaml": "^4.1.0",
     "mdast": "^3.0.0",
-    "mdast-util-find-and-replace": "^3.0.1",
+    "mdast-util-to-markdown": "^2.1.0",
     "mermaid": "^11.1.1",
     "micromatch": "^4.0.8",
     "mystjs": "^0.0.15",

@@ -21,6 +21,7 @@ import {
   refpath2fspath,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
+import { toMarkdown } from "mdast-util-to-markdown";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -105,10 +106,15 @@ export class GFMRenderer implements DjockeyRenderer {
 
     const renderedDocs: Record<string, string> = {};
     const renderOps = Object.keys(doc.docs).map((k) => {
-      let outputAST = toPandoc(doc.docs[k], {}) as any;
-      return runPandocOnAST(outputAST, "gfm").then(
-        (result) => (renderedDocs[k] = result)
-      );
+      switch (doc.docs[k].kind) {
+        case "djot":
+          let outputAST = toPandoc(doc.docs[k].value, {}) as any;
+          return runPandocOnAST(outputAST, "gfm").then(
+            (result) => (renderedDocs[k] = result)
+          );
+        case "mdast":
+          return toMarkdown(doc.docs[k].value);
+      }
     });
     await Promise.all(renderOps);
 
