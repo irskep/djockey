@@ -8,7 +8,7 @@ import {
   DjockeyPlugin,
   DjockeyRenderer,
 } from "../types.js";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { applyFilter, processAllNodes } from "../engine/djotFiltersPlus.js";
 import { pushToListIfNotPresent } from "../utils/collectionUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { fsjoin, CANONICAL_SEPARATOR, refsplit } from "../utils/pathUtils.js";
@@ -63,14 +63,12 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
     registerLinkTarget(new MappableLinkTarget(doc, null));
 
     for (const djotDoc of Object.values(doc.docs)) {
-      applyFilter(djotDoc, () => ({
-        "*": (node) => {
-          const attrs = { ...node.autoAttributes, ...node.attributes };
-          if (!attrs.id) return;
+      processAllNodes(djotDoc, (node) => {
+        const attrs = { ...node.autoAttributes, ...node.attributes };
+        if (!attrs.id) return;
 
-          registerLinkTarget(new MappableLinkTarget(doc, attrs.id));
-        },
-      }));
+        registerLinkTarget(new MappableLinkTarget(doc, attrs.id));
+      });
     }
   }
 
@@ -82,31 +80,29 @@ export class LinkRewritingPlugin implements DjockeyPlugin {
   }) {
     const { doc, renderer, config, logCollector } = args;
     for (const djotDoc of Object.values(doc.docs)) {
-      applyFilter(djotDoc, () => ({
-        "*": (node) => {
-          if (!node.destination) return;
+      processAllNodes(djotDoc, (node) => {
+        if (!node.destination) return;
 
-          const defaultLabel = this._defaultLinkLabels[node.destination];
+        const defaultLabel = this._defaultLinkLabels[node.destination];
 
-          const newDestination = this.transformNodeDestination({
+        const newDestination = this.transformNodeDestination({
+          sourcePath: doc.refPath,
+          inputRoot: config.input_dir,
+          unresolvedNodeDestination: node.destination,
+          renderArgs: {
+            config: this.config,
+            renderer,
             sourcePath: doc.refPath,
-            inputRoot: config.input_dir,
-            unresolvedNodeDestination: node.destination,
-            renderArgs: {
-              config: this.config,
-              renderer,
-              sourcePath: doc.refPath,
-              logCollector,
-            },
-          });
+            logCollector,
+          },
+        });
 
-          const children = [...(node.children ?? [])];
-          if (!children.length && defaultLabel)
-            children.push({ tag: "str", text: defaultLabel });
+        const children = [...(node.children ?? [])];
+        if (!children.length && defaultLabel)
+          children.push({ tag: "str", text: defaultLabel });
 
-          return { ...node, destination: newDestination, children };
-        },
-      }));
+        return { ...node, destination: newDestination, children };
+      });
     }
   }
 

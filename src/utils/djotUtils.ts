@@ -6,7 +6,7 @@ import {
   HasText,
   isBlock,
 } from "@djot/djot";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { applyFilter, processAllNodes } from "../engine/djotFiltersPlus.js";
 
 export function getHasClass(node: HasAttributes, cls: string): boolean {
   if (!node.attributes || !node.attributes["class"]) return false;
@@ -47,27 +47,23 @@ export function makeStubDjotDoc(children: Block[]): Doc {
 
 export function djotASTToText(children: Block[]) {
   const result = new Array<string>();
-  applyFilter(makeStubDjotDoc(children), () => ({
-    "*": (node: HasText) => {
-      if (!node.text) return;
-      result.push(node.text);
-    },
-  }));
+  processAllNodes(makeStubDjotDoc(children), (node) => {
+    if (!node.text) return;
+    result.push(node.text);
+  });
   return result.join("");
 }
 
 export function djotASTToTextWithLineBreaks(children: Block[]) {
   const result = new Array<string>();
 
-  applyFilter(makeStubDjotDoc(children), () => ({
-    "*": (node: AstNode) => {
-      const text = (node as HasText).text;
-      result.push(text ?? "");
-      if (isBlock(node)) {
-        result.push("\n\n");
-      }
-    },
-  }));
+  processAllNodes(makeStubDjotDoc(children), (node) => {
+    const text = (node as HasText).text;
+    result.push(text ?? "");
+    if (isBlock(node)) {
+      result.push("\n\n");
+    }
+  });
   return result.join("").replace(/\n\n+/g, "\n\n");
 }
 
@@ -77,11 +73,9 @@ export function djotASTContainsNode(
 ): boolean {
   let result = false;
 
-  applyFilter(doc, () => ({
-    "*": (node: AstNode) => {
-      result = result || predicate(node);
-    },
-  }));
+  processAllNodes(doc, (node) => {
+    result = result || predicate(node);
+  });
 
   return result;
 }

@@ -200,8 +200,12 @@ const applyFilterToFragment = function (root: AstNode, filter: Filter): void {
   }
 };
 
+function processAllNodes(doc: Doc, action: Action) {
+  applyFilter(doc, () => ({ "*": action }));
+}
+
 export type { Action, FilterPart, Filter, Transform };
-export { applyFilter, applyFilterToFragment };
+export { applyFilter, applyFilterToFragment, processAllNodes };
 
 // Extra exports
 export type { Walker };

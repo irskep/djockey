@@ -1,7 +1,7 @@
 import { Block } from "@djot/djot";
 
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { applyFilter, processAllNodes } from "../engine/djotFiltersPlus.js";
 import { getHasClass } from "../utils/djotUtils.js";
 import { pushToList } from "../utils/collectionUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
@@ -23,32 +23,30 @@ export class IndextermsPlugin implements DjockeyPlugin {
     const result: Record<string, { docRefPath: string; id: string }[]> = {};
     for (const djotDoc of Object.values(doc.docs)) {
       let nextID = 0;
-      applyFilter(djotDoc, () => ({
-        "*": (node) => {
-          if (!node.attributes) return;
-          const newNode = structuredClone(node);
-          if (!newNode.attributes) return;
-          let didFindIndexterm = false;
-          for (const k of Object.keys(node.attributes)) {
-            if (k.startsWith("indexterm")) {
-              const nodeID = newNode.attributes.id
-                ? newNode.attributes.id
-                : `indexterm-${nextID++}`;
-              newNode.attributes.id = nodeID;
-              didFindIndexterm = true;
-              pushToList(result, node.attributes[k], {
-                docRefPath: doc.refPath,
-                id: nodeID,
-              });
-            }
+      processAllNodes(djotDoc, (node) => {
+        if (!node.attributes) return;
+        const newNode = structuredClone(node);
+        if (!newNode.attributes) return;
+        let didFindIndexterm = false;
+        for (const k of Object.keys(node.attributes)) {
+          if (k.startsWith("indexterm")) {
+            const nodeID = newNode.attributes.id
+              ? newNode.attributes.id
+              : `indexterm-${nextID++}`;
+            newNode.attributes.id = nodeID;
+            didFindIndexterm = true;
+            pushToList(result, node.attributes[k], {
+              docRefPath: doc.refPath,
+              id: nodeID,
+            });
           }
-          if (didFindIndexterm) {
-            return newNode;
-          } else {
-            return;
-          }
-        },
-      }));
+        }
+        if (didFindIndexterm) {
+          return newNode;
+        } else {
+          return;
+        }
+      });
     }
     // Reset this dict each time for idempotency in case we have multiple passes
     this.indextermsByDoc[doc.refPath] = result;
