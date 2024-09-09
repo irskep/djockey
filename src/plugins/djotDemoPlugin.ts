@@ -23,7 +23,7 @@ export class DjotDemoPlugin implements DjockeyPlugin {
     ];
   }
 
-  onPass_write(args: {
+  onPass_read(args: {
     doc: DjockeyDoc;
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
   }) {
