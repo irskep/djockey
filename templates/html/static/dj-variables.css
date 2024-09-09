@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light dark; /* make light-dark() work */
+
   /* PALETTE */
 
   /* It's OK to define one-off colors, but consider promoting them to palette colors ASAP. */
@@ -29,19 +31,19 @@
   --fw-light: 300;
 
   /* Grays */
-  --c-white: rgb(249, 250, 251);
-  --c-black: rgb(49, 49, 56);
-  --c-gray6: #ededed;
-  --c-gray5: #ddd;
-  --c-gray4: #aaa;
-  --c-gray3: #777;
-  --c-gray2: #555;
-  --c-gray1: #333;
-  --c-shadow: rgba(138, 138, 138, 0.39);
+  --c-white: light-dark(rgb(249, 250, 251), rgb(49, 49, 56));
+  --c-black: light-dark(rgb(49, 49, 56), rgb(249, 250, 251));
+  --c-gray6: light-dark(#ededed, #333);
+  --c-gray5: light-dark(#ddd, #555);
+  --c-gray4: light-dark(#aaa, #777);
+  --c-gray3: light-dark(#777, #aaa);
+  --c-gray2: light-dark(#555, #ddd);
+  --c-gray1: light-dark(#333, #f7f7f7);
+  --c-shadow: light-dark(rgba(138, 138, 138, 0.39), rgba(26, 26, 26, 0.39));
 
   /* Accents */
-  --c-control-active: rgb(12, 34, 161);
-  --c-control-used: rgb(109, 4, 109);
+  --c-control-active: light-dark(rgb(12, 34, 161), lightblue);
+  --c-control-used: light-dark(rgb(109, 4, 109), rgb(232, 120, 232));
 
   /* Distances */
 
@@ -100,7 +102,10 @@
 
   --aside-border-width: 1px;
   --aside-border-radius: var(--border-radius-small);
-  --aside-title-color-fg: var(--color-fg-1);
+  --aside-title-color-fg: light-dark(
+    var(--color-fg-1),
+    var(--color-fg-1-invert)
+  );
   --aside-color-border-note: rgb(60, 60, 255);
   --aside-title-color-bg-note: rgb(211, 211, 255);
   --aside-color-border-tip: rgb(68, 149, 71);
@@ -111,24 +116,4 @@
   --aside-title-color-bg-warning: rgb(252, 255, 187);
   --aside-color-border-danger: red;
   --aside-title-color-bg-danger: rgb(251, 205, 205);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --c-black: rgb(249, 250, 251);
-    --c-white: rgb(49, 49, 56);
-    --c-gray1: #f7f7f7;
-    --c-gray2: #ddd;
-    --c-gray3: #aaa;
-    --c-gray4: #777;
-    --c-gray5: #555;
-    --c-gray6: #333;
-    --c-shadow: rgba(26, 26, 26, 0.39);
-
-    /* Accents */
-    --c-control-active: lightblue;
-    --c-control-used: rgb(232, 120, 232);
-
-    --aside-title-color-fg: var(--color-fg-1-invert);
-  }
 }
