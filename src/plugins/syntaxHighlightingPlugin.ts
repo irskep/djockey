@@ -73,6 +73,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   }
 
   async setup() {
+    // TODO: monkey-patch console.error here
     this.djotHighlighter = await createHighlighter({
       langs: [djotTextmateGrammar as unknown as LanguageRegistration],
       themes: [this.themeLight, this.themeDark],
