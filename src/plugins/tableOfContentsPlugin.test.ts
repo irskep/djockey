@@ -1,4 +1,4 @@
-import { parse, renderHTML } from "@djot/djot";
+import { Doc, parse, renderHTML } from "@djot/djot";
 import { DjockeyConfigResolved, DjockeyDoc } from "../types.js";
 import { TableOfContentsPlugin } from "./tableOfContentsPlugin.js";
 import { LinkRewritingPlugin } from "./linkRewritingPlugin.js";
@@ -10,8 +10,10 @@ import { LogCollector } from "../utils/logUtils.js";
 test("Generates TOCEntry tree for one doc", async () => {
   const doc: DjockeyDoc = {
     docs: {
-      content: parse(
-        `# Heading 1
+      content: {
+        kind: "djot",
+        value: parse(
+          `# Heading 1
 
       ## Heading 1.1
 
@@ -19,8 +21,9 @@ test("Generates TOCEntry tree for one doc", async () => {
 
       ### Heading 2.2
       `,
-        { sourcePositions: true }
-      ),
+          { sourcePositions: true }
+        ),
+      },
     },
     title: "Test doc",
     titleAST: [{ tag: "str", text: "Test doc" }],
@@ -33,10 +36,13 @@ test("Generates TOCEntry tree for one doc", async () => {
   };
 
   const plg = new TableOfContentsPlugin();
-  plg.onPass_read({ doc });
+  plg.onPass_read({
+    doc,
+    logCollector: new LogCollector("", { shouldStart: false, silent: true }),
+  });
   plg.onPass_write({ doc });
 
-  const html = await renderHTML(doc.docs.toc);
+  const html = await renderHTML(doc.docs.toc.value as Doc);
 
   expect(html).toEqual(`<ul>
 <li>
@@ -62,14 +68,17 @@ test("Generates TOCEntry tree for one doc", async () => {
 test("Works end-to-end with LinkRewritingPlugin", async () => {
   const doc: DjockeyDoc = {
     docs: {
-      content: parse(
-        `# Heading 1
+      content: {
+        kind: "djot",
+        value: parse(
+          `# Heading 1
       ## Heading 1.1
       # Heading 2
       ### Heading 2.2
       `,
-        { sourcePositions: true }
-      ),
+          { sourcePositions: true }
+        ),
+      },
     },
     title: "Test doc",
     titleAST: [{ tag: "str", text: "Test doc" }],
@@ -102,7 +111,7 @@ test("Works end-to-end with LinkRewritingPlugin", async () => {
     new HTMLRenderer({ relativeLinks: true }),
     new LogCollector("", { shouldStart: false, silent: true })
   )[0];
-  const html = renderHTML(htmlCopy.docs.toc);
+  const html = renderHTML(htmlCopy.docs.toc.value as Doc);
   expect(html).toEqual(`<ul>
 <li>
 <a href="Test Doc.dj.html#Heading-1">Heading 1</a>

@@ -12,6 +12,8 @@ import {
 } from "../types.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { djotASTContainsNode } from "../utils/djotUtils.js";
+// @ts-ignore: ts(7016)
+import mermaidClientJS from "./static/mermaid.js" with { type: "text" };
 
 /**
  * This is a stub plugin to preven SyntaxHighlightingPlugin from
@@ -31,10 +33,7 @@ export class MermaidPlugin implements DjockeyPlugin {
     return [
       {
         refPath: "static/plugins/mermaid.js",
-        contents: fs.readFileSync(
-          path.join(__dirname, "static", "mermaid.js"),
-          { encoding: "utf8" }
-        ),
+        contents: mermaidClientJS,
       },
     ];
   }
@@ -45,10 +44,19 @@ export class MermaidPlugin implements DjockeyPlugin {
   }): boolean {
     if (args.staticFileRefPath !== "static/plugins/mermaid.js") return true;
     // Only include mermaid JS file on pages where it's needed (because it's >18 MB)
-    return djotASTContainsNode(
-      args.doc.docs.content,
-      (node) => node.tag === "code_block" && node.lang === "mermaid"
-    );
+    switch (args.doc.docs.content.kind) {
+      case "djot":
+        return djotASTContainsNode(
+          args.doc.docs.content.value,
+          (node) => node.tag === "code_block" && node.lang === "mermaid"
+        );
+      case "mdast":
+        console.warn(
+          "Mermaid static file collection skipping",
+          args.doc.refPath
+        );
+        return false;
+    }
   }
 
   getNodeReservations(

@@ -5,7 +5,7 @@ import { Environment, FileSystemLoader } from "nunjucks";
 import { print } from "gluegun";
 
 import { DocSet } from "./docset.js";
-import { parseDjot } from "../input/parseDjot.js";
+import { parseFile } from "../input/parseFile.js";
 import {
   DjockeyConfigResolved,
   DjockeyOutputFormat,
@@ -20,6 +20,7 @@ import {
 } from "./populateDocTreeDoc.js";
 import { makeBuiltinPlugins } from "./builtinPlugins.js";
 import { log, LogCollector } from "../utils/logUtils.js";
+import { makeNunjucksEnvironment } from "../templateLoader.js";
 
 export async function executeConfig(
   config: DjockeyConfigResolved,
@@ -49,7 +50,7 @@ export async function readDocSet(
   const logCollector = logCollectorParent.getChild("Parsing documents");
 
   const parsePromises = config.fileList.map((path_) =>
-    parseDjot(config.input_dir, path_, logCollector)
+    parseFile(config.input_dir, path_, config, logCollector)
   );
 
   const docs = (await Promise.all(parsePromises)).filter((doc) => !!doc);

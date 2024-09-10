@@ -21,51 +21,66 @@ export class IndextermsPlugin implements DjockeyPlugin {
     // store it in indextermsByDoc.
 
     const result: Record<string, { docRefPath: string; id: string }[]> = {};
-    for (const djotDoc of Object.values(doc.docs)) {
+    for (const pDoc of Object.values(doc.docs)) {
       let nextID = 0;
-      processAllNodes(djotDoc, (node) => {
-        if (!node.attributes) return;
-        const newNode = structuredClone(node);
-        if (!newNode.attributes) return;
-        let didFindIndexterm = false;
-        for (const k of Object.keys(node.attributes)) {
-          if (k.startsWith("indexterm")) {
-            const nodeID = newNode.attributes.id
-              ? newNode.attributes.id
-              : `indexterm-${nextID++}`;
-            newNode.attributes.id = nodeID;
-            didFindIndexterm = true;
-            pushToList(result, node.attributes[k], {
-              docRefPath: doc.refPath,
-              id: nodeID,
-            });
-          }
-        }
-        if (didFindIndexterm) {
-          return newNode;
-        } else {
-          return;
-        }
-      });
+
+      switch (pDoc.kind) {
+        case "djot":
+          processAllNodes(pDoc.value, (node) => {
+            if (!node.attributes) return;
+            const newNode = structuredClone(node);
+            if (!newNode.attributes) return;
+            let didFindIndexterm = false;
+            for (const k of Object.keys(node.attributes)) {
+              if (k.startsWith("indexterm")) {
+                const nodeID = newNode.attributes.id
+                  ? newNode.attributes.id
+                  : `indexterm-${nextID++}`;
+                newNode.attributes.id = nodeID;
+                didFindIndexterm = true;
+                pushToList(result, node.attributes[k], {
+                  docRefPath: doc.refPath,
+                  id: nodeID,
+                });
+              }
+            }
+            if (didFindIndexterm) {
+              return newNode;
+            } else {
+              return;
+            }
+          });
+          break;
+        case "mdast":
+          args.logCollector.warning(`Indexterms skipping ${doc.refPath}`);
+          break;
+      }
     }
     // Reset this dict each time for idempotency in case we have multiple passes
     this.indextermsByDoc[doc.refPath] = result;
   }
 
-  onPass_write(args: { doc: DjockeyDoc }) {
+  onPass_write(args: { doc: DjockeyDoc; logCollector: LogCollector }) {
     const { doc } = args;
     // During the write pass, look for the .index class on a div and replace it
     // with the actual index.
 
-    for (const djotDoc of Object.values(doc.docs)) {
-      applyFilter(djotDoc, () => ({
-        div: (node) => {
-          if (!node.attributes) return;
-          if (getHasClass(node, "index")) {
-            return this.buildIndexAST();
-          }
-        },
-      }));
+    for (const pDoc of Object.values(doc.docs)) {
+      switch (pDoc.kind) {
+        case "djot":
+          applyFilter(pDoc.value, () => ({
+            div: (node) => {
+              if (!node.attributes) return;
+              if (getHasClass(node, "index")) {
+                return this.buildIndexAST();
+              }
+            },
+          }));
+          break;
+        case "mdast":
+          args.logCollector.warning(`Indexterms skipping ${doc.refPath}`);
+          break;
+      }
     }
   }
 

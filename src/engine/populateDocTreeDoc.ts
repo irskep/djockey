@@ -25,11 +25,14 @@ export function populateDocTreeDoc(
   );
   if (!children.length) return;
   doc.docs.doctree = {
-    tag: "doc",
-    references: {},
-    autoReferences: {},
-    footnotes: {},
-    children: children,
+    kind: "djot",
+    value: {
+      tag: "doc",
+      references: {},
+      autoReferences: {},
+      footnotes: {},
+      children: children,
+    },
   };
 }
 
@@ -52,17 +55,20 @@ export function populateNextOrPreviousLinkDoc(
   doc.neighbors[docKey] = destDoc;
 
   doc.docs[docKey + "DocTitle"] = {
-    tag: "doc",
-    references: {},
-    autoReferences: {},
-    footnotes: {},
-    children: [
-      {
-        tag: "para",
-        attributes: { class: "dj-noop" },
-        children: destDoc.titleAST,
-      },
-    ],
+    kind: "djot",
+    value: {
+      tag: "doc",
+      references: {},
+      autoReferences: {},
+      footnotes: {},
+      children: [
+        {
+          tag: "para",
+          attributes: { class: "dj-noop" },
+          children: destDoc.titleAST,
+        },
+      ],
+    },
   };
 }
 
