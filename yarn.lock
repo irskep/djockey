@@ -2777,7 +2777,6 @@ __metadata:
     jest: ^29.7.0
     js-yaml: ^4.1.0
     lunr: ^2.3.9
-    mdast: ^3.0.0
     mdast-util-to-markdown: ^2.1.0
     mermaid: ^11.1.1
     micromatch: ^4.0.8
@@ -2789,6 +2788,7 @@ __metadata:
     ts-jest: ^29.2.5
     typedoc: ^0.26.6
     typescript: ^5.5.4
+    unist-util-visit: ^5.0.0
   bin:
     djockey: ./dist/cli.js
   languageName: unknown
@@ -4937,13 +4937,6 @@ __metadata:
   dependencies:
     "@types/mdast": ^4.0.0
   checksum: 35489fb5710d58cbc2d6c8b6547df161a3f81e0f28f320dfb3548a9393555daf07c310c0c497708e67ed4dfea4a06e5655799e7d631ca91420c288b4525d6c29
-  languageName: node
-  linkType: hard
-
-"mdast@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "mdast@npm:3.0.0"
-  checksum: 410594c6535d09a96c01384c21ff7ef4909f1b634836e9cda93b67627ed833e81511d5a420d6d2e4cb91123548c5926ca5fa0d3dadf04ab81b67a07c96d08966
   languageName: node
   linkType: hard
 

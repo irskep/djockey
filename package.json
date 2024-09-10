@@ -34,14 +34,14 @@
     "fast-glob": "^3.3.2",
     "gluegun": "^5.2.0",
     "js-yaml": "^4.1.0",
-    "mdast": "^3.0.0",
     "mdast-util-to-markdown": "^2.1.0",
     "mermaid": "^11.1.1",
     "micromatch": "^4.0.8",
     "mystjs": "^0.0.15",
     "nunjucks": "^3.2.4",
     "parse5": "^7.1.2",
-    "shiki": "^1.14.1"
+    "shiki": "^1.14.1",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@djockey/linkmapper-typedoc": "^0.0.7",

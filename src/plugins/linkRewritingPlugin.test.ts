@@ -21,7 +21,7 @@ test("MappableLinkTarget has expected values", () => {
   const t = new MappableLinkTarget(
     {
       docs: {
-        content: stubDoc,
+        content: { kind: "djot", value: stubDoc },
       },
       title: "The Doc",
       titleAST: [],

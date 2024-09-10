@@ -2,6 +2,7 @@ import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { getHasClass } from "../utils/djotUtils.js";
 import { AstNode } from "@djot/djot";
+import { LogCollector } from "../utils/logUtils.js";
 
 // These happen to correspond to Djockey's 'aside' classes, so we're just going
 // to replace the 'div' tag with the 'aside' tag and remove the starting paragraph.
@@ -10,26 +11,32 @@ const GITHUB_ALERT_CLASSES = ["note", "tip", "important", "warning", "caution"];
 export class GFMAlertsPlugin implements DjockeyPlugin {
   name = "GitHub Flavored Markdown Alerts";
 
-  onPass_write(args: { doc: DjockeyDoc }) {
+  onPass_write(args: { doc: DjockeyDoc; logCollector: LogCollector }) {
     const { doc } = args;
-    applyFilter(doc.docs.content, () => ({
-      div: (node) => {
-        for (const cls of GITHUB_ALERT_CLASSES) {
-          if (!getHasClass(node, cls) || node.attributes?.tag) continue;
-          const newNode = structuredClone(node);
-          newNode.attributes.tag = "aside";
+    switch (doc.docs.content.kind) {
+      case "djot":
+        applyFilter(doc.docs.content.value, () => ({
+          div: (node) => {
+            for (const cls of GITHUB_ALERT_CLASSES) {
+              if (!getHasClass(node, cls) || node.attributes?.tag) continue;
+              const newNode = structuredClone(node);
+              newNode.attributes.tag = "aside";
 
-          if (!node.children) return newNode;
+              if (!node.children) return newNode;
 
-          newNode.children = structuredClone(
-            getIsDivWithTitleInside(node.children[0], cls)
-              ? node.children.slice(1)
-              : node.children
-          );
-          return newNode;
-        }
-      },
-    }));
+              newNode.children = structuredClone(
+                getIsDivWithTitleInside(node.children[0], cls)
+                  ? node.children.slice(1)
+                  : node.children
+              );
+              return newNode;
+            }
+          },
+        }));
+        break;
+      case "mdast":
+        args.logCollector.warning(`GFMAlerts skipping ${doc.refPath}`);
+    }
   }
 }
 
