@@ -27,7 +27,6 @@ import {
   writeFile,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { MyST } from "mystjs";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -180,7 +179,8 @@ export class HTMLRenderer implements DjockeyRenderer {
           renderedDocs[k] = postprocessedHTML;
           break;
         case "mdast":
-          renderedDocs[k] = new MyST().renderMdast(doc.docs[k].value);
+          renderedDocs[k] = ""; // TODO
+          // renderedDocs[k] = new MyST().renderMdast(doc.docs[k].value);
           break;
       }
     }

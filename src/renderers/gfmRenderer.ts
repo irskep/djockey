@@ -1,4 +1,4 @@
-import { Heading, toPandoc } from "@djot/djot";
+import { toPandoc } from "@djot/djot";
 import fastGlob from "fast-glob";
 import { Environment } from "nunjucks";
 
@@ -10,8 +10,6 @@ import {
   DjockeyStaticFileFromPlugin,
 } from "../types.js";
 import { runPandocOnAST } from "../pandoc.js";
-import { djotASTToText } from "../utils/djotUtils.js";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
 import {
   makePathBackToRoot,
   copyFilesMatchingPattern,
@@ -21,8 +19,7 @@ import {
   refpath2fspath,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { toMarkdown } from "mdast-util-to-markdown";
-import { Root } from "mdast";
+// import { toMarkdown } from "mdast-util-to-markdown";
 import { getFirstHeadingIsAlreadyDocumentTitle } from "../utils/astUtils.js";
 
 export class GFMRenderer implements DjockeyRenderer {
@@ -115,7 +112,8 @@ export class GFMRenderer implements DjockeyRenderer {
             (result) => (renderedDocs[k] = result)
           );
         case "mdast":
-          return toMarkdown(doc.docs[k].value as Root);
+          return ""; // TODO
+        // return toMarkdown(doc.docs[k].value);
       }
     });
     await Promise.all(renderOps);

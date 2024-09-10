@@ -20,7 +20,6 @@ import {
 } from "./populateDocTreeDoc.js";
 import { makeBuiltinPlugins } from "./builtinPlugins.js";
 import { log, LogCollector } from "../utils/logUtils.js";
-import { makeNunjucksEnvironment } from "../templateLoader.js";
 
 export async function executeConfig(
   config: DjockeyConfigResolved,

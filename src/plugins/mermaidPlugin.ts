@@ -12,8 +12,6 @@ import {
 } from "../types.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { djotASTContainsNode } from "../utils/djotUtils.js";
-// @ts-ignore: ts(7016)
-import mermaidClientJS from "./static/mermaid.js" with { type: "text" };
 
 /**
  * This is a stub plugin to preven SyntaxHighlightingPlugin from
@@ -33,7 +31,10 @@ export class MermaidPlugin implements DjockeyPlugin {
     return [
       {
         refPath: "static/plugins/mermaid.js",
-        contents: mermaidClientJS,
+        contents: fs.readFileSync(
+          path.join(__dirname, "static", "mermaid.js"),
+          { encoding: "utf8" }
+        ),
       },
     ];
   }

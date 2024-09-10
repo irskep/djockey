@@ -1,8 +1,7 @@
-import { MyST } from "mystjs";
 import { AstNode, Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
-import { Root } from "mdast";
+import { mystParse } from "myst-parser";
 
 export interface LinkMappingConfig {
   path: string;
@@ -65,8 +64,12 @@ export interface DjockeyConfigResolved extends DjockeyConfig {
   link_mappings: LinkMappingConfig[];
 }
 
+export type MystDoc = ReturnType<typeof mystParse>;
 export type PolyglotDoc_Djot = { kind: "djot"; value: Doc };
-export type PolyglotDoc_MDAST = { kind: "mdast"; value: Root };
+export type PolyglotDoc_MDAST = {
+  kind: "mdast";
+  value: MystDoc;
+};
 
 export type PolyglotDoc = PolyglotDoc_Djot | PolyglotDoc_MDAST;
 

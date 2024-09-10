@@ -2,7 +2,6 @@ import { Heading } from "@djot/djot";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, PolyglotDoc, PolyglotDoc_MDAST } from "../types.js";
 import { djotASTToText } from "./djotUtils.js";
-import { Node, Parent } from "mdast";
 import { visit } from "unist-util-visit";
 
 export function getDoesDocHaveContent(doc: PolyglotDoc): boolean {

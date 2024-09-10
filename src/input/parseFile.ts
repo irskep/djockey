@@ -9,7 +9,8 @@ import { getPandocAST } from "../pandoc.js";
 import { getInputFormatForFileExtension } from "./fileExtensions.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { fsext, fsname, fssplit, refjoin } from "../utils/pathUtils.js";
-import { MyST } from "mystjs";
+
+import { mystParse } from "myst-parser";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -59,8 +60,7 @@ export async function parseFile(
       polyglotDoc = { kind: "djot", value: fromPandoc(ast as any) };
       break;
     case "myst":
-      const myst = new MyST();
-      polyglotDoc = { kind: "mdast", value: myst.parse(text) };
+      polyglotDoc = { kind: "mdast", value: mystParse(text) };
       break;
   }
 

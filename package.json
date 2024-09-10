@@ -26,7 +26,7 @@
     "build": "npx tsc",
     "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest",
     "test:windows": "set NODE_OPTIONS=\"--experimental-vm-modules\" && jest",
-    "djockey": "npx tsc && node dist/cli.js"
+    "djockey": "npx tsc && node --trace-deprecation dist/cli.js"
   },
   "dependencies": {
     "@djot/djot": "^0.3.1",
