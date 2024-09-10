@@ -1,7 +1,6 @@
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 
-import { Environment, FileSystemLoader } from "nunjucks";
 import { print } from "gluegun";
 
 import { DocSet } from "./docset.js";
@@ -20,6 +19,7 @@ import {
 } from "./populateDocTreeDoc.js";
 import { makeBuiltinPlugins } from "./builtinPlugins.js";
 import { log, LogCollector } from "../utils/logUtils.js";
+import { makeNunjucksEnvironment } from "../templateLoader.js";
 
 export async function executeConfig(
   config: DjockeyConfigResolved,
@@ -105,10 +105,7 @@ export async function writeDocSet(
   const __dirname = dirname(__filename);
 
   for (const format of new Set(outputFormats)) {
-    const templateDir = path.resolve(
-      path.join(__dirname, "..", "..", "templates", format)
-    );
-    const nj = new Environment(new FileSystemLoader(templateDir));
+    const [nj, staticFilesDir] = makeNunjucksEnvironment(format);
     const renderer = makeRenderer(format);
 
     const logCollector1 = logCollectorParent.getChild("Copying static files");
@@ -129,7 +126,7 @@ export async function writeDocSet(
       .filter((fn) => !!fn);
 
     await renderer.handleStaticFiles({
-      templateDir,
+      templateDir: staticFilesDir,
       config: docSet.config,
       docs: docSet.docs,
       staticFilesFromPlugins,

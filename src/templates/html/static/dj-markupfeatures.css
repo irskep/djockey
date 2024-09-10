@@ -1,0 +1,151 @@
+/* ASIDES */
+
+aside {
+  border-width: var(--aside-border-width);
+  border-radius: var(--aside-border-radius);
+  border-style: solid;
+  overflow: hidden;
+  font-size: var(--fs-small);
+}
+
+aside > * {
+  margin: 0 var(--ms);
+}
+
+aside > *:last-child {
+  margin-bottom: var(--ms);
+}
+
+aside::before {
+  font-weight: var(--fw-bold);
+  margin: 0 0 var(--ms) 0;
+  padding: var(--mss) var(--ms);
+  display: block;
+  color: var(--aside-title-color-fg);
+}
+
+/* Note */
+
+aside.note::before {
+  content: "Note";
+  background-color: var(--aside-title-color-bg-note);
+}
+
+aside.note {
+  border-color: var(--aside-color-border-note);
+}
+
+/* Tip */
+
+aside.tip::before {
+  content: "Tip";
+  background-color: var(--aside-title-color-bg-tip);
+}
+
+aside.tip {
+  border-color: var(--aside-color-border-tip);
+}
+
+/* Important */
+
+aside.important::before {
+  content: "Important";
+  background-color: var(--aside-title-color-bg-important);
+}
+
+aside.important {
+  border-color: var(--aside-color-border-important);
+}
+
+/* Caution */
+
+aside.caution::before {
+  content: "Caution";
+  background-color: var(--aside-title-color-bg-warning);
+}
+
+aside.caution {
+  border-color: var(--aside-color-border-warning);
+}
+
+/* Danger */
+
+aside.warning::before {
+  content: "Warning";
+  background-color: var(--aside-title-color-bg-danger);
+}
+
+aside.warning {
+  border-color: var(--aside-color-border-danger);
+}
+
+/* VERSION MODIFIED */
+
+.version-modified {
+  font-style: italic;
+}
+
+.version-modified p.primary {
+  font-size: var(--fs-medium);
+  margin-bottom: 0.5em;
+}
+
+.version-modified p.primary:last-child {
+  font-size: var(--fs-medium);
+  margin-bottom: 1.25em;
+}
+
+.version-modified p {
+  font-size: var(--fs-small);
+}
+
+/* TAB GROUPS */
+
+.tab-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.dj-tab-group-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
+  color: var(--color-fg-2);
+}
+
+.dj-tab-heading {
+  margin: unset;
+  padding: unset;
+  color: unset;
+  font-weight: unset;
+  font-size: unset;
+
+  cursor: pointer;
+  padding: var(--ms) var(--mm);
+  border-bottom: 1px solid transparent;
+  margin-bottom: -2px;
+  z-index: 1;
+}
+
+.dj-tab-heading.m-active {
+  color: var(--c-control-active);
+  border-bottom: 3px solid var(--c-control-active);
+}
+
+.dj-tab-group-content > * {
+  display: none;
+}
+
+.dj-tab-group-content > *.m-active {
+  display: block;
+
+  padding: var(--mm);
+  border: var(--border-weak);
+}
+
+.dj-tab-group-content > div > *:last-child {
+  margin-bottom: 0;
+}

@@ -30,8 +30,11 @@ jobs:
       - name: Compile TypeScript
         run: npm x tsc
 
-      - name: Copy non-TypeScript files
+      - name: Copy static files
         run: npm run copy-files
+
+      - name: Copy template files
+        run: npm run copy-templates
 
       - name: Run tests
         run: npm test

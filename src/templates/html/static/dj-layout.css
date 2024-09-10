@@ -1,0 +1,172 @@
+/* THREE-COLUMN LAYOUT */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body > header,
+body > footer {
+  flex-grow: 0;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.u-invisible {
+  visibility: hidden;
+}
+
+.u-page-width {
+  width: 100%;
+}
+
+main {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.DJDocTree {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.DJDocTree.m-sidebar {
+  width: var(--sidebar-width);
+  order: 0;
+}
+
+.DJContent {
+  flex-grow: 1;
+  flex-shrink: 1;
+  order: 1;
+
+  /*
+  This fixes a spooky layout relationship with <pre> tags inside articles. Flex environments
+  respect min-width, which can force <pre> to be much too big for long lines.
+  */
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 100%;
+
+  max-width: var(--content-max-width);
+}
+.DJContent > article {
+  flex-grow: 1;
+}
+.DJTableOfContents {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.DJTableOfContents.m-sidebar {
+  width: var(--sidebar-width);
+  order: 2;
+}
+
+.DJTableOfContents.m-header {
+  display: none;
+}
+
+/* HEADER/FOOTER */
+
+.DJHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.DJHeader_Content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--mm);
+  min-height: var(--header-height);
+}
+
+.DJHeader_Content_Group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--mm);
+}
+
+.DJTableOfContents.m-header {
+  position: relative;
+  width: 100%;
+}
+
+.DJTableOfContents.m-header .DJTableOfContents_Content {
+  max-height: calc(100vh - var(--header-height));
+  overflow-y: auto;
+}
+
+/* NEXT/PREVIOUS */
+
+.DJNextPrevious {
+  flex-grow: 0;
+
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--mm);
+}
+
+/* STICKYNESS */
+
+.DJHeader {
+  position: sticky;
+  top: 0;
+}
+
+.DJDocTree.m-sidebar .DJDocTree_Content,
+.DJTableOfContents.m-sidebar .DJTableOfContents_Content {
+  top: var(--approx-height-of-top-bar-during-scroll);
+  bottom: 0;
+  position: sticky;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--approx-height-of-top-bar-during-scroll));
+}
+
+/* RESPONSIVENESS */
+
+.DJHeader_Hamburger {
+  display: none !important;
+}
+
+@media (max-width: 970px) {
+  .DJDocTree.m-sidebar {
+    display: none;
+  }
+
+  .DJHeader_Hamburger {
+    display: block !important;
+    cursor: pointer;
+  }
+
+  .DJTableOfContents.m-header {
+    display: block;
+  }
+
+  .DJTableOfContents.m-sidebar {
+    display: none;
+  }
+}

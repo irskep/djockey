@@ -5,7 +5,7 @@ client-nocache:
 	bun build src/clientjs/search.ts --target=browser --outfile=templates/html/static/search.js --minify-syntax --minify-whitespace --sourcemap
 	bun build src/clientjs/mermaid.ts --target=browser --outfile=src/plugins/static/mermaid.js --minify --sourcemap
 
-templates/html/static/client.js: src/clientjs/*
+src/templates/html/static/client.js: src/clientjs/*
 	make client-nocache
 
 client: templates/html/static/client.js
@@ -16,8 +16,11 @@ typedoc:
 typedoc-linkmap:
 	bunx linkmapper-typedoc docs/src/types.json docs/src/typescript_link_mapping.json
 
-docs: templates/html/static/client.js
+docs: src/templates/html/static/client.js
 	bun --bun src/cli.ts docs --local
+
+docs-node: src/templates/html/static/client.js
+	yarn djockey docs --local
 
 gfm:
 	rm -rf docs/out/gfm

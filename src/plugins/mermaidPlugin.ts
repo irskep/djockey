@@ -12,6 +12,7 @@ import {
 } from "../types.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { djotASTContainsNode } from "../utils/djotUtils.js";
+// @ts-ignore: ts(7016)
 import mermaidClientJS from "./static/mermaid.js" with { type: "text" };
 
 /**
