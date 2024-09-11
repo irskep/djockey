@@ -1,5 +1,5 @@
 import { Block, Heading, Inline } from "@djot/djot";
-import { Parent, PhrasingContent } from "mdast";
+import { PhrasingContent } from "mdast";
 import unist from "unist";
 import { visit } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
@@ -7,6 +7,8 @@ import { toString } from "mdast-util-to-string";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, PolyglotDoc, PolyglotDoc_MDAST } from "../types.js";
 import { djotASTToText } from "./djotUtils.js";
+
+export type Visitable = Parameters<typeof visit>[0];
 
 export function getDoesDocHaveContent(doc: PolyglotDoc): boolean {
   switch (doc.kind) {

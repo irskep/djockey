@@ -28,6 +28,10 @@ import {
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { mystToHtml } from "myst-to-html";
+import { unified } from "unified";
+import remarkRehype from "remark-rehype";
+import rehypeFormat from "rehype-format";
+import rehypeStringify from "rehype-stringify";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -180,7 +184,14 @@ export class HTMLRenderer implements DjockeyRenderer {
           renderedDocs[k] = postprocessedHTML;
           break;
         case "mdast":
-          renderedDocs[k] = mystToHtml(doc.docs[k].value);
+          const tree = structuredClone(doc.docs[k].value);
+          const processor = await unified()
+            .use(remarkRehype)
+            .use(rehypeFormat)
+            .use(rehypeStringify);
+          const tree2 = await processor.run(tree as any);
+          const result = processor.stringify(tree2);
+          renderedDocs[k] = result as string;
           break;
       }
     }
