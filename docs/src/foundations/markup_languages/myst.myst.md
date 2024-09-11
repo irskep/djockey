@@ -2,8 +2,10 @@
 md_variant: "myst"
 ---
 
+(using-myst=)
 # Using MyST
 
+{#normal-italic-bold}
 normal _italic_ **bold**
 
 :::{directive}

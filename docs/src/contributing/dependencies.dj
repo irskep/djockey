@@ -23,8 +23,14 @@ Dependencies supporting the core functionality of Djockey:
 - [parse5](https://www.npmjs.com/package/parse5): Spec-compliant HTML5 parsing
 - [gluegun](https://github.com/infinitered/gluegun): Command line output
 
+Dependencies supporting experimental MyST support:
+
+- [myst-parser](https://www.npmjs.com/package/myst-parser)
+- [myst-to-html](https://www.npmjs.com/package/myst-to-html)
+- [mdast](https://github.com/syntax-tree/mdast)
+
 Dependencies supporting individual features:
 
 - [Shiki](https://shiki.style): Syntax highlighting
 - [Mermaid](https://mermaid.js.org): Diagram rendering (pinned <11 due to broken TypeScript definitions)
-- [Lunr](https://lunrjs.com): Site-wide search
+- [Lunr](https://lunrjs.com): Site-wide search (though I am considering switching to [flexsearch](https://github.com/nextapps-de/flexsearch))

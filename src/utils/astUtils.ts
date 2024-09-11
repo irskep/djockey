@@ -1,6 +1,6 @@
 import { Block, Heading, Inline } from "@djot/djot";
-import { visit } from "unist-util-visit";
 import { Parent, PhrasingContent } from "mdast";
+import { visit } from "unist-util-visit";
 
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, PolyglotDoc, PolyglotDoc_MDAST } from "../types.js";

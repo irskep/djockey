@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+import { visit } from "unist-util-visit";
+
 import {
   DjockeyConfigResolved,
   DjockeyDoc,

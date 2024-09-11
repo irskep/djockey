@@ -43,7 +43,7 @@ export class AutoTitlePlugin implements DjockeyPlugin {
           doc.title = mystASTToText(node as mdast.Heading);
           doc.titleASTDjot = mystASTToDjotAST_Inline(node);
           doc.titleASTMyst = node;
-          return [EXIT];
+          return EXIT;
         });
         break;
     }
