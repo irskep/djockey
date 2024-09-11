@@ -100,5 +100,6 @@ Here are some readable sans-serif fonts with support for lots of Unicode glyphs:
 - [Inter](https://fontsource.org/fonts/inter) by [Rasmus Andersson](https://rsms.me)
 - [Cooper Hewitt](https://fontsource.org/fonts/cooper-hewitt) by [Chester Jenkins for the Smithsonian](https://www.cooperhewitt.org/open-source-at-cooper-hewitt/cooper-hewitt-the-typeface-by-chester-jenkins/)
 - [B612](https://fontsource.org/fonts/b612) by [Airbus](https://projects.eclipse.org/projects/polarsys.b612)
+- [Signika](https://fontsource.org/fonts/signika) and [Signika Negative](https://fontsource.org/fonts/signika-negative) by Anna Giedryś
 
 For monospace fonts, I won't make any recommendations, because chances are good that if you're a programmer then you have your own strong opinion. Djockey's default monospace font stack tries to use the best font on each system.
