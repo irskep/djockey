@@ -1,16 +1,15 @@
 import { Heading } from "@djot/djot";
 import { visit, EXIT } from "unist-util-visit";
-import mdast from "mdast";
 
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";
-import { djotASTToText, mystASTToText } from "../utils/djotUtils.js";
+import { djotASTToText } from "../utils/djotUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { mystParse } from "myst-parser";
 import {
   djotASTToMystAST_Inline,
   mystASTToDjotAST_Inline,
 } from "../utils/astUtils.js";
+import { toString } from "mdast-util-to-string";
 
 export class AutoTitlePlugin implements DjockeyPlugin {
   name = "Auto Titler";
@@ -40,7 +39,7 @@ export class AutoTitlePlugin implements DjockeyPlugin {
         break;
       case "mdast":
         visit(doc.docs.content.value, "heading", (node) => {
-          doc.title = mystASTToText(node as mdast.Heading);
+          doc.title = toString(node);
           doc.titleASTDjot = mystASTToDjotAST_Inline(node);
           doc.titleASTMyst = node;
           return EXIT;

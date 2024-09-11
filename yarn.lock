@@ -1396,7 +1396,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mdast@npm:^4.0.0":
+"@types/mdast@npm:^4.0.0, @types/mdast@npm:^4.0.4":
   version: 4.0.4
   resolution: "@types/mdast@npm:4.0.4"
   dependencies:
@@ -2825,6 +2825,7 @@ __metadata:
     "@types/js-yaml": ^4.0.9
     "@types/log-update": ^3.1.0
     "@types/lunr": ^2.3.7
+    "@types/mdast": ^4.0.4
     "@types/micromatch": ^4.0.9
     "@types/node": ^22.4.0
     "@types/nunjucks": ^3.2.6
@@ -2856,6 +2857,7 @@ __metadata:
     ts-jest: ^29.2.5
     typedoc: ^0.26.6
     typescript: ^5.5.4
+    unified: ^11.0.5
   bin:
     djockey: ./dist/cli.js
   languageName: unknown
@@ -7555,7 +7557,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unified@npm:^11.0.0":
+"unified@npm:^11.0.0, unified@npm:^11.0.5":
   version: 11.0.5
   resolution: "unified@npm:11.0.5"
   dependencies:

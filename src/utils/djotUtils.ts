@@ -7,10 +7,10 @@ import {
   isBlock,
 } from "@djot/djot";
 import mdast from "mdast";
+import unist from "unist";
 import { visit } from "unist-util-visit";
 
 import { processAllNodes } from "../engine/djotFiltersPlus.js";
-import { MystDoc } from "../types.js";
 
 export function getHasClass(node: HasAttributes, cls: string): boolean {
   if (!node.attributes || !node.attributes["class"]) return false;
@@ -54,14 +54,6 @@ export function djotASTToText(children: Block[]) {
   processAllNodes(makeStubDjotDoc(children), (node) => {
     if (!node.text) return;
     result.push(node.text);
-  });
-  return result.join("");
-}
-
-export function mystASTToText(root: mdast.Parent) {
-  const result = new Array<string>();
-  visit(root, "text", (node) => {
-    result.push((node as mdast.Text).value);
   });
   return result.join("");
 }

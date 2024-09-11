@@ -79,7 +79,7 @@ export function resolveConfig(
     if (getNeedsPandoc(format) && !isPandocInstalled) continue;
     inputExtensions = [
       ...inputExtensions,
-      ...getExtensionForInputFormat(format),
+      ...getExtensionForInputFormat(format).map((e) => e.slice(1)),
     ];
   }
 
@@ -88,6 +88,9 @@ export function resolveConfig(
     url_root: mapping.url_root,
   }));
 
+  const pattern = `${fastGlob.convertPathToPattern(
+    absify(rootPath, config.input_dir)
+  )}/**/*.(${inputExtensions.join("|")})`;
   const result = {
     ...config,
     rootPath,
@@ -97,11 +100,7 @@ export function resolveConfig(
       html: absify(rootPath, config.output_dir.html),
       gfm: absify(rootPath, config.output_dir.gfm),
     },
-    fileList: fastGlob.sync(
-      `${fastGlob.convertPathToPattern(
-        absify(rootPath, config.input_dir)
-      )}/**/*.(${inputExtensions.join("|")})`
-    ),
+    fileList: fastGlob.sync(pattern),
   };
 
   const configURLRoot = config.url_root;

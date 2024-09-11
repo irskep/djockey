@@ -9,7 +9,7 @@ export interface LinkMappingConfig {
   url_root: string;
 }
 
-export type MarkdownVariant = "gfm" | "myst";
+export type MarkdownVariant = "gfm" | "myst" | "commonmark";
 
 export interface DjockeyConfig {
   input_dir: string;
@@ -61,7 +61,7 @@ export interface DjockeyConfigResolved extends DjockeyConfig {
   rootPath: string;
   fileList: string[];
   url_root: string;
-  default_markdown_variant: "gfm" | "myst";
+  default_markdown_variant: "gfm" | "myst" | "commonmark";
   link_mappings: LinkMappingConfig[];
 }
 
@@ -96,8 +96,13 @@ export interface DjockeyDoc {
 }
 
 // These correspond to pandoc formats. Keep these two lines in sync.
-export type DjockeyInputFormat = "djot" | "gfm" | "myst";
-export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = ["djot", "gfm", "myst"];
+export type DjockeyInputFormat = "djot" | "gfm" | "myst" | "commonmark";
+export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = [
+  "djot",
+  "gfm",
+  "myst",
+  "commonmark",
+];
 
 // Keep these two lines in sync.
 export type DjockeyOutputFormat = "html" | "gfm";

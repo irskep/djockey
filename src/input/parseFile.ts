@@ -2,15 +2,18 @@ import fs from "fs";
 import path from "path";
 import { basename } from "path";
 
-import yaml from "js-yaml";
 import { fromPandoc, parse } from "@djot/djot";
+import { mystParse } from "myst-parser";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import { unified } from "unified";
+import yaml from "js-yaml";
+
 import { DjockeyConfig, DjockeyDoc, PolyglotDoc } from "../types.js";
 import { getPandocAST } from "../pandoc.js";
-import { getInputFormatForFileExtension } from "./fileExtensions.js";
+import { getInputFormatForFileName } from "./fileExtensions.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { fsext, fsname, fssplit, refjoin } from "../utils/pathUtils.js";
-
-import { mystParse } from "myst-parser";
+import { fsbase, fsext, fsname, fssplit, refjoin } from "../utils/pathUtils.js";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -45,7 +48,7 @@ export async function parseFile(
 
   let polyglotDoc: PolyglotDoc | undefined;
 
-  switch (getInputFormatForFileExtension(fsext(fsPath), config, frontMatter)) {
+  switch (getInputFormatForFileName(fsbase(fsPath), config, frontMatter)) {
     case "djot":
       polyglotDoc = {
         kind: "djot",
@@ -59,9 +62,14 @@ export async function parseFile(
       const ast = getPandocAST(fsPath);
       polyglotDoc = { kind: "djot", value: fromPandoc(ast as any) };
       break;
+    case "commonmark":
+      const file = unified().use(remarkParse).use(remarkGfm).parse(text);
+      console.log(file);
+      // polyglotDoc = { kind: "mdast", value: file };
+      break;
     case "myst":
       polyglotDoc = { kind: "mdast", value: mystParse(text) };
-      console.log(yaml.dump(polyglotDoc.value));
+      // console.log(yaml.dump(polyglotDoc.value));
       break;
   }
 

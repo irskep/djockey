@@ -1,10 +1,12 @@
 import { Block, Heading, Inline } from "@djot/djot";
 import { Parent, PhrasingContent } from "mdast";
+import unist from "unist";
 import { visit } from "unist-util-visit";
+import { toString } from "mdast-util-to-string";
 
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, PolyglotDoc, PolyglotDoc_MDAST } from "../types.js";
-import { djotASTToText, mystASTToText } from "./djotUtils.js";
+import { djotASTToText } from "./djotUtils.js";
 
 export function getDoesDocHaveContent(doc: PolyglotDoc): boolean {
   switch (doc.kind) {
@@ -43,14 +45,12 @@ export function getFirstHeadingIsAlreadyDocumentTitle(
   return didFindNode;
 }
 
-export function mystASTToDjotAST_Inline(mystRoot: Parent): Inline[] {
-  return [{ tag: "str", text: mystASTToText(mystRoot) }];
+export function mystASTToDjotAST_Inline(root: unist.Parent): Inline[] {
+  return [{ tag: "str", text: toString(root) }];
 }
 
-export function mystASTToDjotAST_Block(mystRoot: Parent): Block[] {
-  return [
-    { tag: "para", children: [{ tag: "str", text: mystASTToText(mystRoot) }] },
-  ];
+export function mystASTToDjotAST_Block(root: unist.Parent): Block[] {
+  return [{ tag: "para", children: [{ tag: "str", text: toString(root) }] }];
 }
 
 export function djotASTToMystAST_Inline(djotRoot: Inline[]): PhrasingContent[] {

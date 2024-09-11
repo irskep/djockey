@@ -8,35 +8,53 @@ import {
 export function getExtensionForInputFormat(fmt: DjockeyInputFormat): string[] {
   switch (fmt) {
     case "gfm":
-      return ["md", "markdown"];
+      return [".md", ".markdown"];
     case "djot":
-      return ["djot", "dj"];
+      return [".djot", ".dj"];
     case "myst":
-      return ["md"];
+      return [".myst.md", ".md"];
+    case "commonmark":
+      return [".common.md", ".md", ".markdown"];
   }
+  throw new Error("Unknown format: " + fmt);
 }
 
-export function getInputFormatForFileExtension(
-  ext: string,
+export function getInputFormatForFileName(
+  filename: string,
   config: DjockeyConfig,
   frontMatter: Record<string, unknown>
 ): DjockeyInputFormat | null {
-  const bareExt = ext[0] === "." ? ext.slice(1) : ext;
-
   const defaultMarkdownVariant: MarkdownVariant =
     (frontMatter.md_variant as MarkdownVariant | undefined) ??
     config.default_markdown_variant;
 
-  switch (bareExt) {
-    case "dj":
-      return "djot";
-    case "djot":
-      return "djot";
-    case "md":
-      return defaultMarkdownVariant;
-    case "markdown":
-      return defaultMarkdownVariant;
-    default:
-      return null;
+  for (const fmt of ALL_INPUT_FORMATS) {
+    for (const ext of getExtensionForInputFormat(fmt)) {
+      // Double-extensions disambiguate between Markdown formats.
+      if (ext.split(".").length > 2 && filename.endsWith(ext)) {
+        return fmt;
+      }
+    }
   }
+
+  // If we didn't find a totally unambiguous extension, try Markdown.
+  const mdExts = [".md", ".markdown"];
+  for (const ext of mdExts) {
+    if (filename.endsWith(ext)) {
+      return defaultMarkdownVariant;
+    }
+  }
+
+  // Otherwise, try everything else.
+  for (const fmt of ALL_INPUT_FORMATS) {
+    for (const ext of getExtensionForInputFormat(fmt)) {
+      if (filename.endsWith(ext)) {
+        return fmt;
+      }
+    }
+  }
+
+  console.error("Can't figure out format for", filename);
+
+  return null;
 }

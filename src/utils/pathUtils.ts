@@ -127,6 +127,10 @@ export function fsname(s: string): string {
   return path.parse(s).name;
 }
 
+export function fsbase(s: string): string {
+  return path.parse(s).base;
+}
+
 export function fsext(s: string): string {
   return path.parse(s).ext;
 }

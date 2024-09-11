@@ -48,8 +48,13 @@ export async function readDocSet(
 ): Promise<DocSet> {
   const logCollector = logCollectorParent.getChild("Parsing documents");
 
-  const parsePromises = config.fileList.map((path_) =>
-    parseFile(config.input_dir, path_, config, logCollector)
+  if (!config.fileList.length) {
+    throw new Error("No files");
+  }
+
+  const parsePromises = config.fileList.map(
+    async (path_) =>
+      await parseFile(config.input_dir, path_, config, logCollector)
   );
 
   const docs = (await Promise.all(parsePromises)).filter((doc) => !!doc);
