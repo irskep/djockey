@@ -1,17 +1,22 @@
 import { AstNode, Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
+import { mystParse } from "myst-parser";
+import { PhrasingContent } from "mdast";
 
 export interface LinkMappingConfig {
   path: string;
   url_root: string;
 }
 
+export type MarkdownVariant = "gfm" | "myst";
+
 export interface DjockeyConfig {
   input_dir: string;
   output_dir: Record<DjockeyOutputFormat, string>;
   url_root?: string;
   site_name: string;
+  default_markdown_variant: MarkdownVariant;
 
   project_info?: {
     version?: string;
@@ -56,13 +61,24 @@ export interface DjockeyConfigResolved extends DjockeyConfig {
   rootPath: string;
   fileList: string[];
   url_root: string;
+  default_markdown_variant: "gfm" | "myst";
   link_mappings: LinkMappingConfig[];
 }
 
+export type MystDoc = ReturnType<typeof mystParse>;
+export type PolyglotDoc_Djot = { kind: "djot"; value: Doc };
+export type PolyglotDoc_MDAST = {
+  kind: "mdast";
+  value: MystDoc;
+};
+
+export type PolyglotDoc = PolyglotDoc_Djot | PolyglotDoc_MDAST;
+
 export interface DjockeyDoc {
-  docs: { content: Doc } & Record<string, Doc>;
+  docs: { content: PolyglotDoc } & Record<string, PolyglotDoc>;
   title: string;
-  titleAST: Inline[];
+  titleASTDjot: Inline[];
+  titleASTMyst: PhrasingContent[];
   originalExtension: string;
   fsPath: string;
   refPath: string;
@@ -80,8 +96,8 @@ export interface DjockeyDoc {
 }
 
 // These correspond to pandoc formats. Keep these two lines in sync.
-export type DjockeyInputFormat = "djot" | "gfm";
-export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = ["djot", "gfm"];
+export type DjockeyInputFormat = "djot" | "gfm" | "myst";
+export const ALL_INPUT_FORMATS: DjockeyInputFormat[] = ["djot", "gfm", "myst"];
 
 // Keep these two lines in sync.
 export type DjockeyOutputFormat = "html" | "gfm";

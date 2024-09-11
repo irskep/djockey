@@ -1,4 +1,4 @@
-import { Heading, toPandoc } from "@djot/djot";
+import { toPandoc } from "@djot/djot";
 import fastGlob from "fast-glob";
 import { Environment } from "nunjucks";
 
@@ -10,8 +10,6 @@ import {
   DjockeyStaticFileFromPlugin,
 } from "../types.js";
 import { runPandocOnAST } from "../pandoc.js";
-import { djotASTToText } from "../utils/djotUtils.js";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
 import {
   makePathBackToRoot,
   copyFilesMatchingPattern,
@@ -21,6 +19,8 @@ import {
   refpath2fspath,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
+// import { toMarkdown } from "mdast-util-to-markdown";
+import { getFirstHeadingIsAlreadyDocumentTitle } from "../utils/astUtils.js";
 
 export class GFMRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "gfm";
@@ -105,10 +105,16 @@ export class GFMRenderer implements DjockeyRenderer {
 
     const renderedDocs: Record<string, string> = {};
     const renderOps = Object.keys(doc.docs).map((k) => {
-      let outputAST = toPandoc(doc.docs[k], {}) as any;
-      return runPandocOnAST(outputAST, "gfm").then(
-        (result) => (renderedDocs[k] = result)
-      );
+      switch (doc.docs[k].kind) {
+        case "djot":
+          let outputAST = toPandoc(doc.docs[k].value, {}) as any;
+          return runPandocOnAST(outputAST, "gfm").then(
+            (result) => (renderedDocs[k] = result)
+          );
+        case "mdast":
+          return ""; // TODO
+        // return toMarkdown(doc.docs[k].value);
+      }
     });
     await Promise.all(renderOps);
 
@@ -135,18 +141,4 @@ export class GFMRenderer implements DjockeyRenderer {
 
     await writeFile(outputFSPath, outputPage);
   }
-}
-
-function getFirstHeadingIsAlreadyDocumentTitle(doc: DjockeyDoc): boolean {
-  let returnValue = false;
-  let didFindNode = false;
-  applyFilter(doc.docs.content, () => ({
-    heading: (node) => {
-      const heading = node as Heading;
-      if (heading.level > 1 || didFindNode) return;
-      didFindNode = true;
-      returnValue = djotASTToText([heading]) === doc.title;
-    },
-  }));
-  return didFindNode;
 }

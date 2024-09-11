@@ -29,6 +29,7 @@ export function getConfigDefaults(): DjockeyConfig {
     },
     num_passes: 1,
     site_name: "",
+    default_markdown_variant: "gfm",
 
     plugins: [],
     link_mappings: [],

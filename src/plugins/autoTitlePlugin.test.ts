@@ -8,8 +8,10 @@ import { LogCollector } from "../utils/logUtils.js";
 test("Title is set to first heading by default", async () => {
   const doc: DjockeyDoc = {
     docs: {
-      content: parse(
-        `# Heading 1
+      content: {
+        kind: "djot",
+        value: parse(
+          `# Heading 1
 
 ## Heading 1.1
 
@@ -17,11 +19,13 @@ test("Title is set to first heading by default", async () => {
 
 ### Heading 2.2
       `,
-        { sourcePositions: true }
-      ),
+          { sourcePositions: true }
+        ),
+      },
     },
     title: "Test doc",
-    titleAST: [{ tag: "str", text: "Test doc" }],
+    titleASTDjot: [{ tag: "str", text: "Test doc" }],
+    titleASTMyst: [{ type: "text", value: "Test doc" }],
     originalExtension: ".dj",
     fsPath: "Test Doc.dj",
     refPath: "Test Doc.dj",
@@ -50,8 +54,10 @@ test("Title is set to first heading by default", async () => {
 test("Title is set to frontMatter.title if present", async () => {
   const doc: DjockeyDoc = {
     docs: {
-      content: parse(
-        `# Heading 1
+      content: {
+        kind: "djot",
+        value: parse(
+          `# Heading 1
 
 ## Heading 1.1
 
@@ -59,11 +65,13 @@ test("Title is set to frontMatter.title if present", async () => {
 
 ### Heading 2.2
       `,
-        { sourcePositions: true }
-      ),
+          { sourcePositions: true }
+        ),
+      },
     },
     title: "Test doc",
-    titleAST: [{ tag: "str", text: "Test doc" }],
+    titleASTDjot: [{ tag: "str", text: "Test doc" }],
+    titleASTMyst: [{ type: "text", value: "Test doc" }],
     originalExtension: ".dj",
     fsPath: "Test Doc.dj",
     refPath: "Test Doc.dj",

@@ -22,19 +22,32 @@ export class SearchPlugin implements DjockeyPlugin {
     logCollector: LogCollector;
   }): DjockeyStaticFileFromPlugin[] {
     if (args.renderer.identifier !== "html") return [];
-    const searchIndex = args.docs.map((doc) => ({
-      name: doc.title,
-      text: djotASTToTextWithLineBreaks(doc.docs.content.children),
-      url: args.renderer.transformLink({
-        config: args.config,
-        sourcePath: "index",
-        anchorWithoutHash: null,
-        logCollector: args.logCollector,
-        docOriginalExtension: doc.originalExtension,
-        docRefPath: doc.refPath,
-        isLinkToStaticFile: false,
-      }),
-    }));
+
+    const searchIndex = args.docs.map((doc) => {
+      let text = "";
+      switch (doc.docs.content.kind) {
+        case "djot":
+          text = djotASTToTextWithLineBreaks(doc.docs.content.value.children);
+          break;
+        case "mdast":
+          text = "";
+          args.logCollector.warning(`Search ignoring ${doc.refPath}`);
+          break;
+      }
+      return {
+        name: doc.title,
+        text,
+        url: args.renderer.transformLink({
+          config: args.config,
+          sourcePath: "index",
+          anchorWithoutHash: null,
+          logCollector: args.logCollector,
+          docOriginalExtension: doc.originalExtension,
+          docRefPath: doc.refPath,
+          isLinkToStaticFile: false,
+        }),
+      };
+    });
     return [
       {
         refPath: "static/js/search-index.js",

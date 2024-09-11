@@ -2,6 +2,7 @@ import { DjockeyConfig, DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { getAnyAttribute } from "../utils/djotUtils.js";
 import { Block } from "@djot/djot";
+import { LogCollector } from "../utils/logUtils.js";
 
 function normalizeSemverString(semverString: string): [number, number, number] {
   const parts: number[] = semverString
@@ -46,26 +47,34 @@ export class VersionDirectivesPlugin implements DjockeyPlugin {
 
   constructor(public config: DjockeyConfig) {}
 
-  onPass_write(args: { doc: DjockeyDoc }) {
+  onPass_write(args: { doc: DjockeyDoc; logCollector: LogCollector }) {
     const { doc } = args;
     const projectVersion = this.config.project_info?.version;
-    applyFilter(doc.docs.content, () => ({
-      div: (node) => {
-        const keyAndValue = getAnyAttribute(
-          node,
-          Object.keys(PREFIXES_CURRENT)
-        );
-        if (!keyAndValue) return;
-        const [key, value] = keyAndValue;
 
-        // If no project version, assume it's already release. Otherwise, put it in the future.
-        const prefix =
-          !projectVersion || isSemverGreaterOrEqual(projectVersion, value)
-            ? PREFIXES_CURRENT[key as Cls]
-            : PREFIXES_FUTURE[key as Cls];
-        return buildAST(key, `${prefix} ${value}`, node.children);
-      },
-    }));
+    switch (doc.docs.content.kind) {
+      case "djot":
+        applyFilter(doc.docs.content.value, () => ({
+          div: (node) => {
+            const keyAndValue = getAnyAttribute(
+              node,
+              Object.keys(PREFIXES_CURRENT)
+            );
+            if (!keyAndValue) return;
+            const [key, value] = keyAndValue;
+
+            // If no project version, assume it's already release. Otherwise, put it in the future.
+            const prefix =
+              !projectVersion || isSemverGreaterOrEqual(projectVersion, value)
+                ? PREFIXES_CURRENT[key as Cls]
+                : PREFIXES_FUTURE[key as Cls];
+            return buildAST(key, `${prefix} ${value}`, node.children);
+          },
+        }));
+        break;
+      case "mdast":
+        args.logCollector.warning(`Version directives ignoring ${doc.refPath}`);
+        break;
+    }
   }
 }
 

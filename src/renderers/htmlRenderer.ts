@@ -27,6 +27,7 @@ import {
   writeFile,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
+import { mystToHtml } from "myst-to-html";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -172,9 +173,16 @@ export class HTMLRenderer implements DjockeyRenderer {
 
     const renderedDocs: Record<string, string> = {};
     for (const k of Object.keys(doc.docs)) {
-      const rawHTML = renderHTML(doc.docs[k]);
-      let postprocessedHTML = postprocessHTML(rawHTML);
-      renderedDocs[k] = postprocessedHTML;
+      switch (doc.docs[k].kind) {
+        case "djot":
+          const rawDjotHTML = renderHTML(doc.docs[k].value);
+          let postprocessedHTML = postprocessHTML(rawDjotHTML);
+          renderedDocs[k] = postprocessedHTML;
+          break;
+        case "mdast":
+          renderedDocs[k] = mystToHtml(doc.docs[k].value);
+          break;
+      }
     }
 
     const urls: Record<string, string> = {

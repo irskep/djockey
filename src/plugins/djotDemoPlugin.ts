@@ -4,9 +4,11 @@ import {
   DjockeyDoc,
   DjockeyPlugin,
   DjockeyPluginNodeReservation,
+  PolyglotDoc,
 } from "../types.js";
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { getHasClass } from "../utils/djotUtils.js";
+import { LogCollector } from "../utils/logUtils.js";
 
 export class DjotDemoPlugin implements DjockeyPlugin {
   name = "Djot Example";
@@ -25,53 +27,68 @@ export class DjotDemoPlugin implements DjockeyPlugin {
 
   onPass_read(args: {
     doc: DjockeyDoc;
+    logCollector: LogCollector;
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
   }) {
     const { doc } = args;
     for (const djotDoc of Object.values(doc.docs)) {
-      applyFilter(djotDoc, () => ({
-        code_block: (node: AstNode & HasAttributes & HasText) => {
-          if (args.getIsNodeReservedByAnotherPlugin(node)) return;
-          if (!getHasClass(node, "dj-djot-demo")) return;
+      this.process(djotDoc, args);
+    }
+  }
 
-          const renderedAST = parse(node.text);
+  process(
+    polyglotDoc: PolyglotDoc,
+    args: Parameters<DjotDemoPlugin["onPass_read"]>[0]
+  ) {
+    switch (polyglotDoc.kind) {
+      case "djot":
+        applyFilter(polyglotDoc.value, () => ({
+          code_block: (node: AstNode & HasAttributes & HasText) => {
+            if (args.getIsNodeReservedByAnotherPlugin(node)) return;
+            if (!getHasClass(node, "dj-djot-demo")) return;
 
-          const result: Div = {
-            tag: "div",
-            attributes: node.attributes,
-            pos: structuredClone(node.pos),
-            children: [
-              {
-                tag: "para",
-                children: [
-                  {
-                    tag: "str",
-                    text: "Input:",
-                  },
-                ],
-              },
-              {
-                tag: "code_block",
-                lang: "djot",
-                text: node.text,
-                attributes: { class: "language-text" },
-                pos: structuredClone(node.pos),
-              },
-              {
-                tag: "para",
-                children: [
-                  {
-                    tag: "str",
-                    text: "Output:",
-                  },
-                ],
-              },
-              ...renderedAST.children,
-            ],
-          };
-          return result;
-        },
-      }));
+            const renderedAST = parse(node.text);
+
+            const result: Div = {
+              tag: "div",
+              attributes: node.attributes,
+              pos: structuredClone(node.pos),
+              children: [
+                {
+                  tag: "para",
+                  children: [
+                    {
+                      tag: "str",
+                      text: "Input:",
+                    },
+                  ],
+                },
+                {
+                  tag: "code_block",
+                  lang: "djot",
+                  text: node.text,
+                  attributes: { class: "language-text" },
+                  pos: structuredClone(node.pos),
+                },
+                {
+                  tag: "para",
+                  children: [
+                    {
+                      tag: "str",
+                      text: "Output:",
+                    },
+                  ],
+                },
+                ...renderedAST.children,
+              ],
+            };
+            return result;
+          },
+        }));
+        break;
+      case "mdast":
+        args.logCollector.warning(`Djot Demo skipping ${args.doc.refPath}`);
+        break;
     }
   }
 }

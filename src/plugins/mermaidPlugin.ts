@@ -45,10 +45,19 @@ export class MermaidPlugin implements DjockeyPlugin {
   }): boolean {
     if (args.staticFileRefPath !== "static/plugins/mermaid.js") return true;
     // Only include mermaid JS file on pages where it's needed (because it's >18 MB)
-    return djotASTContainsNode(
-      args.doc.docs.content,
-      (node) => node.tag === "code_block" && node.lang === "mermaid"
-    );
+    switch (args.doc.docs.content.kind) {
+      case "djot":
+        return djotASTContainsNode(
+          args.doc.docs.content.value,
+          (node) => node.tag === "code_block" && node.lang === "mermaid"
+        );
+      case "mdast":
+        console.warn(
+          "Mermaid static file collection skipping",
+          args.doc.refPath
+        );
+        return false;
+    }
   }
 
   getNodeReservations(

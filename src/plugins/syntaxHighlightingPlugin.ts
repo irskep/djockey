@@ -73,10 +73,16 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
   }
 
   async setup() {
+    // Some transitive dependencies of myst-parser pin an old version of markdown-it which
+    // imports the deprecated module 'punycode'. It happens to trigger the deprecation
+    // warning here. Silence it for the sake of the users.
+    const err = console.error;
+    console.error = () => {};
     this.djotHighlighter = await createHighlighter({
       langs: [djotTextmateGrammar as unknown as LanguageRegistration],
       themes: [this.themeLight, this.themeDark],
     });
+    console.error = err;
   }
 
   async highlight(text: string, lang: string): Promise<string> {
@@ -105,7 +111,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }
   }
 
-  readDoc(
+  readDjotDoc(
     doc: Doc,
     djockeyDoc: DjockeyDoc,
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean
@@ -168,11 +174,24 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
 
   onPass_read(args: {
     doc: DjockeyDoc;
+    logCollector: LogCollector;
     getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean;
   }) {
     const { doc } = args;
-    for (const djotDoc of Object.values(doc.docs)) {
-      this.readDoc(djotDoc, doc, args.getIsNodeReservedByAnotherPlugin);
+    for (const pDoc of Object.values(doc.docs)) {
+      switch (pDoc.kind) {
+        case "djot":
+          this.readDjotDoc(
+            pDoc.value,
+            doc,
+            args.getIsNodeReservedByAnotherPlugin
+          );
+          break;
+        case "mdast":
+          args.logCollector.warning(
+            `Syntax highlighting ignoring ${doc.refPath}`
+          );
+      }
     }
   }
 
@@ -201,50 +220,60 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     // Only highlight HTML
     if (renderer.identifier !== "html") return;
 
-    for (const djotDoc of Object.values(doc.docs)) {
-      applyFilter(djotDoc, () => ({
-        code_block: (node: CodeBlock) => {
-          const hlRequestID = node.attributes?.hlRequestID;
-          if (!hlRequestID) return;
-          const newText = this.highlightResults[hlRequestID];
-          if (!newText) {
-            return;
-          }
-          const result: RawBlock = {
-            tag: "raw_block",
-            format: "html",
-            text: newText,
-          };
-          return result;
-        },
-        verbatim: (node: Verbatim) => {
-          const hlRequestID = node.attributes?.hlRequestID;
-          if (!hlRequestID) return;
-          let newText = this.highlightResults[hlRequestID];
-          if (!newText) {
-            return;
-          }
-
-          // Shiki insists on rendering <pre> tags, so just switch them to <span>
-          const OLD_PREFIX = "<pre ";
-          const OLD_SUFFIX = "</pre>";
-          newText =
-            "<span " +
-            newText.slice(
-              OLD_PREFIX.length,
-              newText.length - OLD_SUFFIX.length
-            ) +
-            "</span>";
-
-          const result: RawInline = {
-            tag: "raw_inline",
-            format: "html",
-            text: newText,
-          };
-
-          return result;
-        },
-      }));
+    for (const pDoc of Object.values(doc.docs)) {
+      switch (pDoc.kind) {
+        case "djot":
+          this.highlightDjotDoc(pDoc.value);
+          break;
+        case "mdast":
+          args.logCollector.warning(
+            `Syntax highlighter not rendering ${doc.refPath}`
+          );
+          break;
+      }
     }
+  }
+
+  highlightDjotDoc(djotDoc: Doc) {
+    applyFilter(djotDoc, () => ({
+      code_block: (node: CodeBlock) => {
+        const hlRequestID = node.attributes?.hlRequestID;
+        if (!hlRequestID) return;
+        const newText = this.highlightResults[hlRequestID];
+        if (!newText) {
+          return;
+        }
+        const result: RawBlock = {
+          tag: "raw_block",
+          format: "html",
+          text: newText,
+        };
+        return result;
+      },
+      verbatim: (node: Verbatim) => {
+        const hlRequestID = node.attributes?.hlRequestID;
+        if (!hlRequestID) return;
+        let newText = this.highlightResults[hlRequestID];
+        if (!newText) {
+          return;
+        }
+
+        // Shiki insists on rendering <pre> tags, so just switch them to <span>
+        const OLD_PREFIX = "<pre ";
+        const OLD_SUFFIX = "</pre>";
+        newText =
+          "<span " +
+          newText.slice(OLD_PREFIX.length, newText.length - OLD_SUFFIX.length) +
+          "</span>";
+
+        const result: RawInline = {
+          tag: "raw_inline",
+          format: "html",
+          text: newText,
+        };
+
+        return result;
+      },
+    }));
   }
 }

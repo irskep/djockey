@@ -21,10 +21,11 @@ test("MappableLinkTarget has expected values", () => {
   const t = new MappableLinkTarget(
     {
       docs: {
-        content: stubDoc,
+        content: { kind: "djot", value: stubDoc },
       },
       title: "The Doc",
-      titleAST: [],
+      titleASTDjot: [],
+      titleASTMyst: [],
       originalExtension: ".djot",
       fsPath: "/fsroot/input/subdir/the_doc.djot",
       refPath: "subdir/the_doc",
