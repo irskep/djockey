@@ -13,3 +13,5 @@ directive content
 :::
 
 {role}`roletext`
+
+[link](/index)

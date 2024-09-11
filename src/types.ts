@@ -2,6 +2,7 @@ import { AstNode, Doc, Inline } from "@djot/djot";
 import { Environment } from "nunjucks";
 import { LogCollector } from "./utils/logUtils.js";
 import { mystParse } from "myst-parser";
+import { PhrasingContent } from "mdast";
 
 export interface LinkMappingConfig {
   path: string;
@@ -76,7 +77,8 @@ export type PolyglotDoc = PolyglotDoc_Djot | PolyglotDoc_MDAST;
 export interface DjockeyDoc {
   docs: { content: PolyglotDoc } & Record<string, PolyglotDoc>;
   title: string;
-  titleAST: Inline[];
+  titleASTDjot: Inline[];
+  titleASTMyst: PhrasingContent[];
   originalExtension: string;
   fsPath: string;
   refPath: string;

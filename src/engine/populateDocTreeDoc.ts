@@ -1,4 +1,4 @@
-import { Block, Inline, Link, ListItem } from "@djot/djot";
+import { Block, Link, ListItem } from "@djot/djot";
 import {
   DjockeyConfigResolved,
   DjockeyDoc,
@@ -65,7 +65,7 @@ export function populateNextOrPreviousLinkDoc(
         {
           tag: "para",
           attributes: { class: "dj-noop" },
-          children: destDoc.titleAST,
+          children: destDoc.titleASTDjot!,
         },
       ],
     },
@@ -84,7 +84,7 @@ function renderSection(
   function getDocLink(doc: DjockeyDoc): Link {
     return {
       tag: "link",
-      children: structuredClone(doc.titleAST),
+      children: structuredClone(doc.titleASTDjot!),
       attributes: {
         class: doc.refPath === activeDoc.refPath ? "m-active" : "",
       },

@@ -2758,6 +2758,7 @@ __metadata:
     jest: ^29.7.0
     js-yaml: ^4.1.0
     lunr: ^2.3.9
+    mdast: ^3.0.0
     mermaid: ^11.1.1
     micromatch: ^4.0.8
     myst-parser: ^1.5.6

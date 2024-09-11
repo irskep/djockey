@@ -3,7 +3,7 @@ import path from "path";
 import { basename } from "path";
 
 import yaml from "js-yaml";
-import { Doc, fromPandoc, parse } from "@djot/djot";
+import { fromPandoc, parse } from "@djot/djot";
 import { DjockeyConfig, DjockeyDoc, PolyglotDoc } from "../types.js";
 import { getPandocAST } from "../pandoc.js";
 import { getInputFormatForFileExtension } from "./fileExtensions.js";
@@ -61,6 +61,7 @@ export async function parseFile(
       break;
     case "myst":
       polyglotDoc = { kind: "mdast", value: mystParse(text) };
+      console.log(yaml.dump(polyglotDoc.value));
       break;
   }
 
@@ -72,7 +73,8 @@ export async function parseFile(
   return {
     docs: { content: polyglotDoc },
     title: path.parse(fsPath).name,
-    titleAST: [{ tag: "str", text: fsname(fsPath) }],
+    titleASTDjot: [{ tag: "str", text: fsname(fsPath) }],
+    titleASTMyst: [{ type: "text", value: fsname(fsPath) }],
     originalExtension: fsext(fsPath),
     fsPath,
     refPath: refjoin(

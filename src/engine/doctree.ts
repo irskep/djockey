@@ -78,7 +78,7 @@ export function loadDocTree(docs: DjockeyDoc[]): DocTree {
 
     if (path.parse(doc.filename).name === "index") {
       docSection.selfDoc = doc;
-      docSection.title = doc.titleAST;
+      docSection.title = doc.titleASTDjot!;
 
       docSection.selfDocHasContent = getDoesDocHaveContent(doc.docs.content);
     } else {
