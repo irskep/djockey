@@ -47,15 +47,15 @@ export function getFirstHeadingIsAlreadyDocumentTitle(
   return didFindNode;
 }
 
-export function mystASTToDjotAST_Inline(root: unist.Parent): Inline[] {
+export function mdASTToDjotAST_Inline(root: unist.Parent): Inline[] {
   return [{ tag: "str", text: toString(root) }];
 }
 
-export function mystASTToDjotAST_Block(root: unist.Parent): Block[] {
+export function mdASTToDjotAST_Block(root: unist.Parent): Block[] {
   return [{ tag: "para", children: [{ tag: "str", text: toString(root) }] }];
 }
 
-export function djotASTToMystAST_Inline(djotRoot: Inline[]): PhrasingContent[] {
+export function djotASTToMDAST_Inline(djotRoot: Inline[]): PhrasingContent[] {
   return [
     {
       type: "text",
@@ -64,7 +64,7 @@ export function djotASTToMystAST_Inline(djotRoot: Inline[]): PhrasingContent[] {
   ];
 }
 
-export type MystPosition = {
+export type MDPosition = {
   start: { line: number; column: number };
   end: { line: number; column: number };
 };
@@ -72,9 +72,7 @@ export type DjotPosition = {
   start: { line: number; col: number; offset: number };
   end: { line: number; col: number; offset: number };
 };
-export function mystPositionToDjotPosition(
-  position: MystPosition
-): DjotPosition {
+export function mdPositionToDjotPosition(position: MDPosition): DjotPosition {
   return {
     start: {
       line: position.start.line,
@@ -89,9 +87,7 @@ export function mystPositionToDjotPosition(
   };
 }
 
-export function djotPositionToMystPosition(
-  position: DjotPosition
-): MystPosition {
+export function djotPositionToMDPosition(position: DjotPosition): MDPosition {
   return {
     start: {
       line: position.start.line,
@@ -102,4 +98,21 @@ export function djotPositionToMystPosition(
       column: position.end.col,
     },
   };
+}
+
+interface HasChildrenAndPosition {
+  children?: HasChildrenAndPosition[];
+  position?: unknown;
+}
+export function mdASTWithoutPositions(
+  node: unknown & HasChildrenAndPosition
+): unknown & HasChildrenAndPosition {
+  const newValue = {
+    ...node,
+    children: node.children
+      ? node.children.map(mdASTWithoutPositions)
+      : node.children,
+  };
+  delete newValue.position;
+  return newValue;
 }

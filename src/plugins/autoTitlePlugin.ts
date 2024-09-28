@@ -7,8 +7,8 @@ import { DjockeyDoc, DjockeyPlugin } from "../types.js";
 import { djotASTToText } from "../utils/djotUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
 import {
-  djotASTToMystAST_Inline,
-  mystASTToDjotAST_Inline,
+  djotASTToMDAST_Inline,
+  mdASTToDjotAST_Inline,
   Visitable,
 } from "../utils/astUtils.js";
 import { toString } from "mdast-util-to-string";
@@ -21,7 +21,7 @@ export class AutoTitlePlugin implements DjockeyPlugin {
     if (doc.frontMatter.title) {
       doc.title = doc.frontMatter.title as string;
       doc.titleASTDjot = [{ tag: "str", text: doc.title }];
-      doc.titleASTMyst = djotASTToMystAST_Inline(doc.titleASTDjot);
+      doc.titleASTMyst = djotASTToMDAST_Inline(doc.titleASTDjot);
       return;
     }
 
@@ -34,7 +34,7 @@ export class AutoTitlePlugin implements DjockeyPlugin {
             isFinished = true;
             doc.title = djotASTToText([node]);
             doc.titleASTDjot = structuredClone(node.children);
-            doc.titleASTMyst = djotASTToMystAST_Inline(node.children);
+            doc.titleASTMyst = djotASTToMDAST_Inline(node.children);
             return { stop: [node] };
           },
         }));
@@ -42,7 +42,7 @@ export class AutoTitlePlugin implements DjockeyPlugin {
       case "mdast":
         visit(doc.docs.content.value as Visitable, "heading", (node) => {
           doc.title = toString(node);
-          doc.titleASTDjot = mystASTToDjotAST_Inline(node);
+          doc.titleASTDjot = mdASTToDjotAST_Inline(node);
           doc.titleASTMyst = node;
           return EXIT;
         });
