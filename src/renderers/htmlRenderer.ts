@@ -3,6 +3,7 @@ import path from "path";
 import fastGlob from "fast-glob";
 import micromatch from "micromatch";
 import { parseFragment, serialize } from "parse5";
+import yaml from "js-yaml";
 
 import { renderHTML } from "@djot/djot";
 import { Environment } from "nunjucks";
@@ -27,11 +28,11 @@ import {
   writeFile,
 } from "../utils/pathUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
-import { mystToHtml } from "myst-to-html";
 import { unified } from "unified";
 import remarkRehype from "remark-rehype";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
+import { mdASTWithoutPositions } from "../utils/astUtils.js";
 
 export class HTMLRenderer implements DjockeyRenderer {
   identifier: DjockeyOutputFormat = "html";
@@ -185,6 +186,12 @@ export class HTMLRenderer implements DjockeyRenderer {
           break;
         case "mdast":
           const tree = structuredClone(doc.docs[k].value);
+
+          console.log(
+            "Rendering tree\n",
+            yaml.dump(mdASTWithoutPositions(tree))
+          );
+
           const processor = await unified()
             .use(remarkRehype)
             .use(rehypeFormat)

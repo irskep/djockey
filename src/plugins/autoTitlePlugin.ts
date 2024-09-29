@@ -1,6 +1,5 @@
 import { Heading } from "@djot/djot";
 import { visit, EXIT } from "unist-util-visit";
-import unist from "unist";
 
 import { applyFilter } from "../engine/djotFiltersPlus.js";
 import { DjockeyDoc, DjockeyPlugin } from "../types.js";

@@ -1,7 +1,7 @@
 import { Block, Heading, Inline } from "@djot/djot";
 import { PhrasingContent } from "mdast";
 import unist from "unist";
-import { visit } from "unist-util-visit";
+import { visit, EXIT } from "unist-util-visit";
 import { toString } from "mdast-util-to-string";
 
 import { applyFilter } from "../engine/djotFiltersPlus.js";
@@ -38,9 +38,12 @@ export function getFirstHeadingIsAlreadyDocumentTitle(
     case "mdast":
       visit(
         (polyglotDoc as PolyglotDoc_MDAST).value,
-        "Heading",
+        "heading",
         function (node, index, parent) {
-          console.log(node);
+          didFindNode = true;
+          const text = toString(node);
+          returnValue = text === doc.title;
+          return EXIT;
         }
       );
   }

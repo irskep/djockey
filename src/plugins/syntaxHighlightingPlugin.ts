@@ -1,10 +1,6 @@
-import {
-  DjockeyConfigResolved,
-  DjockeyDoc,
-  DjockeyPlugin,
-  DjockeyRenderer,
-} from "../types.js";
-import { applyFilter } from "../engine/djotFiltersPlus.js";
+import { Html, Parent } from "mdast";
+import { Node } from "unist";
+import { visit, CONTINUE, SKIP } from "unist-util-visit";
 import {
   AstNode,
   CodeBlock,
@@ -22,9 +18,24 @@ import {
   HighlighterGeneric,
   LanguageRegistration,
 } from "shiki/index.mjs";
+
+import {
+  DjockeyConfigResolved,
+  DjockeyDoc,
+  DjockeyPlugin,
+  DjockeyRenderer,
+  UnistVisitable,
+} from "../types.js";
+import { applyFilter } from "../engine/djotFiltersPlus.js";
 import djotTextmateGrammar from "../djotTextmateGrammar.js";
 import { showPromiseListAsProgressBar } from "../utils/asyncUtils.js";
 import { LogCollector } from "../utils/logUtils.js";
+
+declare module "unist" {
+  interface Data {
+    hlRequestID?: string;
+  }
+}
 
 let nextID = 0;
 
@@ -172,6 +183,55 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
     }));
   }
 
+  readRemarkDoc(
+    doc: UnistVisitable & Parent,
+    djockeyDoc: DjockeyDoc,
+    getIsNodeReservedByAnotherPlugin: (node: AstNode) => boolean
+  ) {
+    // TODO: node reservations
+    visit(doc, "code", (node) => {
+      // if (getIsNodeReservedByAnotherPlugin(node)) return;
+      if (node.data?.hlRequestID) return CONTINUE; // Already scheduled
+
+      const lang = this.getNodeLang(
+        djockeyDoc,
+        node.lang,
+        "default_code_block_language"
+      );
+      if (!lang) return CONTINUE;
+
+      const hlRequestID = `${nextID++}`;
+      this.highlightRequests[hlRequestID] = {
+        text: node.value,
+        lang,
+      };
+
+      node.data = { ...node.data, hlRequestID: hlRequestID };
+
+      console.log("SCHEDULE HL FOR", node);
+      return SKIP;
+    });
+
+    visit(doc, "inlineCode", (node) => {
+      // if (getIsNodeReservedByAnotherPlugin(node)) return;
+      if (node.data?.hlRequestID) return; // Already scheduled
+
+      // In remark we always highlight as plaintext because there's no syntax
+      // for specifying anything else
+
+      const lang = "text";
+
+      const hlRequestID = `${nextID++}`;
+      this.highlightRequests[hlRequestID] = {
+        text: node.value,
+        lang,
+      };
+
+      node.data = { ...node.data, hlRequestID: hlRequestID };
+      return SKIP;
+    });
+  }
+
   onPass_read(args: {
     doc: DjockeyDoc;
     logCollector: LogCollector;
@@ -188,9 +248,12 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           );
           break;
         case "mdast":
-          args.logCollector.warning(
-            `Syntax highlighting ignoring ${doc.refPath}`
+          this.readRemarkDoc(
+            pDoc.value,
+            doc,
+            args.getIsNodeReservedByAnotherPlugin
           );
+          break;
       }
     }
   }
@@ -226,9 +289,7 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
           this.highlightDjotDoc(pDoc.value);
           break;
         case "mdast":
-          args.logCollector.warning(
-            `Syntax highlighter not rendering ${doc.refPath}`
-          );
+          this.highlightRemarkDoc(pDoc.value);
           break;
       }
     }
@@ -275,5 +336,42 @@ export class SyntaxHighlightingPlugin implements DjockeyPlugin {
         return result;
       },
     }));
+  }
+
+  highlightRemarkDoc(remarkDoc: UnistVisitable & Parent) {
+    visit(remarkDoc, "code", (node: Node) => {
+      console.log("Replacing", node);
+      const hlRequestID = node.data?.hlRequestID;
+      if (!hlRequestID) return CONTINUE;
+
+      const newText = this.highlightResults[hlRequestID];
+      if (!newText) return CONTINUE;
+
+      node.type = "html";
+      (node as Html).value = newText;
+
+      console.log("Result:", node);
+      return SKIP;
+    });
+
+    visit(remarkDoc, "inlineCode", (node: Node) => {
+      const hlRequestID = node.data?.hlRequestID;
+      if (!hlRequestID) return CONTINUE;
+
+      let newText = this.highlightResults[hlRequestID];
+      if (!newText) return CONTINUE;
+
+      // Shiki insists on rendering <pre> tags, so just switch them to <span>
+      const OLD_PREFIX = "<pre ";
+      const OLD_SUFFIX = "</pre>";
+      newText =
+        "<span " +
+        newText.slice(OLD_PREFIX.length, newText.length - OLD_SUFFIX.length) +
+        "</span>";
+
+      node.type = "html";
+      (node as Html).value = newText;
+      return SKIP;
+    });
   }
 }

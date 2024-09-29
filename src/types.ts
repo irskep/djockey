@@ -66,10 +66,11 @@ export interface DjockeyConfigResolved extends DjockeyConfig {
   link_mappings: LinkMappingConfig[];
 }
 
+export type UnistVisitable = Parameters<typeof visit>[0];
 export type PolyglotDoc_Djot = { kind: "djot"; value: Doc };
 export type PolyglotDoc_MDAST = {
   kind: "mdast";
-  value: Parameters<typeof visit>[0] & Parent;
+  value: UnistVisitable & Parent;
 };
 
 export type PolyglotDoc = PolyglotDoc_Djot | PolyglotDoc_MDAST;

@@ -18,8 +18,9 @@ import { getPandocAST } from "../pandoc.js";
 import { getInputFormatForFileName } from "./fileExtensions.js";
 import { LogCollector } from "../utils/logUtils.js";
 import { fsbase, fsext, fsname, fssplit, refjoin } from "../utils/pathUtils.js";
-import { Root } from "mdast";
 import { mdASTWithoutPositions } from "../utils/astUtils.js";
+import remarkGfm from "remark-gfm";
+import remarkDirective from "remark-directive";
 
 function removeExtensionFromPath(path_: string): string {
   return path_.slice(0, path_.length - path.parse(path_).ext.length);
@@ -54,7 +55,10 @@ export async function parseFile(
 
   let polyglotDoc: PolyglotDoc | undefined;
 
-  const remarkProcessor = unified().use(remarkParse); //.use(remarkGfm);
+  const remarkProcessor = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkDirective);
 
   switch (getInputFormatForFileName(fsbase(fsPath), config, frontMatter)) {
     case "djot":
