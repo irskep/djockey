@@ -20,7 +20,7 @@ export function parseFrontmatter(text: string): {
   text: string;
   frontMatter: Record<string, unknown>;
 } {
-  const FM_RE = /^---\n(.*?)\n---\n?/gs;
+  const FM_RE = /^---\r?\n(.*?)\r?\n---\r?\n?/gs;
   const match = FM_RE.exec(text);
 
   if (match) {
